@@ -1,5 +1,7 @@
 <?php
-session_start();
+if(empty($_SESSION)) {
+	session_start();
+}
 $oModule = new Users('users');
 $oCategories = new Users('users_categories');
 $oMailer = new Mailer();

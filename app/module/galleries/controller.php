@@ -1,49 +1,50 @@
 <?php  
-session_start();
+if(empty($_SESSION)) {
+	session_start();
+}
 $oUsers = new Users('users');
 // config module
 $params_category = array(
-		'module'=>'galleries_categories',
- 		'table'=>'galleries_categories',
-		'table_translate'=>'galleries_categories_translate',
-		'site_language'=>SITE_LANGUAGE ,
-		'is_translate'=>SITE_TRANSLATE ,
+	'module'=>'galleries_categories',
+ 	'table'=>'galleries_categories',
+	'table_translate'=>'galleries_categories_translate',
+	'site_language'=>SITE_LANGUAGE,
+	'is_translate'=>SITE_TRANSLATE
 );
 $oCategories = new Galleries($params_category);
 $params = array(
-		'module'=>'galleries',
- 		'table'=>'galleries',
-		'parent_table'=> 'galleries_categories',
-		'parent_table_translate'=> 'galleries_categories_translate',
-		'parent_primary_key'=> 'id',
-		'table_translate'=>'galleries_translate',
-		'site_language'=>SITE_LANGUAGE ,
-		'is_translate'=>SITE_TRANSLATE 
+	'module'=>'galleries',
+ 	'table'=>'galleries',
+	'parent_table'=> 'galleries_categories',
+	'parent_table_translate'=> 'galleries_categories_translate',
+	'parent_primary_key'=> 'id',
+	'table_translate'=>'galleries_translate',
+	'site_language'=>SITE_LANGUAGE,
+	'is_translate'=>SITE_TRANSLATE
 );
-$oModule = new Galleries($params );
-
+$oModule = new Galleries($params);
 if(isset($_GET['task'])){
-	$task =$_GET['task'] ;
+	$task =$_GET['task'];
 	switch($task){
-//  categories task   
-			case 'getCategoriesData':
+		// categories task   
+		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';
-			$orderby ='' ;
+			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart= $_GET['iDisplayStart'];
-			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength ;
+			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength;
 			$iSortCol_0= $_GET['iSortCol_0'];
 			$sSortDir_0= $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
-				$orderby = " order by  ".$columns[$iSortCol_0].' '.$sSortDir_0 ;
+				$orderby = " order by  ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
-				$orderby = " order by  ".$columns[4].' '.$sSortDir_0 ;
+				$orderby = " order by  ".$columns[4].' '.$sSortDir_0;
 			}
 			$sSearch= $_GET['sSearch']; 
 			if(!empty($sSearch)){
-				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') " ;
+				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
 			//print_r($categories);
@@ -187,77 +188,70 @@ if(isset($_GET['task'])){
 						$data = $oModule->getTranslate($id,$lang);
 						echo json_encode($data);
 				break ;
-			case 'getData':
-					$columns = array('id','name','category_id','mdate','sequence','id','id');
-					$limit = '';
-					$orderby ='' ;
-					$search = '';
-					$iDisplayLength = $_GET['iDisplayLength'];
-					$iDisplayStart= $_GET['iDisplayStart'];
-					$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength ;
-					$iSortCol_0= $_GET['iSortCol_0'];
-					$sSortDir_0= $_GET['sSortDir_0'];
-					if(!empty($columns[$iSortCol_0])){
-						$orderby = " order by  $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0 ;
-					}else{
-						$orderby = " order by  ".$columns[4].' '.$sSortDir_0 ;
-					}
-					$sSearch= $_GET['sSearch']; 
-					if($sSearch=='undefined'){
-						$sSearch = '';
-					}
-					if(!empty($sSearch)){
-						$search =  " WHERE ( $oModule->table.name like '%$sSearch%' or  $oModule->table.slug like '%$sSearch%') " ;
-						$category_id  = $_GET['filterCategoryID']; 
-						if($category_id>0){
-							$search .=  " AND $oModule->table.category_id = $category_id ";
-						}
-					}else{
-						$category_id  = $_GET['filterCategoryID']; 
-						if($category_id>0){
-							$search =  " WHERE  $oModule->table.category_id = $category_id ";
-						}
-					}
-					$galleries = $oModule->getAll($search,$orderby,$limit);
-					//print_r($categories);
-					$iTotal = $oModule->getSize() ;
-					 $iFilteredTotal =  count($galleries);
-					$output = array(
-							"sEcho" => intval($_GET['sEcho']),
-							"iTotalRecords" => $iTotal,
-							"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-							"aaData" => array()
-						);
-					$cnt = 1;
-					if(!empty($galleries)){
-					foreach($galleries as $key =>$value){
+		case 'getData':
+			$columns = array('id','name','category_id','mdate','sequence','id','id');
+			$limit = '';
+			$orderby = '';
+			$search = '';
+			$iDisplayLength = $_GET['iDisplayLength'];
+			$iDisplayStart = $_GET['iDisplayStart'];
+			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
+			$iSortCol_0= $_GET['iSortCol_0'];
+			$sSortDir_0= $_GET['sSortDir_0'];
+			if(!empty($columns[$iSortCol_0])){
+				$orderby = " order by $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0;
+			}else{
+				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
+			}
+			$sSearch= $_GET['sSearch']; 
+			if($sSearch=='undefined'){
+				$sSearch = '';
+			}
+			if(!empty($sSearch)){
+				$search =  " WHERE ( $oModule->table.name like '%$sSearch%' or  $oModule->table.slug like '%$sSearch%') ";
+				$category_id  = $_GET['filterCategoryID']; 
+				if($category_id>0){
+					$search .=  " AND $oModule->table.category_id = $category_id ";
+				}
+			}else{
+				$category_id  = $_GET['filterCategoryID']; 
+				if($category_id>0){
+					$search =  " WHERE  $oModule->table.category_id = $category_id ";
+				}
+			}
+			$galleries = $oModule->getAll($search,$orderby,$limit);
+			$iTotal = $oModule->getSize();
+			$iFilteredTotal = count($galleries);
+			$output = array(
+				"sEcho" => intval($_GET['sEcho']),
+				"iTotalRecords" => $iTotal,
+				"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
+				"aaData" => array()
+			);
+			$cnt = 1;
+			if(!empty($galleries)){
+				foreach($galleries as $key =>$value){
 					if($value['status']==1){	
-						$iconbar = '	<a href="javascript:void(0)" onclick="setGalleriesStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" /></a>&nbsp;';
+						$iconbar = '<a href="javascript:void(0)" onclick="setGalleriesStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" /></a>&nbsp;';
 					}else{
-						$iconbar = '	<a href="javascript:void(0)" onclick="setGalleriesStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png" /></a>&nbsp;';
+						$iconbar = '<a href="javascript:void(0)" onclick="setGalleriesStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png" /></a>&nbsp;';
 					}
-											
-						$iconbar .=	'<a href="javascript:void(0)" onclick="setDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>  ';			
+					$iconbar .=	'<a href="javascript:void(0)" onclick="setDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>';			
 					if(SITE_TRANSLATE){
-						$iconbar .=  '  <a href="javascript:void(0)" onclick="setTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title=แปลภาษา /></a>';
+						$iconbar .= '<a href="javascript:void(0)" onclick="setTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title=แปลภาษา /></a>';
 					}
-						$iconbar .=	'  <a href="javascript:void(0)" onclick="setGalleriesDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" /></a>';
-											
-					$order = '<a href="javascript:void(0)" onclick="setGalleriesMove('.$value['id'].',\'up\')"><img src="../images/icons/black/16/arrow_up_small.png" /></a>
-										 <a href="javascript:void(0)" onclick="setGalleriesMove('.$value['id'].',\'down\')" ><img src="../images/icons/black/16/arrow_down_small.png" /></a>
-									  ';
-					  $order = '<input name="sequence_'.$value['id'].'" id="sequence_'.$value['id'].'" type="text"  value="'.$value['sequence'].'" title="'.$value['sequence'].'" style="width:40px;" onblur="switchDataOrder('.$value['id'].')" />';
-									  
-						$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
-						
-						$showname = '<a href="javascript:void(0)" onclick="setGalleriesEdit('.$value['id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$indent.$value['name'].'</a>';
-						$value['category'] = (empty($value['category']))?'  - ':$value['category'] ;
-						$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$value['mdate'],4=>$order,5=>$iconbar,6 =>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
-						$cnt++ ;
-						}
-					}
-						echo json_encode($output) ;
-				break;
+					$iconbar .=	'<a href="javascript:void(0)" onclick="setGalleriesDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" /></a>';
+					$order = '<a href="javascript:void(0)" onclick="setGalleriesMove('.$value['id'].',\'up\')"><img src="../images/icons/black/16/arrow_up_small.png" /></a><a href="javascript:void(0)" onclick="setGalleriesMove('.$value['id'].',\'down\')" ><img src="../images/icons/black/16/arrow_down_small.png" /></a>';
+					$order = '<input name="sequence_'.$value['id'].'" id="sequence_'.$value['id'].'" type="text"  value="'.$value['sequence'].'" title="'.$value['sequence'].'" style="width:40px;" onblur="switchDataOrder('.$value['id'].')" />';
+					$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
+					$showname = '<a href="javascript:void(0)" onclick="setGalleriesEdit('.$value['id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$value['name'].'</a>';
+					$value['category'] = (empty($value['category']))?'  - ':$value['category'] ;
+					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$value['mdate'],4=>$order,5=>$iconbar,6 =>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
+					$cnt++ ;
+				}
+			}
+			echo json_encode($output);
+		break;
 			case 'saveData':
 				$user = $oUsers->getAdminLoginUser();
 				$id = (int)$_POST['id'] ; 
@@ -550,11 +544,11 @@ if(isset($_GET['task'])){
 			break;	
 ////////////////task for frontend  ///////////
 				case "find" :
-					$language =  ($_SESSION['site_language'])?$_SESSION['site_language']:SITE_LANGUAGE;
+					$language = LANG;
 					$module = $_GET['module'];
 					$task = $_GET['task'];
-					$type  = $_GET['type'] ;
-					$key = $_GET['key'] ;
+					$type  = $_GET['type'];
+					$key = $_GET['key'];
 					$slug =  (!empty($_GET['slug']))?$_GET['slug']:0 ;
 					$status =(!empty($_GET['status']))?$_GET['status']:1 ;
 					$search = (!empty($_GET['search']))?$_GET['search']:'';

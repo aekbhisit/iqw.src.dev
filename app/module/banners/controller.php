@@ -1,139 +1,137 @@
 <?php
-session_start();
+if(empty($_SESSION)) {
+	session_start();
+}
 $oUsers = new Users('users');
 // config module
 $params_category = array(
-		'module'=>'banners_categories',
- 		'table'=>'banners_categories',
-		'table_translate'=>'banners_categories_translate',
-		'site_language'=>SITE_LANGUAGE ,
-		'is_translate'=>SITE_TRANSLATE ,
+	'module'=>'banners_categories',
+ 	'table'=>'banners_categories',
+	'table_translate'=>'banners_categories_translate',
+	'site_language'=>SITE_LANGUAGE,
+	'is_translate'=>SITE_TRANSLATE
 );
 $oCategories = new Banners($params_category);
 $params = array(
-		'module'=>'banners',
- 		'table'=>'banners',
-		'parent_table'=> 'banners_categories',
-		'parent_table_translate'=> 'banners_categories_translate',
-		'parent_primary_key'=> 'id',
-		'table_translate'=>'banners_translate',
-		'site_language'=>SITE_LANGUAGE ,
-		'is_translate'=>SITE_TRANSLATE 
+	'module'=>'banners',
+ 	'table'=>'banners',
+	'parent_table'=>'banners_categories',
+	'parent_table_translate'=> 'banners_categories_translate',
+	'parent_primary_key'=>'id',
+	'table_translate'=>'banners_translate',
+	'site_language'=>SITE_LANGUAGE,
+	'is_translate'=>SITE_TRANSLATE
 );
-$oModule = new Banners($params );
-
+$oModule = new Banners($params);
 if(isset($_GET['task'])){
-	$task =$_GET['task'] ;
+	$task =$_GET['task'];
 	switch($task){
 //  categories task   
 		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';
-			$orderby ='' ;
+			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart= $_GET['iDisplayStart'];
-			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength ;
+			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
 			$iSortCol_0= $_GET['iSortCol_0'];
 			$sSortDir_0= $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
-				$orderby = " order by  ".$columns[$iSortCol_0].' '.$sSortDir_0 ;
+				$orderby = " order by ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
-				$orderby = " order by  ".$columns[4].' '.$sSortDir_0 ;
+				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
-					if($sSearch=='undefined'){
-						$sSearch = '';
-					}
+			$sSearch = $_GET['sSearch']; 
+			if($sSearch=='undefined'){
+				$sSearch = '';
+			}
 			if(!empty($sSearch)){
-				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') " ;
+				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
-			//print_r($categories);
-			$iTotal = $oCategories->getCategoriesSize() ;
-			 $iFilteredTotal =  count($categories);
+			$iTotal = $oCategories->getCategoriesSize();
+			$iFilteredTotal = count($categories);
 			$output = array(
-					"sEcho" => intval($_GET['sEcho']),
-					"iTotalRecords" => $iTotal,
-					"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-					"aaData" => array()
-				);
+				"sEcho"=>intval($_GET['sEcho']),
+				"iTotalRecords"=>$iTotal,
+				"iTotalDisplayRecords"=>$iTotal, // $iFilteredTotal,
+				"aaData"=>array()
+			);
 			$cnt = 1;
 			if(!empty($categories)){
-			foreach($categories as $key =>$value){
-			if($value['level']>0){
-			if($value['status']){	
-				$iconbar = '	<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" title="เปิด" /></a>&nbsp;';
-			}else{
-				$iconbar = '	<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png"  title="ปิด" /></a>&nbsp;';
-			}
-									
-				$iconbar .=	'  <a href="javascript:void(0)" onclick="setCategoryDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>  ';
-			if(SITE_TRANSLATE){
-				$iconbar .=  '  <a href="javascript:void(0)" onclick="setCategoryTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title=แปลภาษา /></a>';
-			}
-			
-            $iconbar .=  '    <a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>';
-									
-			$order = '<a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'left\')"><img src="../images/icons/black/16/arrow_up_small.png" title="ขึ้น" /></a>
-							     <a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'right\')" ><img src="../images/icons/black/16/arrow_down_small.png" title="ลง" /></a>
-							  ';
-			$indent = '';	
-				for($i=1;$i<$value['level'];$i++){
-					$indent .= '-';
-				}
-				$showname = '<a href="javascript:void(0)" onclick="setCategoryEdit('.$value['id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$indent.$value['name'].'</a>';					  
-				$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
-				$output["aaData"][] = array(0=>$row_chk,1=>$showname ,2=>$value['level'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
-				$cnt++ ;
-				}
-			}
-			}
-				echo json_encode($output) ;
-				break;
-			case 'loadCategories':
-				$categories = $oCategories->getCategoriesTreeAll();
-				$data = array(
-					0=>array('level'=>0,'id'=>0,'parent'=>0,'name'=>'--- ไม่เลือก ---'),
-				);
-				$cnt =1 ;
-			    if(!empty($categories)){
-					foreach($categories as $c){
-						$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']) ;
+				foreach($categories as $key =>$value){
+					if($value['level']>0){
+						if($value['status']){	
+							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" title="เปิด" /></a>&nbsp;';
+						}else{
+							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png"  title="ปิด" /></a>&nbsp;';
+						}
+						$iconbar .=	'<a href="javascript:void(0)" onclick="setCategoryDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>';
+						if(SITE_TRANSLATE){
+							$iconbar .=  '<a href="javascript:void(0)" onclick="setCategoryTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title=แปลภาษา /></a>';
+						}
+	           	 		$iconbar .= '<a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>';
+						$order = '<a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'left\')"><img src="../images/icons/black/16/arrow_up_small.png" title="ขึ้น" /></a><a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'right\')" ><img src="../images/icons/black/16/arrow_down_small.png" title="ลง" /></a>';
+						$indent = '';	
+						for($i=1;$i<$value['level'];$i++){
+							$indent .= '-';
+						}
+						$showname = '<a href="javascript:void(0)" onclick="setCategoryEdit('.$value['id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$indent.$value['name'].'</a>';					  
+						$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
+						$output["aaData"][] = array(0=>$row_chk,1=>$showname ,2=>$value['level'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
 						$cnt++;
 					}
-				 }
+				}
+			}
+			echo json_encode($output);
+		break;
+		case 'loadCategories':
+			$categories = $oCategories->getCategoriesTreeAll();
+			$data = array(
+				0=>array('level'=>0,'id'=>0,'parent'=>0,'name'=>'--- ไม่เลือก ---'),
+			);
+			$cnt =1 ;
+			if(!empty($categories)){
+				foreach($categories as $c){
+					if(!isset($c['parent'])) {
+						$c['parent'] = 0;
+					}
+					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']);
+					$cnt++;
+				}
+			}
+			echo json_encode($data);
+		break;
+		case 'categoryFormInit':
+			if($_GET['mode']=='edit'){
+				$id = addslashes($_GET['id']);
+				$data = $oCategories->getCategory($id);
+				$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
+				$data['description']=htmlspecialchars_decode($data['description'],ENT_QUOTES);
 				echo json_encode($data);
-				break;
-			case 'categoryFormInit':
-					if($_GET['mode']=='edit'){
-						$id = addslashes($_GET['id']);
-						$data = $oCategories->getCategory($id);
-						$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
-						$data['description']=htmlspecialchars_decode($data['description'],ENT_QUOTES);
-						echo json_encode($data);
-					}
-				break;
-			case 'saveCategory':
-					$user = $oUsers->getAdminLoginUser();
-					 $categories_id = $_POST["categories_id"] ; 
-					 $categories_parent = $_POST["categories_parent"];
-					 $categories_name = htmlspecialchars($_POST["categories_name"],ENT_QUOTES);
-					 if(empty($_POST['categories_slug'])){
-						$categories_slug= $oModule->createSlug($categories_name) ;
-					}else{
-						$categories_slug=$_POST['categories_slug'] ;
-					}
-					 $categories_description = htmlspecialchars($_POST["categories_description"],ENT_QUOTES);
-					 $categories_images = $_POST["categories_server_images"] ;
-					 $categories_status = $_POST["categories_status"] ;
-					 $categories_slug = urldecode($categories_slug);
-					 if(!empty($categories_id)){
-						 $oCategories->update_categories($categories_id,$categories_parent,$categories_name,$categories_slug,$categories_description,$categories_images,'',$user['id'],$categories_status);
-					 }else{
-						 $oCategories->insert_categories($categories_parent,$categories_name,$categories_slug,$categories_description,$categories_images,'',$user['id'],$categories_status);
-					 }
-				break;
+			}
+		break;
+		case 'saveCategory':
+			$user = $oUsers->getAdminLoginUser();
+			$categories_id = $_POST["categories_id"]; 
+			$categories_parent = $_POST["categories_parent"];
+			$categories_name = htmlspecialchars($_POST["categories_name"],ENT_QUOTES);
+			if(empty($_POST['categories_slug'])){
+				$categories_slug= $oModule->createSlug($categories_name);
+			}else{
+				$categories_slug=$_POST['categories_slug'];
+			}
+			$categories_description = htmlspecialchars($_POST["categories_description"],ENT_QUOTES);
+			$categories_images = $_POST["categories_server_images"];
+			$categories_status = $_POST["categories_status"];
+		 	$categories_slug = urldecode($categories_slug);
+			if(!empty($categories_id)){
+				$oCategories->update_categories($categories_id,$categories_parent,$categories_name,$categories_slug,$categories_description,$categories_images,'',$user['id'],$categories_status);
+			}else{
+			 	$oCategories->insert_categories($categories_parent,$categories_name,$categories_slug,$categories_description,$categories_images,'',$user['id'],$categories_status);
+			}
+		break;
 			case 'duplicateCategory':
 					$user = $oUsers->getAdminLoginUser();
 					$id = $_GET["id"] ; 
@@ -170,22 +168,21 @@ if(isset($_GET['task'])){
 					}
 				break;
 			case 'saveCategoryTranslate':
-					 $categories_id = $_POST["categories_id"] ; 
-					 $categories_lang = $_POST["categories_language"] ; 
-					 $categories_name = $_POST["categories_name"];
-					 $categories_description = $_POST["categories_description"];
-					 $categories_images = $_POST["categories_server_images"] ;
-					 $oCategories->saveCategoriesTranslate( $categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,'');
-				break;
-
-///  pages-form.html
+				$categories_id = $_POST["categories_id"] ; 
+				$categories_lang = $_POST["categories_language"] ; 
+				$categories_name = $_POST["categories_name"];
+				$categories_description = $_POST["categories_description"];
+				$categories_images = $_POST["categories_server_images"] ;
+				$oCategories->saveCategoriesTranslate( $categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,'');
+			break;
+			///  pages-form.html
 			case 'formInit':
 				if($_GET['mode']=='edit'){
-						$id = addslashes($_GET['id']);
-						$data = $oModule->getOne($id);
-						echo json_encode($data);
-					}
-				break ;
+					$id = addslashes($_GET['id']);
+					$data = $oModule->getOne($id);
+					echo json_encode($data);
+				}
+			break ;
 			case 'getData':
 					$columns = array('id','name','category_id','mdate','sequence','id','id');
 					$limit = '';
@@ -257,73 +254,74 @@ if(isset($_GET['task'])){
 						$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
 						$cnt++ ;
 						}
-					}
-						echo json_encode($output) ;
-				break;
-			case 'saveData':
-				$user = $oUsers->getAdminLoginUser();
-				$id = $_POST['id'];
-				$category_id = $_POST['categories'];
-				$name = $_POST['name'];	
-				if(empty($_POST['slug'])){
-					$slug= $oModule->createSlug($name) ;
-				}else{
-					$slug=$_POST['slug'] ;
-				}
-				$content= $_POST['content'];
-				$meta_key= $_POST['meta_key'];
-				$image =  (!empty($_POST['image']))?$_POST['image']:'';
-				$start = (!empty($_POST['start']))?$oModule->datePickerToTime($_POST['start']):'';
-				$end = (!empty($_POST['end']))?$oModule->datePickerToTime($_POST['end']):'';
-				$status= $_POST['status'];
-				$params = '';
-				if(empty($id)){		
-					$oModule->insertData($category_id,$name,$slug,$content,$image,$params,$meta_key,$meta_description,$user['id'],$status,$start,$end);
-				}else{
-					$oModule-> updateData($id,$category_id,$name,$slug,$content,$image,$params,$meta_key,$meta_description,$user['id'],$status,$start,$end);
-				}
-				break;
-				case 'duplicate':
-					$user = $oUsers->getAdminLoginUser();
-					$id = $_GET['id'];
-					$oModule->duplicateData($id,$user['id']);
-				break;
-				case 'setStatus':
-					$id = addslashes($_GET['id']);
-					$status = addslashes($_GET['status']);
-					$oModule->updateStatus($id,$status);
-				break;
-				case 'setMove':
-					$id = addslashes($_GET['id']);
-					$type = addslashes($_GET['type']);
-					$oModule->moveRow($id,$type);
-				break;
-				case 'setDelete':
-					$id = addslashes($_GET['id']);
-					$oModule->deleteData($id);
-				break;
-				case 'loadLanguages':
-					$lang = $oModule->getLanguage();
-					echo json_encode($lang);
-				break ;
-// translate page
-				case 'formTranslateInit':
-							$id = addslashes($_GET['id']);
-							$lang = addslashes($_GET['language']);
-							$data = $oModule->getTranslate($id,$lang);
-							echo json_encode($data);
-					break ;
-				case 'saveTranslate':
-							$id = $_POST['id'];
-							$lang = $_POST['translate_language'];
-							$name = $_POST['name'];	
-							$content= $_POST['content'];
-							$image= $_POST['image'];
-							$meta_key= $_POST['meta_key'];
-							$meta_description= $_POST['meta_description'];
-							$oModule->saveTranslate( $lang,$id,$name,$content,$image,'',$meta_key,$meta_description) ;
-				break;
-	// for find module	
+			}
+			echo json_encode($output);
+		break;
+		case 'saveData':
+			$user = $oUsers->getAdminLoginUser();
+			$id = $_POST['id'];
+			$category_id = $_POST['categories'];
+			$name = $_POST['name'];	
+			if(empty($_POST['slug'])){
+				$slug = $oModule->createSlug($name);
+			}else{
+				$slug = $_POST['slug'];
+			}
+			$link = $_POST['linkurl'];
+			$content= $_POST['content'];
+			$meta_key= $_POST['meta_key'];
+			$image =  (!empty($_POST['image']))?$_POST['image']:'';
+			$start = (!empty($_POST['start']))?$oModule->datePickerToTime($_POST['start']):'';
+			$end = (!empty($_POST['end']))?$oModule->datePickerToTime($_POST['end']):'';
+			$status= $_POST['status'];
+			$params = '';
+			if(empty($id)){		
+				$oModule->insertData($category_id,$name,$slug,$content,$image,$params,$link,$meta_key,$meta_description,$user['id'],$status,$start,$end);
+			}else{
+				$oModule->updateData($id,$category_id,$name,$slug,$content,$image,$params,$link,$meta_key,$meta_description,$user['id'],$status,$start,$end);
+			}
+		break;
+		case 'duplicate':
+			$user = $oUsers->getAdminLoginUser();
+			$id = $_GET['id'];
+			$oModule->duplicateData($id,$user['id']);
+		break;
+		case 'setStatus':
+			$id = addslashes($_GET['id']);
+			$status = addslashes($_GET['status']);
+			$oModule->updateStatus($id,$status);
+		break;
+		case 'setMove':
+			$id = addslashes($_GET['id']);
+			$type = addslashes($_GET['type']);
+			$oModule->moveRow($id,$type);
+		break;
+		case 'setDelete':
+			$id = addslashes($_GET['id']);
+			$oModule->deleteData($id);
+		break;
+		case 'loadLanguages':
+			$lang = $oModule->getLanguage();
+			echo json_encode($lang);
+		break;
+		// translate page
+		case 'formTranslateInit':
+			$id = addslashes($_GET['id']);
+			$lang = addslashes($_GET['language']);
+			$data = $oModule->getTranslate($id,$lang);
+			echo json_encode($data);
+		break;
+		case 'saveTranslate':
+			$id = $_POST['id'];
+			$lang = $_POST['translate_language'];
+			$name = $_POST['name'];	
+			$content = $_POST['content'];
+			$image = $_POST['image'];
+			$meta_key = $_POST['meta_key'];
+			$meta_description = $_POST['meta_description'];
+			$oModule->saveTranslate( $lang,$id,$name,$content,$image,'',$meta_key,$meta_description);
+		break;
+		// for find module	
 			case 'getCategoriesDataInFinds':
 				$columns = array('','name','level','mdate','lft');
 				$limit = '';
@@ -539,7 +537,7 @@ if(isset($_GET['task'])){
 			break;	
 ////////////////task for frontend  ///////////
 				case "find" :
-					$language =  ($_SESSION['site_language'])?$_SESSION['site_language']:SITE_LANGUAGE;
+					$language = LANG;
 					$module = $_GET['module'];
 					$task = $_GET['task'];
 					$type  = $_GET['type'] ;

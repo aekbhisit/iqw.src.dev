@@ -12,154 +12,121 @@ class Statistics extends Database {
 ///////////////////////////////////////////////////////////////////////////////////
 	public function getStatsSize(){
 		$this->sql = "SELECT $this->table.*, $this->stats_visit_table.url  as url FROM $this->table Left Join  $this->stats_visit_table ON $this->stats_visit_table.stat_id= $this->table.id ";
-		return  $this->select('size') ;
+		return  $this->select('size');
 	}
-	
 	public function getStatsAll($search,$order,$limit){
-		/*
-		$this->sql = "SELECT $this->table.*, $this->stats_visit_table.url ,stats_country.country as country, stats_country.co2 as country_code  FROM $this->table Left Join  $this->stats_visit_table ON $this->stats_visit_table.stat_id= $this->table.id Left Join stats_country ON $this->table.ip between  stats_country.ip1 and stats_country.ip2  $search $order $limit";
-		*/
-			$this->sql = "SELECT $this->table.*, $this->stats_visit_table.url  as url FROM $this->table Left Join  $this->stats_visit_table ON $this->stats_visit_table.stat_id= $this->table.id  $search $order $limit";
-		//	echo $this->sql ;
-		$this->select() ;
-		return $this->rows ;
+		$this->sql = "SELECT $this->table.*, $this->stats_visit_table.url  as url FROM $this->table Left Join  $this->stats_visit_table ON $this->stats_visit_table.stat_id= $this->table.id  $search $order $limit";
+		$this->select();
+		return $this->rows;
 	}
-	
 	public function getStats($id){
 		$this->sql = "select * from $this->table where $this->primary_key=$id ";
 		$this->select();
-		return  $this->rows[0] ;
+		return  $this->rows[0];
 	}
-	
 	public function showCountAllModule($modules){
 		$count_all = array();
 		if(!empty($modules)){
 			foreach($modules as $m){
-					$this->sql = "select COUNT(id) as total from $m ";
-					$this->select();
-					$count_all[$m] = $this->rows[0]['total'] ;			
+				$this->sql = "select COUNT(id) as total from $m ";
+				$this->select();
+				$count_all[$m] = $this->rows[0]['total'];			
 			}
 		}
-		return $count_all ;
+		return $count_all;
 	}
-	
 	public function setSumStat(){
-		$week_start = date("Y-m-d", strtotime('sunday this week')) ;
-		$today_start =   date("Y-m-d").' 00:00:00';
-		$today_end =   date("Y-m-d").' 23:59:59';
+		$week_start = date("Y-m-d", strtotime('sunday this week'));
+		$today_start = date("Y-m-d").' 00:00:00';
+		$today_end = date("Y-m-d").' 23:59:59';
 		$today_m = date("m");
 		$today_y = date("Y");
-
-		$current_date =   date("Y-m-d H:i:s");
+		$current_date = date("Y-m-d H:i:s");
 		$this_sunday = date("Y-m-d",strtotime('this sunday')).' 00:00:00';
 		$next_sunday = date("Y-m-d",strtotime('next saturday')).' 23:59:59';
-
 		$this->sql = "select stat_last_update from configs_site ";
 		$this->select();
-		$last_stat_update = $this->rows[0]['stat_last_update'] ;
-		
+		$last_stat_update = $this->rows[0]['stat_last_update'];
 		if(!empty($last_stat_update)){
 			list($lsu_date,$lsu_time) = explode(' ',$last_stat_update);
 			list($lsu_y,$lsu_m,$lsu_d) = explode('-',$lsu_date);
  		}else{
  			$lsu_m = '01' ;
  			$lsu_y = date("Y");
- 			$last_stat_update = date("Y").'-01-01 00:00:00' ;
+ 			$last_stat_update = date("Y").'-01-01 00:00:00';
  		}
- 		
- 		if( (int)$today_y > (int)$lsu_y ){
-	 		if( ( (int)$today_y - (int)$lsu_y )>=2){
-	 			$month_diff = (12-(int)$lsu_m)+( (( (int)$today_y - (int)$lsu_y )-1)*12 )+( (int)$today_m ) ;
+ 		if((int)$today_y > (int)$lsu_y){
+	 		if( ((int)$today_y - (int)$lsu_y)>=2){
+	 			$month_diff = (12-(int)$lsu_m)+((((int)$today_y - (int)$lsu_y)-1)*12)+((int)$today_m);
 	 		}else{
-	 			$month_diff = (12-(int)$lsu_m)+( (int)$today_m ) ;
+	 			$month_diff = (12-(int)$lsu_m)+((int)$today_m);
 	 		}
  		}else{
- 			$month_diff = ((int)$today_m - (int)$lsu_m) ;
+ 			$month_diff = ((int)$today_m - (int)$lsu_m);
  		}
-
-
- 		$this->sql = "select count(DISTINCT $this->table.id) as visitor from $this->table where $this->table.date between '$today_start' and '$today_end'  ";
+ 		$this->sql = "select count(DISTINCT $this->table.id) as visitor from $this->table where $this->table.date between '$today_start' and '$today_end' ";
 		$this->select();
-		$today_visitor = $this->rows[0]['visitor'] ;
-
+		$today_visitor = $this->rows[0]['visitor'];
 		$this->sql = "select count($this->stats_visit_table.id) as pages from $this->stats_visit_table   where $this->stats_visit_table.date between '$today_start' and '$today_end'  ";
 		$this->select();
-		$today_pv = $this->rows[0]['pages'] ;
-
+		$today_pv = $this->rows[0]['pages'];
 		$this->sql = "select count(DISTINCT $this->table.id) as visitor from $this->table where $this->table.date between '$this_sunday' and '$next_sunday'  ";
 		$this->select();
-		$week_visitor = $this->rows[0]['visitor'] ;
-
+		$week_visitor = $this->rows[0]['visitor'];
 		$this->sql = "select count($this->stats_visit_table.id) as pages from $this->stats_visit_table   where $this->stats_visit_table.date between '$this_sunday' and '$next_sunday'  ";
 		$this->select();
-		$week_pv = $this->rows[0]['pages'] ;
-
+		$week_pv = $this->rows[0]['pages'];
 		$this->sql = "update configs_site set stat_today_visit=$today_visitor,stat_today_pv=$today_pv, stat_thisweek_visit=$week_visitor ,stat_thisweek_pv=$week_pv, stat_last_update=NOW()  where id=1 " ;
 		$this->update();
-
- 		$loop_m = (int)$lsu_m ;
- 		$loop_y = (int)$lsu_y ;
+ 		$loop_m = (int)$lsu_m;
+ 		$loop_y = (int)$lsu_y;
  		$chk_date_array=array();
  		for($i=0;$i<=$month_diff;$i++){
  			$month = (($loop_m + $i)%12) ;
- 			if($month<10){ $str_month = "0$month"; }else{ $str_month = "$month";}
- 			$year = $loop_y+((int)(($loop_m + $i)/12)) ;
-
+ 			if($month<10){ $str_month = "0$month"; }else{ $str_month = "$month"; }
+ 			$year = $loop_y+((int)(($loop_m + $i)/12));
  			$end_date = "$year-$str_month-31 23:59:59";
-
- 			$this->sql = "select count(DISTINCT $this->table.id) as visitor from $this->table where $this->table.date between '$last_stat_update' and '$end_date'  ";
- 			
+ 			$this->sql = "select count(DISTINCT $this->table.id) as visitor from $this->table where $this->table.date between '$last_stat_update' and '$end_date' ";
 			$this->select();
-			$visitor = $this->rows[0]['visitor'] ;
-
-			$this->sql = "select count($this->stats_visit_table.id) as pages from $this->stats_visit_table   where $this->stats_visit_table.date between '$last_stat_update' and '$end_date'  ";
+			$visitor = $this->rows[0]['visitor'];
+			$this->sql = "select count($this->stats_visit_table.id) as pages from $this->stats_visit_table where $this->stats_visit_table.date between '$last_stat_update' and '$end_date' ";
 			$this->select();
-			$pv = $this->rows[0]['pages'] ;
-
-			$this->sql = "select visitor,pv from stats_sum_all where month=$month and year=$year " ;
+			$pv = $this->rows[0]['pages'];
+			$this->sql = "select visitor,pv from stats_sum_all where month=$month and year=$year ";
 			$this->select();
 			if(!empty($this->rows)){
 				$old_visitor = $this->rows[0]['visitor']+ $visitor;
-				$old_pv = $this->rows[0]['pv']+$pv ;
-				$this->sql = "update stats_sum_all set visitor=$old_visitor,pv=$old_pv, mdate=NOW() where month=$month and year=$year " ;
+				$old_pv = $this->rows[0]['pv']+$pv;
+				$this->sql = "update stats_sum_all set visitor=$old_visitor,pv=$old_pv, mdate=NOW() where month=$month and year=$year ";
 				$this->update();
 			}else{
-				$this->sql = " insert into stats_sum_all (month,year,visitor,pv,mdate) values($month,$year,$visitor,$pv,NOW() ) ";
+				$this->sql = "insert into stats_sum_all (month,year,visitor,pv,mdate) values($month,$year,$visitor,$pv,NOW() ) ";
 				$this->insert();
 			}
-
  		}
-
  		$this->sql = " delete from stats where date < '$this_sunday' ";
 		$this->delete();
 		$this->sql = " delete from stats_visit where date < '$this_sunday' ";
 		$this->delete();
-
 	}
-
 	public function getSumaryCurrentStat(){
 		$this->sql = " select stat_today_visit,stat_today_pv,stat_thisweek_visit,stat_thisweek_pv from configs_site where id=1 ";
 		$this->select();
-
-		$stat['today_visitor'] = $this->rows[0]['stat_today_visit'] ;
-		$stat['today_pv'] = $this->rows[0]['stat_today_pv'] ;
-		$stat['week_visitor'] = $this->rows[0]['stat_thisweek_visit'] ;
-		$stat['week_pv'] = $this->rows[0]['stat_thisweek_pv'] ;
-
+		$stat['today_visitor'] = $this->rows[0]['stat_today_visit'];
+		$stat['today_pv'] = $this->rows[0]['stat_today_pv'];
+		$stat['week_visitor'] = $this->rows[0]['stat_thisweek_visit'];
+		$stat['week_pv'] = $this->rows[0]['stat_thisweek_pv'];
 		$today_m = (int)date("m");
 		$today_y = (int)date("Y");
 		$this->sql = " select visitor,pv from stats_sum_all where month=$today_m and year=$today_y ";
 		$this->select();
-		$stat['month_visitor'] = $this->rows[0]['visitor'] ;
-		$stat['month_pv'] = $this->rows[0]['pv'] ;
-
-		$this->sql = " select sum(visitor) as visitor ,sum(pv) as pv  from stats_sum_all ";
+		$stat['month_visitor'] = $this->rows[0]['visitor'];
+		$stat['month_pv'] = $this->rows[0]['pv'];
+		$this->sql = " select sum(visitor) as visitor ,sum(pv) as pv from stats_sum_all ";
 		$this->select();
-		$stat['all_visitor'] = $this->rows[0]['visitor'] ;
-		$stat['all_pv'] = $this->rows[0]['pv'] ;
-
-		return $stat ;
-
+		$stat['all_visitor'] = $this->rows[0]['visitor'];
+		$stat['all_pv'] = $this->rows[0]['pv'];
+		return $stat;
 	}
 
 	public function getVisitorSumary($type=NULL,$date=NULL,$month=NULL){ //type : day week month ,$date date start to find data 2012-08-17 
@@ -213,19 +180,17 @@ class Statistics extends Database {
 		return $stats ;
 	}
 	
-	function getStatYearGraph(){
+	public function getStatYearGraph(){
 		$today_y = (int)date("Y");
-
 		$this->sql = " select visitor,pv,month from stats_sum_all where year=$today_y ";
 		$this->select();
 		$stats = $this->rows ;
 		$stats_array = array();
 		if(!empty($stats)){
 			foreach($stats as $stat){
-				$stats_array[$stat['month']] = $stat ;
+				$stats_array[$stat['month']] = $stat;
 			}
 		}
-
 		$year = array(
 			1=>array('month'=>'Jan'),
 			2=>array('month'=>'Feb'),
@@ -239,14 +204,13 @@ class Statistics extends Database {
 			10=>array('month'=>'Oct'),
 			11=>array('month'=>'Nov'),
 			12=>array('month'=>'Dec')
-			);
-			$this_m = (int)date('m') ;
-			for($i=1;$i<=$this_m;$i++){
-				$year[$i]['data'] = $stats_array[$i] ;
-			}
-			return $year ;
+		);
+		$this_m = (int)date('m') ;
+		for($i=1;$i<=$this_m;$i++){
+			$year[$i]['data'] = $stats_array[$i];
+		}
+		return $year;
 	}
-
 	function setDeleteAllStatData(){
 		$this->sql = "update configs_site set stat_today_visit=0,stat_today_pv=0, stat_thisweek_visit=0 ,stat_thisweek_pv=0, stat_last_update=NOW() where id=1 " ;
 		$this->update();
@@ -262,20 +226,20 @@ class Statistics extends Database {
 	function insertStatsLogs($url=NULL){
 		if(!isset($_SESSION['stat_logs']['id'])){
 			$ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
-			$useragent =  $_SERVER['HTTP_USER_AGENT'] ;
+			$useragent =  $_SERVER['HTTP_USER_AGENT'];
 			$UA =$this->getBrowser();
-			$browser = $UA['browser'] ;
-			$version = $UA['version'] ;
-			$platform = $UA['platform'] ;
-			$refer_url = $_SERVER['HTTP_REFERER'] ;
+			$browser = $UA['browser'];
+			$version = $UA['version'];
+			$platform = $UA['platform'];
+			$refer_url = $_SERVER['HTTP_REFERER'];
 			$this->sql ="insert into $this->table (ip,browser,version,platform,refer_url,date) ";
-			$this->sql .=" values($ip,'$browser','$version','$platform','$refer_url',NOW()) " ;
+			$this->sql .=" values($ip,'$browser','$version','$platform','$refer_url',NOW()) ";
 			$this->insert();
-			$stat_id = $this->insert_id() ;
-			$_SESSION['stat_logs']['id']  =  $stat_id ;
-			$this->insertStateVisitLogs($stat_id,$url) ;
+			$stat_id = $this->insert_id();
+			$_SESSION['stat_logs']['id']  =  $stat_id;
+			$this->insertStateVisitLogs($stat_id,$url);
 		}else{
-			$this->insertStateVisitLogs($_SESSION['stat_logs']['id'] ,$url) ;
+			$this->insertStateVisitLogs($_SESSION['stat_logs']['id'] ,$url);
 		}
 	}
 	

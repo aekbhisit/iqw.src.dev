@@ -1,10 +1,12 @@
 <?php
-session_start() ;
+if(empty($_SESSION)) {
+	session_start();
+}
 $oUsers = new Users('users');
 $oCategories = new Comments('comments_categories');
 $oComments = new Comments('comments');
 if(isset($_GET['task'])){
-	$task = $_GET['task'] ;
+	$task = $_GET['task'];
 	switch($task){
 //  categories task   
 		case 'getCategoriesData':
