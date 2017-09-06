@@ -1,31 +1,30 @@
 <?php
-session_start();
+if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
 $params_category = array(
-		'module'=>'modules_categories',
- 		'table'=>'modules_categories',
-		'table_translate'=>'modules_categories_translate',
-		'site_language'=>SITE_LANGUAGE ,
-		'is_translate'=>SITE_TRANSLATE 
+	'module'=>'modules_categories',
+ 	'table'=>'modules_categories',
+	'table_translate'=>'modules_categories_translate',
+	'site_language'=>SITE_LANGUAGE,
+	'is_translate'=>SITE_TRANSLATE
 );
 $oCategories = new Modules($params_category);
 $params = array(
-		'module'=>'modules',
- 		'table'=>'modules',
-		'parent_table'=> 'modules_categories',
-		'parent_table_translate'=> 'modules_categories_translate',
-		'parent_primary_key'=> 'id',
-		'table_translate'=>'modules_translate',
-		'site_language'=>SITE_LANGUAGE ,
-		'is_translate'=>SITE_TRANSLATE 
+	'module'=>'modules',
+ 	'table'=>'modules',
+	'parent_table'=> 'modules_categories',
+	'parent_table_translate'=> 'modules_categories_translate',
+	'parent_primary_key'=> 'id',
+	'table_translate'=>'modules_translate',
+	'site_language'=>SITE_LANGUAGE,
+	'is_translate'=>SITE_TRANSLATE
 );
-$oModule = new Modules($params );
-
+$oModule = new Modules($params);
 if(isset($_GET['task'])){
-	$task =$_GET['task'] ;
+	$task =$_GET['task'];
 	switch($task){
-//  categories task   
+		//  categories task   
 		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';

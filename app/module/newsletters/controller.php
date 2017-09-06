@@ -1,5 +1,5 @@
 <?php
-session_start();
+if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
 //$params_category = array(
@@ -11,17 +11,16 @@ $oUsers = new Users('users');
 //);
 //$oCategories = new Banners($params_category);
 $params = array(
-		'module'=>'newsletters',
- 		'table'=>'newsletters',
-		'parent_table'=> 'newsletters_categories',
-		'parent_table_translate'=> 'newsletters_categories_translate',
-		'parent_primary_key'=> 'id',
-		'table_translate'=>'newsletters_translate',
-		'site_language'=>SITE_LANGUAGE ,
-		'is_translate'=>SITE_TRANSLATE 
+	'module'=>'newsletters',
+ 	'table'=>'newsletters',
+	'parent_table'=>'newsletters_categories',
+	'parent_table_translate'=> 'newsletters_categories_translate',
+	'parent_primary_key'=>'id',
+	'table_translate'=>'newsletters_translate',
+	'site_language'=>SITE_LANGUAGE,
+	'is_translate'=>SITE_TRANSLATE
 );
-$oModule = new Newsletters($params );
-
+$oModule = new Newsletters($params);
 if(isset($_GET['task'])){
 	$task =$_GET['task'] ;
 	switch($task){

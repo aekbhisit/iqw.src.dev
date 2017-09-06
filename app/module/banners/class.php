@@ -27,9 +27,9 @@ class Banners extends Database {
 		}
 	}
 	function datePickerToTime($in_date){
-		list($date,$time) = explode(' ',$in_date) ;
+		list($date,$time) = explode(' ',$in_date);
 		list($month,$day,$year) = explode('/',$date);
-		return $year.'-'.$month.'-'.$day.' '.$time.':00' ;
+		return $year.'-'.$month.'-'.$day.' '.$time.':00';
 	}
 	function timeToDatePicker($in_date){
 		list($date,$time) = explode(' ',$in_date) ;

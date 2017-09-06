@@ -1,6 +1,6 @@
 <?php
 if(isset($helper)){
-	if($helper['mailer']&&$helper['mailer']==true){
+	if(isset($helper['mailer'])&&$helper['mailer']&&$helper['mailer']==true){
 		//include('library/mailer/phpmailer.class.php') ;
 		if(!class_exists('Mailer')){
 		if( file_exists('library/mailer/class.phpmailer.php')){
@@ -22,7 +22,7 @@ if(isset($helper)){
 		}
 	}
 	// PDF
-	if($helper['PDF']&&$helper['PDF']==true){
+	if(isset($helper['PDF'])&&$helper['PDF']&&$helper['PDF']==true){
 		//include('library/mailer/phpmailer.class.php') ;
 		if(!class_exists('PDF')){
 		if( file_exists('library/html2pdf.class.php')){
@@ -45,7 +45,7 @@ if(isset($helper)){
 	}
 	
 	// PDF
-	if($helper['dynamic_search']&&$helper['dynamic_search']==true){
+	if(isset($helper['dynamic_search'])&&$helper['dynamic_search']&&$helper['dynamic_search']==true){
 		//include('library/mailer/phpmailer.class.php') ;
 		if(!class_exists('PDF')){
 		if( file_exists('classes/dynamic_search.class.php')){
@@ -58,7 +58,7 @@ if(isset($helper)){
 	}
 	
 	// include module object 
-	if($helper['objects']&&!empty($helper['objects'])){
+	if(isset($helper['objects'])&&$helper['objects']&&!empty($helper['objects'])){
 		if(is_array($helper['objects'])){
 				foreach($helper['objects'] as $obj_key => $obj){
 					if($obj==true){

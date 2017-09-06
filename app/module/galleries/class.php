@@ -1,94 +1,84 @@
 <?php
 class Galleries extends Database {
-	var $module   ;
+	var $module;
 		public function __construct($params=NULL){
-		$this->module = $params['module']  ;
-		 parent::__construct((empty($params['table']))?$module:$params['table'] );
-		 
-		 if(isset($params['primary_key'])){
-			 $this->primary_key  =$params['primary_key'] ;
-		 }
-		 if(isset($params['parent_table'])){
-			 $this->parent_table  =$params['parent_table'] ;
-		 }
-		  if(isset($params['parent_table_translate'])){
-			 $this->parent_table_translate  =$params['parent_table_translate'] ;
-		 }
-		  if(isset($params['parent_primary_key'])){
-			 $this->parent_primary_key  =$params['parent_primary_key'] ;
-		 }
-		 if(isset($params['site_language'])){
-			 $this->site_language  =$params['site_language'] ;
-		 }
-		 if(isset($params['is_translate'])){
-			 $this->is_translate  =$params['is_translate'] ;
-		 }
-		 if(isset($params['table_translate'])){
-			 $this->table_translate  =$params['table_translate'] ;
-		 }
+		$this->module = $params['module'];
+		parent::__construct((empty($params['table']))?$module:$params['table']);
+		if(isset($params['primary_key'])){
+			$this->primary_key = $params['primary_key'];
+		}
+		if(isset($params['parent_table'])){
+			$this->parent_table = $params['parent_table'];
+		}
+		if(isset($params['parent_table_translate'])){
+			$this->parent_table_translate = $params['parent_table_translate'];
+		}
+		if(isset($params['parent_primary_key'])){
+			$this->parent_primary_key = $params['parent_primary_key'];
+		}
+		if(isset($params['site_language'])){
+			$this->site_language = $params['site_language'];
+		}
+		if(isset($params['is_translate'])){
+			$this->is_translate = $params['is_translate'];
+		}
+		if(isset($params['table_translate'])){
+			$this->table_translate = $params['table_translate'];
+		}
 	}
-	
 	function datePickerToTime($in_date){
-		list($date,$time) = explode(' ',$in_date) ;
+		list($date,$time) = explode(' ',$in_date);
 		list($month,$day,$year) = explode('/',$date);
-		return $year.'-'.$month.'-'.$day.' '.$time.':00' ;
+		return $year.'-'.$month.'-'.$day.' '.$time.':00';
 	}
-	
 	function timeToDatePicker($in_date){
-		list($date,$time) = explode(' ',$in_date) ;
+		list($date,$time) = explode(' ',$in_date);
 		list($year,$month,$day) = explode('-',$date);
 		list($h,$m,$s)=explode(':',$time);
-		return $month.'/'.$day.'/'. $year.' '.$h.':'.$m ;
+		return $month.'/'.$day.'/'. $year.' '.$h.':'.$m;
 	}
-	
-// function for categories /////////////////////////////////////////////////
-// Develop by iQuickweb.com 28/06/2012
-///////////////////////////////////////////////////////////////////////////////////
-public function getCategoriesAll($search,$order,$limit){
-		$this->sql = "select * from $this->table where level >0  $search $order $limit";
-		$this->select() ;
-		return $this->rows ;
+	// function for categories /////////////////////////////////////////////////
+	// Develop by iQuickweb.com 28/06/2012
+	///////////////////////////////////////////////////////////////////////////////////
+	public function getCategoriesAll($search,$order,$limit){
+		$this->sql = "select * from $this->table where level > 0 $search $order $limit";
+		$this->select();
+		return $this->rows;
 	}
-	
 	public function getCategoriesTreeAll($where=NULL){
-		return  $this->get_tree($where) ;
+		return $this->get_tree($where);
 	}
-	
 	public function getCategoriesSize(){
-		$this->sql = "select $this->primary_key from $this->table where level >0 ";
-		return  $this->select('size') ;
+		$this->sql = "select $this->primary_key from $this->table where level > 0 ";
+		return $this->select('size');
 	}
-	
 	public function getCategory($id){
 		$this->sql = "select id, parent_id, name, slug, description, image, status from $this->table where $this->primary_key=$id ";
 		$this->select();
-		return  $this->rows[0] ;
+		return $this->rows[0];
 	}
-	
 	public function  insert_categories($parent_id,$name,$slug,$description,$image,$params,$user_id,$status){
-			if((int)$parent_id==0){
-				$parent_id = $this->check_root_node() ;
-			}
-			$this->sql = "insert into $this->table (parent_id,name,slug,description,image,params,user_id,status,mdate,cdate) " ;
-			$this->sql .="values ($parent_id,'$name','$slug','$description','$image','$params',$user_id,$status,NOW(),NOW())";
-			$this->insert() ;
-			$id = $this->insert_id();
-			$this->insert_node($parent_id,$id) ;
-			return $id ;
+		if((int)$parent_id==0){
+			$parent_id = $this->check_root_node();
+		}
+		$this->sql = "insert into $this->table (parent_id,name,slug,description,image,params,user_id,status,mdate,cdate) ";
+		$this->sql .="values ($parent_id,'$name','$slug','$description','$image','$params',$user_id,$status,NOW(),NOW()) ";
+		$this->insert();
+		$id = $this->insert_id();
+		$this->insert_node($parent_id,$id);
+		return $id;
 	}
-	
-	public function  update_categories($id,$parent_id,$name,$slug,$description,$image,$params, $user_id,$status){
+	public function update_categories($id,$parent_id,$name,$slug,$description,$image,$params, $user_id,$status){
 		if($parent_id==0){
-			$parent_id = $this->check_root_node() ;
+			$parent_id = $this->check_root_node();
 		}else{
 			if ($parent_id != $this->get_parent_id($id)){
 				$this->move_parent($id,$parent_id);
 			}
 		}
-		$this->sql = "update $this->table set parent_id=$parent_id, name='$name', slug='$slug', description='$description', image='$image',params='$params', user_id=$user_id,status=$status, mdate=NOW() where $this->primary_key=$id " ;
-		$this->update() ;
+		$this->sql = "update $this->table set parent_id=$parent_id, name='$name', slug='$slug', description='$description', image='$image',params='$params', user_id=$user_id,status=$status, mdate=NOW() where $this->primary_key=$id ";
+		$this->update();
 	}
-	
 	public function duplicate_categories($id,$user_id){
 		$this->sql = "select * from $this->table where $this->primary_key=$id " ;
 		$this->select();

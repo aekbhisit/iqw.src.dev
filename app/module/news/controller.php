@@ -1,7 +1,5 @@
 <?php
-if(empty($_SESSION)) {
-	session_start();
-}
+if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
 $params_category = array(
@@ -24,7 +22,7 @@ $params = array(
 );
 $oModule = new News($params);
 if(isset($_GET['task'])){
-	$task =$_GET['task'];
+	$task = $_GET['task'];
 	switch($task){
 		// categories task   
 		case 'getCategoriesData':

@@ -173,5 +173,42 @@ function _paginate($total_page,$page,$link,$active){
 	$total_page = ceil($count/$length);
 	return $total_page ;
 }
+function formatSizeUnits($bytes){
+	if ($bytes >= 1073741824)
+	{
+		$bytes = number_format($bytes / 1073741824, 2) . ' GB';
+	}
+	elseif ($bytes >= 1048576)
+	{
+		$bytes = number_format($bytes / 1048576, 2) . ' MB';
+	}
+	elseif ($bytes >= 1024)
+	{
+		$bytes = number_format($bytes / 1024, 2) . ' KB';
+	}
+	elseif ($bytes > 1)
+	{
+		$bytes = $bytes . ' bytes';
+	}
+	elseif ($bytes == 1)
+	{
+		$bytes = $bytes . ' byte';
+	}
+	else
+	{
+		$bytes = '0 bytes';
+	}
 
+	return $bytes;
+}
+function is_session_started () {
+    if ( php_sapi_name() !== 'cli' ) {
+        if ( version_compare(phpversion(), '5.4.0', '>=') ) {
+            return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+        } else {
+            return session_id() === '' ? FALSE : TRUE;
+        }
+    }
+    return FALSE;
+}
 ?>

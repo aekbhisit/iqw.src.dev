@@ -1,4 +1,5 @@
 <?php
+if ( is_session_started() === FALSE ) { session_start(); }
 if(isset($_GET['task'])){
 	$task = $_GET['task'] ;
 	switch($task){

@@ -1,33 +1,33 @@
 <?php
-session_start();
+if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 //$oMailer = new Mailer();
 //$oPDF = new PDF();
 /////// orders object ////////////////////////////////////////////
 $params = array(
-		'module'=>'orders',
- 		'table'=>'orders',
-		'parent_primary_key'=> 'id',
-		'site_language'=>SITE_LANGUAGE ,
-		'is_translate'=>false 
+	'module'=>'orders',
+ 	'table'=>'orders',
+	'parent_primary_key'=> 'id',
+	'site_language'=>SITE_LANGUAGE,
+	'is_translate'=>false
 );
 $oModule = new Orders('orders',$params );
 //////////////////////////////////////////////////////////////////////
 if(isset($_GET['task'])){
 	$task =$_GET['task'] ;
 	switch($task){
-///  pages-form.html
-			case 'formInit':
-				if($_GET['mode']=='edit'){
-						$id = addslashes($_GET['id']);
-						$data = $oModule->getOne($id);
-						$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
-						$data['meta_key']=htmlspecialchars_decode($data['meta_key'],ENT_QUOTES);
-						$data['meta_description']=htmlspecialchars_decode($data['meta_description'],ENT_QUOTES);
-						echo json_encode($data);
-					}
-				break ;
-			case 'getData':
+		//  pages-form.html
+		case 'formInit':
+			if($_GET['mode']=='edit'){
+				$id = addslashes($_GET['id']);
+				$data = $oModule->getOne($id);
+				$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
+				$data['meta_key']=htmlspecialchars_decode($data['meta_key'],ENT_QUOTES);
+				$data['meta_description']=htmlspecialchars_decode($data['meta_description'],ENT_QUOTES);
+				echo json_encode($data);
+			}
+		break ;
+		case 'getData':
 					$columns = array('id','buyer','items','grand_total','cdate','paymentStatus');
 					$limit = '';
 					$orderby ='' ;

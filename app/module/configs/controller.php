@@ -1,7 +1,5 @@
 <?php
-if(empty($_SESSION)) {
-	session_start();
-}
+if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 $oConfigsSite = new Configs('configs_site');
 $oConfigsEmail = new Configs('configs_email');

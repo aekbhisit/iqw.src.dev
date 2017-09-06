@@ -1,5 +1,5 @@
 <?php
-//session_start() ;
+if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 $oFacebook = new IQW_Facebook('configs_site');
 if(isset($_GET['task'])){

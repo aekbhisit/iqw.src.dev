@@ -92,61 +92,58 @@ class Users extends Database {
 	public function delete_category($id){
 		$this->sql = "select admin from $this->table where $this->table.$this->primary_key = $id ";
 		$this->select();
-		$chk_admin = $this->rows[0]['admin'] ;
+		$chk_admin = $this->rows[0]['admin'];
 		if(!$chk_admin){
 			$this->delete_node($id);
 		}else{
 			echo 'isAdmin';
 		}
 	}
-	
-// function for news  /////////////////////////////////////////////////
-// Develop by iQuickweb.com 28/06/2012
-//////////////////////////////////////////////////////////////////////////////
+	// function for news  /////////////////////////////////////////////////
+	// Develop by iQuickweb.com 28/06/2012
+	//////////////////////////////////////////////////////////////////////////////
 	public function password_encode($password){
-		//return md5($password.$this->security_code) ;
-			$key =$this->security_code ;
-			return base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $password, MCRYPT_MODE_CBC, md5(md5($key))));
+		$key = $this->security_code;
+		return base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_256, md5($key), $password, MCRYPT_MODE_CBC, md5(md5($key))));
 	}
 	public function password_decode($password){
-			$key =$this->security_code ;
-			return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($password), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
+		$key = $this->security_code;
+		return rtrim(mcrypt_decrypt(MCRYPT_RIJNDAEL_256, md5($key), base64_decode($password), MCRYPT_MODE_CBC, md5(md5($key))), "\0");
 	}
 	
 	public function password_match($password,$match){
-			$password =  $this->password_encode($password) ;
-			if($match===$hash){
-				return true ;
-			}else{
-				return false ;
-			}
+		$password =  $this->password_encode($password);
+		if($match===$hash){
+			return true;
+		}else{
+			return false;
+		}
 	} 
 	
 	public function setAdminLogin($username,$password){
-		$user=array() ;
+		$user=array();
 		$user_info = array();
-		$password_encode = $this->password_encode($password) ;
+		$password_encode = $this->password_encode($password);
 		$this->sql = "select * from $this->table where ($this->table.username='$username' or $this->table.email='$username' ) and $this->table.status=1 and $this->table.allow_backoffice=1 and $this->table.password='$password_encode' limit 0,1 ";
 		$this->select();
 		if(!empty($this->rows)){
-			$user['loginResult'] = 'login_match' ;
-			$user_info['id'] =  $this->rows[0]['id'] ;
-			$user_info['username'] =  $this->rows[0]['username'] ;
-			$user_info['password'] =  $this->rows[0]['password'] ;
-			$_SESSION['userLogin'] =  $user_info ;
-			$user['userLogin'] =   $user_info ;
+			$user['loginResult'] = 'login_match';
+			$user_info['id'] =  $this->rows[0]['id'];
+			$user_info['username'] = $this->rows[0]['username'];
+			$user_info['password'] = $this->rows[0]['password'];
+			$_SESSION['userLogin'] = $user_info;
+			$user['userLogin'] = $user_info;
 		}else{
-			$this->sql = "select * from $this->table where $this->table.username='$username' or $this->table.email='$username'  limit 0,1 ";
+			$this->sql = "select * from $this->table where $this->table.username = '$username' or $this->table.email = '$username' limit 0,1 ";
 			$this->select();
 			if(!empty($this->rows)){
-				$user['loginResult'] = 'password_notmatch' ;
+				$user['loginResult'] = 'password_notmatch';
 			}else{
-				$user['loginResult'] = 'username_notmatch' ;
+				$user['loginResult'] = 'username_notmatch';
 			}
 		}
-		echo json_encode($user) ;
+		echo json_encode($user);
 	}
-	
 	public function setLogin($username,$password,$facebook=false){
 		$user=array() ;
 		$user_info = array();
