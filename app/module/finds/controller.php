@@ -186,7 +186,7 @@ if(isset($_GET['task'])){
 			if($_GET['mode']=='edit'){
 				$id = addslashes($_GET['id']);
 				$data = $oModule->getOne($id);
-				$data['name'] = htmlspecialchars_decode($data['name'],ENT_QUOTES);
+				//$data['name'] = htmlspecialchars_decode($data['name'],ENT_QUOTES);
 				$data['find_key'] = json_decode($data['find_key']);
 				echo json_encode($data);
 			}

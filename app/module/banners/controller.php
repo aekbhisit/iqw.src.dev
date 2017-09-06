@@ -5,7 +5,7 @@ $oUsers = new Users('users');
 $params_category = array(
 	'module'=>'banners_categories',
  	'table'=>'banners_categories',
-	'table_translate'=>'banners_categories_translate',
+	'translate_table'=>'banners_categories_translate',
 	'site_language'=>SITE_LANGUAGE,
 	'is_translate'=>SITE_TRANSLATE
 );
@@ -14,9 +14,9 @@ $params = array(
 	'module'=>'banners',
  	'table'=>'banners',
 	'parent_table'=>'banners_categories',
-	'parent_table_translate'=> 'banners_categories_translate',
+	'parent_translate_table'=> 'banners_categories_translate',
 	'parent_primary_key'=>'id',
-	'table_translate'=>'banners_translate',
+	'translate_table'=>'banners_translate',
 	'site_language'=>SITE_LANGUAGE,
 	'is_translate'=>SITE_TRANSLATE
 );
@@ -24,7 +24,7 @@ $oModule = new Banners($params);
 if(isset($_GET['task'])){
 	$task =$_GET['task'];
 	switch($task){
-//  categories task   
+		//  categories task   
 		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';
@@ -156,25 +156,25 @@ if(isset($_GET['task'])){
 				$position =  $_GET['position'];
 				$oCategories->move($id,$position) ;
 			break;
-// translate
-			case 'categoryFormTranslateInit':
-					if($_GET['mode']=='translate'){
-						$id = addslashes($_GET['id']);
-						$lang = addslashes($_GET["language"]);
-						$data = $oCategories->getTranslateCategory($id,$lang);
-						echo json_encode($data);
-					}
-				break;
-			case 'saveCategoryTranslate':
+		// translate
+		case 'categoryFormTranslateInit':
+			if($_GET['mode']=='translate'){
+				$id = addslashes($_GET['id']);
+				$lang = addslashes($_GET["language"]);
+				$data = $oCategories->getTranslateCategory($id,$lang);
+				echo json_encode($data);
+			}
+		break;
+		case 'saveCategoryTranslate':
 				$categories_id = $_POST["categories_id"] ; 
 				$categories_lang = $_POST["categories_language"] ; 
 				$categories_name = $_POST["categories_name"];
 				$categories_description = $_POST["categories_description"];
 				$categories_images = $_POST["categories_server_images"] ;
 				$oCategories->saveCategoriesTranslate( $categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,'');
-			break;
-			///  pages-form.html
-			case 'formInit':
+		break;
+		// pages-form.html
+		case 'formInit':
 				if($_GET['mode']=='edit'){
 					$id = addslashes($_GET['id']);
 					$data = $oModule->getOne($id);

@@ -163,14 +163,11 @@ if(isset($_GET['task'])){
 			}
 			echo json_encode($output);
 		break;
-// 		    case "loadFindOneInit":
-// 						$id = addslashes($_GET['id']);
-// 						$data = $oModule->getOne($id);
-// 						$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
-// 						$data['meta_key']=htmlspecialchars_decode($data['meta_key'],ENT_QUOTES);
-// 						$data['meta_description']=htmlspecialchars_decode($data['meta_description'],ENT_QUOTES);
-// 						echo json_encode($data,true);
-// 				break;	
+		case "loadFindOneInit":
+			$data = $oModule->getOne();
+			$data['name'] = htmlspecialchars_decode($data['name'],ENT_QUOTES);
+			echo json_encode($data,true);
+		break;	
 // 				case 'loadFindCategoryInit':
 // 						$id = addslashes($_GET['id']);
 // 						$data = $oCategories->getCategory($id);
@@ -218,72 +215,70 @@ if(isset($_GET['task'])){
 // 				$oModule->changeCategory($id,$category_id);
 // 			break;	
 ////////////////task for frontend  ///////////
-				case "find" :
-					$language =   LANG ;// ($_SESSION['site_language'])?$_SESSION['site_language']:SITE_LANGUAGE;
-					$module = $_GET['module'];
-					$task = $_GET['task'];
-					$type  = $_GET['type'] ;
-					$key = $_GET['key'] ;
-					$slug =  (!empty($_GET['slug']))?$_GET['slug']:0 ;
-					$status =(!empty($_GET['status']))?$_GET['status']:1 ;
-					$search = (!empty($_GET['search']))?$_GET['search']:'';
-					$filter = (!empty($_GET['filter']))?$_GET['filter']:'';
-					$order = (!empty($_GET['order']))?$_GET['order']:'' ;
-					$separate = (!empty($_GET['separate']))?$_GET['separate']:0 ;
-					$pagenate =  (!empty($_GET['paginate']))?$_GET['paginate']:0 ;
-					$page =  (!empty($_GET['page']))?$_GET['page']:1 ;
-					$length =  (!empty($_GET['length']))?$_GET['length']:10 ;
-					$count =  (!empty($_GET['count']))?$_GET['count']:0 ;
-					$data_key =  (!empty($_GET['data_key']))?$_GET['data_key']:$module;
-					
-				
-					if(is_array($key)&&!empty($key)){
-						$keys = $key ;
-						foreach($keys as $key){
-							$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
-						 if($separate){
-									$listQueryData =$_DATA[$data_key] ;
-									$_DATA[$data_key] = NULL ;
-									foreach( $listQueryData as $kk=>$val){
-										$_DATA[$data_key][$val['slug']] = $val ;
-									}
-							}
-							if($count){
-									if(!empty($key)){
-										$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
-										$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
-										$_DATA['PAGE'][$data_key]  =$page ;
-									}else{
-										$_DATA['COUNT'][$data_key]= $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
-										$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
-										$_DATA['PAGE'][$data_key]  =$page ;
-									}
-							}
+		case "find" :
+			$language = LANG;// ($_SESSION['site_language'])?$_SESSION['site_language']:SITE_LANGUAGE;
+			$module = $_GET['module'];
+			$task = $_GET['task'];
+			$type = $_GET['type'];
+			$key = $_GET['key'];
+			$slug = (!empty($_GET['slug']))?$_GET['slug']:0;
+			$status =(!empty($_GET['status']))?$_GET['status']:1;
+			$search = (!empty($_GET['search']))?$_GET['search']:'';
+			$filter = (!empty($_GET['filter']))?$_GET['filter']:'';
+			$order = (!empty($_GET['order']))?$_GET['order']:'';
+			$separate = (!empty($_GET['separate']))?$_GET['separate']:0;
+			$pagenate = (!empty($_GET['paginate']))?$_GET['paginate']:0;
+			$page = (!empty($_GET['page']))?$_GET['page']:1;
+			$length = (!empty($_GET['length']))?$_GET['length']:10;
+			$count = (!empty($_GET['count']))?$_GET['count']:0;
+			$data_key = (!empty($_GET['data_key']))?$_GET['data_key']:$module;
+			if(is_array($key)&&!empty($key)){
+				$keys = $key;
+				foreach($keys as $key){
+					$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
+					if($separate){
+						$listQueryData =$_DATA[$data_key];
+						$_DATA[$data_key] = NULL;
+						foreach( $listQueryData as $kk=>$val){
+							$_DATA[$data_key][$val['slug']] = $val;
 						}
-					}else{
-						$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
-						if($count){
-							if(!empty($key)){
-								$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
-								$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
-								$_DATA['PAGE'][$data_key]  =$page ;
-							}else{
-								$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
-								$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
-								$_DATA['PAGE'][$data_key]  =$page ;
-							}
-						}
-						if($separate){
-									$listQueryData = $_DATA[$data_key] ;
-									 $_DATA[$data_key] = NULL ;
-									 if(!empty($listQueryData)){
-										foreach( $listQueryData as $kk=>$val){
-											$_DATA[$data_key][$val['slug']] = $val ;
-										}
-									}
-							}
 					}
-				break ;
+					if($count){
+						if(!empty($key)){
+							$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+							$_DATA['TOTALPAGE'][$data_key] = ceil((int)$_DATA['COUNT'][$data_key]/$length);
+							$_DATA['PAGE'][$data_key] = $page;
+						}else{
+							$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+							$_DATA['TOTALPAGE'][$data_key] = ceil((int)$_DATA['COUNT'][$data_key]/$length);
+							$_DATA['PAGE'][$data_key] = $page;
+						}
+					}
+				}
+			}else{
+				$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
+				if($count){
+					if(!empty($key)){
+						$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+						$_DATA['TOTALPAGE'][$data_key] = ceil((int)$_DATA['COUNT'][$data_key]/$length);
+						$_DATA['PAGE'][$data_key] = $page;
+					}else{
+						$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+						$_DATA['TOTALPAGE'][$data_key] = ceil((int)$_DATA['COUNT'][$data_key]/$length);
+						$_DATA['PAGE'][$data_key] = $page;
+					}
+				}
+				if($separate){
+					$listQueryData = $_DATA[$data_key];
+					$_DATA[$data_key] = NULL;
+					if(!empty($listQueryData)){
+						foreach( $listQueryData as $kk=>$val){
+							$_DATA[$data_key][$val['slug']] = $val;
+						}
+					}
+				}
+			}
+		break;
 	}// switch
 }// if isset
 ?>

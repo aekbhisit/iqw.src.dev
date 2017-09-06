@@ -144,54 +144,12 @@ class Addon extends Database {
 		}
 	}
 
-function front_getInCategory($categories,$search,$orderby,$limit){
+	function front_getInCategory($categories,$search,$orderby,$limit){
 		foreach($categories as $category){
 			$new_search = $search.' and category_id = $category_id ';
-			$pages[$category['id']] =$this->getPagesAll($new_search,$order,$limit) ;
+			$pages[$category['id']] =$this->getPagesAll($new_search,$order,$limit);
 		}
-		return $pages ;
-	}
-
-//////////////  order function  /////////////////////////////
-
-	function reOrderDataDragDrop($ids,$sort){
-		$min = min($sort);
-		foreach($ids as $id){
-			if($id!='start'){
-				$this->sql="update $this->table set sequence=$min where $this->primary_key=$id ";
-				$this->update();
-				$min++;
-			}
-		}
-	}
-	
-	function switchOrder($id,$sort){
-		$this->sql = "select sequence from $this->table where  $this->primary_key=$id ";
-		$this->select();
-		$old_sequence = $this->rows[0]['sequence'] ;
-		if($sort>$old_sequence){ // move up
-			$this->sql="update $this->table set sequence=sequence-1 where sequence <= $sort and sequence > $old_sequence ";
-			$this->update();
-			$this->sql="update $this->table set sequence=$sort where $this->primary_key=$id ";
-			$this->update();
-		}else{ // move down
-			$this->sql="update $this->table set sequence=sequence+1 where sequence >= $sort and sequence < $old_sequence ";
-			$this->update();
-			$this->sql="update $this->table set sequence=$sort where $this->primary_key=$id ";
-			$this->update();
-		}
-	}
-	
-	function setReorderAll($column,$direction){
-			$this->sql = " UPDATE   $this->table
-											JOIN     (SELECT    p.$this->primary_key,
-																@curRank := @curRank + 1 AS rank
-													  FROM   $this->table p
-													  JOIN      (SELECT @curRank := 0) r 
-													  ORDER BY  p.$column $direction
-													 ) ranks ON (ranks.$this->primary_key = $this->table.$this->primary_key)
-											SET    $this->table.sequence = ranks.rank " ;
-		$this->update();
+		return $pages;
 	}
 	function  changeCategory($id,$category_id){
 		$this->sql = "update $this->table set category_id=$category_id where $this->primary_key=$id  ";
@@ -201,17 +159,15 @@ function front_getInCategory($categories,$search,$orderby,$limit){
 // Develop by iQuickweb.com 13/08/2012
 ///////////////////////////////////////////////////////////////////////////////////
 function find($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search=NULL,$filter='',$order=NULL,$sort=NULL,$separate=false,$pagenate=false,$page=NULL,$length=10,$oParent=NULL){
-			/* type
-					1. one = fine one item by id
-					3. all  =  fine all item and category
-					4. category_all = fine  category_id
-					6. category_one = find item in category 
-					7. in_category = fine all and relation incateogry
-			*/
-			return $this->_find($type,$key,$slug,$status,$language,$search,$filter,$order,$sort,$separate,$pagenate,$page,$length,$oParent) ; 
-		
+		/* type
+			1. one = fine one item by id
+			3. all  =  fine all item and category
+			4. category_all = fine  category_id
+			6. category_one = find item in category 
+			7. in_category = fine all and relation incateogry
+		*/
+		return $this->_find($type,$key,$slug,$status,$language,$search,$filter,$order,$sort,$separate,$pagenate,$page,$length,$oParent); 
 	}
-	
 	function findcount($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search=NULL,$filter='',$oParent=NULL){
 		 return  $this->_findcount($type,$key,$slug,$status,$language,$search,$filter,$oParent); 
 	}

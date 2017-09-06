@@ -5,7 +5,10 @@ $oUsers = new Users('users');
 $params_category = array(
 	'module'=>'galleries_categories',
  	'table'=>'galleries_categories',
-	'table_translate'=>'galleries_categories_translate',
+	'translate_table'=>'galleries_categories_translate',
+	'parent_table'=>'galleries',
+	'parent_translate_table'=>'galleries_translate',
+	'parent_primary_key'=>'id',
 	'site_language'=>SITE_LANGUAGE,
 	'is_translate'=>SITE_TRANSLATE
 );
@@ -14,9 +17,9 @@ $params = array(
 	'module'=>'galleries',
  	'table'=>'galleries',
 	'parent_table'=> 'galleries_categories',
-	'parent_table_translate'=> 'galleries_categories_translate',
+	'parent_translate_table'=> 'galleries_categories_translate',
 	'parent_primary_key'=> 'id',
-	'table_translate'=>'galleries_translate',
+	'translate_table'=>'galleries_translate',
 	'site_language'=>SITE_LANGUAGE,
 	'is_translate'=>SITE_TRANSLATE
 );
