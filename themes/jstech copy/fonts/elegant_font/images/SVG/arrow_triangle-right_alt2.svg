@@ -1,0 +1,22 @@
+pe" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="SysLink" type="TextAndPlacementType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  
+  <xs:element name="MaintenanceModePage">
+    <xs:annotation>
+      <xs:documentation>Window Defaults</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Uninstall" type ="MaintenanceModePageOperationsType" minOccurs="1" maxOccurs="1" />
+        <xs:element name="UninstallPatch" type ="MaintenanceModePageOperationsType" minOccurs="1" maxOccurs="1" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:complexType name="MaintenanceModePageOperationsType">
+    <xs:sequence>
+      <!-- Add elements for radio buttons -->
+      <xs:element name="Titl

@@ -1,0 +1,20 @@
+rs="0" maxOccurs="1"/>
+        <xs:group ref="StaticAndSysLink" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="HideType">
+    <xs:attribute name="Unused" type="xs:string" use="optional" >
+      <xs:annotation>
+        <xs:documentation>Unused</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  
+  <xs:complexType name="TextAndOptionalPlacementType">
+    <xs:sequence>
+      <xs:element name="Text" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+      <xs:group ref="PlacementGroup" minOccurs="0" maxOccurs="1" />
+ 

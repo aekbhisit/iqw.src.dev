@@ -1,0 +1,16 @@
+  <xs:element name="IDS_INSTALL_WARNING_DESCRIPTION_FORMAT" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="IDS_INSTALLATION_BLOCKERS" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="IDS_PRE_INSTALLATION_WARNINGS" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="IDS_CLOSE" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="IDS_CONTINUE" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+
+        <!-- Reboot dialog -->
+        <xs:element name="IDS_REBOOT_REQUIRED" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="IDS_RESTART_LATER" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="IDS_RESTART_NOW" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+
+        <!-- Uninstall dialog -->
+        <xs:element name="IDS_UNINSTALL_QUERY" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+
+        <!-- MSI busy dialog -->
+        <xs:element name="IDS_IS_MSI_BUSY" type="

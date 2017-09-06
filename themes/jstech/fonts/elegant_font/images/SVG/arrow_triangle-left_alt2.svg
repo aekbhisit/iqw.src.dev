@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+            xmlns="http://schemas.microsoft.com/SetupUI/2008/01/imui"
+            xmlns:imui="http://schemas.microsoft.com/SetupUI/2008/01/imui"
+            targetNamespace="http://schemas.microsoft.com/SetupUI/2008/01/imui"
+  elementFormDefault="qualified"
+attributeFormDefault="unqualified"
+>
+
+  <xs:annotation>
+    <xs:documentation>
+      Copyright (c) Microsoft Corporation.  All rights reserved.
+      Schema for describing DevDiv "Setup UI Info"
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:element name="SetupUI">
+    <xs:annotation>
+      <xs:documentation>specifies UI dll, and lists of MSIs MSPs and EXEs</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:sequence>
+       

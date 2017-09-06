@@ -1,0 +1,22 @@
+s:sequence>
+      <xs:element name="SQMPermissionCheckbox" type="TextAndOptionalPlacementType" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="SysLink" type="TextAndPlacementType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:element name="File">
+    <xs:annotation>
+      <xs:documentation>File</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="FileNameOnlyType">
+          <xs:attribute name="Type" type="FileType" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="ProgressPage">
+    <xs:annotation>
+      <xs:documentation>Window Defaul

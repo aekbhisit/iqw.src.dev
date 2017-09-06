@@ -1,0 +1,28 @@
+impleType>
+  
+  
+  <xs:simpleType name="ResultType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="Success" />
+      <xs:enumeration value="Failure" />
+      <xs:enumeration value="NothingApplies" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  
+  <xs:simpleType name="TrueOrFalseType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="([Tt][Rr][Uu][Ee]|[Ff][aA][Ll][Ss][Ee])"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="FontSizeType">
+    <xs:restriction base="xs:unsignedInt">
+      <xs:minInclusive value="8" />
+      <xs:maxInclusive value="40" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="LocIDType">
+    <xs:restriction base="xs:string">
+ 

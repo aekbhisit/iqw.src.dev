@@ -1,0 +1,290 @@
+@charset "UTF-8";
+/*
+ * Dandelion Admin v1.0 - Customizer Stylesheet
+ *
+ * This file is part of Dandelion Admin, an Admin template build for sale at ThemeForest.
+ * For questions, suggestions or support request, please mail me at maimairel@yahoo.com
+ *
+ * Development Started:
+ * March 25, 2012
+ *
+ * ===============================================
+ * Table of Contents
+ * ===============================================
+ *
+ * 1. Customizer
+ * 2. Customizer Content
+ * 3. Customizer Pulldown
+ *
+ */
+
+/* (1) Customizer
+================================================== */
+
+#da-customizer
+{
+	z-index:300;
+	position:fixed;
+	top:0;
+	left:50%;
+	margin-left:-91px;
+}
+
+/* (2) Customizer Content
+================================================== */
+
+#da-customizer #da-customizer-content
+{
+	background:#ffffff;
+	padding:8px 16px;
+	width:150px;
+	height:0;
+	padding-top:0;
+	overflow:hidden;
+	
+	border-color: #999;
+	border-color: rgba(0, 0, 0, .2);
+	border-style: solid;
+	border-width: 1px;
+	border-top-width:0;
+	
+	-webkit-border-radius:0 0 4px 4px;
+	-moz-border-radius:0 0 4px 4px;
+	-o-border-radius:0 0 4px 4px;
+	border-radius:0 0 4px 4px;
+	
+	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+	-o-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+	box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+#da-customizer #da-customizer-content ul, 
+#da-customizer #da-customizer-content ul li
+{
+	margin:0;
+	list-style:none;
+}
+
+#da-customizer #da-customizer-content ul
+{
+	margin-bottom:5px;
+}
+
+#da-customizer #da-customizer-content ul li
+{
+	padding:4px;
+}
+
+#da-customizer #da-customizer-content ul li span.da-customizer-title
+{
+	display:block;
+	margin-bottom:4px;
+}
+
+#da-customizer #da-customizer-content ul li select
+{
+	background-color:#fcfcfc;
+	border:1px solid #d1d1d1;
+	padding:4px; margin:0;
+	outline:none;
+	width:100%;
+
+	-webkit-border-radius:2px;
+	-o-border-radius:2px;
+	-moz-border-radius:2px;
+	border-radius:2px;
+	
+	-webkit-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+}
+
+#da-customizer ul#da-customizer-layouts
+{
+	list-style:none;
+	margin:0;
+}
+
+#da-customizer ul#da-customizer-layouts li
+{
+	float:left;
+	padding:0;
+	padding-right:8px;
+}
+
+#da-customizer ul#da-customizer-layouts li label, 
+#da-customizer ul#da-customizer-layouts li input
+{
+	display:inline;
+	margin:0;
+	padding:0;
+	width:auto;
+	margin-left:2px;
+	vertical-align:middle;
+}
+
+#da-customizer span.da-customizer-tooltip
+{
+	font-size:0.9em;
+	display:inline-block;
+	line-height:1;
+	cursor:pointer;
+}
+
+#da-customizer #da-customizer-button
+{
+	padding-bottom:5px;
+}
+
+#da-customizer #da-customizer-button button
+{
+	width:100%;
+}
+
+#da-customizer-dialog textarea
+{
+	background-color:#fcfcfc;
+	border:none;
+	padding:6px;
+	outline:none;
+	width:100%;
+	margin:0;
+	color:#444444;
+	font-size:1em;
+	height:200px;
+	resize:none;
+	font-family:"Courier New", Courier, monospace;
+	
+	-webkit-box-sizing:border-box;
+	-o-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	
+	-webkit-box-shadow:0 1px 0 rgba(255, 255, 255, 1), inset 0 1px 1px rgba(0, 0, 0, 0.04);
+	-moz-box-shadow:0 1px 0 rgba(255, 255, 255, 1), inset 0 1px 1px rgba(0, 0, 0, 0.04);
+	-o-box-shadow:0 1px 0 rgba(255, 255, 255, 1), inset 0 1px 1px rgba(0, 0, 0, 0.04);
+	box-shadow:0 1px 0 rgba(255, 255, 255, 1), inset 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+
+/* (3) Customizer Pulldown
+================================================== */
+
+#da-customizer #da-customizer-pulldown
+{
+	display:block;
+	margin-left:71px;
+	width:40px; height:40px;
+	cursor:pointer;
+	margin-top:-1px;
+	background:url(../../images/icons/black/32/cog_5.png) no-repeat center center #ffffff;
+	
+	border-color: #999;
+	border-color: rgba(0, 0, 0, .2);
+	border-style: solid;
+	border-width: 1px;
+	border-top-width:0;
+	
+	-webkit-border-radius:0 0 4px 4px;
+	-moz-border-radius:0 0 4px 4px;
+	-o-border-radius:0 0 4px 4px;
+	border-radius:0 0 4px 4px;
+	
+	-webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+	-o-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+	box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.elfinder-browse{
+	background-image:url(../../images/icons/color/browse.png);
+	background-repeat:no-repeat;
+	background-position:center right ;
+}
+
+.modal {
+    display:    none;
+    position:   fixed;
+    z-index:    9000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .3 ) ;
+	background-image:url(../../images/loading.gif);
+	background-position:   50% 50%  ;
+	background-repeat:  no-repeat;
+}
+
+.modal_show {
+    position:   fixed;
+    z-index:    9000;
+    top:        0;
+    left:       0;
+    height:     100%;  
+    width:      100%;
+    background: rgba( 255, 255, 255, .3 ) ;
+	background-image:url(../../images/loading.gif); 
+	background-position:   50% 50%  ;
+	background-repeat:  no-repeat;
+}
+
+body.loading {
+    overflow: hidden;   
+}
+body.loading .modal {
+    display: block;
+}​
+
+.dataTables_processing{
+	text-align:center ;
+}
+/*
+.chzn-container-multi{
+	width:100% !important ;
+}
+.chzn-container-single, .chzn-drop, .chzn-search input{
+	width:300px !important ;
+}
+.chzn-drop{
+	width:298px !important ;
+}
+.chzn-search input{
+	width:290px !important ;
+}*/
+div.da-panel .da-panel-content.with-padding, div.da-panel-widget{
+	padding:0px;
+}
+#my-map img{
+	max-width:none !important;
+}
+.elrte-image-src-fm .ui-state-default {
+	margin-right:20px;
+}
+
+div#da-header #da-header-top #da-header-toolbar #da-header-button-container ul li.preview.da-header-button > a {
+background-image: url(../../images/icons/white/16/computer_imac.png);
+}
+
+#finder{
+	position:fixed;
+}
+
+/*sort able*/
+.ui-state-highlight{
+	display: inline-table;
+	height:60px;
+}
+.sortcontainer {
+		clear: right;
+		height: auto;
+		overflow-x: auto;
+		overflow-y: auto;
+		position: relative;
+		width: auto;
+}
+
+.ui-dialog{
+	min-width:80% !important;
+}

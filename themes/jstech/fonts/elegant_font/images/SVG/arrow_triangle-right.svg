@@ -1,0 +1,14 @@
+pe="BitmapFileNameOnlyType" minOccurs="1" maxOccurs="1"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:element name ="Caption">
+    <xs:complexType>
+      <xs:choice>
+        <xs:sequence>
+          <xs:element name="Default"      type="LocIDType" minOccurs="1" maxOccurs="1" />
+          <xs:element name="Install"      type="LocIDType" minOccurs="0" maxOccurs="1" />
+          <xs:element name="Repair"       type="LocIDType" minOccurs="0" maxOccurs="1" />
+          <xs:element name="Uninstall"    type="LocIDType" minOccurs="0" maxOccurs="1" />
+          <xs:element name="CreateLayout" type="LocIDType" minO

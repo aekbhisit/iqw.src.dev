@@ -1,0 +1,20 @@
+/*------------------------------------------------------------------
+[Master Stylesheet]
+
+Project:	GoCargo
+Version:	1.0
+-------------------------------------------------------------------*/
+
+@import url("bootstrap.css"); /* css by bootstrap */
+@import url("import-font.css"); /* used to load font from external source like Google font */
+@import url("../fonts/font-awesome/css/font-awesome.css"); /* used to load font awesome icons */
+@import url("../fonts/et-line-font/style.css"); /* css from font awesome used to load font awesome icons */
+@import url("../rs-plugin/css/settings.css"); /* css file for Revolution Slider plugin */
+@import url("owl.carousel.css"); /* css for jQuery plugin "Owl Carousel" */
+@import url("owl.theme.css"); /* css for jQuery plugin "Owl Carousel" */
+@import url("animate.css"); /* css for animating template elements */
+@import url("magnific-popup.css"); /* css for jQuery plugin "Magnific Popup" */
+@import url("let-it-snow.css"); /* css for snow effects */
+@import url("style.css"); /* main css for this template, if you want to adjust template design you can edit this file */
+@import url("rev-settings.css"); /* custom css file for Revolution Slider plugin, you can modify slider typography from this file */
+@import url("custom.css");

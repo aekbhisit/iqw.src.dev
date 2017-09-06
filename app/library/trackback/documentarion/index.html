@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<title>PHP Trackback // Documentation</title>
+
+<link rel="stylesheet" href="styles/interface.css"/>
+<script language="javascript" type="text/javascript" src="tools/ua.js"></script>
+<script language="javascript" type="text/javascript" src="tools/VisibilitySwitch.js"></script>
+<script language="javascript" type="text/javascript"><!--
+function showAll(){
+    showNode('Trackback-blog_name');
+    showNode('Trackback-author');	
+    showNode('Trackback-encoding');
+    showNode('Trackback-get_id');
+    showNode('Trackback-post_id');
+    showNode('Trackback-url');
+    showNode('Trackback-title');
+    showNode('Trackback-expert');
+    showNode('Trackback-Trackback');
+    showNode('Trackback-ping');
+    showNode('Trackback-recieve');
+    showNode('Trackback-fetch');
+    showNode('Trackback-rdf_autodiscover');
+    showNode('Trackback-auto_discovery');
+    showNode('Trackback-RFC822_from_datetime');
+    showNode('Trackback-xml_safe');
+    showNode('Trackback-cut_short');
+}
+function hideAll(){
+    hideNode('Trackback-blog_name');
+    hideNode('Trackback-author');
+    hideNode('Trackback-encoding');
+    hideNode('Trackback-get_id');
+    hideNode('Trackback-post_id');
+    hideNode('Trackback-url');
+    hideNode('Trackback-title');
+    hideNode('Trackback-expert');
+    hideNode('Trackback-Trackback');
+    hideNode('Trackback-ping');
+    hideNode('Trackback-recieve');
+    hideNode('Trackback-fetch');
+    hideNode('Trackback-rdf_autodiscover');
+    hideNode('Trackback-auto_discovery');
+    hideNode('Trackback-RFC822_from_datetime');
+    hideNode('Trackback-xml_safe');
+    hideNode('Trackback-cut_short');
+}
+//--></script>
+</head>
+<body onLoad="javascript:hideAll();">
+
+<a name="Top"></a>
+
+<p><b><a href="/">Homepage</a> | <a href="/docs">Documentation</a> | <a href="http://sourceforge.net/projects/phptrackback/">Download</a></b></p>
+<hr size="1" /><br />
+
+<h2>PHP Trackback</h2>
+
+[ <a href="javascript:showAll()">Expand All</a> &nbsp;|&nbsp; 
+ <a href="javascript:hideAll()">Collapse All</a> &nbsp;|&nbsp; 
+ <a href="#Properties">Properties (8)</a> &nbsp;|&nbsp; 
+ <a href="#Methods">Methods (9)</a> ] 
+
+<h3><br />trackback_cls.php</h3>
+<blockquote>
+<div class="separator">
+<a name="Properties"></a><strong>Properties</strong> implemented by Trackback</div>
+<a name="m_author"/><div><a href="javascript:toggleNodeVisibility('Trackback-author');" class="property"><img id="imgTrackback-author" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/propertyPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-author');" class="property"><strong class="property">author</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-author"><p> Default author name used throughout the class (ie. Ran Aroussi)</p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+
+		<a href="#Top">Top</a></div></div></div><a name="m_blog_name"/><div><a href="javascript:toggleNodeVisibility('Trackback-blog_name');" class="property"><img id="imgTrackback-blog_name" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/propertyPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-blog_name');" class="property"><strong class="property">blog_name</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-blog_name"><p> Default blog name used throughout the class (ie. BLOGish)</p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_encoding"/><div><a href="javascript:toggleNodeVisibility('Trackback-encoding');" class="property"><img id="imgTrackback-encoding" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/propertyPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-encoding');" class="property"><strong class="property">encoding</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-encoding"><p> Default encoding used throughout the class (ie. UTF-8)</p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_expert"/><div><a href="javascript:toggleNodeVisibility('Trackback-expert');" class="property"><img id="imgTrackback-expert" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/propertyPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-expert');" class="property"><strong class="property">expert</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-expert"><p> Retreives and holds $_POST['expert'] (if not empty)</p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_get_id"/><div><a href="javascript:toggleNodeVisibility('Trackback-get_id');" class="property"><img id="imgTrackback-get_id" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/propertyPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-get_id');" class="property"><strong class="property">get_id</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-get_id"><p> Retreives and holds $_GET['id'] (if not empty)</p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_post_id"/><div><a href="javascript:toggleNodeVisibility('Trackback-post_id');" class="property"><img id="imgTrackback-post_id" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/propertyPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-post_id');" class="property"><strong class="property">post_id</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-post_id"><p> Retreives and holds $_POST['id'] (if not empty)</p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_title"/><div><a href="javascript:toggleNodeVisibility('Trackback-title');" class="property"><img id="imgTrackback-title" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/propertyPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-title');" class="property"><strong class="property">title</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-title"><p> Retreives and holds $_POST['title'] (if not empty)</p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_url"/><div><a href="javascript:toggleNodeVisibility('Trackback-url');" class="property"><img id="imgTrackback-url" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/propertyPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-url');" class="property"><strong class="property">url</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-url"><p> Retreives and holds $_POST['url'] (if not empty)</p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><p>&nbsp;</p><div class="separator"><a name="Methods"></a><strong>Methods</strong> implemented by Trackback</div><a name="m_auto_discovery"/><div><a href="javascript:toggleNodeVisibility('Trackback-auto_discovery');" class="method"><img id="imgTrackback-auto_discovery" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/methodPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-auto_discovery');" class="method"><strong class="method">auto_discovery</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-auto_discovery"><p><table border="0" cellspacing="1" cellpadding="3"><tr><th class="btHead" align="center">PHP</th><td class="btCell">array <strong>auto_discovery</strong>(string
+				 <strong>$text</strong>)
+		</td></tr></table></p><p><p>Search text for links, and searches links for trackback URLs.</p><pre class="code">&lt;?php
+include('trackback_cls.php');
+$trackback = new Trackback('BLOGish', 'Ran Aroussi', 'UTF-8');
+if ($tb_array = $trackback-&gt;auto_discovery(string TEXT)) {
+	// Found trackbacks in TEXT. Looping...
+	foreach($tb_array as $tb_key =&gt; $tb_url) {
+	// Attempt to ping each one...
+		if ($trackback-&gt;ping($tb_url, string URL, [string TITLE], [string EXPERT])) {
+			// Successful ping...
+			echo "Trackback sent to &lt;i&gt;$tb_url&lt;/i&gt;...\n";
+		} else {
+			// Error pinging...
+			echo "Trackback to &lt;i&gt;$tb_url&lt;/i&gt; failed....\n";
+		}
+	}
+} else {
+	// No trackbacks in TEXT...
+	echo "No trackbacks were auto-discover...\n"
+}
+?&gt;</pre><p></p></p><p><strong>Arguments</strong><ul><li><span class="li"><strong>$text</strong> <p><p></p></p></span></li></ul></p><p><strong>Return</strong></p><p>Trackback URLs.</p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_cut_short"/><div><a href="javascript:toggleNodeVisibility('Trackback-cut_short');" class="method"><img id="imgTrackback-cut_short" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/methodPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-cut_short');" class="method"><strong class="method">cut_short</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-cut_short"><p><table border="0" cellspacing="1" cellpadding="3"><tr><th class="btHead" align="center">PHP</th><td class="btCell">string <strong>cut_short</strong>(string
+				 <strong>$string</strong>, integer
+				 <strong>$max_length</strong>)
+		</td></tr></table></p><p><p>Cuts a string short (with "...") accroding to $max_length...</p></p><p><strong>Arguments</strong><ul><li><span class="li"><strong>$string</strong> <p><p></p></p></span></li><li><span class="li"><strong>$max_length</strong> [optional, default value = 255]<p><p></p></p></span></li></ul></p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_fetch"/><div><a href="javascript:toggleNodeVisibility('Trackback-fetch');" class="method"><img id="imgTrackback-fetch" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/methodPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-fetch');" class="method"><strong class="method">fetch</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-fetch"><p><table border="0" cellspacing="1" cellpadding="3"><tr><th class="btHead" align="center">PHP</th><td class="btCell">string <strong>fetch</strong>(boolean
+				 <strong>$success</strong>, string
+				 <strong>$response</strong>)
+		</td></tr></table></p><p><p>Feteched trackback information and produces an RSS-0.91 feed.</p><pre class="code">&lt;?php
+// 1
+header('Content-Type: text/xml'); // MUST be the 1st line
+// 2
+include('trackback_cls.php');
+$trackback = new Trackback('BLOGish', 'Ran Aroussi', 'UTF-8');
+// 3
+$tb_id = $trackback-&gt;get_id;
+// 4
+Do whatever to get trackback information by ID (search db, etc...)
+if (GOT_TRACKBACK_INFO) {
+	// Successful - pass trackback info as array()...
+	$tb_info = array('title' =&gt; string TRACKBACK_TITLE, 
+			'expert'	=&gt; string TRACKBACK_EXPERT,
+			'permalink' =&gt; string PERMALINK_URL,
+			'trackback' =&gt; string TRACKBACK_URL
+		);
+	echo $trackback-&gt;fetch(true, $tb_info);
+} else {
+	// Something went wrong - tell my why...
+	echo $trackback-&gt;fetch(false, string RESPONSE);
+}
+?&gt;</pre><p></p></p><p><strong>Arguments</strong><ul><li><span class="li"><strong>$success</strong> [optional, default value = false]<p><p></p></p></span></li><li><span class="li"><strong>$response</strong> [optional, default value = ""]<p><p></p></p></span></li></ul></p><p><strong>Return</strong></p><p>XML response to the caller</p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_ping"/><div><a href="javascript:toggleNodeVisibility('Trackback-ping');" class="method"><img id="imgTrackback-ping" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/methodPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-ping');" class="method"><strong class="method">ping</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-ping"><p><table border="0" cellspacing="1" cellpadding="3"><tr><th class="btHead" align="center">PHP</th><td class="btCell">boolean <strong>ping</strong>(string
+				 <strong>$tb</strong>, string
+				 <strong>$url</strong>, string
+				 <strong>$title</strong>, string
+				 <strong>$excerpt</strong>)
+		</td></tr></table></p><p><p>Sends a trackback ping to a specified trackback URL.   
+          allowing clients to auto-discover the TrackBack Ping URL. </p><pre class="code">&lt;?php
+include('trackback_cls.php');
+$trackback = new Trackback('BLOGish', 'Ran Aroussi', 'UTF-8');
+if ($trackback-&gt;ping('http://tracked-blog.com', 'http://your-url.com', 'Your entry title')) {
+	echo "Trackback sent successfully...";
+} else {
+	echo "Error sending trackback....";
+}
+?&gt;</pre><p></p></p><p><strong>Arguments</strong><ul><li><span class="li"><strong>$tb</strong> <p><p></p></p></span></li><li><span class="li"><strong>$url</strong> <p><p></p></p></span></li><li><span class="li"><strong>$title</strong> [optional, default value = ""]<p><p></p></p></span></li><li><span class="li"><strong>$excerpt</strong> [optional, default value = ""]<p><p></p></p></span></li></ul></p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_rdf_autodiscover"/><div><a href="javascript:toggleNodeVisibility('Trackback-rdf_autodiscover');" class="method"><img id="imgTrackback-rdf_autodiscover" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/methodPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-rdf_autodiscover');" class="method"><strong class="method">rdf_autodiscover</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-rdf_autodiscover"><p><table border="0" cellspacing="1" cellpadding="3"><tr><th class="btHead" align="center">PHP</th><td class="btCell">string <strong>rdf_autodiscover</strong>(string
+				 <strong>$RFC822_date</strong>, string
+				 <strong>$title</strong>, string
+				 <strong>$expert</strong>, string
+				 <strong>$permalink</strong>, string
+				 <strong>$trackback</strong>, string
+				 <strong>$author</strong>)
+		</td></tr></table></p><p><p>Produces embedded RDF representing metadata about the entry,   
+          allowing clients to auto-discover the TrackBack Ping URL.</p><p>NOTE: DATE should be string in RFC822 Format - Use RFC822_from_datetime().</p><pre class="code">&lt;?php
+include('trackback_cls.php');
+$trackback = new Trackback('BLOGish', 'Ran Aroussi', 'UTF-8');
+echo $trackback-&gt;rdf_autodiscover(string DATE, string TITLE, string EXPERT, string PERMALINK, string TRACKBACK [, string AUTHOR]);
+?&gt;</pre><p></p></p><p><strong>Arguments</strong><ul><li><span class="li"><strong>$RFC822_date</strong> <p><p></p></p></span></li><li><span class="li"><strong>$title</strong> <p><p></p></p></span></li><li><span class="li"><strong>$expert</strong> <p><p></p></p></span></li><li><span class="li"><strong>$permalink</strong> <p><p></p></p></span></li><li><span class="li"><strong>$trackback</strong> <p><p></p></p></span></li><li><span class="li"><strong>$author</strong> [optional, default value = ""]<p><p></p></p></span></li></ul></p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_recieve"/><div><a href="javascript:toggleNodeVisibility('Trackback-recieve');" class="method"><img id="imgTrackback-recieve" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/methodPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-recieve');" class="method"><strong class="method">recieve</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-recieve"><p><table border="0" cellspacing="1" cellpadding="3"><tr><th class="btHead" align="center">PHP</th><td class="btCell">boolean <strong>recieve</strong>(boolean
+				 <strong>$success</strong>, string
+				 <strong>$err_response</strong>)
+		</td></tr></table></p><p><p>Produces XML response for trackbackers with ok/error message.</p><pre class="code">&lt;?php
+// Set page header to XML
+header('Content-Type: text/xml'); // MUST be the 1st line
+//
+// Instantiate the class
+//
+include('trackback_cls.php');
+$trackback = new Trackback('BLOGish', 'Ran Aroussi', 'UTF-8');
+//
+// Get trackback information
+//
+$tb_id = $trackback-&gt;post_id; // The id of the item being trackbacked
+$tb_url = $trackback-&gt;url; // The URL from which we got the trackback
+$tb_title = $trackback-&gt;title; // Subject/title send by trackback
+$tb_expert = $trackback-&gt;expert; // Short text send by trackback
+//  
+// Do whatever to log the trackback (save in DB, flatfile, etc...)
+//
+if (TRACKBACK_LOGGED_SUCCESSFULLY) {
+	// Logged successfully...
+	echo $trackback-&gt;recieve(true);
+} else {
+	// Something went wrong...
+	echo $trackback-&gt;recieve(false, 'Explain why you return error');
+}
+?&gt;</pre><p></p></p><p><strong>Arguments</strong><ul><li><span class="li"><strong>$success</strong> [optional, default value = false]<p><p></p></p></span></li><li><span class="li"><strong>$err_response</strong> [optional, default value = ""]<p><p></p></p></span></li></ul></p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_RFC822_from_datetime"/><div><a href="javascript:toggleNodeVisibility('Trackback-RFC822_from_datetime');" class="method"><img id="imgTrackback-RFC822_from_datetime" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/methodPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-RFC822_from_datetime');" class="method"><strong class="method">RFC822_from_datetime</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-RFC822_from_datetime"><p><table border="0" cellspacing="1" cellpadding="3"><tr><th class="btHead" align="center">PHP</th><td class="btCell">string <strong>RFC822_from_datetime</strong>(string
+				 <strong>$datetime</strong>)
+		</td></tr></table></p><p><p>Other Useful functions used in this class</p><p>Converts MySQL datetime to a standart RFC 822 date format</p></p><p><strong>Arguments</strong><ul><li><span class="li"><strong>$datetime</strong> <p><p></p></p></span></li></ul></p><p><strong>Return</strong></p><p>RFC 822 date</p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_Trackback"/><div><a href="javascript:toggleNodeVisibility('Trackback-Trackback');" class="method"><img id="imgTrackback-Trackback" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/methodConstructor.gif" border="0" alt="constructor"/> <a href="javascript:toggleNodeVisibility('Trackback-Trackback');" class="method"><strong class="method">Trackback</strong></a><small> &nbsp; [Constructor]</small><div class="hideableItem" style="display: block;" id="paneTrackback-Trackback"><p><table border="0" cellspacing="1" cellpadding="3"><tr><th class="btHead" align="center">PHP</th><td class="btCell"><strong>Trackback</strong>(string
+				 <strong>$blog_name</strong>, string
+				 <strong>$author</strong>, string
+				 <strong>$encoding</strong>)
+		</td></tr></table></p><p><p>Class Constructure</p></p><p><strong>Arguments</strong><ul><li><span class="li"><strong>$blog_name</strong> <p><p></p></p></span></li><li><span class="li"><strong>$author</strong> <p><p></p></p></span></li><li><span class="li"><strong>$encoding</strong> [optional, default value = "UTF-8"]<p><p></p></p></span></li></ul></p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div><a name="m_xml_safe"/><div><a href="javascript:toggleNodeVisibility('Trackback-xml_safe');" class="method"><img id="imgTrackback-xml_safe" height="9" width="9" border="0" hspace="3" src="images/minus.gif"/></a><img src="images/methodPublic.gif" border="0" alt="public method"/> <a href="javascript:toggleNodeVisibility('Trackback-xml_safe');" class="method"><strong class="method">xml_safe</strong></a><div class="hideableItem" style="display: block;" id="paneTrackback-xml_safe"><p><table border="0" cellspacing="1" cellpadding="3"><tr><th class="btHead" align="center">PHP</th><td class="btCell">string <strong>xml_safe</strong>(string
+				 <strong>$string</strong>)
+		</td></tr></table></p><p><p>Converts a string into an XML-safe string (replaces &amp;, &lt;, &gt;, " and ')</p></p><p><strong>Arguments</strong><ul><li><span class="li"><strong>$string</strong> <p><p></p></p></span></li></ul></p><div class="separator"><a href="#Top"><img src="images/goTop.gif" height="7" width="11" alt="Top" border="0"/></a>
+		 
+		<a href="#Top">Top</a></div></div></div>
+</blockquote>
+<p>&nbsp;</p>
+
+<hr size="1" />
+<p><small>
+<b>PHP Trackback</b> by <a href="http://www.blogish.org/">Ran Aroussi</a>.
+<br />A simple, portable PHP class with full TrackBack capabilites.
+<br /><br />
+Documentation generated by <a href="http://www.phpedit.net/">PHPEdit</a> - Copyright © 1999-2003 <a href="mailto:marms@phpedit.net">S&eacute;bastien Hordeaux</a></div>
+</small></p>
+<p><br />
+<a href="http://sourceforge.net"><img 
+src="http://sourceforge.net/sflogo.php?group_id=97236" width="88" height="31" 
+border="0" alt="SourceForge.net Logo" /></a>
+</p>
+</div>
+
+</body>
+</html>

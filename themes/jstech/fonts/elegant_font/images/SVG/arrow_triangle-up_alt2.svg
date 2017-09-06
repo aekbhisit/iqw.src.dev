@@ -1,0 +1,17 @@
+xs:element name="IDS_PROGRESS_PAGE_TIME_REMAINING_FORMAT_3I" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+
+        <!-- Maintenance Mode page -->
+        <!-- none -->
+
+        <!-- Finish page -->
+        <!-- none -->
+
+        <!-- Wizard command buttons -->
+        <xs:element name="IDS_IS_BACK" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="IDS_IS_NEXT" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="IDS_IS_FINISH" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="IDS_IS_CANCEL" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+
+        <!-- resource selector -->
+        <xs:element name="IDS_PREPARING_CREATE_LAYOUT" type="LocIDType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="IDS_CREATE_LAYOUT_PROGR
