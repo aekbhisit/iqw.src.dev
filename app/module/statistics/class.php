@@ -231,7 +231,10 @@ class Statistics extends Database {
 			$browser = $UA['browser'];
 			$version = $UA['version'];
 			$platform = $UA['platform'];
-			$refer_url = $_SERVER['HTTP_REFERER'];
+			$refer_url = '';
+			if(isset($_SERVER['HTTP_REFERER'])) {
+				$refer_url = $_SERVER['HTTP_REFERER'];
+			}
 			$this->sql ="insert into $this->table (ip,browser,version,platform,refer_url,date) ";
 			$this->sql .=" values($ip,'$browser','$version','$platform','$refer_url',NOW()) ";
 			$this->insert();

@@ -86,22 +86,24 @@ if(isset($_GET['task'])){
 			}
 				echo json_encode($output) ;
 		   break;
-			case 'loadCategories':
-				$categories = $oCategories->getCategoriesTreeAll();
-				$data = array(
-					0=>array('level'=>0,'id'=>0,'parent'=>0,'name'=>'--- ไม่เลือก ---'),
-				);
-				$cnt =1 ;
-			    if(!empty($categories)){
-					foreach($categories as $c){
-						$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']) ;
-						$cnt++;
+		case 'loadCategories':
+			$categories = $oCategories->getCategoriesTreeAll();
+			$data = array(
+				0=>array('level'=>0,'id'=>0,'parent'=>0,'name'=>'--- ไม่เลือก ---'),
+			);
+			$cnt =1 ;
+			if(!empty($categories)){
+				foreach($categories as $c){
+					if(!isset($c['parent'])) {
+						$c['parent'] = 0;
 					}
-				 }
-				echo json_encode($data);
-				break;
-		
-			case 'categoryFormInit':
+					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']) ;
+					$cnt++;
+				}
+			}
+			echo json_encode($data);
+		break;
+		case 'categoryFormInit':
 					if($_GET['mode']=='edit'){
 						$id = addslashes($_GET['id']);
 						$data = $oCategories->getCategory($id);
@@ -481,13 +483,13 @@ if(isset($_GET['task'])){
 						echo json_encode($output) ;
 			break;
 		    case "loadFindOneInit":
-						$id = addslashes($_GET['id']);
-						$data = $oModule->getOne($id);
-						$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
-						$data['meta_key']=htmlspecialchars_decode($data['meta_key'],ENT_QUOTES);
-						$data['meta_description']=htmlspecialchars_decode($data['meta_description'],ENT_QUOTES);
-						echo json_encode($data,true);
-				break;	
+				$id = addslashes($_GET['id']);
+				$data = $oModule->getOne($id);
+				$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
+				$data['meta_key']=htmlspecialchars_decode($data['meta_key'],ENT_QUOTES);
+				$data['meta_description']=htmlspecialchars_decode($data['meta_description'],ENT_QUOTES);
+				echo json_encode($data,true);
+			break;	
 				case 'loadFindCategoryInit':
 						$id = addslashes($_GET['id']);
 						$data = $oCategories->getCategory($id);
@@ -496,24 +498,24 @@ if(isset($_GET['task'])){
 						echo json_encode($data,true);
 				break;
 				
-////////////////  reorder function /////////////
-			case 'loadCategoriesFilter':
-					$categories = $oCategories->getCategoriesTreeAll();
-					$options = '<option value="0">--หมวดหมู่ทั้งหมด--</option>';
-					$cnt =1 ;
-					if(!empty($categories)){
-						foreach($categories as $c){
-							$indent = '';
-							if($c['level']>0){
-								if($c['level']>1){
-									$indent =  str_pad($indent,$c['level']-1,'-');
-								}
-								$options .= '<option value="'.$c['id'].'" >'.$indent.$c['name'].'</option>';
-							}
-							}
-					 }
-					echo $options ;
-				break;
+		////////////////  reorder function /////////////
+		case 'loadCategoriesFilter':
+			$categories = $oCategories->getCategoriesTreeAll();
+			$options = '<option value="0">--หมวดหมู่ทั้งหมด--</option>';
+			$cnt = 1;
+			if(!empty($categories)){
+				foreach($categories as $c){
+					$indent = '';
+					if($c['level']>0){
+						if($c['level']>1){
+							$indent =  str_pad($indent,$c['level']-1,'-');
+						}
+						$options .= '<option value="'.$c['id'].'" >'.$indent.$c['name'].'</option>';
+					}
+				}
+			}
+			echo $options;
+		break;
 			case 'reorderData':
 						$id = explode('-',$_GET['id']) ;
 						$sort = explode('-',$_GET['sort']) ;

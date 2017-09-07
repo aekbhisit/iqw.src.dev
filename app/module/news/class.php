@@ -71,14 +71,14 @@ class News extends Database {
 	
 	public function  update_categories($id,$parent_id,$name,$slug,$description,$image,$params, $user_id,$status){
 		if($parent_id==0){
-			$parent_id = $this->check_root_node() ;
+			$parent_id = $this->check_root_node();
 		}else{
 			if ($parent_id != $this->get_parent_id($id)){
 				$this->move_parent($id,$parent_id);
 			}
 		}
-		$this->sql = "update $this->table set parent_id=$parent_id, name='$name',slug='$slug',description='$description', image='$image',params='$params', user_id=$user_id,status=$status, mdate=NOW() where $this->primary_key=$id " ;
-		$this->update() ;
+		$this->sql = "update $this->table set parent_id=$parent_id, name='$name',slug='$slug',description='$description', image='$image',params='$params', user_id=$user_id,status=$status, mdate=NOW() where $this->primary_key=$id ";
+		$this->update();
 	}
 	
 	public function duplicate_categories($id,$user_id){

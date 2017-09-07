@@ -139,13 +139,42 @@ class Pages extends Database {
 	public function getOne($id,$language='th'){
 		$this->sql = "select * from $this->table where $this->table.$this->primary_key = $id ";
 		$this->select();
-		$this->rows[0]['css'] = htmlspecialchars_decode($this->rows[0]['css'],ENT_QUOTES) ;
-		$this->rows[0]['javscript'] =htmlspecialchars_decode($this->rows[0]['javscript'],ENT_QUOTES);
-		$this->rows[0]['meta_keyword'] = htmlspecialchars_decode($this->rows[0]['meta_keyword'],ENT_QUOTES);
-		$this->rows[0]['meta_description'] =htmlspecialchars_decode($this->rows[0]['meta_description'],ENT_QUOTES);
-		$this->rows[0]['name'] = htmlspecialchars_decode($this->rows[0]['name'],ENT_QUOTES);
-		$this->rows[0]['content'] =htmlspecialchars_decode($this->rows[0]['content'],ENT_QUOTES);
-		return  $this->rows[0] ;
+		if(isset($this->rows[0]['css'])) {
+			$this->rows[0]['css'] = htmlspecialchars_decode($this->rows[0]['css'],ENT_QUOTES);
+		} else {
+			$this->rows[0]['css'] = '';
+		}
+		if(isset($this->rows[0]['javscript'])) {
+			$this->rows[0]['javscript'] =htmlspecialchars_decode($this->rows[0]['javscript'],ENT_QUOTES);
+		} else {
+			$this->rows[0]['javscript'] = '';
+		}
+		if(isset($this->rows[0]['meta_key'])) {
+			$this->rows[0]['meta_key'] = htmlspecialchars_decode($this->rows[0]['meta_key'],ENT_QUOTES);
+		} else {
+			$this->rows[0]['meta_key'] = '';
+		}
+		if(isset($this->rows[0]['meta_keyword'])) {
+			$this->rows[0]['meta_keyword'] = htmlspecialchars_decode($this->rows[0]['meta_keyword'],ENT_QUOTES);
+		} else {
+			$this->rows[0]['meta_keyword'] = '';
+		}
+		if(isset($this->rows[0]['meta_description'])) {
+			$this->rows[0]['meta_description'] =htmlspecialchars_decode($this->rows[0]['meta_description'],ENT_QUOTES);
+		} else {
+			$this->rows[0]['meta_description'] = '';
+		}
+		if(isset($this->rows[0]['name'])) {
+			$this->rows[0]['name'] = htmlspecialchars_decode($this->rows[0]['name'],ENT_QUOTES);
+		} else {
+			$this->rows[0]['name'] = '';
+		}
+		if(isset($this->rows[0]['content'])) {
+			$this->rows[0]['content'] =htmlspecialchars_decode($this->rows[0]['content'],ENT_QUOTES);
+		} else {
+			$this->rows[0]['content'] = '';
+		}
+		return  $this->rows[0];
 	}
 	
 	function insertData($category_id,$name,$slug,$content,$params,$javascript,$css,$meta_key,$meta_description,$user_id,$status,$sequence=0){

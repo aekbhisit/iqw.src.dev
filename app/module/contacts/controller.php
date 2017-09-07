@@ -27,7 +27,6 @@ if(isset($_GET['task'])){
 				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
-			//print_r($categories);
 			$iTotal = $oCategories->getCategoriesSize();
 			 $iFilteredTotal = count($categories);
 			$output = array(
@@ -73,77 +72,80 @@ if(isset($_GET['task'])){
 			$cnt =1 ;
 			if(!empty($categories)){
 				foreach($categories as $c){
-					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']) ;
+					if(!isset($c['parent'])) {
+						$c['parent'] = 0;
+					}
+					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']);
 					$cnt++;
 				}
 			 }
 			echo json_encode($data);
 		break;
 		case 'categoryFormInit':
-					if($_GET['mode']=='edit'){
-						$id = addslashes($_GET['id']);
-						$data = $oCategories->getCategory($id);
-						echo json_encode($data);
-					}else{
-						echo json_encode(array());
-					}
-				break;
-			case 'saveCategory':
-					$user = $oUsers->getAdminLoginUser();
-					 $categories_id = $_POST["categories_id"] ; 
-					 $categories_parent = $_POST["categories_parent"];
-					 $categories_name = htmlspecialchars($_POST["categories_name"],ENT_QUOTES);
-					 $categories_email = $_POST["categories_email"];
-					  if(empty($_POST['categories_slug'])){
-						$categories_slug= $oModule->createSlug($categories_name) ;
-					}else{
-						$categories_slug=$_POST['categories_slug'] ;
-					}
-					 $categories_description = htmlspecialchars($_POST["categories_description"],ENT_QUOTES);
-					 $categories_params = htmlspecialchars($_POST["categories_params"],ENT_QUOTES);
-					 $categories_images = $_POST["categories_server_images"] ;
-					 $categories_status = $_POST["categories_status"] ;
-					 if(!empty($categories_id)){
-						 $oCategories->update_categories($categories_id,$categories_parent,$categories_name,$categories_slug,$categories_email ,$categories_description,$categories_images,$categories_params,$user['id'],$categories_status);
-					 }else{
-						 $oCategories->insert_categories($categories_parent,$categories_name,$categories_slug,$categories_email ,$categories_description,$categories_images,$categories_params,$user['id'],$categories_status);
-					 }
-				break;
-			case 'setCategoryStatus':
-					$id = addslashes($_GET['id']);
-					$status =addslashes($_GET['status']);
-					$oCategories->update_category_status($id,$status);
-				break;
-			case 'duplicateCategory':
-					$user = $oUsers->getAdminLoginUser();
-					$id = $_GET["id"] ; 
-					$oCategories->duplicate_categories($id,$user['id']);
-				break;
-			case 'setCategoryDelete':
+			if($_GET['mode']=='edit'){
 				$id = addslashes($_GET['id']);
-				$child = $oCategories->get_onlychild_node($id);
-				if(empty($child)){
-			 		$oCategories->delete_node($id);
-				}else{
-					echo 'haschild';
-				}
-				break;
-			case 'setCategoryMove':
-				$id= $_GET['id'] ;
-				$position =  $_GET['position'];
-				$oCategories->move($id,$position) ;
-			break;
-///  oModule-form.html
-			case 'contactsFormInit':
-				if($_GET['mode']=='edit'){
-						$id = addslashes($_GET['id']);
-						$data = $oModule->getContacts($id);
-						echo json_encode($data);
-					}else{
-						echo json_encode(array());
-					}
-				break ;
-			case 'getContactsData':
+				$data = $oCategories->getCategory($id);
+				echo json_encode($data);
+			}else{
+				echo json_encode(array());
+			}
+		break;
+		case 'saveCategory':
+			$user = $oUsers->getAdminLoginUser();
+			$categories_id = $_POST["categories_id"]; 
+			$categories_parent = $_POST["categories_parent"];
+			$categories_name = htmlspecialchars($_POST["categories_name"],ENT_QUOTES);
+			$categories_email = $_POST["categories_email"];
+			if(empty($_POST['categories_slug'])){
+				$categories_slug= $oModule->createSlug($categories_name);
+			}else{
+				$categories_slug=$_POST['categories_slug'];
+			}
+			$categories_description = htmlspecialchars($_POST["categories_description"],ENT_QUOTES);
+			$categories_params = htmlspecialchars($_POST["categories_params"],ENT_QUOTES);
+			$categories_images = $_POST["categories_server_images"];
+			$categories_status = $_POST["categories_status"];
+			if(!empty($categories_id)){
+				$oCategories->update_categories($categories_id,$categories_parent,$categories_name,$categories_slug,$categories_email,$categories_description,$categories_images,$categories_params,$user['id'],$categories_status);
+			}else{
+				$oCategories->insert_categories($categories_parent,$categories_name,$categories_slug,$categories_email,$categories_description,$categories_images,$categories_params,$user['id'],$categories_status);
+			}
+		break;
+		case 'setCategoryStatus':
+			$id = addslashes($_GET['id']);
+			$status =addslashes($_GET['status']);
+			$oCategories->update_category_status($id,$status);
+		break;
+		case 'duplicateCategory':
+			$user = $oUsers->getAdminLoginUser();
+			$id = $_GET["id"]; 
+			$oCategories->duplicate_categories($id,$user['id']);
+		break;
+		case 'setCategoryDelete':
+			$id = addslashes($_GET['id']);
+			$child = $oCategories->get_onlychild_node($id);
+			if(empty($child)){
+			 	$oCategories->delete_node($id);
+			}else{
+				echo 'haschild';
+			}
+		break;
+		case 'setCategoryMove':
+			$id = $_GET['id'];
+			$position = $_GET['position'];
+			$oCategories->move($id,$position);
+		break;
+		// oModule-form.html
+		case 'contactsFormInit':
+			if($_GET['mode']=='edit'){
+				$id = addslashes($_GET['id']);
+				$data = $oModule->getContacts($id);
+				echo json_encode($data);
+			}else{
+				echo json_encode(array());
+			}
+		break;
+		case 'getContactsData':
 					$columns = array('id','name','category_id','mdate','sequence');
 					$limit = '';
 					$orderby ='' ;
