@@ -1,27 +1,23 @@
-<?php @include ("../inc/auth.inc.php") ; ?>
+<?php @include ("../inc/auth.inc.php"); ?>
 <?php
 $modules = 'news';
 $modules_name = 'news';
-$module_active = 'news' ;
+$module_active = 'news';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <!-- Viewport metatags -->
 <meta name="HandheldFriendly" content="true" />
 <meta name="MobileOptimized" content="320" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
 <!-- iOS webapp metatags -->
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-
 <!-- iOS webapp icons -->
 <link rel="apple-touch-icon" href="../touch-icon-iphone.png" />
 <link rel="apple-touch-icon" sizes="72x72" href="../touch-icon-ipad.png" />
 <link rel="apple-touch-icon" sizes="114x114" href="../touch-icon-retina.png" />
-
 <!-- CSS Reset -->
 <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
 <!--  Fluid Grid System -->
@@ -32,18 +28,14 @@ $module_active = 'news' ;
 <link rel="stylesheet" type="text/css" href="../css/dandelion.css" media="screen" />
 <!-- Demo Stylesheet -->
 <link rel="stylesheet" type="text/css" href="../css/demo.css" media="screen" />
-
 <!-- jQuery JavaScript File -->
 <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
-
 <!-- jQuery-UI JavaScript Files -->
 <script type="text/javascript" src="../jui/js/jquery-ui-1.8.20.min.js"></script>
 <script type="text/javascript" src="../jui/js/jquery.ui.timepicker.min.js"></script>
 <script type="text/javascript" src="../jui/js/jquery.ui.touch-punch.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../jui/css/jquery.ui.all.css" media="screen" />
-
 <!-- Plugin Files -->
-
 <!-- FileInput Plugin -->
 <script type="text/javascript" src="../js/jquery.fileinput.js"></script>
 <!-- Placeholder Plugin -->
@@ -55,29 +47,22 @@ $module_active = 'news' ;
 <!-- Tooltips Plugin -->
 <script type="text/javascript" src="../plugins/tipsy/jquery.tipsy-min.js"></script>
 <link rel="stylesheet" href="../plugins/tipsy/tipsy.css" />
-
 <!-- DataTables Plugin -->
 <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js"></script>
-
 <!-- Core JavaScript Files -->
 <script type="text/javascript" src="../js/core/dandelion.core.js"></script>
-
 <!-- Customizer JavaScript File (remove if not needed) -->
 <script type="text/javascript" src="../js/core/dandelion.customizer.js"></script>
-
 <script type="text/javascript" src="../plugins/jgrowl/jquery.jgrowl.js"></script>
 <link rel="stylesheet" type="text/css" href="../plugins/jgrowl/jquery.jgrowl.css" media="screen" />
-
 <!--Text editor -->
 <script type="text/javascript" src="../plugins/elrte/js/elrte.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../plugins/elrte/css/elrte.css" />
 <!-- elFinder Plugin -->
 <script type="text/javascript" src="../plugins/elfinder/js/elfinder.min.js"></script>
 <link rel="stylesheet" href="../plugins/elfinder/css/elfinder.css" media="screen" />
-
 <!--form validate-->
 <script type="text/javascript" src="../plugins/validate/jquery.validate.min.js"></script>
-
 <!-- PLUpload Plugin -->
 <!--<script type="text/javascript" src="plugins/plupload/plupload.js"></script>
 <script type="text/javascript" src="plugins/plupload/plupload.flash.js"></script>
@@ -85,21 +70,16 @@ $module_active = 'news' ;
 <script type="text/javascript" src="plugins/plupload/plupload.html5.js"></script>
 <script type="text/javascript" src="plugins/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
 <link rel="stylesheet" href="plugins/plupload/jquery.plupload.queue.css" />-->
-
 <!-- Demo JavaScript Files -->
 <!--<script type="text/javascript" src="js/demo/demo.files.js"></script>-->
-
+<!-- all-pages-include-script -->
+<?php include('../all-pages-include-script.php'); ?>
 <!-- Custom script for all page -->
 <script type="text/javascript" src="../all-pages-script.js"></script>
-
 <!-- Custom script for this page -->
 <script type="text/javascript" src="form-script.js"></script>
-
-
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
-
 </head>
-
 <body class="loading">
 	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
 	<div id="da-wrapper" class="fluid">
@@ -213,14 +193,14 @@ $module_active = 'news' ;
                                          	 <div class="da-form-row">
                                                 <label>หมวดหมู่หลัก<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote"  >เลือกหมวดหมู่หลัก (ถ้ามี)</span>
+                                                	<span class="formNote">เลือกหมวดหมู่หลัก (ถ้ามี)</span>
                                                     <select id="categories" name="categories" disabled="disabled" ></select>
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
                                                 <label>ชื่อข่าว <span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote" >ใส่ชื่อข่าว</span>
+                                                	<span class="formNote">ใส่ชื่อข่าว</span>
                                                     <input type="text" name="name" id="name" value="" />
                                                 </div>
                                             </div>
@@ -232,20 +212,27 @@ $module_active = 'news' ;
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
+                                                <label>รายละเอียด <span class="required">*</span></label>
+                                                <div class="da-form-item large">
+                                                    <span class="formNote">ใส่รายละเอียด</span>
+                                                    <input type="text" name="description" id="description" value="" />
+                                                </div>
+                                            </div>
+                                            <div class="da-form-row">
                                                 <label>เนื้อหาข่าว<span class="required">*</span></label>
                                                 <div class="da-form-item large">
                                                 	<span class="formNote"  >ใส่เนื้อหาข่าว</span>
-                                                   <textarea id="content" name="content" class="elrte" style="overflow-x: hidden; overflow-y: hidden; height:500px; "></textarea>
+                                                   <textarea id="content" name="content" class="texteditor" style="overflow-x: hidden; overflow-y: hidden; height:500px; "></textarea>
                                                 </div>
                                                 <div id="myelfinder"></div>
                                             </div>
-                                            <div class="da-form-row">
+                                            <!-- <div class="da-form-row">
                                                 <label>Highlight </label>
                                                 <div class="da-form-item large">
                                                     <span class="formNote" >highlight</span>
                                                     <input type="text" name="params" id="params" value="" />
                                                 </div>
-                                            </div>
+                                            </div> -->
                                              <div class="da-form-row">
                                                 <label>ภาพหลัก</label>
                                                 <div class="da-form-item large">
@@ -255,12 +242,12 @@ $module_active = 'news' ;
                                                      <img src="" id="show_image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
                                                 </div>
                                             </div>
-                                      	    <div class="da-form-row ">
+                                      	    <!-- <div class="da-form-row ">
                                         	<label>ตั้งเวลาเปิด-ปิดข่าว</label>
                                             <div class="da-form-item small">  <span class="formNote">เลือกเวลาเริ่มต้น - สิ้นสุด</span>    
                                             	<input id="start" name="start" type="text" class="datetimepicker" />  -  <input id="end" name="end" type="text" class="datetimepicker" />
                                             </div>
-                                        </div>
+                                        </div> -->
                                         	<div class="da-form-row">
                                                 <label>เปิดใช้งาน<span class="required">*</span></label>
                                                 <div class="da-form-item small">

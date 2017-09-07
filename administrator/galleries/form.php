@@ -219,20 +219,19 @@ $module_active = 'galleries' ;
                                 </div>
                             </div>
                         </div>
-                      <!--start main content form-->
-                      	<div class="grid_4">
-                        	<div class="da-panel">
-                            	<div class="da-panel-header">
-                                	<span class="da-panel-title">
-                                        <img src="../images/icons/black/16/pencil.png" alt="" />
-                                        เพิ่มรายการใหม่
-                                    </span>
-                                    
-                                </div>
-                                <div class="da-panel-content">
-                                <div id="form-error" class="da-message error" style="display:none;"></div>
-                                    	<div class="da-form-inline">
-                                         	 <div class="da-form-row">
+                            <!--start main content form-->
+                          	<div class="grid_4">
+                            	<div class="da-panel">
+                                	<div class="da-panel-header">
+                                    	<span class="da-panel-title">
+                                            <img src="../images/icons/black/16/pencil.png" alt="" />
+                                            เพิ่มรายการใหม่
+                                        </span>
+                                    </div>
+                                    <div class="da-panel-content">
+                                        <div id="form-error" class="da-message error" style="display:none;"></div>
+                                        <div class="da-form-inline">
+                                             <div class="da-form-row">
                                                 <label>หมวดหมู่หลัก<span class="required">*</span></label>
                                                 <div class="da-form-item large">
                                                 	<span class="formNote"  >เลือกหมวดหมู่หลัก (ถ้ามี)</span>
@@ -249,77 +248,77 @@ $module_active = 'galleries' ;
                                             <div class="da-form-row">
                                                 <label>Slug </label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote" >ชื่อที่จะแสดงใน URL ต้องไม่ซ้ำกัน</span>
+                                                    <span class="formNote" >ชื่อที่จะแสดงใน URL ต้องไม่ซ้ำกัน</span>
                                                     <input type="text" name="slug" id="slug" value="" />
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
                                                 <label>เนื้อหาอัลบั้ม<span class="required"></span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote"  >ใส่เนื้อหาอัลบั้ม</span>
-                                                   <textarea id="content" name="content" class="elrte" style="overflow-x: hidden; overflow-y: hidden; height:100px; "></textarea>
+                                                    <span class="formNote"  >ใส่เนื้อหาอัลบั้ม</span>
+                                                    <textarea id="content" name="content" class="elrte" style="overflow-x: hidden; overflow-y: hidden; height:100px; "></textarea>
                                                 </div>
                                             </div>
-                                              <div class="da-form-row">
+                                            <div class="da-form-row">
                                                 <label>ภาพปก</label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote" >ใส่ภาพปกอัลบั้มถ้ามี</span>
+                                                    <span class="formNote" >ใส่ภาพปกอัลบั้มถ้ามี</span>
                                                     <div id="finder"></div>
-                                                     <input type="text" name="cover" id="cover" value="" class="elfinder-browse" />
-                                                     <img src="" id="show-cover" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
+                                                    <input type="text" name="cover" id="cover" value="" class="elfinder-browse" />
+                                                    <img src="" id="show-cover" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
                                                 </div>
                                             </div>
-                                              <div class="da-form-row">
+                                            <div class="da-form-row">
                                                 <label>รูปภาพ<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote"  >เลือกรูปภาพที่ต้องการ</span>
-                                                   	<div class="displayImages">
-                                                    	<input name="countImageIndex" id="countImageIndex" type="hidden" value="0" />
+                                                    <span class="formNote"  >เลือกรูปภาพที่ต้องการ</span>
+                                                    <div class="displayImages">
+                                                        <input name="countImageIndex" id="countImageIndex" type="hidden" value="0" />
                                                         <input name="deletedImageList" id="deletedImageList" type="hidden" value="" />
-                                                    <ul   id="displayImagesList">
-                                                    </ul>
-                                                    <div style="clear:both"></div>
+                                                        <ul id="displayImagesList">
+                                                        </ul>
+                                                        <div style="clear:both"></div>
                                                     </div>
-                                                    <div><a href="javascript:void(0)" onclick="showSelectImageDialog();"><input type="button" value="เลือกรูปภาพ" class="da-button blue left"></a></div>
-                                                	 <div id="finder"></div>
+                                                    <div>
+                                                        <a href="javascript:void(0)" onclick="showSelectImageDialog();">
+                                                            <input type="button" value="เลือกรูปภาพ" class="da-button blue left" />
+                                                        </a>
+                                                    </div>
+                                                    <div id="finder"></div>
                                                 </div>
-                                                </div>
-                                        	<div class="da-form-row">
+                                            </div>
+                                            <div class="da-form-row">
                                                 <label>เปิดใช้งาน<span class="required">*</span></label>
                                                 <div class="da-form-item small">
                                                 	<span class="formNote">เลือกสถานการเปิดปิดบล็อก</span>
                                                     <select id="status" name="status" >
-                                                    <option value="1">เปิดใช้งาน</option>
-                                                    <option value="0">ปิดใช้งาน</option>
+                                                        <option value="1">เปิดใช้งาน</option>
+                                                        <option value="0">ปิดใช้งาน</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                   			<div class="da-button-row">
-                                        	<input type="reset" value="ยกเลิก" class="da-button gray left">
-                                        	<input type="submit" value="บันทึก" class="da-button green">
+                                       		<div class="da-button-row">
+                                            	<input type="reset" value="ยกเลิก" class="da-button gray left">
+                                            	<input type="submit" value="บันทึก" class="da-button green">
+                                            </div>
                                         </div>
-                                        </div>
-                                    <!--old form end-->
+                                        <!--old form end-->
+                                    </div>
                                 </div>
                             </div>
-                        </div> <!--grid 4-->
-                    
+                            <!--grid 4-->
                         </form>
-                <!--enf form-->        
-                
+                        <!--enf form-->
                     </div>
                 </div>
             </div> 
-      
         </div>
-        
         <!-- Footer -->
         <div id="da-footer">
         	<div class="da-container clearfix">
             	<p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
             </div>
         </div>
-        
     </div>
     <div class="modal" onclick="reloadPageNow()"></div>​
 </body>

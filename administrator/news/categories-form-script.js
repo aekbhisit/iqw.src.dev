@@ -2,43 +2,40 @@
 var modules = "news";
 (function($) {
 	$(document).ready(function(e) {
-		categoryFormInit() ;
+		categoryFormInit();
 		//selectImages() ;
 		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
 	});// document_ready
 }) (jQuery);
-
 function gotoManagePage(){
 	var url = 'categories.php'; 
 	window.location.replace(url);
 }
-
 function categoryFormInit(){
 	var d = new Date();
-	var request = window.location.search.replace('?','') ;
-	var url = "../../app/index.php?module="+modules+"&task=categoryFormInit&"+request+"&d"+d.getTime() ;
+	var request = window.location.search.replace('?','');
+	var url = "../../app/index.php?module="+modules+"&task=categoryFormInit&"+request+"&d"+d.getTime();
 	$.getJSON(url,function(data){ 
-			if(typeof data=='object' && data!=null){
-				$('#categories_id').val(data.id);
-				 loadNowCategories(data.parent_id) ;
-				$('#categories_name').val(data.name);
-				$('#categories_slug').val(data.slug);
-				$('#categories_description').html(data.description);
-				if(data.image!=''){
-					$('#categories_server_images').val(data.image);
-					$('#show_categories_image').attr('src',data.image);
-					$('#show_categories_image').fadeIn('fast');
-				}
-				$('#categories_status').find('option:[value="'+data.status+'"]').attr('selected','selected');
-			}else{
-				loadNowCategories(0) ;
+		if(typeof data=='object' && data!=null){
+			$('#categories_id').val(data.id);
+			loadNowCategories(data.parent_id);
+			$('#categories_name').val(data.name);
+			$('#categories_slug').val(data.slug);
+			$('#categories_description').html(data.description);
+			if(data.image!=''){
+				$('#categories_server_images').val(data.image);
+				$('#show_categories_image').attr('src',data.image);
+				$('#show_categories_image').fadeIn('fast');
 			}
+			$('#categories_status').find('option:[value="'+data.status+'"]').attr('selected','selected');
+		}else{
+			loadNowCategories(0);
+		}
 	});
 }
-
 function loadNowCategories(selected){
 	var d = new Date();
-	var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime() ;
+	var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime();
 	$.getJSON(url,function(data){
 		//alert(data);
 		var ul_list = '<br><ul style="list-style:none;">';
@@ -49,35 +46,33 @@ function loadNowCategories(selected){
 				indent += '-';
 			}
 			if(value.level>0){
-				ul_list += '<li>'+indent+' '+value.name+'</li>' ;
+				ul_list += '<li>'+indent+' '+value.name+'</li>';
 			}
 			if(value.level>0||value.id==0){
 				if(value.id==selected){
-					options_list += '<option value="'+value.id+'" selected="selected">'+indent+' '+value.name+'</option>' ;
+					options_list += '<option value="'+value.id+'" selected="selected">'+indent+' '+value.name+'</option>';
 				}else{
-					options_list += '<option value="'+value.id+'" >'+indent+' '+value.name+'</option>' ;
+					options_list += '<option value="'+value.id+'" >'+indent+' '+value.name+'</option>';
 				}
 			}
 		});
 		ul_list += '</ul>';
-		$('#show-categories').html(ul_list) ;
-		$('#categories_parent').html(options_list) ;
-		$('#categories_parent').removeAttr('disabled') ;
+		$('#show-categories').html(ul_list);
+		$('#categories_parent').html(options_list);
+		$('#categories_parent').removeAttr('disabled');
 	});
 }
-
 function setSaveCategories(){
 	var d = new Date();	
-	var url = "../../app/index.php?module="+modules+"&task=saveCategory&d"+d.getTime() ;
-	//alert(url);
+	var url = "../../app/index.php?module="+modules+"&task=saveCategory&d"+d.getTime();
 	$.ajax({
-		  type: 'POST', 
-		  url: url, 
-		  enctype: 'multipart/form-data', 
-		  data: $('#categories_form').serialize(),
-		  beforeSend: function() {
-				$('#categories_form').validate({ 
-					rules: {
+		type: 'POST', 
+		url: url, 
+		enctype: 'multipart/form-data', 
+		data: $('#categories_form').serialize(),
+		beforeSend: function() {
+			$('#categories_form').validate({ 
+				rules: {
 					categories_name: {
 						required: true
 					}
@@ -93,17 +88,15 @@ function setSaveCategories(){
 						$("#form-error").hide();
 					}
 				}
-				 });
-				return $('#categories_form').valid();
-			  },
-		  success: function(data){
-			  //alert(data);
-			 gotoManagePage()
-		 }
+			});
+			return $('#categories_form').valid();
+		},
+		success: function(data){
+			// alert(data);
+			gotoManagePage()
+		}
 	});
-	
 }
-
 function selectImages(){
 	var dialog;
 	var input = $('#categories_server_images'); 

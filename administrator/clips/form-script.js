@@ -2,40 +2,43 @@
 var modules = "clips";
 (function($) {
 	$(document).ready(function(e) {
-		formInit() ;
-
+		formInit();
 		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
 	});// document_ready
 }) (jQuery);
-
 function gotoManagePage(){
 	var url = 'index.php'; 
 	window.location.replace(url);
 }
-
 function formInit(){
 	var d = new Date();
-	var request = window.location.search.replace('?','') ;
-	var url = "../../app/index.php?module="+modules+"&task=formInit&"+request+"&d"+d.getTime() ;
+	var request = window.location.search.replace('?','');
+	var url = "../../app/index.php?module="+modules+"&task=formInit&"+request+"&d"+d.getTime();
 	$.getJSON(url,function(data){ 
-			if(typeof data=='object' && data!=null){
-				$('#id').val(data.id);
-				 loadNowCategories(data.category_id) ;
-				$('#meta_key').val(data.meta_key);
-				$('#meta_description').val(data.meta_description);
-				$('#name').val(data.name);
-				$('#slug').val(data.slug);
-				$('#url').val(data.url);
-				$('#status').find('option:[value="'+data.status+'"]').attr('selected','selected');
-			}else{
-				loadNowCategories(0) ;
+		if(typeof data=='object' && data!=null){
+			$('#id').val(data.id);
+			loadNowCategories(data.category_id);
+			$('#meta_key').val(data.meta_key);
+			$('#meta_description').val(data.meta_description);
+			$('#name').val(data.name);
+			$('#slug').val(data.slug);
+			$('#description').val(data.description);
+			$('#content').val(data.content);
+			$('#url').val(data.url);
+			$('#status').find('option:[value="'+data.status+'"]').attr('selected','selected');
+			if(data.image!=''){
+				$('#image').val(data.image);
+				$('#show_image').attr('src',getPreImageURL()+data.image);
+				$('#show_image').fadeIn('fast');
 			}
+		}else{
+			loadNowCategories(0);
+		}
 	});
 }
-
 function loadNowCategories(selected){
 	var d = new Date();
-	var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime() ;
+	var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime();
 	$.getJSON(url,function(data){
 		var options_list = "";
 		$.each(data,function(index,value){
@@ -45,29 +48,29 @@ function loadNowCategories(selected){
 			}
 			if(value.level>0||value.id==0){
 				if(value.id==selected){
-					options_list += '<option value="'+value.id+'" selected="selected">'+indent+' '+value.name+'</option>' ;
+					options_list += '<option value="'+value.id+'" selected="selected">'+indent+' '+value.name+'</option>';
 				}else{
-					options_list += '<option value="'+value.id+'" >'+indent+' '+value.name+'</option>' ;
+					options_list += '<option value="'+value.id+'" >'+indent+' '+value.name+'</option>';
 				}
 			}
 		});
-		$('#categories').html(options_list) ;
-		$('#categories').removeAttr('disabled') ;
+		$('#categories').html(options_list);
+		$('#categories').removeAttr('disabled');
 	});
 }
 
 function setSaveData(){
 	var d = new Date();	
-	var url = "../../app/index.php?module="+modules+"&task=saveData&d"+d.getTime() ;
-
+	var url = "../../app/index.php?module="+modules+"&task=saveData&d"+d.getTime();
+	tinyMCE.triggerSave();
 	$.ajax({
-		  type: 'POST', 
-		  url: url, 
-		  enctype: 'multipart/form-data', 
-		  data: $('#form').serialize(),
-		  beforeSend: function() {
-				$('#form').validate({ 
-					rules: {
+		type: 'POST', 
+		url: url, 
+		enctype: 'multipart/form-data', 
+		data: $('#form').serialize(),
+		beforeSend: function() {
+			$('#form').validate({ 
+				rules: {
 					name: {
 						required: true
 					},
@@ -86,28 +89,27 @@ function setSaveData(){
 						$("#form-error").hide();
 					}
 				}
-				 });
-				return $('#form').valid();
-			  },
-		  success: function(data){
+			});
+			return $('#form').valid();
+		},
+		success: function(data){
 			// alert(data);  
-			 gotoManagePage()
-		 }
+			gotoManagePage();
+		}
 	});
 }
-
 function selectImages(){
-	 var input = $('#image') ;
+	var input = $('#image');
     $(input).bind('click',function () {
 		if($(document).has('#finder').length<=0){
 			$('#image').after('<div id="finder"></div>');
 		}
-		 $('#finder').elfinder({
+		$('#finder').elfinder({
          	url : '../../files/php/connector.php',
         	closeOnEditorCallback: false,
         	getFileCallback: function(url) {
-				 $(input).val(url) ;
-     	   }
+				$(input).val(url);
+     	   	}
 		});
     });	
 }

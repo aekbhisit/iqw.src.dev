@@ -23,8 +23,7 @@ function categoryFormInit(){
 				 loadNowCategories(data.parent_id) ;
 				$('#categories_name').val(data.name);
 				$('#categories_slug').html(data.slug);
-				// $('#categories_description').html(data.description);
-				$('#categories_description').elrte('val', data.description);
+				$('#categories_description').html(data.description);
 				if(data.image!=''){
 					$('#categories_server_images').val(data.image);
 					$('#show_categories_image').attr('src',data.image);
@@ -70,9 +69,6 @@ function loadNowCategories(selected){
 function setSaveCategories(){
 	var d = new Date();	
 	var url = "../../app/index.php?module="+modules+"&task=saveCategory&d"+d.getTime() ;
-	$('#categories_form').find('.elrte').each(function(){
-		$(this).elrte('updateSource');
-	});
 	$.ajax({
 		  type: 'POST', 
 		  url: url, 

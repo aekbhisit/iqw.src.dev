@@ -1,7 +1,7 @@
 <?php @include ("../inc/auth.inc.php") ; ?>
 <?php
 $modules = 'blogs';
-$modules_name = 'บริการ';
+$modules_name = 'บล็อก';
 $module_active = 'blogs' ;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -138,7 +138,7 @@ $module_active = 'blogs' ;
                             	<div class="da-panel-header">
                                 	<span class="da-panel-title">
                                         <img src="../images/icons/black/16/list.png" alt="" />
-                                       	 จัดการบริการ
+                                       	 จัดการบล็อก
                                     </span>
                                     
                                 </div>
@@ -147,7 +147,7 @@ $module_active = 'blogs' ;
                                         <thead>
                                             <tr>
                                                 <th width="40">ลำดับ</th>
-                                                <th>บริการ</th>
+                                                <th>บล็อก</th>
                                                 <th width="75">หมวดหมุ่</th>
                                                 <th width="70">วันที่</th>
                                                 <th width="50">ลำดับ</th>

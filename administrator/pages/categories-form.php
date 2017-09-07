@@ -72,9 +72,7 @@ $module_active = 'pages' ;
 <script type="text/javascript" src="../plugins/validate/jquery.validate.min.js"></script>
 
 <!--file manage -->
-<!--Text editor -->
-<script type="text/javascript" src="../plugins/elrte/js/elrte.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../plugins/elrte/css/elrte.css" />
+
 <!-- elFinder Plugin -->
 <script type="text/javascript" src="../plugins/elfinder/js/elfinder.min.js"></script>
 <link rel="stylesheet" href="../plugins/elfinder/css/elfinder.css" media="screen" />
@@ -207,7 +205,7 @@ $module_active = 'pages' ;
                                                 <label>คำอธิบายหมวดหมู่</label>
                                                 <div class="da-form-item large">
                                                 	<span class="formNote"  >ใส่คำอธิบายหมวดหมู่</span>
-                                                   <textarea id="categories_description" name="categories_description" class="elrte"  style="overflow-x: hidden; overflow-y: hidden; height: 50px; "></textarea>
+                                                   <textarea id="categories_description" name="categories_description" style="overflow-x: hidden; overflow-y: hidden; height: 50px; "></textarea>
                                                 </div>
                                             </div>
                                             <div class="da-form-row">

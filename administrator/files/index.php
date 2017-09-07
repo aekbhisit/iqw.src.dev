@@ -1,4 +1,4 @@
-<?php @include ("../inc/auth.inc.php") ; ?>
+<?php @include ("../inc/auth.inc.php"); ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -7,16 +7,13 @@
 <meta name="HandheldFriendly" content="true" />
 <meta name="MobileOptimized" content="320" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
 <!-- iOS webapp metatags -->
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-
 <!-- iOS webapp icons -->
 <link rel="apple-touch-icon" href="../touch-icon-iphone.png" />
 <link rel="apple-touch-icon" sizes="72x72" href="../touch-icon-ipad.png" />
 <link rel="apple-touch-icon" sizes="114x114" href="../touch-icon-retina.png" />
-
 <!-- CSS Reset -->
 <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
 <!--  Fluid Grid System -->
@@ -27,18 +24,14 @@
 <link rel="stylesheet" type="text/css" href="../css/dandelion.css" media="screen" />
 <!-- Demo Stylesheet -->
 <link rel="stylesheet" type="text/css" href="../css/demo.css" media="screen" />
-
 <!-- jQuery JavaScript File -->
 <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
-
 <!-- jQuery-UI JavaScript Files -->
 <script type="text/javascript" src="../jui/js/jquery-ui-1.8.20.min.js"></script>
 <script type="text/javascript" src="../jui/js/jquery.ui.timepicker.min.js"></script>
 <script type="text/javascript" src="../jui/js/jquery.ui.touch-punch.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../jui/css/jquery.ui.all.css" media="screen" />
-
 <!-- Plugin Files -->
-
 <!-- FileInput Plugin -->
 <script type="text/javascript" src="../js/jquery.fileinput.js"></script>
 <!-- Placeholder Plugin -->
@@ -50,19 +43,14 @@
 <!-- Tooltips Plugin -->
 <script type="text/javascript" src="../plugins/tipsy/jquery.tipsy-min.js"></script>
 <link rel="stylesheet" href="../plugins/tipsy/tipsy.css" />
-
 <!-- DataTables Plugin -->
 <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js"></script>
-
 <!-- Core JavaScript Files -->
 <script type="text/javascript" src="../js/core/dandelion.core.js"></script>
-
 <!-- Customizer JavaScript File (remove if not needed) -->
 <script type="text/javascript" src="../js/core/dandelion.customizer.js"></script>
-
 <script type="text/javascript" src="../plugins/jgrowl/jquery.jgrowl.js"></script>
 <link rel="stylesheet" type="text/css" href="../plugins/jgrowl/jquery.jgrowl.css" media="screen" />
-
 <!-- elFinder Plugin -->
 <script type="text/javascript" src="../plugins/elfinder/js/elfinder.min.js"  charset="utf-8"></script>
 <link rel="stylesheet" href="../plugins/elfinder/css/elfinder.css" media="screen" />
@@ -74,7 +62,8 @@
 <script type="text/javascript" src="../plugins/plupload/plupload.html5.js"></script>
 <script type="text/javascript" src="../plugins/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
 <link rel="stylesheet" href="../plugins/plupload/jquery.plupload.queue.css" />
-
+<!-- all-pages-include-script -->
+<?php include('../all-pages-include-script.php'); ?>
 <!-- Custom script for all page -->
 <script type="text/javascript" src="../all-pages-script.js"  charset="utf-8"></script>
 <script type="text/javascript" >
@@ -103,13 +92,10 @@
 }) (jQuery);
 </script>
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
-
 </head>
-
 <body>
 	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
 	<div id="da-wrapper" class="fluid">
-    
         <!-- Header -->
         <div id="da-header">
         <?php include('../inc/header_top.php');?>
@@ -129,22 +115,18 @@
 					);
 					include('../inc/breadcrumbs.php');
 					?>
-                    
                 </div>
             </div>
         </div>
-    
         <!-- Content -->
         <div id="da-content">
-            
             <!-- Container -->
             <div class="da-container clearfix">
-                
 	            <!-- Sidebar Separator do not remove -->
                 <div id="da-sidebar-separator"></div>
-               <!-- Sidebar -->
-                  <?php
-				  	$module_active = 'files' ;
+                <!-- Sidebar -->
+                <?php
+				  	$module_active = 'files';
                 	include('../inc/side_bar.php');
 				?>
                 <!-- Main Content Wrapper -->
@@ -163,42 +145,36 @@
                                 	<div id="da-ex-elfinder"></div>
                                 </div>
                             </div>
-                            
                             <!--upload file-->
-                             <!--start main seo form-->
-                          <div class="grid_4">
-                            <div class="da-panel collapsible collapsed">
-                                <div class="da-panel-header">
-                                    <span class="da-panel-title">
-                                        <img src="../images/icons/black/16/upload.png" />
-                                        อัปโหลดไฟล์ขนาดใหญ่สูงสุดไม่เกิน 100MB  หรือ ไฟล์จำนวนมากสำหรับ Internet Explorer  (ไฟล์เก็บไว้ที่โฟลเดอร์ uploads)
-                                    </span>
-                                </div>
-                                <div class="da-panel-content">
+                            <!--start main seo form-->
+                            <div class="grid_4">
+                                <div class="da-panel collapsible collapsed">
+                                    <div class="da-panel-header">
+                                        <span class="da-panel-title">
+                                            <img src="../images/icons/black/16/upload.png" />
+                                            อัปโหลดไฟล์ขนาดใหญ่สูงสุดไม่เกิน 100MB  หรือ ไฟล์จำนวนมากสำหรับ Internet Explorer  (ไฟล์เก็บไว้ที่โฟลเดอร์ uploads)
+                                        </span>
+                                    </div>
+                                    <div class="da-panel-content">
                                  		<div class="da-form-row">
-                                                	<div id="da-ex-plupload"></div>
-                                      </div>
+                                            <div id="da-ex-plupload"></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                      <!--start main content form-->
+                            <!--start main content form-->
                             <!--end upload file -->
-                            
                         </div>
-                                       
                     </div>
                 </div>
             </div> 
         </div>
-        
         <!-- Footer -->
         <div id="da-footer">
         	<div class="da-container clearfix">
             	<p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
             </div>
         </div>
-        
     </div>
-   
 </body>
 </html>

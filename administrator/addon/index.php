@@ -1,8 +1,8 @@
 <?php @include ("../inc/auth.inc.php"); ?>
 <?php
-$modules = 'banners';
-$modules_name = 'banners';
-$module_active = 'banners';
+$modules = 'addon';
+$modules_name = 'addon';
+$module_active = 'addon';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -77,12 +77,13 @@ $module_active = 'banners';
 <!-- Custom script for all page -->
 <script type="text/javascript" src="../all-pages-script.js"></script>
 <!-- Custom script for this page -->
-<script type="text/javascript" src="form-script-translate.js"></script>
+<script type="text/javascript" src="index-script.js"></script>
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
 </head>
 <body class="loading">
 	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
 	<div id="da-wrapper" class="fluid">
+    
         <!-- Header -->
         <div id="da-header">
                <!--header top-->
@@ -101,9 +102,7 @@ $module_active = 'banners';
                     <?php 
 						$breadcrumbs = array(
 						0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>false),
-						1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>false),
-						2=>array('name'=>$modules_name,'alt'=>$modules_name,'link'=>'index.php','class'=>false),
-						3=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
+						1=>array('name'=>$modules_name,'alt'=>$modules_name,'link'=>'index.php','class'=>false)
 					);
 					include('../inc/breadcrumbs.php');
 					?>
@@ -126,7 +125,7 @@ $module_active = 'banners';
                 	<!-- Content Area -->
                 	<div id="da-content-area">
                         <div style="display:block; clear:both; margin-left:10px; margin-right:10px; display:none;">
-                            <!--start flash messaages-->
+                        <!--start flash messaages-->
                             <div class="da-message error">
                                 This is an error message
                             </div>
@@ -139,94 +138,43 @@ $module_active = 'banners';
                         </div>
                         <!--end flash messaages-->
                         <!--start form-->
-                        <form class="da-form" name="form" id="form" enctype="multipart/form-data" onsubmit="setSaveTranslate();return false;">
-                            <input name="id"  id="id" type="hidden" value="" />
-                            <div class="grid_4">
-                                <div class="da-panel collapsible collapsed">
-                                    <div class="da-panel-header">
-                                        <span class="da-panel-title">
-                                            <img src="../images/icons/black/16/documents_small.png" />
-                                            เพิ่ม SEO Meta Data
-                                        </span>
-                                    </div>
-                                    <div class="da-panel-content">
-                                 		<div class="da-form-row">
-                                            <label>Meta Keywords</label>
-                                            <div class="da-form-item large">
-                                                <span class="formNote"  >ใส่ Meta Keywords (ถ้าต้องการ)</span>
-                                                <input type="text" name="meta_key" id="meta_key" value="" />
-                                            </div>
-                                        </div>
-                                        <div class="da-form-row">
-                                            <label>Meta Descriptions</label>
-                                            <div class="da-form-item large">
-                                                <span class="formNote"  >ใส่ Meta Descriptions (ถ้าต้องการ)</span>
-                                                <input type="text" name="meta_description" id="meta_description" value="" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <form class="da-form" name="form" id="form" enctype="multipart/form-data" onsubmit="setSaveData();return false;">
                             <!--start main content form-->
                           	<div class="grid_4">
                             	<div class="da-panel">
                                 	<div class="da-panel-header">
                                     	<span class="da-panel-title">
                                             <img src="../images/icons/black/16/pencil.png" alt="" />
-                                            แปลแบนเนอร์
+                                            จัดการจำนวนโครงการ
                                         </span>
                                     </div>
                                     <div class="da-panel-content">
-                                        <div id="form-error" class="da-message error" style="display:none;"></div>
+                                    <div id="form-error" class="da-message error" style="display:none;"></div>
                                         <div class="da-form-inline">
                                             <div class="da-form-row">
-                                                <label>ภาษา<span class="required">*</span></label>
+                                                <label>โครงการทั้งหมด <span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote"  >เลือกภาษาที่ต้องการแปล</span>
-                                                    <select id="translate_language" name="translate_language" disabled="disabled" ></select>
+                                                	<span class="formNote">ใส่จำนวนโครงการทั้งหมด</span>
+                                                    <input type="text" name="all_project" id="all_project" value="" />
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
-                                                <label>กำลังแปล</label>
+                                                <label>กำลังติดตั้งแบบบนหลังคา <span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote"  >ชื่อเพจที่ท่านต้องการแปล</span>
-                                                    <input type="text" name="now_translate" id="now_translate"  disabled="disabled" value=""/>
+                                                    <span class="formNote">ใส่จำนวนโครงการกำลังติดตั้งแบบบนหลังคา</span>
+                                                    <input type="text" name="ongoing_roof" id="ongoing_roof" value="" />
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
-                                                <label>ชื่อแบนเนอร์ <span class="required">*</span></label>
+                                                <label>โครงการทั้งหมด <span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote" >ใส่ชื่อแบนเนอร์</span>
-                                                    <input type="text" name="name" id="name" value="" />
+                                                    <span class="formNote">ใส่จำนวนโครงการกำลังติดตั้งบนพื้นดิน</span>
+                                                    <input type="text" name="ongoing_ground" id="ongoing_ground" value="" />
                                                 </div>
-                                            </div>
-                                            <div class="da-form-row">
-                                                <label>Slug </label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote" >ชื่อที่จะแสดงใน URL ต้องไม่ซ้ำกัน</span>
-                                                    <input type="text" name="slug" id="slug" value="" />
-                                                </div>
-                                            </div>
-                                            <div class="da-form-row">
-                                                <label>ภาพแบนเนอร์ <span class="required">*</span></label>
-                                                <div class="da-form-item large">
-                                                    <span class="formNote" >ใส่ภาพของแบนเนอร์ (ถ้ามี)</span>
-                                                    <div id="finder"></div>
-                                                    <input type="text" name="image" id="image" value="" class="elfinder-browse" />
-                                                    <img src="" id="show_image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
-                                                </div>
-                                            </div>
-                                            <div class="da-form-row">
-                                                <label>คำอธิบายแบนเนอร์</label>
-                                                <div class="da-form-item large">
-                                                    <span class="formNote"  >ใส่คำอธิบายแบนเนอร์</span>
-                                                    <textarea id="content" name="content" class="texteditor" style="overflow-x: hidden; overflow-y: hidden; height:500px; "></textarea>
-                                                </div>
-                                                <div id="myelfinder"></div>
                                             </div>
                                        		<div class="da-button-row">
-                                            	<input type="reset" value="ยกเลิก" class="da-button gray left">
-                                            	<input type="submit" value="บันทึก" class="da-button green">
+                                            	<input type="reset" value="ยกเลิก" class="da-button gray left" />
+                                            	<input type="submit" value="บันทึก" class="da-button green" />
                                             </div>
                                         </div>
                                         <!--old form end-->

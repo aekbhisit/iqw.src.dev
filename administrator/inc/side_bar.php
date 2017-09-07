@@ -1,34 +1,35 @@
-   <?php
-    $allow_module =  array(
-		'dashboard'=>true,
-		'pages'=>true,
-		'blogs'=>ture,
-		'news'=>true,
-		'banners'=>true,
-		'clips'=>false,
-		'products'=>true,
-		'modules'=>false,
-		'catalogs'=>false,
-        'catalogs_field'=>false,
-		'rooms'=>false,
-		'tours'=>false,
-		'orders'=>false,
-		'members'=>false,
-		'users'=>true,
-		'advertisement'=>false,
-		'galleries'=>true,
-		'calendar'=>false,
-		'comments'=>false,
-		'contacts'=>true,
-		'newsletters'=>false,
-		'downloads'=>false,
-		'files'=>true,
-		'statistics'=>true,
-		'restaurants'=>false,
-		'finds'=>true,
-		'configs'=>true,
-	);
-   ?>
+<?php
+$allow_module = array(		
+    'dashboard'=>true,
+	'pages'=>false,
+	'blogs'=>false,
+	'news'=>true,
+	'banners'=>true,
+	'clips'=>true,
+	'products'=>false,
+	'modules'=>false,
+	'catalogs'=>false,
+    'catalogs_field'=>false,
+	'rooms'=>false,
+	'tours'=>false,
+	'orders'=>false,
+	'members'=>false,
+	'users'=>false,
+	'advertisement'=>false,
+	'galleries'=>true,
+	'calendar'=>false,
+	'comments'=>false,
+	'contacts'=>true,
+	'newsletters'=>false,
+	'downloads'=>true,
+	'files'=>true,
+	'statistics'=>false,
+	'restaurants'=>false,
+	'finds'=>true,
+	'configs'=>true,
+    'addon'=>true,
+);
+?>
     <!-- Sidebar -->
                 <div id="da-sidebar">
                     <!-- Main Navigation -->
@@ -82,31 +83,29 @@
                                 	<span class="da-nav-icon">
                                     	<img src="../images/icons/black/32/single_document.png" alt="Blog" />
                                     </span>
-                                	บริการ 
+                                	บล็อก 
                                 </a>
                                  <ul  <?=($module_active=='blogs')?'class="open"':'class="closed"'?>>
                                 	<li><a href="<?=($module_active=='blogs')?'categories.php':'../blogs/categories.php'?>">จัดการหมวดหมู่</a></li>
-                                	<li><a href="<?=($module_active=='blogs')?'index.php':'../blogs/index.php'?>">จัดการบริการ</a></li>
+                                	<li><a href="<?=($module_active=='blogs')?'index.php':'../blogs/index.php'?>">จัดการบล็อก</a></li>
                                 </ul>
                             </li>
                             <?php  }// if  ?>
-
-                             <?php if($allow_module['products']){?>
+                            <?php if($allow_module['products']){?>
                             <li <?=($module_active=='products')?'class="active"':''?>>
-                                <a href="javascript:void(0)" >
-                                    <!-- Icon Container -->
-                                    <span class="da-nav-icon">
-                                        <img src="../images/icons/black/32/single_document.png" alt="Blog" />
+                            	<a href="javascript:void(0)" >
+                                	<!-- Icon Container -->
+                                	<span class="da-nav-icon">
+                                    	<img src="../images/icons/black/32/scan_label.png" alt="Catalog" />
                                     </span>
-                                    สินค้า 
+                                	สินค้า 
                                 </a>
-                                 <ul  <?=($module_active=='products')?'class="open"':'class="closed"'?>>
-                                    <li><a href="<?=($module_active=='products')?'categories.php':'../products/categories.php'?>">จัดการหมวดหมู่</a></li>
-                                    <li><a href="<?=($module_active=='products')?'index.php':'../products/index.php'?>">จัดการสินค้า</a></li>
+                                 <ul <?=($module_active=='products')?'class="open"':'class="closed"'?>>
+                                	<li><a href="<?=($module_active=='products')?'products-categories.php':'../products/products-categories.php'?>">จัดการหมวดหมู่</a></li>
+                                	<li><a href="<?=($module_active=='products')?'products.php':'../products/products.php'?>">จัดการสินค้า</a></li>
                                 </ul>
                             </li>
                             <?php  }// if  ?>
-                          
                             <?php if($allow_module['modules']){?>
                             <li <?=($module_active=='modules')?'class="active"':''?>>
                             	<a href="javascript:void(0)" >
@@ -192,11 +191,11 @@
                                 	<span class="da-nav-icon">
                                     	<img src="../images/icons/black/32/film_camera.png" alt="Clips" />
                                     </span>
-                                	คลิป 
+                                	สินค้า 
                                 </a>
                                  <ul  <?=($module_active=='clips')?'class="open"':'class="closed"'?>>
                                 	<li><a href="<?=($module_active=='clips')?'categories.php':'../clips/categories.php'?>">จัดการหมวดหมู่</a></li>
-                                	<li><a href="<?=($module_active=='clips')?'index.php':'../clips/index.php'?>">จัดการคลิป</a></li>
+                                	<li><a href="<?=($module_active=='clips')?'index.php':'../clips/index.php'?>">จัดการสินค้า</a></li>
                                 </ul>
                             </li>
                             <?php  }// if  ?>
@@ -300,7 +299,19 @@
                                 </ul>
                             </li>
                              <?php  }// if  ?>
-                              <?php if($allow_module['newsletters']){?>
+                            <?php if($allow_module['addon']){?>
+                            <li <?=($module_active=='addon')?'class="active"':''?>>
+                                <a href="<?=($module_active=='addon')?'index.php':'../addon/index.php'?>">
+                                    <!--<span class="da-nav-count">99</span>-->
+                                    <!-- Icon Container -->
+                                    <span class="da-nav-icon">
+                                        <img src="../images/icons/black/32/mail.png" alt="Contact" />
+                                    </span>
+                                    สถิติโปรเจค
+                                </a>
+                            </li>
+                            <?php  }// if  ?>
+                            <?php if($allow_module['newsletters']){?>
                              <li <?=($module_active=='newsletters')?'class="active"':''?>>
                             	<a href="<?=($module_active=='newsletters')?'index.php':'../newsletters/index.php'?>">
                                 	<!--<span class="da-nav-count">99</span>-->

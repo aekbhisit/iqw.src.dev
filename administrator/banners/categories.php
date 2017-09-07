@@ -1,28 +1,24 @@
-<?php @include ("../inc/auth.inc.php") ; ?>
+<?php @include ("../inc/auth.inc.php"); ?>
 <?php
 $modules = 'banners';
 $modules_name = 'แบนเนอร์';
-$module_active = 'banners' ;
+$module_active = 'banners';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <!-- Viewport metatags -->
 <meta name="HandheldFriendly" content="true" />
 <meta name="MobileOptimized" content="320" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
 <!-- iOS webapp metatags -->
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-
 <!-- iOS webapp icons -->
 <link rel="apple-touch-icon" href="../touch-icon-iphone.png" />
 <link rel="apple-touch-icon" sizes="72x72" href="../touch-icon-ipad.png" />
 <link rel="apple-touch-icon" sizes="114x114" href="../touch-icon-retina.png" />
-
 <!-- CSS Reset -->
 <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
 <!--  Fluid Grid System -->
@@ -33,18 +29,14 @@ $module_active = 'banners' ;
 <link rel="stylesheet" type="text/css" href="../css/dandelion.css" media="screen" />
 <!-- Demo Stylesheet -->
 <link rel="stylesheet" type="text/css" href="../css/demo.css" media="screen" />
-
 <!-- jQuery JavaScript File -->
 <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
-
 <!-- jQuery-UI JavaScript Files -->
 <script type="text/javascript" src="../jui/js/jquery-ui-1.8.20.min.js"></script>
 <script type="text/javascript" src="../jui/js/jquery.ui.timepicker.min.js"></script>
 <script type="text/javascript" src="../jui/js/jquery.ui.touch-punch.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../jui/css/jquery.ui.all.css" media="screen" />
-
 <!-- Plugin Files -->
-
 <!-- FileInput Plugin -->
 <script type="text/javascript" src="../js/jquery.fileinput.js"></script>
 <!-- Placeholder Plugin -->
@@ -56,29 +48,22 @@ $module_active = 'banners' ;
 <!-- Tooltips Plugin -->
 <script type="text/javascript" src="../plugins/tipsy/jquery.tipsy-min.js"></script>
 <link rel="stylesheet" href="../plugins/tipsy/tipsy.css" />
-
 <!-- DataTables Plugin -->
 <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js"></script>
-
 <!-- Core JavaScript Files -->
 <script type="text/javascript" src="../js/core/dandelion.core.js"></script>
-
 <!-- Customizer JavaScript File (remove if not needed) -->
 <script type="text/javascript" src="../js/core/dandelion.customizer.js"></script>
-
 <script type="text/javascript" src="../plugins/jgrowl/jquery.jgrowl.js"></script>
 <link rel="stylesheet" type="text/css" href="../plugins/jgrowl/jquery.jgrowl.css" media="screen" />
-
+<!-- all-pages-include-script -->
+<?php include('../all-pages-include-script.php'); ?>
 <!-- Custom script for all page -->
 <script type="text/javascript" src="../all-pages-script.js"></script>
-
 <!-- Custom script for this page -->
 <script type="text/javascript" src="categories-script.js"></script>
-
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
-
 </head>
-
 <body>
 	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
 	<div id="da-wrapper" class="fluid">

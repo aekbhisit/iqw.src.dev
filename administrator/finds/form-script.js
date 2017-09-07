@@ -1,9 +1,9 @@
 // JavaScript Document
 var modules = "finds";
-var oTable ;
+var oTable;
 (function($) {
 	$(document).ready(function(e) {
-		formInit() ;
+		formInit();
 		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
 		showFindOndDialog();
 		showFindCategoryDialog();
@@ -13,55 +13,52 @@ var oTable ;
 function showFindOndDialog(){
 	configFindOneDialog();
 	$("#da-dialog-find-one").bind("click", function(event) {
-			var findModule =$('#moduleList_id').find(":selected").val() ;
-			loadFindOneTableData(findModule)	;
-			$("#da-dialog-div-one").dialog("option", {modal: true}).dialog("open");
-			event.preventDefault();
+		var findModule =$('#moduleList_id').find(":selected").val() ;
+		loadFindOneTableData(findModule)	;
+		$("#da-dialog-div-one").dialog("option", {modal: true}).dialog("open");
+		event.preventDefault();
 	});	
 }
-
 function showFindCategoryDialog(){
 	configFindCategoryDialog();
 	$("#da-dialog-find-cat").bind("click", function(event) {
-			var findModule =$('#moduleList_id').find(":selected").val() ;
-			loadFindCategoryTableData(findModule)	;
-			$("#da-dialog-div-cat").dialog("option", {modal: false}).dialog("open");
-			event.preventDefault();
+		var findModule =$('#moduleList_id').find(":selected").val();
+		loadFindCategoryTableData(findModule);
+		$("#da-dialog-div-cat").dialog("option", {modal: false}).dialog("open");
+		event.preventDefault();
 	});	
 }
-
 function configFindOneDialog(){
 	$("#da-dialog-div-one").dialog({
-			autoOpen: false, 
-			title: "เลือกรายการที่ต้องการ", 
-			modal: true, 
-			width: "80%",
-			height:'500',
-			buttons: [{
-					text: "บันทึก", 
-					click: function() {
-						saveSelectedFindOne();
-						 oTable.fnDestroy();
-						$( this ).dialog( "close" );
-					}}]
-		});	
+		autoOpen: false, 
+		title: "เลือกรายการที่ต้องการ", 
+		modal: true, 
+		width: "80%",
+		height:'500',
+		buttons: [{
+		text: "บันทึก", 
+		click: function() {
+			saveSelectedFindOne();
+			oTable.fnDestroy();
+			$(this).dialog("close");			
+		}}]
+	});	
 }
-
 function configFindCategoryDialog(){
 	$("#da-dialog-div-cat").dialog({
-			autoOpen: false, 
-			title: "เลือกหมวดที่ต้องการ", 
-			modal: true, 
-			width: "80%",
-			height:'500',
-			buttons: [{
-					text: "บันทีก", 
-					click: function() {
-						saveSelectedFindCategory();
-						 oTable.fnDestroy();
-						$( this ).dialog( "close" );
-					}}]
-		});	
+		autoOpen: false, 
+		title: "เลือกหมวดที่ต้องการ", 
+		modal: true, 
+		width: "80%",
+		height:'500',
+		buttons: [{
+		text: "บันทีก", 
+		click: function() {
+			saveSelectedFindCategory();
+			oTable.fnDestroy();
+			$(this).dialog("close");
+		}}]
+	});	
 }
 
 function saveSelectedFindOne(){
@@ -157,20 +154,19 @@ function initSelectedFindCategory(finds,findModule){
 	//var finds = $.parseJSON(finds);
 	$(finds).each(function(index, element) {
 		var d = new Date();
-			var json_url = "../../app/index.php?module="+findModule+"&task=loadFindCategoryInit&id="+element+"&d"+d.getTime() ;
-			//alert(json_url);
-			$.getJSON(json_url,function(data){
-				var tr_id =  'tr#fineQuerySelectedIDTR'+element ;
-				  if($(document).find(tr_id).length==0){
-					  var listSelected = '<tr id="fineCategorySelectedIDTR'+element+'" style="height:35px;"  >';
-							listSelected +='<td width="20%"><input name="findCategorySelectedID['+element+']" id="findCategorySelectedID['+element+']" type="text" style="width:95%" placeholder="ID" value="'+element+'" /></td>';
-							listSelected +='<td width="32%"><input name="showSlug" id="showSlug['+element+']" type="text" style="width:95%" placeholder="Slug" value="'+data.slug+'"  readonly="readonly" /></td>';
-							listSelected +='<td ><input name="showSlugName[0]" id="showSlugName['+element+']" type="text" style="width:95%" placeholder="Name" value="'+data.name+'"  readonly="readonly"  /> </td>'; 
-							listSelected +='<td width="10%"><input name="removeFineCategorySelectedID'+element+'" id="removeFineCategorySelectedID'+element+'" type="button"  value="ลบ" class="defaultFieldRemoveBtn da-button red" onclick="removeFineCategorySelectedID('+element+')" /></td>';
-							listSelected += '</tr>';
-						$('#findCategorySelected').append(listSelected);
-				}
-			});
+		var json_url = "../../app/index.php?module="+findModule+"&task=loadFindCategoryInit&id="+element+"&d"+d.getTime();
+		$.getJSON(json_url,function(data){
+			var tr_id =  'tr#fineQuerySelectedIDTR'+element;
+			if($(document).find(tr_id).length==0){
+				var listSelected = '<tr id="fineCategorySelectedIDTR'+element+'" style="height:35px;"  >';
+					listSelected +='<td width="20%"><input name="findCategorySelectedID['+element+']" id="findCategorySelectedID['+element+']" type="text" style="width:95%" placeholder="ID" value="'+element+'" /></td>';
+					listSelected +='<td width="32%"><input name="showSlug" id="showSlug['+element+']" type="text" style="width:95%" placeholder="Slug" value="'+data.slug+'"  readonly="readonly" /></td>';
+					listSelected +='<td ><input name="showSlugName[0]" id="showSlugName['+element+']" type="text" style="width:95%" placeholder="Name" value="'+data.name+'"  readonly="readonly"  /> </td>'; 
+					listSelected +='<td width="10%"><input name="removeFineCategorySelectedID'+element+'" id="removeFineCategorySelectedID'+element+'" type="button"  value="ลบ" class="defaultFieldRemoveBtn da-button red" onclick="removeFineCategorySelectedID('+element+')" /></td>';
+					listSelected += '</tr>';
+				$('#findCategorySelected').append(listSelected);
+			}
+		});
 	});
 	$('#showFindCategorySelectedContainer').fadeIn();
 }
@@ -214,30 +210,30 @@ function gotoManagePage(){
 
 function formInit(){
 	var d = new Date();
-	var request = window.location.search.replace('?','') ;
-	var url = "../../app/index.php?module="+modules+"&task=formInit&"+request+"&d"+d.getTime() ;
+	var request = window.location.search.replace('?','');
+	var url = "../../app/index.php?module="+modules+"&task=formInit&"+request+"&d"+d.getTime();
 	$.getJSON(url,function(data){ 
-			if(typeof data=='object' && data!=null){
-				$('#id').val(data.id);
-				 loadNowSystemModule(data.find_module) ;
-				$('#name').val(data.find_name);
-				// init find task
-				$('#findTaskType').find('option:[value="'+data.find_task+'"]').attr('selected','selected');
-				if(data.find_task!='find'){
-					$('#task').val(data.find_task);
-				}
-				findTaskTypeFilter(data.find_task);
-				// init find  type
-				$('#findType').find('option:[value="'+data.find_type+'"]').attr('selected','selected');
-				findTypeFilter(data.find_type) ;
-				// init find Parameter
-				var param_type = $.trim(data.find_key);
-				//var param_type =  "param";
-				switch(param_type){
-					case "param":
-						$('#findParameter').find('option:[value="'+data.find_key+'"]').attr('selected','selected');
-						findParmFilter(data.find_type) ;
-					break;
+		if(typeof data=='object' && data!=null){
+			$('#id').val(data.id);
+			loadNowSystemModule(data.find_module);
+			$('#name').val(data.find_name);
+			// init find task
+			$('#findTaskType').find('option:[value="'+data.find_task+'"]').attr('selected','selected');
+			if(data.find_task!='find'){
+				$('#task').val(data.find_task);
+			}
+			findTaskTypeFilter(data.find_task);
+			// init find  type
+			$('#findType').find('option:[value="'+data.find_type+'"]').attr('selected','selected');
+			findTypeFilter(data.find_type);
+			// init find Parameter
+			var param_type = $.trim(data.find_key);
+			//var param_type =  "param";
+			switch(param_type){
+				case "param":
+					$('#findParameter').find('option:[value="'+data.find_key+'"]').attr('selected','selected');
+					findParmFilter(data.find_type) ;
+				break;
 					case "param1+":
 						$('#findParameter').find('option:[value="'+data.find_key+'"]').attr('selected','selected');
 						findParmFilter(data.find_type) ;

@@ -7,7 +7,7 @@
                         <div id="da-logo">
                             <div id="da-logo-img">
                                 <a href="../dashboard/dashboard.php">
-                                    <img src="../images/logo.png" alt="Dandelion Admin" />
+                                    <img src="http://irradiance.uat.nd.co.th/themes/irradiance/filemanagers/images/logo-ir.jpg" alt="irradiance Admin" />
                                 </a>
                             </div>
                         </div>
