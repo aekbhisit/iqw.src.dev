@@ -1,87 +1,87 @@
 <?php
-session_start();
+if(empty($_SESSION)) {
+	session_start();
+}
 $oUsers = new Users('users');
 $oCategories = new Contacts('contacts_categories');
 $oModule = new Contacts('contacts');
 if(isset($_GET['task'])){
-	$task = $_GET['task'] ;
+	$task = $_GET['task'];
 	switch($task){
-//  categories task   
+		//  categories task   
 		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';
-			$orderby ='' ;
+			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart= $_GET['iDisplayStart'];
-			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength ;
+			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength;
 			$iSortCol_0= $_GET['iSortCol_0'];
 			$sSortDir_0= $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
-				$orderby = " order by  ".$columns[$iSortCol_0].' '.$sSortDir_0 ;
+				$orderby = " order by ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
-				$orderby = " order by  ".$columns[4].' '.$sSortDir_0 ;
+				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
 			$sSearch= $_GET['sSearch']; 
 			if(!empty($sSearch)){
-				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') " ;
+				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
 			//print_r($categories);
-			$iTotal = $oCategories->getCategoriesSize() ;
-			 $iFilteredTotal =  count($categories);
+			$iTotal = $oCategories->getCategoriesSize();
+			 $iFilteredTotal = count($categories);
 			$output = array(
-					"sEcho" => intval($_GET['sEcho']),
-					"iTotalRecords" => $iTotal,
-					"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-					"aaData" => array()
-				);
+				"sEcho" => intval($_GET['sEcho']),
+				"iTotalRecords" => $iTotal,
+				"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
+				"aaData" => array()
+			);
 			$cnt = 1;
 			if(!empty($categories)){
-			foreach($categories as $key =>$value){
-			if($value['level']>0){
-			if($value['status']){	
-				$iconbar = '	<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" /></a>';
-			}else{
-				$iconbar = '	<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png" /></a>';
-			}		
-			$iconbar .=	'  <a href="javascript:void(0)" onclick="setCategoryDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>  ';
-			// if(SITE_TRANSLATE){
-			// 	$iconbar .=  '  <a href="javascript:void(0)" onclick="setCategoryTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title=แปลภาษา /></a>';
-			// }		
-			$iconbar .=	'<a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" /></a>';
-									
-			$order = '<a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'left\')"><img src="../images/icons/black/16/arrow_up_small.png" /></a>
-							     <a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'right\')" ><img src="../images/icons/black/16/arrow_down_small.png" /></a>
-							  ';
-			$indent = '';	
-				for($i=1;$i<$value['level'];$i++){
-					$indent .= '-';
-				}
-				$showname = '<a href="javascript:void(0)" onclick="setCategoryEdit('.$value['id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$indent.$value['name'].'</a>';			 				  
-				$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
-				$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['level'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
-				$cnt++ ;
-				}
-			}
-			}
-				echo json_encode($output) ;
-				break;
-			case 'loadCategories':
-				$categories = $oCategories->getCategoriesTreeAll();
-				$data = array(
-					0=>array('level'=>0,'id'=>0,'parent'=>0,'name'=>'--- ไม่เลือก ---'),
-				);
-				$cnt =1 ;
-			    if(!empty($categories)){
-					foreach($categories as $c){
-						$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']) ;
+				foreach($categories as $key =>$value){
+					if($value['level']>0){
+						if($value['status']){
+							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" /></a>';
+						}else{
+							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png" /></a>';
+						}
+						$iconbar .=	'<a href="javascript:void(0)" onclick="setCategoryDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>  ';
+						// if(SITE_TRANSLATE){
+						// 	$iconbar .=  '  <a href="javascript:void(0)" onclick="setCategoryTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title=แปลภาษา /></a>';
+						// }		
+						$iconbar .=	'<a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" /></a>';
+												
+						$order = '<a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'left\')"><img src="../images/icons/black/16/arrow_up_small.png" /></a><a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'right\')" ><img src="../images/icons/black/16/arrow_down_small.png" /></a>';
+						$indent = '';
+						for($i=1;$i<$value['level'];$i++){
+							$indent .= '-';
+						}
+						$showname = '<a href="javascript:void(0)" onclick="setCategoryEdit('.$value['id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$indent.$value['name'].'</a>';			 				  
+						$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
+						$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['level'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
 						$cnt++;
 					}
-				 }
-				echo json_encode($data);
-				break;
-			case 'categoryFormInit':
+				}
+			}
+			echo json_encode($output);
+		break;
+		case 'loadCategories':
+			$categories = $oCategories->getCategoriesTreeAll();
+			$data = array(
+				0=>array('level'=>0,'id'=>0,'parent'=>0,'name'=>'--- ไม่เลือก ---'),
+			);
+			$cnt =1 ;
+			if(!empty($categories)){
+				foreach($categories as $c){
+					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']) ;
+					$cnt++;
+				}
+			 }
+			echo json_encode($data);
+		break;
+		case 'categoryFormInit':
 					if($_GET['mode']=='edit'){
 						$id = addslashes($_GET['id']);
 						$data = $oCategories->getCategory($id);
@@ -227,145 +227,140 @@ if(isset($_GET['task'])){
 				}
 			break;	
 			
-// for frontend
+		// for frontend
 		case 'front_getContactList':
 			$data['contacts']['contact_list'] = $oCategories->front_getContactList();
 		break;
-		// case 'sentContact':
-		// 		// print_r($_POST);
-		// 		// print_r($_FILES);
-		// 		$mailTo = addslashes($_POST['contact_to']);
-		// 		$toName = addslashes($_POST['contact_to']);
+		// case 'sentService':
+		// 		if(!empty($_FILES['ufile']['name'])){
+		// 		$filetype_exc = end(explode(".",$_FILES['ufile']['name']));
+		// 		$check_exc = array('php','php3','php4','html','pl','py','rb','sh','exe','shtml','phtml','jar');
+		// 		foreach($check_exc as $exc){
+		// 			if(preg_match($exc,$filetype_exc)) {
+		// 				exit;
+		// 			}
+		// 		}
+
+		// 		$upload_name = '../media/uploads/'.time().'.'.$filetype_exc ;
+
+		// 		if( move_uploaded_file($_FILES['ufile']['tmp_name'], $upload_name) ){
+		// 			$full_path = ROOT.'media/uploads/'.time().'.'.$filetype_exc ;
+		// 		}else{
+		// 			$full_path = 'Nofile' ;
+		// 		}
+		// 		}else{
+		// 			$full_path = 'Nofile' ;
+		// 		}
+
+		// 		$mailTo = addslashes('phetcharatgroupp@gmail.com');
+		// 		$toName = addslashes('รับเรื่องแจ้งซ่อม/ปัญหา');
 		// 		$ccTo = NULL ;
 		// 		$bccTo = NULL ; 
-		// 		$subject = "Inquiry from website jstech.com";
-		// 		$mailFrom = $_POST['email'] ;
-		// 		$fromName= $_POST['name'];
-		// 		$msg = "Name: ".$_POST['name']."\nemail: ".$_POST['email']."\nTel: ".$_POST['tel']."\ncompanyname: ".$_POST['companyname']."\n Messages:".$_POST['from_message'] ;
-		// 		$attachments = NULL ;
-		// 		// $oMailer-> sendMail($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$msg,$attachments) ;
-		// 		// $contact = $oCategories->getCategoryByEmail($mailTo) ;
-		// 		// $oModule->insertContacts($contact['id'],$fromName,$mailFrom, $mailTo,$subject,$msg,0,0);
+		// 		$subject = ROOT.' : รับเรื่องแจ้งซ่อม/ปัญหา';
+		// 		$mailFrom = addslashes('phetcharatgroupp@gmail.com') ;
+		// 		$fromName= addslashes($_POST['sender_name']);
+		// 		$msg = "<br> ผู้แจ้ง: ".$_POST['sender'] ; 
+		// 		$msg .= "<br>  เรื่องแจ้ง: ".$_POST['requirement'] ; 
+		// 		$msg .= "<br>  ชื่อ-นามสกุล: ".$_POST['sender_name'] ; 
+		// 		$msg .= "<br>  โครงการ: ".$_POST['project'] ; 
+		// 		$msg .= "<br>  บ้านเลขที่/ห้องเลขที่: ".$_POST['address'] ; 
+		// 		$msg .= "<br>  เบอร์โทรศัพท์: ".$_POST['tel'] ; 
+		// 		$msg .= "<br>  อีเมล์: ".$_POST['email'] ; 
+		// 		$msg .= "<br>  ข้อมูลที่ต้องการแจ้ง: ".$_POST['detail'] ; 
+		// 		$msg .= "<br>  รูปภาพ: ".$full_path ; 
+		// 		$attachments = NULL  ;
+		// 		$sendmail = $oMailer->sendMail($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$msg,$attachments) ;
+		// 		$contact = $oCategories->getCategoryByEmail('phetcharatgroupp@gmail.com') ;
+		// 		$oModule->insertContacts($contact['id'],$fromName,$mailFrom, $mailTo,$subject,$msg,0,0);
 		// 		// $oMailer->testGmail();
+		// 		if($sendmail){
+		// 			$_SESSION['sendMailMessage'] = 'Message sent!';
+		// 		}else{
+		// 			$_SESSION['sendMailMessage'] = 'Error';
+		// 		}
+				
+		// 		header('Location: /th/services') ;
+
 		// break ;
-		case 'sentContact':
-				$mailTo = addslashes('tong@z.com');
-				$toName = addslashes('Inquiry from website jstech.com');
-				$ccTo = NULL ;
-				$bccTo = NULL ; 
-				$subject = ' : Inquiry from website '.ROOT;
-				$mailFrom = addslashes($_POST['email']) ;
-				$fromName= addslashes($_POST['name']);
-				$msg = "<br> ผู้ติดต่อ: ".$_POST['name'] ; 
-				$msg .= "<br>  บริษัท: ".$_POST['companyname'] ; 
-				$msg .= "<br>  เบอร์โทรศัพท์: ".$_POST['tel'] ; 
-				$msg .= "<br>  อีเมล์: ".$_POST['email'] ; 
-				$msg .= "<br>  รายละเอียด: ".$_POST['message'] ;
-		
-				$sendmail = $oMailer->sendMail($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$msg,$attachments) ;
-				$contact = $oCategories->getCategoryByEmail('tong@z.com') ;
-				$oModule->insertContacts($contact['id'],$fromName,$mailFrom, $mailTo,$subject,addslashes(htmlentities($msg)),0,0);
-				// $oMailer->testGmail();
-				if($sendmail){
-					$_SESSION['sendMailMessage'] = 'Message sent!';
-					echo $sendmail ;
-				}else{
-					$_SESSION['sendMailMessage'] = 'Error';
-					echo $sendmail ;
-				}
-
-				// header('Location: /th/services') ;
-
-		break ;
-
-		case 'sentReqruitment':
-
-				$mailTo = addslashes('phetcharatgroupp@gmail.com');
-				$toName = addslashes('สมัครงาน');
-				$ccTo = NULL ;
-				$bccTo = NULL ; 
-				$subject = 'สมัครงาน';
-				$mailFrom = addslashes('phetcharatgroupp@gmail.com') ;
-				$fromName= addslashes($_POST['name'].' '.$_POST['lastname']);
-				$msg = "<br> ชื่อ: ".$_POST['name'] ; 
-				$msg .= "<br>  นามสกุล: ".$_POST['lastname'] ; 
-				$msg .= "<br>  อีเมล์: ".$_POST['email'] ; 
-				$msg .= "<br>  เบอร์โทรศัพท์: ".$_POST['tel'] ; 
-				$msg .= "<br>  ตำแหน่งงาน: ".$_POST['position'] ; 
-				$msg .= "<br>  สถานที่ทำงาน: ".$_POST['place'] ; 
-				
+		case 'sentIrradianceContact':
+			if(!isset($_SESSION['sendMailMessage'])) {
+				$mailTo = addslashes('sathapornsukrammi@gmail.com');
+				$toName = addslashes('Contact footer irradiance');
+				$ccTo = NULL;
+				$bccTo = NULL; 
+				$subject = 'Contact footer irradiance';
+				$mailFrom = addslashes($_POST['frn_e_email']);
+				$fromName= addslashes($_POST['frn_e_name']);
+				$msg = "<br>ชื่อ: ".$_POST['frn_e_name'] ; 
+				$msg .= "<br>อีเมล์: ".$_POST['frn_e_email']; 
+				$msg .= "<br>ข้อความ: ".$_POST['frn_e_message']; 
 				$attachments = NULL ;
-				$sendmail =  $oMailer-> sendMail($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$msg,$attachments) ;
-				$contact = $oCategories->getCategoryByEmail('phetcharatgroupp@gmail.com') ;
-				$oModule->insertContacts($contact['id'],$fromName,$mailFrom, $mailTo,$subject,$msg,0,0);
-				// $oMailer->testGmail();
+				$sendmail = $oMailer->sendMail($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$msg,$attachments);
+				$oModule->insertContacts(0,$fromName,$mailFrom,$mailTo,$subject,$msg,0,0);
 				if($sendmail){
 					$_SESSION['sendMailMessage'] = 'Message sent!';
+					echo 1;
 				}else{
 					$_SESSION['sendMailMessage'] = 'Error';
+					echo 99;
 				}
-
-				echo $_SESSION['sendMailMessage'] ;
-				
-			break ;
-		case 'sentRegister':
-
-				$mailTo = addslashes('phetcharatgroupp@gmail.com');
-				$toName = addslashes('สมัครงาน');
-				$ccTo = NULL ;
-				$bccTo = NULL ; 
-				$subject = 'ลงทะเบียนเพื่อรับสิทธิพิเศษจากโครงการ';
-				$mailFrom = addslashes('phetcharatgroupp@gmail.com') ;
-				$fromName= addslashes($_POST['name'].' '.$_POST['lastname']);
-				$msg = "<br> ชื่อ: ".$_POST['name'] ; 
-				$msg .= "<br>  นามสกุล: ".$_POST['lastname'] ; 
-				$msg .= "<br>  อีเมล์: ".$_POST['email'] ; 
-				$msg .= "<br>  เบอร์โทรศัพท์: ".$_POST['tel'] ; 
-				$msg .= "<br>  ประเทศที่อยู่อาศัย: ".$_POST['country'] ; 
-				$msg .= "<br>  โครงการ: ".$_POST['project'] ; 
-				
+			} else {
+				echo 400;
+			}
+		break;
+		case 'sentIrradianceContactPage':
+			if(!isset($_SESSION['sendMailMessageContactPage'])) {
+				$mailTo = addslashes('sathapornsukrammi@gmail.com');
+				$toName = addslashes('Contact page irradiance');
+				$ccTo = NULL;
+				$bccTo = NULL; 
+				$subject = 'Contact page irradiance';
+				$mailFrom = addslashes($_POST['frn_e_contact_page_email']);
+				$fromName= addslashes($_POST['frn_e_contact_page_name']);
+				$contacts_id = (int)addslashes($_POST['contact_id']);
+				$msg = "<br>ชื่อ: ".$_POST['frn_e_contact_page_name'];
+				$msg .= "<br>หัวข้อ: ".$_POST['frn_e_contact_page_subject'];
+				$msg .= "<br>เบอร์ติดต่อ: ".$_POST['frn_e_contact_page_phone'];
+				$msg .= "<br>อีเมล์: ".$_POST['frn_e_contact_page_email']; 
+				$msg .= "<br>ข้อความ: ".$_POST['frn_e_contact_page_message']; 
 				$attachments = NULL ;
-				$sendmail =  $oMailer-> sendMail($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$msg,$attachments) ;
-				$contact = $oCategories->getCategoryByEmail('phetcharatgroupp@gmail.com') ;
-				$oModule->insertContacts($contact['id'],$fromName,$mailFrom, $mailTo,$subject,$msg,0,0);
-				// $oMailer->testGmail();
+				$sendmail = $oMailer->sendMail($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$msg,$attachments);
+				$oModule->insertContacts($contacts_id,$fromName,$mailFrom,$mailTo,$subject,$msg,0,0);
 				if($sendmail){
-					$_SESSION['sendMailMessage'] = 'Message sent!';
+					$_SESSION['sendMailMessageContactPage'] = 'Message sent!';
+					echo 1;
 				}else{
-					$_SESSION['sendMailMessage'] = 'Error';
+					$_SESSION['sendMailMessageContactPage'] = 'Error';
+					echo 99;
 				}
-
-				echo $_SESSION['sendMailMessage'] ;
-				
-			break ;
+			} else {
+				echo 400;
+			}
+		break;
 		case 'sentReplyContact':
-				$id =  $_POST['contacts_id']; 
-				$mailTo = $_POST['replyto_email']; 
-				$toName = $_POST['replyto_email'] ;
-				$ccTo = NULL ;
-				$bccTo = NULL ; 
-				$subject = 'Reply : '.SITE_NAME.' : '.$_POST['reply_subject'];
-				$mailFrom = $_POST['from_email'] ;
-				$fromName= $_POST['from_email'] ;
-				$msg =$_POST['contacts_messages'] ;
-				$attachments = NULL ;
-				if($oMailer-> sendMail($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$msg,$attachments)){
-					$oModule->insert_contact_reply($id,$subject,$msg);
-				}
-				
-				//$contact = $oCategories->getCategoryByEmail($mailTo) ;
-				//$oModule->insertContacts($contact['id'],$fromName,$mailFrom, $mailTo,$subject,$msg,0,0);
-				//$oMailer->testGmail();
-		break ;
-			case 'sentBooking':
-				$mailTo = $_POST['contact_to'];
-				$toName = $_POST['contact_to'] ;
-				$ccTo = NULL ;
-				$bccTo = NULL ; 
-				$subject = 'From costavillage.com Booking : '.$_POST['from_name'];
-				$mailFrom = $_POST['from_email'] ;
-				$fromName= $_POST['from_name'] ;
-				$msg = ' รายละเอียดการจองห้องพัก
+			$id =  $_POST['contacts_id']; 
+			$mailTo = $_POST['replyto_email']; 
+			$toName = $_POST['replyto_email'];
+			$ccTo = NULL;
+			$bccTo = NULL; 
+			$subject = 'Reply : '.SITE_NAME.' : '.$_POST['reply_subject'];
+			$mailFrom = $_POST['from_email'];
+			$fromName= $_POST['from_email'];
+			$msg =$_POST['contacts_messages'];
+			$attachments = NULL;
+			if($oMailer-> sendMail($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$msg,$attachments)){
+				$oModule->insert_contact_reply($id,$subject,$msg);
+			}
+		break;
+		case 'sentBooking':
+			$mailTo = $_POST['contact_to'];
+			$toName = $_POST['contact_to'];
+			$ccTo = NULL;
+			$bccTo = NULL; 
+			$subject = 'From costavillage.com Booking : '.$_POST['from_name'];
+			$mailFrom = $_POST['from_email'];
+			$fromName= $_POST['from_name'];
+			$msg = ' รายละเอียดการจองห้องพัก
 				<br>
 				<table width="500" border="0" cellspacing="0" cellpadding="0">
 								  <tr>
@@ -404,19 +399,18 @@ if(isset($_GET['task'])){
 									<td>&nbsp;</td>
 									<td>&nbsp;</td>
 								  </tr>
-								</table>' ; 
-				$attachments = NULL ;
-				$oMailer-> sendMail($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$msg,$attachments) ;
-				
-				$contact = $oCategories->getCategoryByEmail($mailTo) ;
-				$oModule->insertContacts($contact['id'],$fromName,$mailFrom, $mailTo,$subject,$msg,0,0);
-				//$oMailer->testGmail();
+								</table>'; 
+			$attachments = NULL;
+			$oMailer-> sendMail($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$msg,$attachments) ;
+			$contact = $oCategories->getCategoryByEmail($mailTo) ;
+			$oModule->insertContacts($contact['id'],$fromName,$mailFrom, $mailTo,$subject,$msg,0,0);
+			//$oMailer->testGmail();
 		break ;	
 		// for find module	
 			case 'getCategoriesDataInFinds':
 				$columns = array('','name','level','mdate','lft');
 				$limit = '';
-				$orderby ='' ;
+				$orderby =' ';
 				$search = '';
 				$iDisplayLength = $_GET['iDisplayLength'];
 				$iDisplayStart= $_GET['iDisplayStart'];
@@ -469,53 +463,52 @@ if(isset($_GET['task'])){
 				echo json_encode($output) ;
 			break;
 			case 'getDataInFinds':
-					$columns = array('id','name','category_id','mdate','sequence');
-					$limit = '';
-					$orderby ='' ;
-					$search = '';
-					$iDisplayLength = $_GET['iDisplayLength'];
-					$iDisplayStart= $_GET['iDisplayStart'];
-					$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength ;
-					$iSortCol_0= $_GET['iSortCol_0'];
-					$sSortDir_0= $_GET['sSortDir_0'];
-					if(!empty($columns[$iSortCol_0])){
-						$orderby = " order by  $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0 ;
-					}else{
-						$orderby = " order by  ".$columns[4].' '.$sSortDir_0 ;
-					}
-					$sSearch= $_GET['sSearch']; 
-					if(!empty($sSearch)){
-						$search =  " WHERE ( $oModule->table.name like '%$sSearch%' or  $oModule->table.slug like '%$sSearch%') " ;
-					}
-					$data = $oModule->getAll($search,$orderby,$limit);
-					//print_r($categories);
-					$iTotal = $oModule->getSize() ;
-					 $iFilteredTotal =  count($data);
-					$output = array(
-							"sEcho" => intval($_GET['sEcho']),
-							"iTotalRecords" => $iTotal,
-							"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-							"aaData" => array()
-						);
-					$cnt = 1;
-					if(!empty($data)){
+				$columns = array('id','name','category_id','mdate','sequence');
+				$limit = '';
+				$orderby ='' ;
+				$search = '';
+				$iDisplayLength = $_GET['iDisplayLength'];
+				$iDisplayStart= $_GET['iDisplayStart'];
+				$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength;
+				$iSortCol_0 = $_GET['iSortCol_0'];
+				$sSortDir_0 = $_GET['sSortDir_0'];
+				if(!empty($columns[$iSortCol_0])){
+					$orderby = " order by $oCategories->table.".$columns[$iSortCol_0].' '.$sSortDir_0;
+				}else{
+					$orderby = " order by ".$columns[4].' '.$sSortDir_0;
+				}
+				$sSearch= $_GET['sSearch']; 
+				if(!empty($sSearch)){
+					$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
+				}
+				$data = $oCategories->getCategoriesAll($search,$orderby,$limit);
+				//print_r($categories);
+				$iTotal = $oCategories->getCategoriesSize();
+				$iFilteredTotal =  count($data);
+				$output = array(
+					"sEcho"=>intval($_GET['sEcho']),
+					"iTotalRecords" => $iTotal,
+					"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
+					"aaData" => array()
+				);
+				$cnt = 1;
+				if(!empty($data)){
 					foreach($data as $key =>$value){
-					if($value['status']==1){	
-						$iconbar = '	<a href="javascript:void(0)"  ><img src="../images/icons/color/target.png" title="เปิด" /></a>  ';
-					}else{
-						$iconbar = '	<a href="javascript:void(0)" ><img src="../images/icons/color/stop.png" title="ปิด" /></a>  ';
-					}
-				
-					$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
+						if($value['status']==1){	
+							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/target.png" title="เปิด" /></a>';
+						}else{
+							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/stop.png" title="ปิด" /></a>';
+						}
 					
-					$showname = $value['name'].'<input name="showName_'.$value['id'].'" id="showName_'.$value['id'].'" type="hidden" value="'.$value['name'].'" />'.'<input name="showSlug_'.$value['id'].'" id="showSlug_'.$value['id'].'" type="hidden" value="'.$value['slug'].'" />' ;
-						
+						$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
+						$showname = $value['name'].'<input name="showName_'.$value['id'].'" id="showName_'.$value['id'].'" type="hidden" value="'.$value['name'].'" />'.'<input name="showSlug_'.$value['id'].'" id="showSlug_'.$value['id'].'" type="hidden" value="'.$value['slug'].'" />' ;
+							
 						$value['category'] = (empty($value['category']))?'  - ':$value['category'] ;
 						$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$iconbar,4=>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
 						$cnt++ ;
-						}
 					}
-						echo json_encode($output) ;
+				}
+				echo json_encode($output);
 			break;
 		    case "loadFindOneInit":
 						$id = addslashes($_GET['id']);
@@ -535,7 +528,7 @@ if(isset($_GET['task'])){
 
 	////////////////task for frontend  //////////////////////////////////////////////////////////////////////////
 					case "find" :
-					$language =  ($_SESSION['site_language'])?$_SESSION['site_language']:SITE_LANGUAGE;
+					$language = LANG;
 					$module = $_GET['module'];
 					$task = $_GET['task'];
 					$type  = $_GET['type'] ;

@@ -203,30 +203,28 @@ class News extends Database {
 	
 	public function getParentCategory($key,$language=NULL){
 		if(!empty($language)&&$language!=$this->site_language){
-			$this->sql = " select * from $this->parent_translate_table  where id =$key ";
+			$this->sql = " select * from $this->parent_translate_table where id = $key ";
 		}else{
-			$this->sql = " select * from $this->parent_table  where id =$key ";
+			$this->sql = " select * from $this->parent_table  where id = $key ";
 		}
 		$this->select();
-		return  $this->rows[0] ;
+		return  $this->rows[0];
 	}
-	
-	function insertData($category_id,$name,$slug,$content,$image,$params,$meta_key,$meta_description,$user_id,$status,$start,$end){
-		$this->sql ="insert into $this->table (category_id,name,slug,content,image,params,meta_key,meta_description,user_id,status,mdate,cdate,start,end,sequence) ";
-		$this->sql .=" values($category_id,'$name','$slug','$content','$image','$params','$meta_key','$meta_description',$user_id,$status,NOW(),NOW(),'$start','$end',0) " ;
+	function insertData($category_id,$name,$description,$slug,$content,$image,$params,$meta_key,$meta_description,$user_id,$status,$start,$end){
+		$this->sql ="insert into $this->table (category_id,name,slug,description,content,image,params,meta_key,meta_description,user_id,status,mdate,cdate,start,end,sequence) ";
+		$this->sql .=" values($category_id,'$name','$slug','$description','$content','$image','$params','$meta_key','$meta_description',$user_id,$status,NOW(),NOW(),'$start','$end',0) " ;
+		//echo $this->sql;
 		$this->insert();
 	}
-	
-	function updateData($id,$category_id,$name,$slug,$content,$image,$params,$meta_key,$meta_description,$user_id,$status,$start,$end){
-		$this->sql ="update $this->table set category_id=$category_id, name='$name', slug='$slug',content='$content' ,image='$image', params='$params', meta_key='$meta_key', meta_description='$meta_description', user_id=$user_id, status=$status, mdate=NOW(),start='$start',end='$end' where $this->primary_key = $id ";
-		$this->update() ;
+	function updateData($id,$category_id,$name,$description,$slug,$content,$image,$params,$meta_key,$meta_description,$user_id,$status,$start,$end){
+		$this->sql ="update $this->table set category_id=$category_id,name='$name',description='$description',slug='$slug',content='$content',image='$image',params='$params',meta_key='$meta_key',meta_description='$meta_description',user_id=$user_id,status=$status,mdate=NOW(),start='$start',end='$end' where $this->primary_key = $id ";
+		$this->update();
 	}
-	
 	function duplicateData($id,$user_id){
 		$this->sql = "select * from $this->table where $this->primary_key = $id ";
 		$this->select();
 		$data = $this->rows[0] ;
-		$this->insertData($data['category_id'],$data['name'],$data['slug'],$data['content'],$data['image'],$data['params'],$data['meta_key'],$data['meta_description'],$user_id,$data['status'],$data['start'],$data['end']) ;
+		$this->insertData($data['category_id'],$data['name'],$data['description'],$data['slug'],$data['content'],$data['image'],$data['params'],$data['meta_key'],$data['meta_description'],$user_id,$data['status'],$data['start'],$data['end']) ;
 		// insert translate 
 		$new_id = $this->insert_id();
 		$this->sql = "select * from $this->translate_table where $this->primary_key = $id ";
@@ -234,7 +232,7 @@ class News extends Database {
 		$data = $this->rows ;
 		if(!empty($data)){
 			foreach($data as $d){ 
-				$this->saveTranslate( $d['lang'],$new_id,$d['name'],$d['content'],$d['image'],$d['params'],$d['meta_key'],$d['meta_description']);
+				$this->saveTranslate( $d['lang'],$new_id,$d['name'],$d['description'],$d['content'],$d['image'],$d['params'],$d['meta_key'],$d['meta_description']);
 			}
 		}
 	}
@@ -324,14 +322,12 @@ function front_getInCategory($categories,$search,$orderby,$limit){
 													  ORDER BY  p.$column $direction
 													 ) ranks ON (ranks.$this->primary_key = $this->table.$this->primary_key)
 											SET    $this->table.sequence = ranks.rank " ;
-				$this->update();
+		$this->update();
 	}
-	
 	function  changeCategory($id,$category_id){
 		$this->sql = "update $this->table set category_id=$category_id where $this->primary_key=$id  ";
 		$this->update();
 	}
-	
 // function for pages frontend /////////////////////////////////////////////////
 // Develop by iQuickweb.com 13/08/2012
 ///////////////////////////////////////////////////////////////////////////////////

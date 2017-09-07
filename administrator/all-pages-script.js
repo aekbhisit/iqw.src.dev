@@ -11,6 +11,7 @@ var FILE_ROOT = '../../';
 		loadTextEditor() ;
 		overWriteValidateMesssage() ;
 		inputBrowserFile();
+		initFormTextEditor();
 	});// document_ready
 	
 }) (jQuery);	
@@ -247,4 +248,70 @@ function getPreImageURL(){
 	var admin_index = location.href.indexOf('administrator') ;
 	var image_url = location.href.substr(0,admin_index);
 	return image_url ;
+}
+
+function initFormTextEditor(){
+	//console.log('auto resize'); 
+	tinymce.init({
+			selector: "textarea.texteditor",
+			inline: false,
+			height:250,
+			mode : "textareas",
+			relative_urls: true , 
+			extended_valid_elements :  "iframe[src|frameborder|style|scrolling|class|width|height|name|align]",
+			fontsize_formats: "8pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 21pt 22pt 23pt 24pt 25pt 26pt 28pt 30pt 32pt 34pt 36pt",
+			// save_onsavecallback:function(){ suSetSaveEditElement();},
+			file_browser_callback : elFinderBrowser,
+			plugins: [
+				"advlist autoresize autolink lists link image charmap print preview anchor emoticons",  
+				"searchreplace visualblocks code fullscreen",
+				"insertdatetime media table contextmenu paste textcolor hr  template ",
+				"fontawesome"
+			],
+			autoresize_overflow_padding: 5,
+			autoresize_min_height: 250,
+			autoresize_max_height: 500,
+			extended_valid_elements: 'i[class|style|title],span[class|style|title],a[accesskey|charset|class|contenteditable|contextmenu|coords|dir|download|draggable|dropzone|hidden|href|hreflang|id|lang|media|name|rel|rev|shape|spellcheck|style|tabindex|target|title|translate|type|onclick|onfocus|onblur],marquee',
+			content_css : "../../themes/assets/css/bootstrap.min.css",
+			content_css: '../../themes/assets/font-awesome/font-awesome.min.css',
+			// templates: [
+			// 	{title: 'Tab 2', description: 'Tab 2',  url: '../../assets/tinymce/template/tab_2.php'},
+			// 	{title: 'Tab 3', description: 'Tab 3',  url: '../../assets/tinymce/template/tab_3.php'},
+			// 	{title: 'Tab 4', description: 'Tab 4',  url: '../../assets/tinymce/template/tab_4.php'},
+			// 	{title: 'Tab 5', description: 'Tab 5',  url: '../../assets/tinymce/template/tab_5.php'},
+			// 	{title: '1 Column', description: '1 Column',  url: '../../assets/tinymce/template/1_col.php'},
+			// 	{title: '2 Column', description: '2 Column',  url: '../../assets/tinymce/template/2_col.php'},
+			// 	{title: '3 Column', description: '3 Column',  url: '../../assets/tinymce/template/3_col.php'},
+			// 	{title: '4 Column', description: '4 Column',  url: '../../assets/tinymce/template/4_col.php'},
+			// 	{title: '6 Column', description: '6 Column',  url: '../../assets/tinymce/template/6_col.php'},
+			// 	{title: '2:10 Column', description: '2:10 Column',  url: '../../assets/tinymce/template/210_col.php'},
+			// 	{title: '10:2 Column', description: '10:2 Column',  url: '../../assets/tinymce/template/102_col.php'},
+			// 	{title: '3:9 Column', description: '3:9 Column',  url: '../../assets/tinymce/template/39_col.php'},
+			// 	{title: '9:3 Column', description: '9:3 Column',  url: '../../assets/tinymce/template/93_col.php'},
+			// 	{title: '4:8 Column', description: '4:8 Column',  url: '../../assets/tinymce/template/48_col.php'},
+			// 	{title: '8:4 Column', description: '8:4 Column',  url: '../../assets/tinymce/template/84_col.php'}
+			// ],
+			toolbar1: " insertfile | undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image   | forecolor backcolor |  formatselect styleselect  fontselect fontsizeselect  | template emoticons fontawesome  ",
+			bootstrapConfig: {
+		        'bootstrapCssPath': '../../themes/assets/css/bootstrap.min.css', // <= replace with your custom bootstrap path
+		        'imagesPath': '../../media/Images/', // replace with your images folder path 
+		        // 'tinymceBackgroundColor': '#fff' // replaces editor background-color with custom
+		    }
+		});   
+}
+
+function elFinderBrowser (field_name, url, type, win) {
+		  tinymce.activeEditor.windowManager.open({
+			// file: '../../assets/filesmanagement/embed_services.php',// use an absolute path!
+			file: FILE_ROOT+'files/embed.php',
+			title: 'Files Management',  
+			width: 900,  
+			height: 450,
+			resizable: 'yes'
+		  }, {
+			setUrl: function (url) {
+			  win.document.getElementById(field_name).value = url;
+			}
+		  });
+		  return false;
 }

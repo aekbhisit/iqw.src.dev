@@ -12,19 +12,19 @@ class Clips extends Database {
 			 $this->parent_table  =$params['parent_table'] ;
 		 }
 		  if(isset($params['parent_table_translate'])){
-			 $this->parent_table_translate  =$params['parent_table_translate'] ;
+			 $this->parent_table_translate  =$params['parent_table_translate'];
 		 }
 		  if(isset($params['parent_primary_key'])){
-			 $this->parent_primary_key  =$params['parent_primary_key'] ;
+			 $this->parent_primary_key  =$params['parent_primary_key'];
 		 }
 		 if(isset($params['site_language'])){
-			 $this->site_language  =$params['site_language'] ;
+			 $this->site_language  =$params['site_language'];
 		 }
 		 if(isset($params['is_translate'])){
-			 $this->is_translate  =$params['is_translate'] ;
+			 $this->is_translate =$params['is_translate'];
 		 }
 		 if(isset($params['table_translate'])){
-			 $this->table_translate  =$params['table_translate'] ;
+			$this->translate_table =$params['table_translate'];
 		 }
 	}
 	
@@ -151,12 +151,12 @@ class Clips extends Database {
 		}else{
 			$this->sql = "select $this->primary_key from $this->table ";
 		}
-		return  $this->select('size') ;
+		return $this->select('size');
 	}
 	
 	public function getAll($search,$order,$limit,$language=NULL){
 		if(!empty($language)&&$language!=$this->site_language){
-				$this->sql = "SELECT $this->table.*, $this->table_translate , $this->parent_table_translate.name as category FROM $this->table  LEFT JOIN $this->parent_table_translate  ON  $this->table.category_id=$this->parent_table_translate.$this->parent_primary_key LEFT JOIN $this->table_translate ON $this->table.$this->primary_key = $this->table_translate.$this->primary_key  $search $order $limit";
+				$this->sql = "SELECT $this->table.*, $this->translate_table , $this->parent_translate_table.name as category FROM $this->table  LEFT JOIN $this->parent_translate_table  ON  $this->table.category_id=$this->parent_translate_table.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->table.$this->primary_key = $this->translate_table.$this->primary_key  $search $order $limit";
 		}else{
 			 	$this->sql = "SELECT $this->table.*, $this->parent_table.name as category FROM $this->table  LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key  $search $order $limit";
 		}
@@ -164,6 +164,16 @@ class Clips extends Database {
 		return $this->rows ;
 	}
 	
+	public function getAllProductClip(){
+		if(!empty($language)&&$language!=$this->site_language){
+				$this->sql = "SELECT $this->table.*, $this->translate_table , $this->parent_translate_table.name as category FROM $this->table  LEFT JOIN $this->parent_translate_table  ON  $this->table.category_id=$this->parent_translate_table.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->table.$this->primary_key = $this->translate_table.$this->primary_key ";
+		}else{
+			 	$this->sql = "SELECT $this->table.*, $this->parent_table.name as category FROM $this->table  LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key ";
+		}
+		$this->select() ;
+		return $this->rows ;
+	}
+
 	public function getOne($key,$slug=false,$language=NULL){
 		if($slug){
 			if(!empty($language)&&$language!=$this->site_language){
@@ -210,22 +220,22 @@ class Clips extends Database {
 		return  $this->rows[0] ;
 	}
 	
-	function insertData($category_id,$name,$slug,$url,$content,$params,$meta_key,$meta_description,$user_id,$status){
-		$this->sql ="insert into $this->table (category_id,name,slug,url,content,params,meta_key,meta_description,user_id,status,mdate,cdate,sequence) ";
-		$this->sql .=" values($category_id,'$name','$slug','$url','$content','$params','$meta_key','$meta_description',$user_id,$status,NOW(),NOW(),0) " ;
+	function insertData($category_id,$name,$slug,$description,$url,$content,$params,$image,$meta_key,$meta_description,$user_id,$status){
+		$this->sql ="insert into $this->table (category_id,name,slug,description,url,content,params,image,meta_key,meta_description,user_id,status,mdate,cdate,sequence) ";
+		$this->sql .=" values($category_id,'$name','$slug','$description','$url','$content','$params','$image','$meta_key','$meta_description',$user_id,$status,NOW(),NOW(),0) ";
 		$this->insert();
 	}
 	
-	function updateData($id,$category_id,$name,$slug,$url,$content,$params,$meta_key,$meta_description,$user_id,$status){
-		$this->sql ="update $this->table set category_id=$category_id, name='$name', slug='$slug',url='$url',content='$content' , params='$params', meta_key='$meta_key', meta_description='$meta_description', user_id=$user_id, status=$status, mdate=NOW() where $this->primary_key = $id ";
+	function updateData($id,$category_id,$name,$slug,$description,$url,$content,$params,$image,$meta_key,$meta_description,$user_id,$status){
+		$this->sql ="update $this->table set category_id=$category_id,name='$name',slug='$slug',description='$description',url='$url',content='$content',image='$image', params='$params',meta_key='$meta_key',meta_description='$meta_description',user_id=$user_id,status=$status,mdate=NOW() where $this->primary_key = $id ";
 		$this->update() ;
 	}
 	
 	function duplicateData($id,$user_id){
 		$this->sql = "select * from $this->table where $this->primary_key = $id ";
 		$this->select();
-		$data = $this->rows[0] ;
-		$this->insertData($data['category_id'],$data['name'],$data['slug'],$data["url"],$data['content'],$data['params'],$data['meta_key'],$data['meta_description'],$user_id,$data['status']) ;
+		$data = $this->rows[0];
+		$this->insertData($data['category_id'],$data['name'],$data['slug'],$data["description"],$data["url"],$data['content'],$data['params'],$data['image'],$data['meta_key'],$data['meta_description'],$user_id,$data['status']) ;
 		// insert translate 
 		$new_id = $this->insert_id();
 		$this->sql = "select * from $this->table_translate where $this->primary_key = $id ";

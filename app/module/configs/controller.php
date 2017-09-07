@@ -1,12 +1,14 @@
 <?php
-session_start() ;
+if(empty($_SESSION)) {
+	session_start();
+}
 $oUsers = new Users('users');
 $oConfigsSite = new Configs('configs_site');
 $oConfigsEmail = new Configs('configs_email');
 if(isset($_GET['task'])){
-	$task = $_GET['task'] ;
+	$task = $_GET['task'];
 	switch($task){
-//  configs-site.html
+	// configs-site.html
 			case 'configsSiteFormInit':
 						$data = $oConfigsSite->getConfigsSite($id);
 						echo json_encode($data);

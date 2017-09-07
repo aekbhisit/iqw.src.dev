@@ -1,13 +1,13 @@
 <?php
 class Users extends Database {
-	var $module   ;
-	var $security_code ;
+	var $module;
+	var $security_code;
 	public function __construct($module,$table=NULL){
 		$this->module = (empty($table))?$module:$table  ;
 		 parent::__construct((empty($table))?$module:$table );
 		 $this->parent_table  = 'users_categories';
 		 $this->parent_primary_key = 'id';
-		 $this->security_code = SECURITY_CODE ;
+		 $this->security_code = SECURITY_CODE;
 	}
 	
 	function datePickerToTime($in_date){

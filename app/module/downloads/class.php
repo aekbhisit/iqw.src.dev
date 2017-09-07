@@ -213,32 +213,29 @@ class Downloads extends Database {
 	
 	function insertData($category_id,$name,$slug,$content,$file,$params,$meta_key,$meta_description,$user_id,$status,$start,$end){
 		$this->sql ="insert into $this->table (category_id,name,slug,content,file,params,meta_key,meta_description,user_id,status,mdate,cdate,start,end,sequence) ";
-		$this->sql .=" values($category_id,'$name','$slug','$content','$file','$params','$meta_key','$meta_description',$user_id,$status,NOW(),NOW(),'$start','$end',0) " ;
+		$this->sql .=" values($category_id,'$name','$slug','$content','$file','$params','$meta_key','$meta_description',$user_id,$status,NOW(),NOW(),'$start','$end',0) ";
 		$this->insert();
 	}
-	
+	function updateData($id,$category_id,$name,$slug,$content,$file,$params,$meta_key,$meta_description,$user_id,$status,$start,$end){
+		$this->sql ="update $this->table set category_id=$category_id, name='$name', slug='slug',content='$content' ,file='$file', params='$params', meta_key='$meta_key', meta_description='$meta_description', user_id=$user_id, status=$status, mdate=NOW(),start='$start',end='$end' where $this->primary_key = $id ";
+		$this->update();
+	}
 	function duplicateData($id,$user_id){
 		$this->sql = "select * from $this->table where $this->primary_key = $id ";
 		$this->select();
 		$data = $this->rows[0] ;
-		$this->insertData($data['category_id'],$data['name'],$data['slug'],$data['content'],$data['file'],$data['params'],$data['meta_key'],$data['meta_description'],$user_id,$data['status'],$data['start'],$data['end']) ;
+		$this->insertData($data['category_id'],$data['name'],$data['slug'],$data['content'],$data['file'],$data['params'],$data['meta_key'],$data['meta_description'],$user_id,$data['status'],$data['start'],$data['end']);
 		// insert translate 
 		$new_id = $this->insert_id();
 		$this->sql = "select * from $this->table_translate where $this->primary_key = $id ";
 		$this->select();
-		$data = $this->rows ;
+		$data = $this->rows;
 		if(!empty($data)){
 			foreach($data as $d){ 
 				$this->saveTranslate( $d['lang'],$new_id,$d['name'],$d['content'],$d['params'],$d['meta_key'],$d['meta_description']);
 			}
 		}	
-}
-	
-	function updateData($id,$category_id,$name,$slug,$content,$file,$params,$meta_key,$meta_description,$user_id,$status,$start,$end){
-		$this->sql ="update $this->table set category_id=$category_id, name='$name', slug='slug',content='$content' ,file='$file', params='$params', meta_key='$meta_key', meta_description='$meta_description', user_id=$user_id, status=$status, mdate=NOW(),start='$start',end='$end' where $this->primary_key = $id ";
-		$this->update() ;
 	}
-	
 	function deleteData($id){
 		$this->sql = "delete from $this->table where $this->primary_key=$id " ;
 		$this->delete();

@@ -1,60 +1,61 @@
 <?php
-session_start();
+if(empty($_SESSION)) {
+	session_start();
+}
 $oUsers = new Users('users');
 // config module
 $params_category = array(
-		'module'=>'downloads_categories',
- 		'table'=>'downloads_categories',
-		'table_translate'=>'downloads_categories_translate',
-		'site_language'=>SITE_LANGUAGE ,
-		'is_translate'=>SITE_TRANSLATE ,
+	'module'=>'downloads_categories',
+ 	'table'=>'downloads_categories',
+	'table_translate'=>'downloads_categories_translate',
+	'site_language'=>SITE_LANGUAGE,
+	'is_translate'=>SITE_TRANSLATE
 );
 $oCategories = new Downloads($params_category);
 $params = array(
-		'module'=>'news',
- 		'table'=>'downloads',
-		'parent_table'=> 'downloads_categories',
-		'parent_table_translate'=> 'downloads_categories_translate',
-		'parent_primary_key'=> 'id',
-		'table_translate'=>'downloads_translate',
-		'site_language'=>SITE_LANGUAGE ,
-		'is_translate'=>SITE_TRANSLATE 
+	'module'=>'news',
+ 	'table'=>'downloads',
+	'parent_table'=>'downloads_categories',
+	'parent_table_translate'=>'downloads_categories_translate',
+	'parent_primary_key'=>'id',
+	'table_translate'=>'downloads_translate',
+	'site_language'=>SITE_LANGUAGE,
+	'is_translate'=>SITE_TRANSLATE
 );
-$oModule = new Downloads($params );
-
+$oModule = new Downloads($params);
 if(isset($_GET['task'])){
-	$task =$_GET['task'] ;
+	$task =$_GET['task'];
 	switch($task){
-//  categories task   
+	//  categories task   
 		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';
-			$orderby ='' ;
+			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart= $_GET['iDisplayStart'];
-			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength ;
+			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength;
 			$iSortCol_0= $_GET['iSortCol_0'];
 			$sSortDir_0= $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
-				$orderby = " order by  ".$columns[$iSortCol_0].' '.$sSortDir_0 ;
+				$orderby = " order by  ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
-				$orderby = " order by  ".$columns[4].' '.$sSortDir_0 ;
+				$orderby = " order by  ".$columns[4].' '.$sSortDir_0;
 			}
 			$sSearch= $_GET['sSearch']; 
 			if(!empty($sSearch)){
-				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') " ;
+				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
 			//print_r($categories);
-			$iTotal = $oCategories->getCategoriesSize() ;
-			 $iFilteredTotal =  count($categories);
+			$iTotal = $oCategories->getCategoriesSize();
+			$iFilteredTotal =  count($categories);
 			$output = array(
-					"sEcho" => intval($_GET['sEcho']),
-					"iTotalRecords" => $iTotal,
-					"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-					"aaData" => array()
-				);
+				"sEcho"=>intval($_GET['sEcho']),
+				"iTotalRecords"=>$iTotal,
+				"iTotalDisplayRecords"=>$iTotal, // $iFilteredTotal,
+				"aaData"=>array()
+			);
 			$cnt = 1;
 			if(!empty($categories)){
 			foreach($categories as $key =>$value){
@@ -85,23 +86,23 @@ if(isset($_GET['task'])){
 				}
 			}
 			}
-				echo json_encode($output) ;
-				break;
-			case 'loadCategories':
-				$categories = $oCategories->getCategoriesTreeAll();
-				$data = array(
-					0=>array('level'=>0,'id'=>0,'parent'=>0,'name'=>'--- ไม่เลือก ---'),
-				);
-				$cnt =1 ;
-			    if(!empty($categories)){
-					foreach($categories as $c){
-						$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']) ;
-						$cnt++;
-					}
-				 }
-				echo json_encode($data);
-				break;
-			case 'categoryFormInit':
+			echo json_encode($output);
+		break;
+		case 'loadCategories':
+			$categories = $oCategories->getCategoriesTreeAll();
+			$data = array(
+				0=>array('level'=>0,'id'=>0,'parent'=>0,'name'=>'--- ไม่เลือก ---'),
+			);
+			$cnt =1 ;
+			if(!empty($categories)){
+				foreach($categories as $c){
+					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']);
+					$cnt++;
+				}
+			}
+			echo json_encode($data);
+		break;
+		case 'categoryFormInit':
 					if($_GET['mode']=='edit'){
 						$id = addslashes($_GET['id']);
 						$data = $oCategories->getCategory($id);
@@ -271,7 +272,7 @@ if(isset($_GET['task'])){
 				if(empty($id)){		
 					$oModule->insertData($category_id,$name,$slug,$content,$file,$params,$meta_key,$meta_description,$user['id'],$status,$start,$end);
 				}else{
-					$oModule-> updateNews($id,$category_id,$name,$slug,$content,$file,$params,$meta_key,$meta_description,$user['id'],$status,$start,$end);
+					$oModule->updateData($id,$category_id,$name,$slug,$content,$file,$params,$meta_key,$meta_description,$user['id'],$status,$start,$end);
 				}
 				break;
 				case 'duplicate':
@@ -529,7 +530,7 @@ if(isset($_GET['task'])){
 			break;	
 ////////////////task for frontend  ///////////
 				case "find" :
-					$language =  ($_SESSION['site_language'])?$_SESSION['site_language']:SITE_LANGUAGE;
+					$language = LANG;
 					$module = $_GET['module'];
 					$task = $_GET['task'];
 					$type  = $_GET['type'] ;

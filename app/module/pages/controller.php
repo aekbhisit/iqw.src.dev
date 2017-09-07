@@ -1,55 +1,56 @@
 <?php
-session_start();
+if(empty($_SESSION)) {
+	session_start();
+}
 $oUsers = new Users('users');
 // config module
 $params_category = array(
- 		'table'=>'pages_categories',
-		'translate_table'=>'pages_categories_translate',
-		'is_translate'=>SITE_TRANSLATE ,
+ 	'table'=>'pages_categories',
+	'translate_table'=>'pages_categories_translate',
+	'is_translate'=>SITE_TRANSLATE
 );
 $oCategories = new Pages('pages_categories',$params_category);
 $params = array(
- 		'table'=>'pages',
-		'parent_table'=> 'pages_categories',
-		'parent_primary_key'=> 'id',
-		'translate_table'=>'pages_translate',
-		'is_translate'=>SITE_TRANSLATE 
+ 	'table'=>'pages',
+	'parent_table'=> 'pages_categories',
+	'parent_primary_key'=> 'id',
+	'translate_table'=>'pages_translate',
+	'is_translate'=>SITE_TRANSLATE
 );
-$oModule = new Pages('pages',$params );
-
+$oModule = new Pages('pages',$params);
 if(isset($_GET['task'])){
-	$task =$_GET['task'] ;
+	$task =$_GET['task'];
 	switch($task){
 //  categories task   
 		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';
-			$orderby ='' ;
+			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart= $_GET['iDisplayStart'];
-			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength ;
-			$iSortCol_0= $_GET['iSortCol_0'];
-			$sSortDir_0= $_GET['sSortDir_0'];
+			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength;
+			$iSortCol_0 = $_GET['iSortCol_0'];
+			$sSortDir_0 = $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
-				$orderby = " order by  ".$columns[$iSortCol_0].' '.$sSortDir_0 ;
+				$orderby = " order by ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
-				$orderby = " order by  ".$columns[4].' '.$sSortDir_0 ;
+				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $_GET['sSearch']; 
 			if(!empty($sSearch)){
-				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') " ;
+				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
 			//print_r($categories);
-			$iTotal = $oCategories->getCategoriesSize() ;
+			$iTotal = $oCategories->getCategoriesSize();
 			 $iFilteredTotal =  count($categories);
 			$output = array(
-					"sEcho" => intval($_GET['sEcho']),
-					"iTotalRecords" => $iTotal,
-					"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-					"aaData" => array()
-				);
+				"sEcho" => intval($_GET['sEcho']),
+				"iTotalRecords" => $iTotal,
+				"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
+				"aaData" => array()
+			);
 			$cnt = 1;
 			if(!empty($categories)){
 			foreach($categories as $key =>$value){
@@ -292,15 +293,13 @@ if(isset($_GET['task'])){
 				break;
 				case 'setDelete':
 					$id = addslashes($_GET['id']);
-					if($id>20){
-						$oModule->deleteData($id);
-					}
+					$oModule->deleteData($id);
 				break;
 				case 'loadLanguages':
 					$lang = $oModule->getLanguage();
 					echo json_encode($lang);
-				break ;
-// translate page
+				break;
+				// translate page
 				case 'formTranslateInit':
 							$id = addslashes($_GET['id']);
 							$lang = addslashes($_GET['language']);
