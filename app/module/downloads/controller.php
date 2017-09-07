@@ -5,7 +5,7 @@ $oUsers = new Users('users');
 $params_category = array(
 	'module'=>'downloads_categories',
  	'table'=>'downloads_categories',
-	'table_translate'=>'downloads_categories_translate',
+	'translate_table'=>'downloads_categories_translate',
 	'site_language'=>SITE_LANGUAGE,
 	'is_translate'=>SITE_TRANSLATE
 );
@@ -14,9 +14,9 @@ $params = array(
 	'module'=>'news',
  	'table'=>'downloads',
 	'parent_table'=>'downloads_categories',
-	'parent_table_translate'=>'downloads_categories_translate',
+	'parent_translate_table'=>'downloads_categories_translate',
 	'parent_primary_key'=>'id',
-	'table_translate'=>'downloads_translate',
+	'translate_table'=>'downloads_translate',
 	'site_language'=>SITE_LANGUAGE,
 	'is_translate'=>SITE_TRANSLATE
 );

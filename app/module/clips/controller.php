@@ -5,7 +5,8 @@ $oUsers = new Users('users');
 $params_category = array(
 	'module'=>'clips_categories',
  	'table'=>'clips_categories',
-	'table_translate'=>'clips_categories_translate',
+ 	'primary_key'=>'id',
+	'translate_table'=>'clips_categories_translate',
 	'site_language'=>SITE_LANGUAGE ,
 	'is_translate'=>SITE_TRANSLATE ,
 );
@@ -13,10 +14,11 @@ $oCategories = new Clips($params_category);
 $params = array(
 	'module'=>'clips',
  	'table'=>'clips',
-	'parent_table'=> 'clips_categories',
-	'parent_table_translate'=> 'clips_categories_translate',
+ 	'primary_key'=>'id',
+	'parent_table'=>'clips_categories',
+	'parent_translate_table'=> 'clips_categories_translate',
 	'parent_primary_key'=> 'id',
-	'table_translate'=>'clips_translate',
+	'translate_table'=>'clips_translate',
 	'site_language'=>SITE_LANGUAGE ,
 	'is_translate'=>SITE_TRANSLATE 
 );
@@ -244,29 +246,29 @@ if(isset($_GET['task'])){
 			}
 			echo json_encode($output);
 		break;
-			case 'saveData':
-				$user = $oUsers->getAdminLoginUser();
-				$id = $_POST['id'];
-				$category_id = $_POST['categories'];
-				$name = $_POST['name'];	
-				if(empty($_POST['slug'])){
-					$slug = $oModule->createSlug($name);
-				}else{
-					$slug = $_POST['slug'];
-				}
-				$url = $_POST['url'];
-				$description = $_POST['description'];
-				$content = $_POST['content'];
-				$image = (!empty($_POST['image']))?$_POST['image']:'';
-				$meta_key = $_POST['meta_key'];
-				$status= $_POST['status'];
-				$params = '';
-				if(empty($id)){		
-					$oModule->insertData($category_id,$name,$slug,$description,$url,$content,$params,$image,$meta_key,$meta_description,$user['id'],$status);
-				}else{
-					$oModule->updateData($id,$category_id,$name,$slug,$description,$url,$content,$params,$image,$meta_key,$meta_description,$user['id'],$status);
-				}
-			break;
+		case 'saveData':
+			$user = $oUsers->getAdminLoginUser();
+			$id = $_POST['id'];
+			$category_id = $_POST['categories'];
+			$name = $_POST['name'];	
+			if(empty($_POST['slug'])){
+				$slug = $oModule->createSlug($name);
+			}else{
+				$slug = $_POST['slug'];
+			}
+			$url = $_POST['url'];
+			$description = $_POST['description'];
+			$content = $_POST['content'];
+			$image = (!empty($_POST['image']))?$_POST['image']:'';
+			$meta_key = $_POST['meta_key'];
+			$status= $_POST['status'];
+			$params = '';
+			if(empty($id)){		
+				$oModule->insertData($category_id,$name,$slug,$description,$url,$content,$params,$image,$meta_key,$meta_description,$user['id'],$status);
+			}else{
+				$oModule->updateData($id,$category_id,$name,$slug,$description,$url,$content,$params,$image,$meta_key,$meta_description,$user['id'],$status);
+			}
+		break;
 				case 'duplicate':
 					$user = $oUsers->getAdminLoginUser();
 					$id = $_GET['id'];
@@ -297,16 +299,18 @@ if(isset($_GET['task'])){
 							$data = $oModule->getTranslate($id,$lang);
 							echo json_encode($data);
 					break ;
-				case 'saveTranslate':
-							$id = $_POST['id'];
-							$lang = $_POST['translate_language'];
-							$name = $_POST['name'];	
-							$content= $_POST['content'];
-							$url= $_POST['url'];
-							$meta_key= $_POST['meta_key'];
-							$meta_description= $_POST['meta_description'];
-							$oModule->saveTranslate( $lang,$id,$name,$url, $content,'',$meta_key,$meta_description) ;
-				break;
+		case 'saveTranslate':
+			$id = $_POST['id'];
+			$lang = $_POST['translate_language'];
+			$name = $_POST['name'];
+			$description = $_POST['description'];
+			$content = $_POST['content'];
+			$image = (!empty($_POST['image']))?$_POST['image']:'';
+			$url = $_POST['url'];
+			$meta_key = $_POST['meta_key'];
+			$meta_description = $_POST['meta_description'];
+			$oModule->saveTranslate($lang,$id,$name,$description,$url,$content,$image,'',$meta_key,$meta_description);
+		break;
 // for find module	
 // for find module	
 			case 'getCategoriesDataInFinds':

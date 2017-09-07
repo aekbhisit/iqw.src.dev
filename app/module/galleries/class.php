@@ -244,30 +244,29 @@ class Galleries extends Database {
 			$this->insertDataImageTranslate($lang,$image_id,$title,$description);
 		}
 	}
-	
-	function saveTranslate($lang, $id ,$name,$content,$cover,$params,$meta_key,$meta_description){
+	public function saveTranslate($lang,$id,$name,$content,$images,$cover,$meta_key,$meta_description){
 		$this->sql =" select id from $this->translate_table where id=$id and lang='$lang' ";
 		$this->select();
 		$result = $this->rows;
 		if(empty($result)){
-			$this->sql = "insert into $this->translate_table(lang,id,name,content,cover,params,meta_key,meta_description) values ('$lang',$id,'$name','$content','$cover','$params','$meta_key','$meta_description')";
+			$this->sql = "insert into $this->translate_table(lang,id,name,content,images,cover,meta_key,meta_description) values ('$lang',$id,'$name','$content','$images','$cover','$meta_key','$meta_description')";
 			$this->insert();
 			$gallery_id = $this->insert_id();
-			if(!empty($images)){
+			if(isset($images)&&!empty($images)) {
 				foreach($images as $img){
 					$this->saveDataImageTranslate($lang,$img['id'],$img['src'],$img['title'],$img['description']);
 				}
 			}
 		}else{
-			$this->sql = " update $this->translate_table set name='$name',content='$content',cover='$cover',params='$params',meta_key='$meta_key',meta_description='$meta_description' ";
+			$this->sql = " update $this->translate_table set name='$name',content='$content',images='$images',cover='$cover',meta_key='$meta_key',meta_description='$meta_description' where id = $id and lang = '$lang' ";
 			$this->update();
-			foreach($images as $img){
-				$this->saveDataImageTranslate($lang,$img['id'],$img['title'],$img['description']);
+			if(isset($images)&&!empty($images)) {
+				foreach($images as $img){
+					$this->saveDataImageTranslate($lang,$img['id'],$img['title'],$img['description']);
+				}
 			}
 		}
 	}
-	
-	
 	function duplicateData($id,$user_id){
 		$this->sql = "select * from $this->table where $this->primary_key = $id ";
 		$this->select();
@@ -381,11 +380,12 @@ class Galleries extends Database {
 		if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
 			$this->sql = " select * from galleries_images where gallery_id=$id ";
 			$this->select();
-			return $this->rows ;
+			return $this->rows;
 		}else{
-			$this->sql = " select galleries_images.*, galleries_images_translate.title, galleries_images_translate.description from galleries_images left join galleries_images_translate on galleries_images.id=galleries_images_translate.image_id where galleries_images.id=$id ";
+			$this->sql = " select galleries_images.* , galleries_images_translate.title , galleries_images_translate.description from galleries_images left join galleries_images_translate on galleries_images.id = galleries_images_translate.image_id where galleries_images.gallery_id = $id and lang = '$language' ";
+			//echo $this->sql;
 			$this->select();
-			return $this->rows ;
+			return $this->rows;
 		}
 	}
 	

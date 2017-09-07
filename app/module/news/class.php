@@ -5,7 +5,7 @@ class News extends Database {
 		$this->module = $params['module']  ;
 		parent::__construct((empty($params['table']))?$module:$params['table']);
 		if(isset($params['primary_key'])){
-			 $this->primary_key = $params['primary_key'];
+			$this->primary_key = $params['primary_key'];
 		}
 		if(isset($params['parent_table'])){
 			$this->parent_table = $params['parent_table'];
