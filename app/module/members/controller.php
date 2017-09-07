@@ -1,42 +1,42 @@
 <?php
-session_start();
+if ( is_session_started() === FALSE ) { session_start(); }
 $oUser = new Users('users');
 $oModule = new Members('members');
 $oCategories = new Members('members_categories');
 $oMailer = new Mailer();
 if(isset($_GET['task'])){
-	$task = $_GET['task'] ;
+	$task = $_GET['task'];
 	switch($task){
-//  categories task   
+		//  categories task   
 		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';
-			$orderby ='' ;
+			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart= $_GET['iDisplayStart'];
-			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength ;
+			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength;
 			$iSortCol_0= $_GET['iSortCol_0'];
 			$sSortDir_0= $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
-				$orderby = " order by  ".$columns[$iSortCol_0].' '.$sSortDir_0 ;
+				$orderby = " order by ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
-				$orderby = " order by  ".$columns[4].' '.$sSortDir_0 ;
+				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
 			$sSearch= $_GET['sSearch']; 
 			if(!empty($sSearch)){
-				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') " ;
+				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
 			//print_r($categories);
-			$iTotal = $oCategories->getCategoriesSize() ;
+			$iTotal = $oCategories->getCategoriesSize();
 			 $iFilteredTotal =  count($categories);
 			$output = array(
-					"sEcho" => intval($_GET['sEcho']),
-					"iTotalRecords" => $iTotal,
-					"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-					"aaData" => array()
-				);
+				"sEcho"=>intval($_GET['sEcho']),
+				"iTotalRecords"=>$iTotal,
+				"iTotalDisplayRecords"=>$iTotal, // $iFilteredTotal,
+				"aaData"=>array()
+			);
 			$cnt = 1;
 			if(!empty($categories)){
 			foreach($categories as $key =>$value){

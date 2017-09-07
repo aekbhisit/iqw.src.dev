@@ -1,71 +1,69 @@
 <?php
-if(empty($_SESSION)) {
-	session_start();
-}
+if ( is_session_started() === FALSE ) { session_start(); }
 $oModule = new Users('users');
 $oCategories = new Users('users_categories');
 $oMailer = new Mailer();
 if(isset($_GET['task'])){
-	$task = $_GET['task'] ;
+	$task = $_GET['task'];
 	switch($task){
-//  categories task   
+		//  categories task   
 		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';
-			$orderby ='' ;
+			$orderby = '' ;
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart= $_GET['iDisplayStart'];
-			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength ;
+			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength;
 			$iSortCol_0= $_GET['iSortCol_0'];
 			$sSortDir_0= $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
-				$orderby = " order by  ".$columns[$iSortCol_0].' '.$sSortDir_0 ;
+				$orderby = " order by ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
-				$orderby = " order by  ".$columns[4].' '.$sSortDir_0 ;
+				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
 			$sSearch= $_GET['sSearch']; 
 			if(!empty($sSearch)){
-				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') " ;
+				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
 			//print_r($categories);
-			$iTotal = $oCategories->getCategoriesSize() ;
+			$iTotal = $oCategories->getCategoriesSize();
 			 $iFilteredTotal =  count($categories);
 			$output = array(
-					"sEcho" => intval($_GET['sEcho']),
-					"iTotalRecords" => $iTotal,
-					"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-					"aaData" => array()
-				);
+				"sEcho"=>intval($_GET['sEcho']),
+				"iTotalRecords"=>$iTotal,
+				"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
+				"aaData"=>array()
+			);
 			$cnt = 1;
 			if(!empty($categories)){
-			foreach($categories as $key =>$value){
-			if($value['level']>0){
-			if($value['status']){	
-				$iconbar = '	<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" /></a>';
-			}else{
-				$iconbar = '	<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png" /></a>';
-			}
-			$iconbar .=	'  <a href="javascript:void(0)" onclick="setCategoryDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>  ';
-			$iconbar .=	' <a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" /></a>';
-									
-			$order = '<a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'left\')"><img src="../images/icons/black/16/arrow_up_small.png" /></a>
-							     <a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'right\')" ><img src="../images/icons/black/16/arrow_down_small.png" /></a>
-							  ';
-			$indent = '';	
-				for($i=1;$i<$value['level'];$i++){
-					$indent .= '-';
+				foreach($categories as $key =>$value){
+					if($value['level']>0){
+						if($value['status']){	
+							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" /></a>';
+						}else{
+							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png" /></a>';
+						}
+						$iconbar .=	'<a href="javascript:void(0)" onclick="setCategoryDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>';
+						$iconbar .=	'<a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" /></a>';
+										
+						$order = '<a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'left\')"><img src="../images/icons/black/16/arrow_up_small.png" /></a>
+								     <a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'right\')" ><img src="../images/icons/black/16/arrow_down_small.png" /></a>
+								  ';
+						$indent = '';	
+						for($i=1;$i<$value['level'];$i++){
+							$indent .= '-';
+						}
+						$showname = '<a href="javascript:void(0)" onclick="setCategoryEdit('.$value['id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$indent.$value['name'].'</a>';			 	  
+						$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
+						$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['level'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
+						$cnt++;
+					}
 				}
-				$showname = '<a href="javascript:void(0)" onclick="setCategoryEdit('.$value['id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$indent.$value['name'].'</a>';			 	  
-				$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
-				$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['level'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
-				$cnt++ ;
-				}
 			}
-			}
-				echo json_encode($output) ;
-				break;
+			echo json_encode($output);
+		break;
 			case 'loadCategories':
 				$categories = $oCategories->getCategoriesTreeAll();
 				$data = array(
@@ -133,12 +131,12 @@ if(isset($_GET['task'])){
 				$position =  $_GET['position'];
 				$oCategories->move($id,$position) ;
 			break;
-///  users-form.html
+		//  users-form.html
 		case 'setAdminLogin':
 			$password = addslashes($_POST['password']);
 			$username = addslashes($_POST['username']);
 			$oModule->setAdminLogin($username,$password);
-			break ;
+		break;
 		case 'getAdminLoginUser':
 			if(isset($_SESSION['userLogin'])){
 				$user = $_SESSION['userLogin'] ;

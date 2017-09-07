@@ -1,13 +1,11 @@
 <?php
-if(empty($_SESSION)) {
-	session_start();
-}
+if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
 $params_category = array(
 	'module'=>'banners_categories',
  	'table'=>'banners_categories',
-	'table_translate'=>'banners_categories_translate',
+	'translate_table'=>'banners_categories_translate',
 	'site_language'=>SITE_LANGUAGE,
 	'is_translate'=>SITE_TRANSLATE
 );
@@ -16,9 +14,9 @@ $params = array(
 	'module'=>'banners',
  	'table'=>'banners',
 	'parent_table'=>'banners_categories',
-	'parent_table_translate'=> 'banners_categories_translate',
+	'parent_translate_table'=> 'banners_categories_translate',
 	'parent_primary_key'=>'id',
-	'table_translate'=>'banners_translate',
+	'translate_table'=>'banners_translate',
 	'site_language'=>SITE_LANGUAGE,
 	'is_translate'=>SITE_TRANSLATE
 );
@@ -26,7 +24,7 @@ $oModule = new Banners($params);
 if(isset($_GET['task'])){
 	$task =$_GET['task'];
 	switch($task){
-//  categories task   
+		//  categories task   
 		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';
@@ -158,102 +156,93 @@ if(isset($_GET['task'])){
 				$position =  $_GET['position'];
 				$oCategories->move($id,$position) ;
 			break;
-// translate
-			case 'categoryFormTranslateInit':
-					if($_GET['mode']=='translate'){
-						$id = addslashes($_GET['id']);
-						$lang = addslashes($_GET["language"]);
-						$data = $oCategories->getTranslateCategory($id,$lang);
-						echo json_encode($data);
-					}
-				break;
-			case 'saveCategoryTranslate':
+		// translate
+		case 'categoryFormTranslateInit':
+			if($_GET['mode']=='translate'){
+				$id = addslashes($_GET['id']);
+				$lang = addslashes($_GET["language"]);
+				$data = $oCategories->getTranslateCategory($id,$lang);
+				echo json_encode($data);
+			}
+		break;
+		case 'saveCategoryTranslate':
 				$categories_id = $_POST["categories_id"] ; 
 				$categories_lang = $_POST["categories_language"] ; 
 				$categories_name = $_POST["categories_name"];
 				$categories_description = $_POST["categories_description"];
 				$categories_images = $_POST["categories_server_images"] ;
 				$oCategories->saveCategoriesTranslate( $categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,'');
-			break;
-			///  pages-form.html
-			case 'formInit':
+		break;
+		// pages-form.html
+		case 'formInit':
 				if($_GET['mode']=='edit'){
 					$id = addslashes($_GET['id']);
 					$data = $oModule->getOne($id);
 					echo json_encode($data);
 				}
 			break ;
-			case 'getData':
-					$columns = array('id','name','category_id','mdate','sequence','id','id');
-					$limit = '';
-					$orderby ='' ;
-					$search = '';
-					$iDisplayLength = $_GET['iDisplayLength'];
-					$iDisplayStart= $_GET['iDisplayStart'];
-					$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength ;
-					$iSortCol_0= $_GET['iSortCol_0'];
-					$sSortDir_0= $_GET['sSortDir_0'];
-					if(!empty($columns[$iSortCol_0])){
-						$orderby = " order by  $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0 ;
-					}else{
-						$orderby = " order by  ".$columns[4].' '.$sSortDir_0 ;
-					}
-						$sSearch= $_GET['sSearch']; 
-					if($sSearch=='undefined'){
-						$sSearch = '';
-					}
-					if(!empty($sSearch)){
-						$search =  " WHERE ( $oModule->table.name like '%$sSearch%' or  $oModule->table.slug like '%$sSearch%') " ;
-						$category_id  = $_GET['filterCategoryID']; 
-						if($category_id>0){
-							$search .=  " AND $oModule->table.category_id = $category_id ";
-						}
-					}else{
-						$category_id  = $_GET['filterCategoryID']; 
-						if($category_id>0){
-							$search =  " WHERE  $oModule->table.category_id = $category_id ";
-						}
-					}
-					$data = $oModule->getAll($search,$orderby,$limit);
-					//print_r($categories);
-					$iTotal = $oModule->getSize() ;
-					 $iFilteredTotal =  count($data);
-					$output = array(
-							"sEcho" => intval($_GET['sEcho']),
-							"iTotalRecords" => $iTotal,
-							"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-							"aaData" => array()
-						);
-					$cnt = 1;
-					if(!empty($data)){
-					foreach($data as $key =>$value){
+	case 'getData':
+			$columns = array('id','name','category_id','mdate','sequence','id','id');
+			$limit = '';
+			$orderby = '';
+			$search = '';
+			$iDisplayLength = $_GET['iDisplayLength'];
+			$iDisplayStart= $_GET['iDisplayStart'];
+			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength;
+			$iSortCol_0= $_GET['iSortCol_0'];
+			$sSortDir_0= $_GET['sSortDir_0'];
+			if(!empty($columns[$iSortCol_0])){
+				$orderby = " order by  $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0;
+			}else{
+				$orderby = " order by  ".$columns[4].' '.$sSortDir_0;
+			}
+			$sSearch= $_GET['sSearch']; 
+			if($sSearch=='undefined'){
+				$sSearch = '';
+			}
+			if(!empty($sSearch)){
+				$search =  " WHERE ( $oModule->table.name like '%$sSearch%' or  $oModule->table.slug like '%$sSearch%') ";
+				$category_id  = $_GET['filterCategoryID']; 
+				if($category_id>0){
+					$search .=  " AND $oModule->table.category_id = $category_id ";
+				}
+			}else{
+				$category_id  = $_GET['filterCategoryID']; 
+				if($category_id>0){
+					$search =  " WHERE  $oModule->table.category_id = $category_id ";
+				}
+			}
+			$data = $oModule->getAll($search,$orderby,$limit);
+			$iTotal = $oModule->getSize();
+			$iFilteredTotal = count($data);
+			$output = array(
+				"sEcho" => intval($_GET['sEcho']),
+				"iTotalRecords" => $iTotal,
+				"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
+				"aaData" => array()
+			);
+			$cnt = 1;
+			if(!empty($data)){
+				foreach($data as $key =>$value){
 					if($value['status']==1){	
-						$iconbar = '	<a href="javascript:void(0)" onclick="setStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" title="เปิด" /></a>&nbsp;';
+						$iconbar = '<a href="javascript:void(0)" onclick="setStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" title="เปิด" /></a>&nbsp;';
 					}else{
-						$iconbar = '	<a href="javascript:void(0)" onclick="setStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png" title="ปิด" /></a>&nbsp;';
+						$iconbar = '<a href="javascript:void(0)" onclick="setStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png" title="ปิด" /></a>&nbsp;';
 					}
-											
-						$iconbar .=	'<a href="javascript:void(0)" onclick="setDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>  ';
+					$iconbar .=	'<a href="javascript:void(0)" onclick="setDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>';
 					if(SITE_TRANSLATE){				
-							$iconbar .=	'  <a href="javascript:void(0)" onclick="setTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title="แปลภาษา" /></a>';
+						$iconbar .=	'<a href="javascript:void(0)" onclick="setTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title="แปลภาษา" /></a>';
 					}
-					
-					$iconbar .='    <a href="javascript:void(0)" onclick="setDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>	';
-											
-					$order = '<a href="javascript:void(0)" onclick="setMove('.$value['id'].',\'up\')"><img src="../images/icons/black/16/arrow_up_small.png" title="ขึ้น" /></a>
-										 <a href="javascript:void(0)" onclick="setMove('.$value['id'].',\'down\')" ><img src="../images/icons/black/16/arrow_down_small.png" title="ลง" /></a>
-									  ';
-									  
+					$iconbar .= '<a href="javascript:void(0)" onclick="setDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>	';
+					$order = '<a href="javascript:void(0)" onclick="setMove('.$value['id'].',\'up\')"><img src="../images/icons/black/16/arrow_up_small.png" title="ขึ้น" /></a><a href="javascript:void(0)" onclick="setMove('.$value['id'].',\'down\')" ><img src="../images/icons/black/16/arrow_down_small.png" title="ลง" /></a>';					
 					$order = '<input name="sequence_'.$value['id'].'" id="sequence_'.$value['id'].'" type="text"  value="'.$value['sequence'].'" title="'.$value['sequence'].'" style="width:40px;" onblur="switchDataOrder('.$value['id'].')" />';				  
-									  
-						$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
-						
-						// if empty category
-						$value['category'] = (empty($value['category']))?'  - ':$value['category'] ;
-						$showname = '<a href="javascript:void(0)" onclick="setEdit('.$value['id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$indent.$value['name'].'</a>';
-						$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
-						$cnt++ ;
-						}
+					$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
+					// if empty category
+					$value['category'] = (empty($value['category']))?'  - ':$value['category'] ;
+					$showname = '<a href="javascript:void(0)" onclick="setEdit('.$value['id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$value['name'].'</a>';
+					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
+					$cnt++ ;
+				}
 			}
 			echo json_encode($output);
 		break;
@@ -268,11 +257,12 @@ if(isset($_GET['task'])){
 				$slug = $_POST['slug'];
 			}
 			$link = $_POST['linkurl'];
-			$content= $_POST['content'];
-			$meta_key= $_POST['meta_key'];
-			$image =  (!empty($_POST['image']))?$_POST['image']:'';
-			$start = (!empty($_POST['start']))?$oModule->datePickerToTime($_POST['start']):'';
-			$end = (!empty($_POST['end']))?$oModule->datePickerToTime($_POST['end']):'';
+			$content = $_POST['content'];
+			$meta_key = $_POST['meta_key'];
+			$meta_description = $_POST['meta_description'];
+			$image = (!empty($_POST['image']))?$_POST['image']:'';
+			$start = date('Y-m-d H:i:s'); //(!empty($_POST['start']))?$oModule->datePickerToTime($_POST['start']):'';
+			$end = date('Y-m-d H:i:s'); //(!empty($_POST['end']))?$oModule->datePickerToTime($_POST['end']):'';
 			$status= $_POST['status'];
 			$params = '';
 			if(empty($id)){		

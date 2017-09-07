@@ -1,5 +1,5 @@
 <?php
-session_start();
+if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
 $params_category = array(
@@ -19,11 +19,11 @@ $oModule = new Finds('finds',$params);
 if(isset($_GET['task'])){
 	$task = $_GET['task'];
 	switch($task){
-//  categories task   
+		//  categories task   
 		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';
-			$orderby ='' ;
+			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart = $_GET['iDisplayStart'];
@@ -186,7 +186,7 @@ if(isset($_GET['task'])){
 			if($_GET['mode']=='edit'){
 				$id = addslashes($_GET['id']);
 				$data = $oModule->getOne($id);
-				$data['name'] = htmlspecialchars_decode($data['name'],ENT_QUOTES);
+				//$data['name'] = htmlspecialchars_decode($data['name'],ENT_QUOTES);
 				$data['find_key'] = json_decode($data['find_key']);
 				echo json_encode($data);
 			}

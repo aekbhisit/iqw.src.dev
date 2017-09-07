@@ -1,101 +1,91 @@
 <?php
 class Galleries extends Database {
-	var $module   ;
+	var $module;
 		public function __construct($params=NULL){
-		$this->module = $params['module']  ;
-		 parent::__construct((empty($params['table']))?$module:$params['table'] );
-		 
-		 if(isset($params['primary_key'])){
-			 $this->primary_key  =$params['primary_key'] ;
-		 }
-		 if(isset($params['parent_table'])){
-			 $this->parent_table  =$params['parent_table'] ;
-		 }
-		  if(isset($params['parent_table_translate'])){
-			 $this->parent_table_translate  =$params['parent_table_translate'] ;
-		 }
-		  if(isset($params['parent_primary_key'])){
-			 $this->parent_primary_key  =$params['parent_primary_key'] ;
-		 }
-		 if(isset($params['site_language'])){
-			 $this->site_language  =$params['site_language'] ;
-		 }
-		 if(isset($params['is_translate'])){
-			 $this->is_translate  =$params['is_translate'] ;
-		 }
-		 if(isset($params['table_translate'])){
-			 $this->table_translate  =$params['table_translate'] ;
-		 }
+		$this->module = $params['module'];
+		parent::__construct((empty($params['table']))?$module:$params['table']);
+		if(isset($params['primary_key'])){
+			$this->primary_key = $params['primary_key'];
+		}
+		if(isset($params['parent_table'])){
+			$this->parent_table = $params['parent_table'];
+		}
+		if(isset($params['parent_translate_table'])){
+			$this->parent_translate_table = $params['parent_translate_table'];
+		}
+		if(isset($params['parent_primary_key'])){
+			$this->parent_primary_key = $params['parent_primary_key'];
+		}
+		if(isset($params['site_language'])){
+			$this->site_language = $params['site_language'];
+		}
+		if(isset($params['is_translate'])){
+			$this->is_translate = $params['is_translate'];
+		}
+		if(isset($params['translate_table'])){
+			$this->translate_table = $params['translate_table'];
+		}
 	}
-	
 	function datePickerToTime($in_date){
-		list($date,$time) = explode(' ',$in_date) ;
+		list($date,$time) = explode(' ',$in_date);
 		list($month,$day,$year) = explode('/',$date);
-		return $year.'-'.$month.'-'.$day.' '.$time.':00' ;
+		return $year.'-'.$month.'-'.$day.' '.$time.':00';
 	}
-	
 	function timeToDatePicker($in_date){
-		list($date,$time) = explode(' ',$in_date) ;
+		list($date,$time) = explode(' ',$in_date);
 		list($year,$month,$day) = explode('-',$date);
 		list($h,$m,$s)=explode(':',$time);
-		return $month.'/'.$day.'/'. $year.' '.$h.':'.$m ;
+		return $month.'/'.$day.'/'. $year.' '.$h.':'.$m;
 	}
-	
-// function for categories /////////////////////////////////////////////////
-// Develop by iQuickweb.com 28/06/2012
-///////////////////////////////////////////////////////////////////////////////////
-public function getCategoriesAll($search,$order,$limit){
-		$this->sql = "select * from $this->table where level >0  $search $order $limit";
-		$this->select() ;
-		return $this->rows ;
+	// function for categories /////////////////////////////////////////////////
+	// Develop by iQuickweb.com 28/06/2012
+	///////////////////////////////////////////////////////////////////////////////////
+	public function getCategoriesAll($search,$order,$limit){
+		$this->sql = "select * from $this->table where level > 0 $search $order $limit";
+		$this->select();
+		return $this->rows;
 	}
-	
 	public function getCategoriesTreeAll($where=NULL){
-		return  $this->get_tree($where) ;
+		return $this->get_tree($where);
 	}
-	
 	public function getCategoriesSize(){
-		$this->sql = "select $this->primary_key from $this->table where level >0 ";
-		return  $this->select('size') ;
+		$this->sql = "select $this->primary_key from $this->table where level > 0 ";
+		return $this->select('size');
 	}
-	
 	public function getCategory($id){
 		$this->sql = "select id, parent_id, name, slug, description, image, status from $this->table where $this->primary_key=$id ";
 		$this->select();
-		return  $this->rows[0] ;
+		return $this->rows[0];
 	}
-	
 	public function  insert_categories($parent_id,$name,$slug,$description,$image,$params,$user_id,$status){
-			if((int)$parent_id==0){
-				$parent_id = $this->check_root_node() ;
-			}
-			$this->sql = "insert into $this->table (parent_id,name,slug,description,image,params,user_id,status,mdate,cdate) " ;
-			$this->sql .="values ($parent_id,'$name','$slug','$description','$image','$params',$user_id,$status,NOW(),NOW())";
-			$this->insert() ;
-			$id = $this->insert_id();
-			$this->insert_node($parent_id,$id) ;
-			return $id ;
+		if((int)$parent_id==0){
+			$parent_id = $this->check_root_node();
+		}
+		$this->sql = "insert into $this->table (parent_id,name,slug,description,image,params,user_id,status,mdate,cdate) ";
+		$this->sql .="values ($parent_id,'$name','$slug','$description','$image','$params',$user_id,$status,NOW(),NOW()) ";
+		$this->insert();
+		$id = $this->insert_id();
+		$this->insert_node($parent_id,$id);
+		return $id;
 	}
-	
-	public function  update_categories($id,$parent_id,$name,$slug,$description,$image,$params, $user_id,$status){
+	public function update_categories($id,$parent_id,$name,$slug,$description,$image,$params, $user_id,$status){
 		if($parent_id==0){
-			$parent_id = $this->check_root_node() ;
+			$parent_id = $this->check_root_node();
 		}else{
 			if ($parent_id != $this->get_parent_id($id)){
 				$this->move_parent($id,$parent_id);
 			}
 		}
-		$this->sql = "update $this->table set parent_id=$parent_id, name='$name', slug='$slug', description='$description', image='$image',params='$params', user_id=$user_id,status=$status, mdate=NOW() where $this->primary_key=$id " ;
-		$this->update() ;
+		$this->sql = "update $this->table set parent_id=$parent_id, name='$name', slug='$slug', description='$description', image='$image',params='$params', user_id=$user_id,status=$status, mdate=NOW() where $this->primary_key=$id ";
+		$this->update();
 	}
-	
 	public function duplicate_categories($id,$user_id){
 		$this->sql = "select * from $this->table where $this->primary_key=$id " ;
 		$this->select();
 		$data = $this->rows[0];
 		$new_id= $this->insert_categories($data['parent_id'],$data['name'],$data['slug'],$data['description'],$data['image'],$data['params'],$user_id,$data['status']) ;
 		// translate
-		$this->sql = "select * from $this->table_translate where $this->primary_key=$id " ;
+		$this->sql = "select * from $this->translate_table where $this->primary_key=$id " ;
 		$this->select();
 		$data = $this->rows;
 		if(!empty($data)){
@@ -104,17 +94,15 @@ public function getCategoriesAll($search,$order,$limit){
 			}
 		}
 	}
-	
-	function deleteCategoryTranslate($id){
-		$this->sql = "select * from $this->table_translate where $this->primary_key=$id " ;
+	public function deleteCategoryTranslate($id){
+		$this->sql = "select * from $this->translate_table where $this->primary_key=$id ";
 		$this->select();
 		$data = $this->rows;
 		if(!empty($data)){
-			$this->sql = "delete from  $this->table_translate where $this->primary_key=$id ";
+			$this->sql = "delete from $this->translate_table where $this->primary_key=$id ";
 			$this->delete();
 		}
 	}
-	
 	public function update_category_status($id,$status){
 			$this->sql ="update $this->table set status=$status where id=$id";
 			$this->update();
@@ -122,22 +110,22 @@ public function getCategoriesAll($search,$order,$limit){
 	
 	// translate function
 	public function getTranslateCategory($id,$lang){
-		$this->sql = "select $this->table.id as category_id, $this->table.name as translate_from ,$this->table_translate.* from $this->table  left join $this->table_translate  on $this->table.id=$this->table_translate.id and $this->table_translate.lang='$lang'  where $this->table.id=$id ";
+		$this->sql = "select $this->table.id as category_id, $this->table.name as translate_from ,$this->translate_table.* from $this->table  left join $this->translate_table  on $this->table.id=$this->translate_table.id and $this->translate_table.lang='$lang'  where $this->table.id=$id ";
 		$this->select();
 		return	$this->rows[0] ;
 	}
 	
 	function saveCategoriesTranslate( $categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,$param){
-		$this->sql ="select id from $this->table_translate where lang='$categories_lang' and id=$categories_id ";
+		$this->sql ="select id from $this->translate_table where lang='$categories_lang' and id=$categories_id ";
 		//echo $this->sql ;
 		$this->select();
 		$chk = (empty($this->rows[0]['id']))?true:false ;
 		if($chk){
-			$this->sql ="insert into  $this->table_translate(lang, id, name, description , image,params ) values ('$categories_lang',$categories_id,'$categories_name','$categories_description','$categories_images','$param')  ";
+			$this->sql ="insert into  $this->translate_table(lang, id, name, description , image,params ) values ('$categories_lang',$categories_id,'$categories_name','$categories_description','$categories_images','$param')  ";
 			//echo $this->sql  ;
 			$this->insert();
 		}else{
-			$this->sql = "update  $this->table_translate set lang ='$categories_lang' , name='$categories_name', description='$categories_description' , image='$categories_images',params='$param' where id=$categories_id  ";
+			$this->sql = "update  $this->translate_table set lang ='$categories_lang' , name='$categories_name', description='$categories_description' , image='$categories_images',params='$param' where id=$categories_id  ";
 			//echo $this->sql  ;
 			$this->update();
 		}
@@ -173,7 +161,7 @@ public function getCategoriesAll($search,$order,$limit){
 	}
 	
 	public function getTranslate($id,$lang){
-		$this->sql = "select $this->table.name as translate_from,  $this->table.id as main_id , $this->table.images as default_images , $this->table_translate.* from $this->table left join $this->table_translate on $this->table_translate.id=$this->table.id and $this->table_translate.lang='$lang'  where $this->table.$this->primary_key=$id ";
+		$this->sql = "select $this->table.name as translate_from,  $this->table.id as main_id , $this->table.images as default_images , $this->translate_table.* from $this->table left join $this->translate_table on $this->translate_table.id=$this->table.id and $this->translate_table.lang='$lang'  where $this->table.$this->primary_key=$id ";
 		$this->select();
 		$gallery = $this->rows[0] ;
 		$this->sql = "select id, image, sequence from galleries_images where gallery_id = $id";
@@ -258,11 +246,11 @@ public function getCategoriesAll($search,$order,$limit){
 	}
 	
 	function saveTranslate($lang, $id ,$name,$content,$cover,$params,$meta_key,$meta_description){
-		$this->sql =" select id from $this->table_translate where id=$id and lang='$lang' ";
+		$this->sql =" select id from $this->translate_table where id=$id and lang='$lang' ";
 		$this->select();
 		$result = $this->rows;
 		if(empty($result)){
-			$this->sql = "insert into $this->table_translate(lang,id,name,content,cover,params,meta_key,meta_description) values ('$lang',$id,'$name','$content','$cover','$params','$meta_key','$meta_description')";
+			$this->sql = "insert into $this->translate_table(lang,id,name,content,cover,params,meta_key,meta_description) values ('$lang',$id,'$name','$content','$cover','$params','$meta_key','$meta_description')";
 			$this->insert();
 			$gallery_id = $this->insert_id();
 			if(!empty($images)){
@@ -271,7 +259,7 @@ public function getCategoriesAll($search,$order,$limit){
 				}
 			}
 		}else{
-			$this->sql = " update $this->table_translate set name='$name',content='$content',cover='$cover',params='$params',meta_key='$meta_key',meta_description='$meta_description' ";
+			$this->sql = " update $this->translate_table set name='$name',content='$content',cover='$cover',params='$params',meta_key='$meta_key',meta_description='$meta_description' ";
 			$this->update();
 			foreach($images as $img){
 				$this->saveDataImageTranslate($lang,$img['id'],$img['title'],$img['description']);
@@ -310,7 +298,7 @@ public function getCategoriesAll($search,$order,$limit){
 			if(!empty($data)){
 				foreach($data as $d){
 					$gallery_translate_id =$d['id'];
-					$this->sql = "insert into $this->table_translate(lang,id,name,content,images,params,meta_key,meta_description) values ('".$d['lang']."',".$new_gallery_id.",'".$d["name"]."','".$d["content"]."','".$d["images"]."','".$d["params"]."','".$d["mata_key"]."','".$d["mata_description"]."')";
+					$this->sql = "insert into $this->translate_table(lang,id,name,content,images,params,meta_key,meta_description) values ('".$d['lang']."',".$new_gallery_id.",'".$d["name"]."','".$d["content"]."','".$d["images"]."','".$d["params"]."','".$d["mata_key"]."','".$d["mata_description"]."')";
 					$this->insert();
 				}
 			}
@@ -332,7 +320,7 @@ public function getCategoriesAll($search,$order,$limit){
 		$this->delete();
 		$this->sql = "delete from $this->table where $this->primary_key=$id " ;
 		$this->delete();
-		$this->sql = "delete from $this->table_translate where $this->primary_key=$id " ;
+		$this->sql = "delete from $this->translate_table where $this->primary_key=$id " ;
 		$this->delete();
 	}
 	

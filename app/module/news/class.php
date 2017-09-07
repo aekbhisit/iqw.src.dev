@@ -1,73 +1,65 @@
 <?php
 class News extends Database {
-	var $module   ;
+	var $module;
 	public function __construct($params=NULL){
 		$this->module = $params['module']  ;
-		 parent::__construct((empty($params['table']))?$module:$params['table'] );
-		 
-		 if(isset($params['primary_key'])){
-			 $this->primary_key  =$params['primary_key'] ;
-		 }
-		 if(isset($params['parent_table'])){
-			 $this->parent_table  =$params['parent_table'] ;
-		 }
-		  if(isset($params['parent_translate_table'])){
-			 $this->parent_translate_table  =$params['parent_translate_table'] ;
-		 }
-		  if(isset($params['parent_primary_key'])){
-			 $this->parent_primary_key  =$params['parent_primary_key'] ;
-		 }
-		 if(isset($params['site_language'])){
-			 $this->site_language  =$params['site_language'] ;
-		 }
-		 if(isset($params['is_translate'])){
-			 $this->is_translate  =$params['is_translate'] ;
-		 }
-		 if(isset($params['translate_table'])){
-			 $this->translate_table  =$params['translate_table'] ;
-		 }
+		parent::__construct((empty($params['table']))?$module:$params['table']);
+		if(isset($params['primary_key'])){
+			 $this->primary_key = $params['primary_key'];
+		}
+		if(isset($params['parent_table'])){
+			$this->parent_table = $params['parent_table'];
+		}
+		if(isset($params['parent_translate_table'])){
+			$this->parent_translate_table = $params['parent_translate_table'];
+		}
+		if(isset($params['parent_primary_key'])){
+			$this->parent_primary_key = $params['parent_primary_key'];
+		}
+		if(isset($params['site_language'])){
+			$this->site_language = $params['site_language'];
+		}
+		if(isset($params['is_translate'])){
+		 	$this->is_translate = $params['is_translate'];
+	 	}
+		if(isset($params['translate_table'])){
+			$this->translate_table = $params['translate_table'];
+		}
 	}
-	
 	function datePickerToTime($in_date){
-		list($date,$time) = explode(' ',$in_date) ;
+		list($date,$time) = explode(' ',$in_date);
 		list($month,$day,$year) = explode('/',$date);
-		return $year.'-'.$month.'-'.$day.' '.$time.':00' ;
+		return $year.'-'.$month.'-'.$day.' '.$time.':00';
 	}
-	
 	function timeToDatePicker($in_date){
-		list($date,$time) = explode(' ',$in_date) ;
+		list($date,$time) = explode(' ',$in_date);
 		list($year,$month,$day) = explode('-',$date);
 		list($h,$m,$s)=explode(':',$time);
-		return $month.'/'.$day.'/'. $year.' '.$h.':'.$m ;
+		return $month.'/'.$day.'/'. $year.' '.$h.':'.$m;
 	}
-	
-// function for categories /////////////////////////////////////////////////
-// Develop by iQuickweb.com 28/06/2012
-///////////////////////////////////////////////////////////////////////////////////
+	// function for categories /////////////////////////////////////////////////
+	// Develop by iQuickweb.com 28/06/2012
+	///////////////////////////////////////////////////////////////////////////////////
 	public function getCategoriesAll($search,$order,$limit){
 		$this->sql = "select * from $this->table where level >0  $search $order $limit";
-		$this->select() ;
-		return $this->rows ;
+		$this->select();
+		return $this->rows;
 	}
-	
 	public function getCategoriesTreeAll($where=NULL){
-		return  $this->get_tree($where) ;
+		return  $this->get_tree($where);
 	}
-	
 	public function getCategoriesSize(){
 		$this->sql = "select $this->primary_key from $this->table where level >0 ";
-		return  $this->select('size') ;
+		return  $this->select('size');
 	}
-	
 	public function getCategory($id){
 		$this->sql = "select id, parent_id, name, slug, description, image, status from $this->table where $this->primary_key=$id ";
 		$this->select();
-		return  $this->rows[0] ;
+		return  $this->rows[0];
 	}
-	
 	public function  insert_categories($parent_id,$name,$slug,$description,$image,$params,$user_id,$status){
 			if((int)$parent_id==0){
-				$parent_id = $this->check_root_node() ;
+				$parent_id = $this->check_root_node();
 			}
 			$this->sql = "insert into $this->table (parent_id,name,slug,description,image,params,user_id,status,mdate,cdate) " ;
 			$this->sql .="values ($parent_id,'$name','$slug','$description','$image','$params',$user_id,$status,NOW(),NOW())";
@@ -232,55 +224,46 @@ class News extends Database {
 		$data = $this->rows ;
 		if(!empty($data)){
 			foreach($data as $d){ 
-				$this->saveTranslate( $d['lang'],$new_id,$d['name'],$d['description'],$d['content'],$d['image'],$d['params'],$d['meta_key'],$d['meta_description']);
+				$this->saveTranslate($d['lang'],$new_id,$d['name'],$d['description'],$d['content'],$d['image'],$d['params'],$d['meta_key'],$d['meta_description']);
 			}
 		}
 	}
-	
 	function deleteData($id){
-		$this->sql = "delete from $this->table where $this->primary_key=$id " ;
+		$this->sql = "delete from $this->table where $this->primary_key=$id ";
 		$this->delete();
 		if($this->is_translate){
-			$this->sql = "delete from $this->translate_table where $this->translate_table.$this->primary_key=$id " ;
+			$this->sql = "delete from $this->translate_table where $this->translate_table.$this->primary_key=$id ";
 			$this->delete();
 		}
 	}
-	
 	function updateStatus($id,$status){
 		$this->sql="update $this->table set status=$status where $this->primary_key=$id ";
 		$this->update();
 	}
-// page translate
+	// page translate
 	function getTranslate($id,$lang){
-		$this->sql = "select $this->table.id as translate_id ,  $this->table.name as translate_from, $this->table.id as page_id, $this->translate_table.* from $this->table left join $this->translate_table on $this->table.id= $this->translate_table.id and $this->translate_table.lang='$lang' where $this->table.id=$id  ";
-	//	echo $this->sql ;
+		$this->sql = "select $this->table.id as translate_id , $this->table.name as translate_from, $this->table.id as page_id, $this->translate_table.* from $this->table left join $this->translate_table on $this->table.id = $this->translate_table.id and $this->translate_table.lang = '$lang' where $this->table.id=$id ";
 		$this->select();
-		return $this->rows[0] ;
+		return $this->rows[0];
 	}
-
-  function saveTranslate( $lang,$id,$name,$content,$image,$params,$meta_key,$meta_description){
+  	public function saveTranslate($lang,$id,$name,$description,$content,$image,$params,$meta_key,$meta_description){
 		$this->sql ="select id from $this->translate_table where lang='$lang' and id=$id ";
-	//	echo $this->sql ;
 		$this->select(); 
-		$chk = (empty($this->rows[0]['id']))?true:false ;
+		$chk = (empty($this->rows[0]['id']))?true:false;
 		if($chk){
-			$this->sql ="insert into  $this->translate_table (lang, id, name, content ,image,params,meta_key,meta_description) values ('$lang',$id,'$name','$content','$image','$params','$meta_key','$meta_description')  ";
-		//	echo $this->sql ;
+			$this->sql ="insert into $this->translate_table (lang,id,name,description,content,image,params,meta_key,meta_description) values ('$lang',$id,'$name','$description','$content','$image','$params','$meta_key','$meta_description') ";
 			$this->insert();
 		}else{
-			$this->sql = "update  $this->translate_table set lang='$lang', name='$name', content='$content',image='$image' ,params ='$params' ,meta_key='$meta_key', meta_description='$meta_description' where id=$id  ";
-		//	echo $this->sql ;
+			$this->sql = "update $this->translate_table set lang='$lang',name='$name',description='$description',content='$content',image='$image' ,params ='$params',meta_key='$meta_key',meta_description='$meta_description' where lang='$lang' and id=$id ";
 			$this->update();
-			
 		}
 	}
-
-function front_getInCategory($categories,$search,$orderby,$limit){
+	function front_getInCategory($categories,$search,$orderby,$limit){
 		foreach($categories as $category){
 			$new_search = $search.' and category_id = $category_id ';
-			$pages[$category['id']] =$this->getPagesAll($new_search,$order,$limit) ;
+			$pages[$category['id']] =$this->getPagesAll($new_search,$order,$limit);
 		}
-		return $pages ;
+		return $pages;
 	}
 
 //////////////  order function  /////////////////////////////

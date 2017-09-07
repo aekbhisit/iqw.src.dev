@@ -15,7 +15,6 @@ class Mailer extends Database {
 // Develop by iQuickweb.com 28/06/2012
 ///////////////////////////////////////////////////////////////////////////////////
 public function sendMail($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$msg,$attachments){
-	// print_r($this->smtp);
 	if((int)$this->smtp['smtp']==1){
 		return $this->sendBySMTP($mailTo,$toName,$ccTo,$bccTo,$subject,$mailFrom,$fromName,$attachments,$msg);
 	}else{

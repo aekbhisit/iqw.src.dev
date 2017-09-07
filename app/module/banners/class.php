@@ -10,8 +10,8 @@ class Banners extends Database {
 		if(isset($params['parent_table'])){
 			$this->parent_table = $params['parent_table'];
 		}
-		if(isset($params['parent_table_translate'])){
-			$this->parent_table_translate = $params['parent_table_translate'];
+		if(isset($params['parent_translate_table'])){
+			$this->parent_translate_table = $params['parent_translate_table'];
 		}
 		if(isset($params['parent_primary_key'])){
 			$this->parent_primary_key = $params['parent_primary_key'];
@@ -22,14 +22,14 @@ class Banners extends Database {
 		if(isset($params['is_translate'])){
 			$this->is_translate = $params['is_translate'];
 		}
-		if(isset($params['table_translate'])){
-			$this->table_translate = $params['table_translate'];
+		if(isset($params['translate_table'])){
+			$this->translate_table = $params['translate_table'];
 		}
 	}
 	function datePickerToTime($in_date){
-		list($date,$time) = explode(' ',$in_date) ;
+		list($date,$time) = explode(' ',$in_date);
 		list($month,$day,$year) = explode('/',$date);
-		return $year.'-'.$month.'-'.$day.' '.$time.':00' ;
+		return $year.'-'.$month.'-'.$day.' '.$time.':00';
 	}
 	function timeToDatePicker($in_date){
 		list($date,$time) = explode(' ',$in_date) ;
@@ -85,7 +85,7 @@ class Banners extends Database {
 		$data = $this->rows[0];
 		$new_id = $this->insert_categories($data['parent_id'],$data['name'],$data['slug'],$data['description'],$data['image'],$data['params'],$user_id,$data['status']);
 		// translate
-		$this->sql = "select * from $this->table_translate where $this->primary_key=$id ";
+		$this->sql = "select * from $this->translate_table where $this->primary_key=$id ";
 		$this->select();
 		$data = $this->rows;
 		if(!empty($data)){
@@ -95,11 +95,11 @@ class Banners extends Database {
 		}
 	}
   	public function deleteCategoryTranslate($id){
-		$this->sql = "select * from $this->table_translate where $this->primary_key=$id " ;
+		$this->sql = "select * from $this->translate_table where $this->primary_key=$id " ;
 		$this->select();
 		$data = $this->rows;
 		if(!empty($data)){
-			$this->sql = "delete from  $this->table_translate where $this->primary_key=$id ";
+			$this->sql = "delete from  $this->translate_table where $this->primary_key=$id ";
 			$this->delete();
 		}
 	}
@@ -109,22 +109,22 @@ class Banners extends Database {
 	}
 	// translate function
 	public function getTranslateCategory($id,$lang){
-		$this->sql = "select $this->table.id as category_id, $this->table.name as translate_from ,$this->table_translate.* from $this->table  left join $this->table_translate  on $this->table.id=$this->table_translate.id and $this->table_translate.lang='$lang'  where $this->table.id=$id ";
+		$this->sql = "select $this->table.id as category_id, $this->table.name as translate_from ,$this->translate_table.* from $this->table  left join $this->translate_table  on $this->table.id=$this->translate_table.id and $this->translate_table.lang='$lang'  where $this->table.id=$id ";
 		$this->select();
 		return	$this->rows[0] ;
 	}
 	
 	function saveCategoriesTranslate( $categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,$param){
-		$this->sql ="select id from $this->table_translate where lang='$categories_lang' and id=$categories_id ";
+		$this->sql ="select id from $this->translate_table where lang='$categories_lang' and id=$categories_id ";
 		//echo $this->sql ;
 		$this->select();
 		$chk = (empty($this->rows[0]['id']))?true:false ;
 		if($chk){
-			$this->sql ="insert into  $this->table_translate(lang, id, name, description , image,params ) values ('$categories_lang',$categories_id,'$categories_name','$categories_description','$categories_images','$param')  ";
+			$this->sql ="insert into  $this->translate_table(lang, id, name, description , image,params ) values ('$categories_lang',$categories_id,'$categories_name','$categories_description','$categories_images','$param')  ";
 			//echo $this->sql  ;
 			$this->insert();
 		}else{
-			$this->sql = "update  $this->table_translate set lang ='$categories_lang' , name='$categories_name', description='$categories_description' , image='$categories_images',params='$param' where id=$categories_id  ";
+			$this->sql = "update  $this->translate_table set lang ='$categories_lang' , name='$categories_name', description='$categories_description' , image='$categories_images',params='$param' where id=$categories_id  ";
 			//echo $this->sql  ;
 			$this->update();
 		}
@@ -143,7 +143,7 @@ class Banners extends Database {
 	
 	public function getAll($search,$order,$limit,$language=NULL){
 		if(!empty($language)&&$language!=$this->site_language){
-				$this->sql = "SELECT $this->table.*, $this->table_translate , $this->parent_table_translate.name as category FROM $this->table  LEFT JOIN $this->parent_table_translate  ON  $this->table.category_id=$this->parent_table_translate.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->table.$this->primary_key = $this->translate_table.$this->primary_key  $search $order $limit";
+				$this->sql = "SELECT $this->table.*, $this->translate_table , $this->parent_translate_table.name as category FROM $this->table  LEFT JOIN $this->parent_translate_table  ON  $this->table.category_id=$this->parent_translate_table.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->table.$this->primary_key = $this->translate_table.$this->primary_key  $search $order $limit";
 		}else{
 			 	$this->sql = "SELECT $this->table.*, $this->parent_table.name as category FROM $this->table  LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key  $search $order $limit";
 		}
@@ -154,13 +154,13 @@ class Banners extends Database {
 	public function getOne($key,$slug=false,$language=NULL){
 		if($slug){
 			if(!empty($language)&&$language!=$this->site_language){
-				$this->sql = "select $this->table.*, $this->table_translate.* from $this->table left join $this->table_translate on $this->table.primary_key = $this->table_translate.id and $this->table_translate.lang=$language  where $this->table.slug=$key ";
+				$this->sql = "select $this->table.*, $this->translate_table.* from $this->table left join $this->translate_table on $this->table.primary_key = $this->translate_table.id and $this->translate_table.lang=$language  where $this->table.slug=$key ";
 			}else{
 				$this->sql = "select * from $this->table where $this->table.slug=$key ";
 			}
 		}else{
 			if(!empty($language)&&$language!=$this->site_language){
-				$this->sql = "select $this->table.*, $this->table_translate.* from $this->table left join $this->table_translate on $this->table.primary_key = $this->table_translate.id and $this->table_translate.lang=$language  where  $this->table.$this->primary_key=$key ";
+				$this->sql = "select $this->table.*, $this->translate_table.* from $this->table left join $this->translate_table on $this->table.primary_key = $this->translate_table.id and $this->translate_table.lang=$language  where  $this->table.$this->primary_key=$key ";
 			}else{
 				$this->sql = "select * from $this->table where $this->primary_key=$key ";
 			}
@@ -175,7 +175,7 @@ class Banners extends Database {
 			if(!empty($categories)){
 				foreach($categories as $key => $c){
 						$id = $c['id'] ;
-						$this->sql = "select * from $this->parent_table_translate where id=$id ";
+						$this->sql = "select * from $this->parent_translate_table where id=$id ";
 						$this->select();
 						$translate = $this->rows[0] ;
 						$categories[$key] = array_merge($categories[$key],$translate) ;
@@ -189,7 +189,7 @@ class Banners extends Database {
 	
 	public function getParentCategory($key,$language=NULL){
 		if(!empty($language)&&$language!=$this->site_language){
-			$this->sql = " select * from $this->parent_table_translate  where id =$key ";
+			$this->sql = " select * from $this->parent_translate_table  where id =$key ";
 		}else{
 			$this->sql = " select * from $this->parent_table  where id =$key ";
 		}
@@ -212,7 +212,7 @@ class Banners extends Database {
 		$this->insertData($data['category_id'],$data['name'],$data['slug'],$data['content'],$data['image'],$data['params'],$data['link'],$data['meta_key'],$data['meta_description'],$user_id,$data['status'],$data['start'],$data['end']) ;
 		// insert translate 
 		$new_id = $this->insert_id();
-		$this->sql = "select * from $this->table_translate where $this->primary_key = $id ";
+		$this->sql = "select * from $this->translate_table where $this->primary_key = $id ";
 		$this->select();
 		$data = $this->rows ;
 		if(!empty($data)){
@@ -226,7 +226,7 @@ class Banners extends Database {
 		$this->sql = "delete from $this->table where $this->primary_key=$id " ;
 		$this->delete();
 		if($this->is_translate){
-			$this->sql = "delete from $this->table_translate where $this->table_translate.$this->primary_key=$id " ;
+			$this->sql = "delete from $this->translate_table where $this->translate_table.$this->primary_key=$id " ;
 			$this->delete();
 		}
 	}
@@ -237,21 +237,21 @@ class Banners extends Database {
 	}
 // page translate
 	function getTranslate($id,$lang){
-		$this->sql = "select $this->table.id as translate_id ,  $this->table.name as translate_from, $this->table.id as page_id, $this->table_translate.* from $this->table left join $this->table_translate on $this->table.id= $this->table_translate.id and $this->table_translate.lang='$lang' where $this->table.id=$id  ";
+		$this->sql = "select $this->table.id as translate_id ,  $this->table.name as translate_from, $this->table.id as page_id, $this->translate_table.* from $this->table left join $this->translate_table on $this->table.id= $this->translate_table.id and $this->translate_table.lang='$lang' where $this->table.id=$id  ";
 	//	echo $this->sql ;
 		$this->select();
 		return $this->rows[0] ;
 	}
 
   function saveTranslate( $lang,$id,$name,$content,$image,$params,$meta_key,$meta_description){
-		$this->sql ="select id from $this->table_translate where lang='$lang' and id=$id ";
+		$this->sql ="select id from $this->translate_table where lang='$lang' and id=$id ";
 		$this->select(); 
 		$chk = (empty($this->rows[0]['id']))?true:false ;
 		if($chk){
-			$this->sql ="insert into  $this->table_translate (lang, id, name, content ,image,params,meta_key,meta_description) values ('$lang',$id,'$name','$content','$image','$params','$meta_key','$meta_description')  ";
+			$this->sql ="insert into  $this->translate_table (lang, id, name, content ,image,params,meta_key,meta_description) values ('$lang',$id,'$name','$content','$image','$params','$meta_key','$meta_description')  ";
 			$this->insert();
 		}else{
-			$this->sql = "update  $this->table_translate set lang='$lang', name='$name', content='$content',image='$image' ,params ='$params' ,meta_key='$meta_key', meta_description='$meta_description' where id=$id  ";
+			$this->sql = "update  $this->translate_table set lang='$lang', name='$name', content='$content',image='$image' ,params ='$params' ,meta_key='$meta_key', meta_description='$meta_description' where id=$id  ";
 			$this->update();
 			
 		}

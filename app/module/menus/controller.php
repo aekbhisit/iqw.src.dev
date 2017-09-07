@@ -1,19 +1,19 @@
 <?php
-session_start();
+if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
 $params_category = array(
-		'module'=>'menus',
- 		'table'=>'menus',
-		'table_translate'=>'menus_translate',
-		'site_language'=>SITE_LANGUAGE ,
-		'is_translate'=>SITE_TRANSLATE 
+	'module'=>'menus',
+ 	'table'=>'menus',
+	'table_translate'=>'menus_translate',
+	'site_language'=>SITE_LANGUAGE,
+	'is_translate'=>SITE_TRANSLATE
 );
 $oCategories = new Menus($params_category);
 if(isset($_GET['task'])){
 	$task =$_GET['task'] ;
 	switch($task){
-//  categories task   
+		//  categories task   
 		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';
