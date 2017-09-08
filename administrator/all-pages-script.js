@@ -273,7 +273,7 @@ function initFormTextEditor(){
 			autoresize_max_height: 500,
 			extended_valid_elements: 'i[class|style|title],span[class|style|title],a[accesskey|charset|class|contenteditable|contextmenu|coords|dir|download|draggable|dropzone|hidden|href|hreflang|id|lang|media|name|rel|rev|shape|spellcheck|style|tabindex|target|title|translate|type|onclick|onfocus|onblur],marquee',
 			content_css : "../../themes/assets/css/bootstrap.min.css",
-			content_css: '../../themes/irradiance/fonts/assets/font-awesome/font-awesome.min.css',
+			content_css: '../../files/font-awesome/css/font-awesome.min.css',
 			// templates: [ irradiance/fontsirradiance/fonts
 			// 	{title: 'Tab 2', description: 'Tab 2',  url: '../../assets/tinymce/template/tab_2.php'},
 			// 	{title: 'Tab 3', description: 'Tab 3',  url: '../../assets/tinymce/template/tab_3.php'},
