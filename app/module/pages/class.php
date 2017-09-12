@@ -1,25 +1,31 @@
 <?php
 class Pages extends Database {
-	var $module   ;
-	public function __construct($module,$params=NULL){
-		$this->module = (empty($params['table']))?$module:$params['table']  ;
-		 parent::__construct((empty($params['table']))?$module:$params['table'] );
-		 if(isset($params['parent_table'])){
-			 $this->parent_table  =$params['parent_table'] ;
-		 }
-		  if(isset($params['parent_primary_key'])){
-			 $this->parent_primary_key  =$params['parent_primary_key'] ;
-		 }
-		 if(isset($params['is_translate'])){
-			 $this->is_translate  =$params['is_translate'] ;
-		 }
-		 if(isset($params['translate_table'])){
-			 $this->translate_table  =$params['translate_table'] ;
-		 }
-		// $this->category_translate_table = 'pages_categories_translate';
-		 //$this->translate_table = 'pages_translate';
+	var $module;
+	public function __construct($params=NULL){
+		$this->module = $params['module']  ;
+		parent::__construct((empty($params['table']))?$module:$params['table']);
+		if(isset($params['primary_key'])){
+			$this->primary_key = $params['primary_key'];
+		}
+		if(isset($params['parent_table'])){
+			$this->parent_table = $params['parent_table'];
+		}
+		if(isset($params['parent_translate_table'])){
+			$this->parent_translate_table = $params['parent_translate_table'];
+		}
+		if(isset($params['parent_primary_key'])){
+			$this->parent_primary_key = $params['parent_primary_key'];
+		}
+		if(isset($params['site_language'])){
+			$this->site_language = $params['site_language'];
+		}
+		if(isset($params['is_translate'])){
+		 	$this->is_translate = $params['is_translate'];
+	 	}
+		if(isset($params['translate_table'])){
+			$this->translate_table = $params['translate_table'];
+		}
 	}
-	
 // function for categories /////////////////////////////////////////////////
 // Develop by iQuickweb.com 28/06/2012
 ///////////////////////////////////////////////////////////////////////////////////

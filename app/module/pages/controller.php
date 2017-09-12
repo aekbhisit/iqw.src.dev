@@ -5,19 +5,29 @@ if(empty($_SESSION)) {
 $oUsers = new Users('users');
 // config module
 $params_category = array(
+	'module'=>'pages_categories',
  	'table'=>'pages_categories',
+ 	'primary_key'=>'id',
+ 	'parent_table'=> 'pages',
+	'parent_translate_table'=>'pages_translate',
+	'parent_primary_key'=>'id',
 	'translate_table'=>'pages_categories_translate',
+	'site_language'=>SITE_LANGUAGE,
 	'is_translate'=>SITE_TRANSLATE
 );
-$oCategories = new Pages('pages_categories',$params_category);
+$oCategories = new Pages($params_category);
 $params = array(
- 	'table'=>'pages',
-	'parent_table'=> 'pages_categories',
-	'parent_primary_key'=> 'id',
+	'module'=>'pages',
+	'table'=>'pages',
+	'primary_key'=>'id',
+	'parent_table'=>'pages_categories',
+	'parent_translate_table'=> 'pages_categories_translate',
+	'parent_primary_key'=>'id',
 	'translate_table'=>'pages_translate',
+	'site_language'=>SITE_LANGUAGE,
 	'is_translate'=>SITE_TRANSLATE
 );
-$oModule = new Pages('pages',$params);
+$oModule = new Pages($params);
 if(isset($_GET['task'])){
 	$task =$_GET['task'];
 	switch($task){
