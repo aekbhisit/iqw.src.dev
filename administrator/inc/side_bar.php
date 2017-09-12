@@ -28,6 +28,8 @@ $allow_module = array(
 	'finds'=>true,
 	'configs'=>true,
     'addon'=>true,
+    'content'=>true,
+    'htmlzone'=>true,
 );
 ?>
     <!-- Sidebar -->
@@ -43,6 +45,17 @@ $allow_module = array(
                                     	<img src="../images/icons/black/32/home.png" alt="Dashboard" />
                                     </span>
                                 	หน้าหลัก
+                                </a>
+                            </li>
+                            <?php  }// if  ?>
+                            <?php if($allow_module['content']){?>
+                            <li <?=($module_active=='content')?'class="active"':''?>>
+                                <a href="../content/index.php">
+                                    <!-- Icon Container -->
+                                    <span class="da-nav-icon">
+                                        <img src="../images/icons/black/32/home.png" alt="Content" />
+                                    </span>
+                                    คอนเทน
                                 </a>
                             </li>
                             <?php  }// if  ?>
@@ -310,7 +323,7 @@ $allow_module = array(
                                     สถิติโปรเจค
                                 </a>
                             </li>
-                            <?php  }// if  ?>
+                            <?php  } // if  ?>
                             <?php if($allow_module['newsletters']){?>
                              <li <?=($module_active=='newsletters')?'class="active"':''?>>
                             	<a href="<?=($module_active=='newsletters')?'index.php':'../newsletters/index.php'?>">
@@ -322,7 +335,7 @@ $allow_module = array(
                                 	จดหมายข่าว
                                 </a>
                             </li>
-                             <?php  }// if  ?>
+                             <?php  } // if  ?>
                             <?php if($allow_module['files']){?>
                               <li <?=($module_active=='files')?'class="active"':''?>>
                             	<a href="<?=($module_active=='files')?'index.php':'../files/index.php'?>">
@@ -333,7 +346,7 @@ $allow_module = array(
                                 	จัดการไฟล์
                                 </a>
                             </li>
-                            <?php  }// if  ?>
+                            <?php  } // if  ?>
                             <?php if($allow_module['statistics']){?>
                             <li <?=($module_active=='statistics')?'class="active"':''?>>
                             	<a href="<?=($module_active=='statistics')?'index.php':'../statistics/index.php'?>">
@@ -346,9 +359,9 @@ $allow_module = array(
                                 	สถิติ
                                 </a>
                             </li>
-                            <?php  }// if  ?>
-                             <?php if($allow_module['finds']){?>
-                             <li <?=($module_active=='finds')?'class="active"':''?>>
+                            <?php  } // if  ?>
+                            <?php if($allow_module['finds']){?>
+                            <li <?=($module_active=='finds')?'class="active"':''?>>
                             	<a href="javascript:void(0)">
                                 	<span class="da-nav-icon">
                                     	<img src="../images/icons/black/32/laptop.png" alt="Contact" />
@@ -360,8 +373,22 @@ $allow_module = array(
                                 	 <li><a href="<?=($module_active=='finds')?'categories.php':'../finds/categories.php'?>">จัดการ Route</a></li>
                                 </ul>
                             </li>
-                             <?php  }// if  ?>
-                             <?php if($allow_module['configs']){?>
+                            <?php } // if ?>
+                            <?php if($allow_module['htmlzone']){?>
+                            <li <?=($module_active=='htmlzone')?'class="active"':''?>>
+                                <a href="javascript:void(0)">
+                                    <span class="da-nav-icon">
+                                        <img src="../images/icons/black/32/laptop.png" alt="Contact" />
+                                    </span>
+                                    Block HTML
+                                </a>
+                                 <ul  <?=($module_active=='htmlzone')?'class="open"':'class="closed"'?>>
+                                    <li><a href="../htmlzone/index.php">Create Block</a></li>
+                                    <li><a href="../htmlzone/htmlzone.php">Create Input</a></li>
+                                </ul>
+                            </li>
+                            <?php }// if ?>
+                            <?php if($allow_module['configs']){?>
                             <li <?=($module_active=='configs')?'class="active"':''?>>
                             	<a href="javascript:void(0)">
                                 	<span class="da-nav-icon">
@@ -374,7 +401,7 @@ $allow_module = array(
                                		<li><a href="<?=($module_active=='configs')?'configs-email.php':'../configs/configs-email.php'?>">ตั้งค่าอีเมล</a></li>
                                 </ul>
                             </li>
-                               <?php  }// if  ?>
+                               <?php }// if ?>
                         </ul>
                     </div>
                 </div>

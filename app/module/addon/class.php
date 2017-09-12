@@ -166,7 +166,13 @@ function find($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search
 			6. category_one = find item in category 
 			7. in_category = fine all and relation incateogry
 		*/
-		return $this->_find($type,$key,$slug,$status,$language,$search,$filter,$order,$sort,$separate,$pagenate,$page,$length,$oParent); 
+		if($type=='one') {
+			$this->sql = "select * from $this->table where $this->primary_key = 1 ";
+			$this->select();
+			return  $this->rows[0];
+		} else {
+			return $this->_find($type,$key,$slug,$status,$language,$search,$filter,$order,$sort,$separate,$pagenate,$page,$length,$oParent); 
+		}
 	}
 	function findcount($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search=NULL,$filter='',$oParent=NULL){
 		 return  $this->_findcount($type,$key,$slug,$status,$language,$search,$filter,$oParent); 

@@ -1,47 +1,42 @@
 <?php
 class Database {
-	var $conn  ;
-	var $table ;
-	var $sql ;
-	var $result ;
-	var $size ;
-	var $rows ;
-	var $insert_id ;
+	var $conn;
+	var $table;
+	var $sql;
+	var $result;
+	var $size;
+	var $rows;
+	var $insert_id;
 	/// var for tree structure
-	var $primary_key ;
-	var $parent_table ;
-	var $child_table ;
-	var $parent_primary_key ;
-	var $child_primary_key ;
-	var $error ; 
-	
+	var $primary_key;
+	var $parent_table;
+	var $child_table;
+	var $parent_primary_key;
+	var $child_primary_key;
+	var $error; 
 	// var for tranlslate
-	var $site_language ;
-	var $is_translate = false ;
-	var $parent_translate_table ;
-	var $translate_table ;  
-	
+	var $site_language;
+	var $is_translate = false;
+	var $parent_translate_table;
+	var $translate_table;  
 	public function __construct($table,$primary_key='id'){
-		
-		$this->connect() ;
-		$this->table = $table ;
-		$this->primary_key = $primary_key ;
-		$this-> select_db();
+		$this->connect();
+		$this->table = $table;
+		$this->primary_key = $primary_key;
+		$this->select_db();
 	}
-	
 	function domainCheck(){
-	$allowed_hosts = array('example.com');
-	if (!in_array($_SERVER['HTTP_HOST'], $allowed_hosts)) {
+		$allowed_hosts = array('example.com');
+		if (!in_array($_SERVER['HTTP_HOST'], $allowed_hosts)) {
 			header($_SERVER['SERVER_PROTOCOL'].' 400 Bad Request');
 			exit;
+		}
 	}
- }
-	
 	public function connect(){
 		$this->conn = @mysql_connect(DB_SERVER,DB_USER,DB_PASS);
 	}
 	public function select_db(){
-			@mysql_select_db(DB_DATABASE,$this->conn) ;
+			@mysql_select_db(DB_DATABASE,$this->conn);
 			@mysql_query("SET NAMES UTF8"); 
 			@mysql_query("SET CHARACTER SET 'uft8'");  
 	}
@@ -51,7 +46,7 @@ class Database {
 	}
 	
 	public function query(){
-		$this->result = NULL ;
+		$this->result = NULL;
 		//echo $this->sql;
 		$this->result = @mysql_query($this->sql) or die( mysql_error() );
 	}
@@ -611,205 +606,196 @@ function sanitize($title) {
 	
 	///// function Query Data frontend
 	public function _find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oParent){
-			/* type
-					1. one = fine one item by id
-					3. all  =  fine all item and category
-					4. category_all = fine  category_id
-					6. category_one = find item in category 
-					7. in_category = fine all and relation incateogry
-			*/
-			// injection protect
-				$slug = $this->_valid($slug,'bool') ; 
+		/* type
+			1. one = fine one item by id
+			3. all  =  fine all item and category
+			4. category_all = fine  category_id
+			6. category_one = find item in category 
+			7. in_category = fine all and relation incateogry
+		*/
+		// injection protect
+		$slug = $this->_valid($slug,'bool'); 
+		if($slug){
+			$key = $this->_valid(urldecode($key));
+		}else{
+			$key = $this->_valid($key,'int');
+		}
+		$status = $this->_valid($status,'int');
+				$language =  $this->_valid($language);
+		$search = $this->_valid($search);
+		$filter =  $this->_valid($filter);
+		$order =  $this->_valid($order);
+		$separate = $this->_valid($separate,'bool');
+		$pagenate = $this->_valid($pagenate,'bool');
+		$page =  $this->_valid($page,'int');
+		$length =  $this->_valid($length,'int');
+		// injection protect
+		switch($type){
+			case 'one':
 				if($slug){
-					$key = $this->_valid(urldecode($key)) ;
+					if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
+						$this->sql = "select * from $this->table where $this->table.slug = '$key' ";
+					}else{
+						$this->sql  = "select $this->table.*, $this->translate_table.* from $this->table left join $this->translate_table on $this->table.$this->primary_key=$this->translate_table.$this->primary_key  where $this->table.slug = '$key' and $this->translate_table.lang='$language' ";
+					}
 				}else{
-					$key = $this->_valid($key,'int') ;
+					if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
+						$key = (int)$key ;
+						$this->sql = "select * from $this->table where $this->table.$this->primary_key = $key";
+					}else{
+						$this->sql  = "select $this->table.*, $this->translate_table.* from $this->table left join $this->translate_table on $this->table.$this->primary_key=$this->translate_table.$this->primary_key  where $this->table.$this->primary_key = $key and $this->translate_table.lang='$language' ";
+					}
 				}
-				$status =  $this->_valid($status,'int') ;
-				$language =  $this->_valid($language) ;
-				$search = $this->_valid($search) ;
-				$filter =  $this->_valid($filter) ;
-				$order =  $this->_valid($order) ;
-				$separate =  $this->_valid($separate,'bool') ;
-				$pagenate =  $this->_valid($pagenate,'bool') ;
-				$page =  $this->_valid($page,'int') ;
-				$length =  $this->_valid($length,'int') ;
-				// injection protect
-			switch($type){
-				case 'one':
-						if($slug){
-							if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
-									$this->sql = "select * from $this->table where $this->table.slug = '$key' ";
-							}else{
-									$this->sql  = "select $this->table.*, $this->translate_table.* from $this->table left join $this->translate_table on $this->table.$this->primary_key=$this->translate_table.$this->primary_key  where $this->table.slug = '$key' and $this->translate_table.lang='$language' ";
+				$this->select();
+				return $this->rows[0];
+			break;
+			case 'all':
+				if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
+					$this->sql = "SELECT $this->table.* , $this->parent_table.name as category , $this->parent_table.id as category_id from $this->table LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key WHERE $this->table.status=$status ";
+					if(!empty($search)){
+						$this->sql .= " and ($this->table.name LIKE '%$search%'  OR  $this->table.content LIKE '%$search%') ";
+					}
+					if(!empty($filter)){
+						$this->sql .= " and ( $filter ) ";
+					}
+					if(!empty($order)){
+						$this->sql .= " ORDER BY $order ";
+					}
+					if($pagenate){
+						$page = (!empty($page))?$page:1;
+						if($page<1){
+							$page = 1;
+						}
+						$start_rec = ($page-1) * $length;
+						$this->sql .= " LIMIT  $start_rec,$length "; 
+					}
+				}else{
+					//$this->sql = "select $this->table.* from $this->table WHERE $this->table.status=$status ";
+					$this->sql = "SELECT $this->table.* , $this->translate_table.* , $this->parent_table.name as category , $this->parent_table.id as category_id FROM $this->table LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->translate_table.$this->primary_key=$this->table.$this->primary_key WHERE $this->table.status=$status ";
+					if(!empty($search)){
+						$this->sql .= " ($this->translate_table.name LIKE '%$search%' OR $this->translate_table.content LIKE '%$search%') ";
+					}
+					if(!empty($order)){
+						$this->sql .= " ORDER BY $order ";
+					}
+					if($pagenate){
+						$page = (!empty($page))?$page:1;
+						if($page<1){
+							$page =  1 ;
+						}
+						$start_rec = ($page-1) * $length;
+						$this->sql .= " LIMIT  $start_rec,$length ";
+					}
+				}
+				$this->select();
+				return $this->rows;
+			break;
+			case 'category_all':
+				//echo 'category_all';
+				if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
+					if($status){
+						$categories =  $oParent->get_tree(" WHERE status=1 $filter ");
+					}else{
+						$categories =  $oParent->get_tree(" WHERE status=0 $filter ");
+					}
+				}else{
+					if($status){
+						$categories =  $oParent->get_tree(" WHERE status=1 $filter ");
+						foreach($categories as $key=>$c){
+							$this->sql  = " select * from $this->parent_translate_table where $this->parent_translate_table.lang='$language' and $this->parent_translate_table.$this->parent_primary_key = ".$c[$this->primary_key];
+							$this->select();
+							$categories[$key]['name'] =  $this->rows[0]['name'];
+							$categories[$key]['description'] =  $this->rows[0]['description'];
+							$categories[$key]['image'] =  $this->rows[0]['image'];
+						}
+					}else{
+						$categories =  $oParent->get_tree(" WHERE status=0 $filter ") ;
+						foreach($categories as $key=>$c){
+							$this->sql  = " select * from $this->parent_translate_table where $this->parent_translate_table.lang='$language' and $this->parent_translate_table.$this->parent_primary_key = ".$c[$this->primary_key];
+							$this->select();
+							$categories[$key]['name'] =  $this->rows[0]['name'];
+							$categories[$key]['description'] =  $this->rows[0]['description'];
+							$categories[$key]['image'] =  $this->rows[0]['image'];
+						}
+					}
+				}
+				return $categories;
+			break;
+			case 'category_one':
+				if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
+				 	$this->sql = "select * from $this->parent_table where $this->parent_primary_key=$key ";
+				}else{
+					$this->sql  = "select $this->parent_table.*, $this->parent_translate_table.* from $this->parent_table left join $this->parent_translate_table on $this->parent_table.$this->primary_key=$this->parent_translate_table.$this->primary_key  where $this->parent_table.slug = '$key' and $this->parent_translate_table.lang='$language' ";
+				}
+				$this->select();
+				return $this->rows[0];
+			break;
+			case 'in_category':
+				//	echo 'find in cat' ;
+				$categories = $oParent->get_child_node($key,'enable',$slug);
+				//	echo 'categories parent';
+				foreach($categories as $category){
+					if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
+						$this->sql = "SELECT $this->table.*, $this->parent_table.name as category, $this->parent_table.id as category_id FROM $this->table LEFT JOIN $this->parent_table ON $this->table.category_id=$this->parent_table.$this->parent_primary_key WHERE $this->table.category_id= ".$category['id']." AND $this->table.status=$status ";
+						if(!empty($search)){
+							$this->sql .= " AND ($this->table.name LIKE '%$search%' OR $this->table.content LIKE '%$search%') ";
+						}
+						if(!empty($filter)){
+							$this->sql .= " AND ($filter) " ;
+						}
+						if(!empty($order)){
+							$this->sql .= " ORDER BY $order ";
+						}
+						if($pagenate){
+							$page = (!empty($page))?$page:1;
+							if($page<1){
+								$page = 1;
 							}
-						}else{
-						
-							if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
-									$key = (int)$key ;
-									$this->sql = "select * from $this->table where $this->table.$this->primary_key = $key";
-							}else{
-									$this->sql  = "select $this->table.*, $this->translate_table.* from $this->table left join $this->translate_table on $this->table.$this->primary_key=$this->translate_table.$this->primary_key  where $this->table.$this->primary_key = $key and $this->translate_table.lang='$language' ";
+							$start_rec = ($page-1)*$length ;
+							$this->sql .= " LIMIT  $start_rec,$length ";
+						}
+					}else{
+						$this->sql = "SELECT $this->table.*, $this->translate_table.*, $this->parent_table.name as category, $this->parent_table.id as category_id FROM $this->table  LEFT JOIN $this->parent_table ON $this->table.category_id=$this->parent_table.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->translate_table.$this->primary_key=$this->table.$this->primary_key WHERE  $this->table.category_id= ".$category['id']." AND $this->table.status=$status and $this->translate_table.lang='$language' ";
+						if(!empty($search)){
+							$this->sql .= " AND ($this->translate_table.name LIKE '%$search%' OR $this->translate_table.content LIKE '%$search%') ";
+						}
+						if(!empty($filter)){
+							$this->sql .= " AND ($filter) ";
+						}
+						if(!empty($order)){
+							$this->sql .= " ORDER BY $order ";
+						}
+						if($pagenate){
+							$page = (!empty($page))?$page:1;
+							if($page<1){
+								$page = 1;
+							}
+							$start_rec = ($page-1)*$length;
+							$this->sql .= " LIMIT  $start_rec,$length ";
+						}
+						//echo $this->sql;
+					} // if site language
+					$this->select();
+					$data[$category['id']] = $this->rows;
+				} // foreach
+				// separate data in category 
+				if(!empty($data)&&!$separate){
+					$new_data = $data;
+					$sp_data = array();
+					$cnt = 0;
+					foreach($new_data as $dd_key => $dd){
+						if(!empty($dd)&&is_array($dd)){
+							foreach($dd as  $ld_key=>$ld){
+								$sp_data[$cnt] =  $ld;
+								$cnt++;
 							}
 						}
-						$this->select();
-						return $this->rows[0] ;
-				break ;
-				case 'all':
-						if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
-							//if(empty($this->parent_table)){
-								$this->sql = "SELECT $this->table.* , $this->parent_table.name as category , $this->parent_table.id as category_id from $this->table LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key WHERE $this->table.status=$status ";
-							//}else{
-								//$this->sql = "SELECT $this->table.*, $this->translate_table.*, $this->parent_table.name as category FROM $this->table LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->translate_table.$this->primary_key=$this->table.$this->primary_key WHERE $this->table.status=$status  and $this->translate_table.lang='$language' ";
-							//}
-							if(!empty($search)){
-								$this->sql .= " and ($this->table.name LIKE '%$search%'  OR  $this->table.content LIKE '%$search%') " ;
-							}
-							if(!empty($filter)){
-								$this->sql .= " and ( $filter ) " ;
-							}
-							if(!empty($order)){
-								$this->sql .= " ORDER BY $order ";
-							}
-						
-							if($pagenate){
-								$page = (!empty($page))?$page:1;
-								if($page<1){
-									$page =  1 ;
-								}
-								$start_rec = ($page-1) *$length ;
-								$this->sql .= " LIMIT  $start_rec,$length "; 
-								
-							}
-						}else{
-							//$this->sql = "select $this->table.* from $this->table WHERE $this->table.status=$status ";
-							$this->sql = "SELECT $this->table.* , $this->translate_table.* , $this->parent_table.name as category , $this->parent_table.id as category_id FROM $this->table LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->translate_table.$this->primary_key=$this->table.$this->primary_key WHERE $this->table.status=$status ";
-							if(!empty($search)){
-								$this->sql .= " ($this->translate_table.name LIKE '%$search%'  OR  $this->translate_table.content LIKE '%$search%') " ;
-							}
-							if(!empty($order)){
-								$this->sql .= " ORDER BY $order ";
-							}
-							if($pagenate){
-								$page = (!empty($page))?$page:1;
-								if($page<1){
-									$page =  1 ;
-								}
-								$start_rec = ($page-1) *$length ;
-								$this->sql .= " LIMIT  $start_rec,$length ";
-							}
-						}
-						$this->select() ;
-						return $this->rows ;
-				break ;
-				case 'category_all':
-						//echo 'category_all';
-						if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
-							if($status){
-								$categories =  $oParent->get_tree(" WHERE status=1 $filter ") ;
-							}else{
-								$categories =  $oParent->get_tree(" WHERE status=0 $filter ") ;
-							}
-						}else{
-							if($status){
-								$categories =  $oParent->get_tree(" WHERE status=1 $filter ") ;
-								foreach($categories as $key=>$c){
-									$this->sql  = " select * from $this->parent_translate_table where $this->parent_translate_table.lang='$language' and $this->parent_translate_table.$this->parent_primary_key = ".$c[$this->primary_key];
-									$this->select();
-									$categories[$key]['name'] =  $this->rows[0]['name'];
-									$categories[$key]['description'] =  $this->rows[0]['description'];
-									$categories[$key]['image'] =  $this->rows[0]['image'];
-								}
-							}else{
-								$categories =  $oParent->get_tree(" WHERE status=0 $filter ") ;
-								foreach($categories as $key=>$c){
-									$this->sql  = " select * from $this->parent_translate_table where $this->parent_translate_table.lang='$language' and $this->parent_translate_table.$this->parent_primary_key = ".$c[$this->primary_key];
-									$this->select();
-									$categories[$key]['name'] =  $this->rows[0]['name'];
-									$categories[$key]['description'] =  $this->rows[0]['description'];
-									$categories[$key]['image'] =  $this->rows[0]['image'];
-								}
-							}
-						}
-						return $categories ;
-				break ;
-				case 'category_one':
-						if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
-						 	$this->sql = "select * from $this->parent_table where $this->parent_primary_key=$key ";
-						}else{
-							$this->sql  = "select $this->parent_table.*, $this->parent_translate_table.* from $this->parent_table left join $this->parent_translate_table on $this->parent_table.$this->primary_key=$this->parent_translate_table.$this->primary_key  where $this->parent_table.slug = '$key' and $this->parent_translate_table.lang='$language' ";
-						}
-						$this->select();
-						return  $this->rows[0] ;
-				break ;
-				case 'in_category':
-				 //	echo 'find in cat' ;
-				    	$categories = $oParent->get_child_node($key,'enable',$slug) ;
-					//	echo 'categories parent';
-							foreach($categories as $category){
-									if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
-										$this->sql = "SELECT $this->table.*, $this->parent_table.name as category, $this->parent_table.id as category_id FROM $this->table  LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key WHERE $this->table.category_id= ".$category['id']." AND  $this->table.status=$status  ";
-										if(!empty($search)){
-											$this->sql .= " AND ($this->table.name LIKE '%$search%'  OR  $this->table.content LIKE '%$search%') " ;
-										}
-										if(!empty($filter)){
-											$this->sql .= " AND ($filter) " ;
-										}
-										if(!empty($order)){
-											$this->sql .= " ORDER BY $order ";
-										}
-										if($pagenate){
-											$page = (!empty($page))?$page:1;
-											if($page<1){
-												$page =  1 ;
-											}
-											$start_rec = ($page-1)*$length ;
-											$this->sql .= " LIMIT  $start_rec,$length ";
-											//echo $this->sql ;
-										}
-									}else{
-										$this->sql = "SELECT $this->table.*, $this->translate_table.*, $this->parent_table.name as category, $this->parent_table.id as category_id FROM $this->table  LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->translate_table.$this->primary_key=$this->table.$this->primary_key WHERE  $this->table.category_id= ".$category['id']." AND $this->table.status=$status  and $this->translate_table.lang='$language' ";
-										if(!empty($search)){
-											$this->sql .= " AND ($this->translate_table.name LIKE '%$search%'  OR  $this->translate_table.content LIKE '%$search%') " ;
-										}
-										if(!empty($filter)){
-											$this->sql .= " AND  ($filter) " ;
-										}
-										if(!empty($order)){
-											$this->sql .= " ORDER BY $order ";
-										}
-										if($pagenate){
-											$page = (!empty($page))?$page:1;
-											if($page<1){
-												$page =  1 ;
-											}
-											$start_rec = ($page-1)*$length ;
-											$this->sql .= " LIMIT  $start_rec,$length ";
-										}
-									} // if site language
-								   // echo $this->sql ;
-									$this->select();
-									//print_r($this->rows);
-									$data[$category['id']] =  $this->rows ;
-							}// foreach
-							// separate data in category 
-							if(!empty($data)&&!$separate){
-								$new_data = $data ;
-								$sp_data = array();
-								$cnt = 0 ;
-								foreach($new_data as $dd_key => $dd){
-									if(!empty($dd)&&is_array($dd)){
-										foreach($dd as  $ld_key=>$ld){
-											$sp_data[$cnt] =  $ld ;
-											$cnt++;
-										}
-									}
-								}
-								$data = $sp_data ;
-							}
-							return $data ;
-				break ;
-			}
+					}
+					$data = $sp_data;
+				}
+				return $data;
+			break;
+		}
 	}
 	
 	function _findcount($type,$key,$slug,$status,$language,$search,$filter,$oParent){

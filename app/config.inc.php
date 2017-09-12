@@ -41,8 +41,7 @@ define('SITE_ROOT','/');
 define('FILE_ROOT',dirname(__FILE__));
 //language
 define('SITE_LANGUAGE','th');
-define('SITE_TRANSLATE',false);
-
+define('SITE_TRANSLATE',true);
 define('LOCALE_DIR', $_SERVER['DOCUMENT_ROOT'].'/languages/');
 define('DEFAULT_LOCALE',SITE_LANGUAGE);
 // dynamic search
