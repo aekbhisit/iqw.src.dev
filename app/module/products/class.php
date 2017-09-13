@@ -11,7 +11,7 @@ class Products extends Database {
 			$this->parent_table = $params['parent_table'];
 		}
 		if(isset($params['parent_translate_table'])){
-			$this->parent_table_translate = $params['parent_translate_table'];
+			$this->parent_translate_table = $params['parent_translate_table'];
 		}
 		if(isset($params['parent_primary_key'])){
 			$this->parent_primary_key = $params['parent_primary_key'];
@@ -149,7 +149,7 @@ class Products extends Database {
 	
 	public function getAll($search,$order,$limit,$language=NULL){
 		if(!empty($language)&&$language!=$this->site_language){
-				$this->sql = "SELECT $this->table.*, $this->translate_table , $this->parent_table_translate.name as category FROM $this->table  LEFT JOIN $this->parent_table_translate  ON  $this->table.category_id=$this->parent_table_translate.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->table.$this->primary_key = $this->translate_table.$this->primary_key  $search $order $limit";
+				$this->sql = "SELECT $this->table.*, $this->translate_table , $this->parent_translate_table.name as category FROM $this->table  LEFT JOIN $this->parent_translate_table  ON  $this->table.category_id=$this->parent_translate_table.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->table.$this->primary_key = $this->translate_table.$this->primary_key  $search $order $limit";
 		}else{
 			 	$this->sql = "SELECT $this->table.*, $this->parent_table.name as category FROM $this->table  LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key  $search $order $limit";
 		}
@@ -181,7 +181,7 @@ class Products extends Database {
 			if(!empty($categories)){
 				foreach($categories as $key => $c){
 						$id = $c['id'] ;
-						$this->sql = "select * from $this->parent_table_translate where id=$id ";
+						$this->sql = "select * from $this->parent_translate_table where id=$id ";
 						$this->select();
 						$translate = $this->rows[0] ;
 						$categories[$key] = array_merge($categories[$key],$translate) ;
@@ -195,7 +195,7 @@ class Products extends Database {
 	
 	public function getParentCategory($key,$language=NULL){
 		if(!empty($language)&&$language!=$this->site_language){
-			$this->sql = " select * from $this->parent_table_translate  where id =$key ";
+			$this->sql = " select * from $this->parent_translate_table  where id =$key ";
 		}else{
 			$this->sql = " select * from $this->parent_table  where id =$key ";
 		}

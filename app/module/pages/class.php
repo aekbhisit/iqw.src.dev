@@ -11,7 +11,7 @@ class Pages extends Database {
 			$this->parent_table = $params['parent_table'];
 		}
 		if(isset($params['parent_translate_table'])){
-			$this->parent_table_translate = $params['parent_translate_table'];
+			$this->parent_translate_table = $params['parent_translate_table'];
 		}
 		if(isset($params['parent_primary_key'])){
 			$this->parent_primary_key = $params['parent_primary_key'];
