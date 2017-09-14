@@ -1,4 +1,5 @@
 // JavaScript Document
+"use strict";
 var modules = 'galleries';
 (function($) {
 	$(document).ready(function(e) {
@@ -27,14 +28,15 @@ function formInit(){
 			$('#meta_description').val(data.meta_description);
 			$('#name').val(data.name);
 			$('#now_translate').val(data.translate_from);
-			$('#content').elrte('val', data.content);
+			$('#content').val(data.content);
+			tinyMCE.activeEditor.setContent(data.content);
 			if(data.cover!=''){
 				$('#cover').val(data.cover);
 				$('#show-cover').attr('src',data.cover);
 				$('#show-cover').fadeIn('fast');
 			}
 			showImageInit(data.images_list);
-		//	$('#galleries_status').find('option:[value="'+data.status+'"]').attr('selected','selected');
+			//	$('#galleries_status').find('option:[value="'+data.status+'"]').attr('selected','selected');
 		}
 	});
 }
@@ -53,37 +55,38 @@ function loadLanguage(){
 }
 // new script
 function showImageInit(img_json){
-	img_length = img_json.length;
-	$.each(img_json,function(i,img){
-		var img_length = $('#countImageIndex').val();
-		var img_item = '<li id="'+img_length+'"><table width="100%" border="0" cellspacing="0" cellpadding="0">';
-		img_item += '<tr>';
-		img_item += ' <td width="120" height="120" align="center" valign="middle"><a href="'+img.image+'" rel="prettyPhoto"><img src="'+img.image+'"  style="width:100px; height:100px; margin-top:5px; border:#ccc 1px solid; border-radius:10px;"/></a></td>';
-		img_item += '<td>';
-		img_item += "<input name=\"images["+img_length+"][id]\"  id=\"images["+img_length+"][id]\" type=\"hidden\"  value=\""+img.id+"\" />";
-		img_item +="<input name=\"images["+img_length+"][src]\"  id=\"images["+img_length+"][src]\" type=\"hidden\" value=\""+img.image+"\" />";
-		img_item += "<label  style=\"height:20px; font-size:90%; padding:0px;\">ชื่อภาพ</label><input name=\"images["+img_length+"][title]\"  id=\"images["+img_length+"][title]\" type=\"text\" style=\"margin-bottom:5px;\" value=\""+img.title+"\" />";
-		img_item += "<label  style=\"height:20px; font-size:90%; padding:0px\">คำอธิบายภาพ</label><input name=\"images["+img_length+"][description]\"  id=\"images["+img_length+"][description]\" type=\"text\" value=\""+img.description+"\"  />";
-		img_item += '</td>';
-		img_item += '<td style="width:50px; padding-left:20px; padding-top:20px;" align="center" valign="middle">';
-		img_item += '<a href="javascript:void(0)" onclick="deleteGalleryImage('+img_length+');"><input type="button" value="ลบ" class="da-button red left"></a>';
-		img_item += "<br/><input name=\"images["+img_length+"][order]\"  id=\"images["+img_length+"][order]\" type=\"text\" class=\"showImageOrder\" value=\""+img.sequence+"\" style=\"width:40px;\" />";
-		img_item += '</td>';
-		img_item += '</tr>';
-		img_item += '</table>';
-		img_item += '</li>';
-		$('ul#displayImagesList').append(img_item);
-		$('#countImageIndex').val(parseInt($('#countImageIndex').val())+1);
-	});
-	prettyGallery();
-	sortAble();
+	if(typeof img_json === 'object' && img_json !== null) {
+		var img_length = img_json.length;
+		img_length = img_json.length;
+		$.each(img_json,function(i,img){
+			var img_length = $('#countImageIndex').val();
+			var img_item = '<li id="'+img_length+'"><table width="100%" border="0" cellspacing="0" cellpadding="0">';
+			img_item += '<tr>';
+			img_item += ' <td width="120" height="120" align="center" valign="middle"><a href="'+img.image+'" rel="prettyPhoto"><img src="'+img.image+'"  style="width:100px; height:100px; margin-top:5px; border:#ccc 1px solid; border-radius:10px;"/></a></td>';
+			img_item += '<td>';
+			img_item += "<input name=\"images["+img_length+"][id]\"  id=\"images["+img_length+"][id]\" type=\"hidden\"  value=\""+img.id+"\" />";
+			img_item +="<input name=\"images["+img_length+"][src]\"  id=\"images["+img_length+"][src]\" type=\"hidden\" value=\""+img.image+"\" />";
+			img_item += "<label  style=\"height:20px; font-size:90%; padding:0px;\">ชื่อภาพ</label><input name=\"images["+img_length+"][title]\"  id=\"images["+img_length+"][title]\" type=\"text\" style=\"margin-bottom:5px;\" value=\""+img.title+"\" />";
+			img_item += "<label  style=\"height:20px; font-size:90%; padding:0px\">คำอธิบายภาพ</label><input name=\"images["+img_length+"][description]\"  id=\"images["+img_length+"][description]\" type=\"text\" value=\""+img.description+"\"  />";
+			img_item += '</td>';
+			img_item += '<td style="width:50px; padding-left:20px; padding-top:20px;" align="center" valign="middle">';
+			img_item += '<a href="javascript:void(0)" onclick="deleteGalleryImage('+img_length+');"><input type="button" value="ลบ" class="da-button red left"></a>';
+			img_item += "<br/><input name=\"images["+img_length+"][order]\"  id=\"images["+img_length+"][order]\" type=\"text\" class=\"showImageOrder\" value=\""+img.sequence+"\" style=\"width:40px;\" />";
+			img_item += '</td>';
+			img_item += '</tr>';
+			img_item += '</table>';
+			img_item += '</li>';
+			$('ul#displayImagesList').append(img_item);
+			$('#countImageIndex').val(parseInt($('#countImageIndex').val())+1);
+		});
+		prettyGallery();
+		sortAble();
+	}
 }
 function setSaveData(){
 	var d = new Date();	
 	var url = "../../app/index.php?module="+modules+"&task=saveTranslate&d"+d.getTime();
-	 $('#form').find('.elrte').each(function(){
-		$(this).elrte('updateSource');
-	});
+	tinyMCE.triggerSave();
 	$.ajax({
 		  type: 'POST', 
 		  url: url, 
@@ -111,7 +114,6 @@ function setSaveData(){
 			return $('#form').valid();
 		},
 		success: function(data){
-			// alert(data);
 			gotoManagePage()
 		}
 	});

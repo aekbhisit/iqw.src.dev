@@ -1,8 +1,8 @@
-<?php @include ("../inc/auth.inc.php") ; ?>
+<?php @include ("../inc/auth.inc.php"); ?>
 <?php
 $modules = 'galleries';
 $modules_name = 'galleries';
-$module_active = 'galleries' ;
+$module_active = 'galleries';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -90,7 +90,8 @@ $module_active = 'galleries' ;
 
 <!-- Demo JavaScript Files -->
 <!--<script type="text/javascript" src="js/demo/demo.files.js"></script>-->
-
+<!-- all-pages-include-script -->
+<?php include('../all-pages-include-script.php'); ?>
 <!-- Custom script for all page -->
 <script type="text/javascript" src="../all-pages-script.js"></script>
 
@@ -256,7 +257,7 @@ $module_active = 'galleries' ;
                                                 <label>เนื้อหาอัลบั้ม<span class="required"></span></label>
                                                 <div class="da-form-item large">
                                                     <span class="formNote"  >ใส่เนื้อหาอัลบั้ม</span>
-                                                    <textarea id="content" name="content" class="elrte" style="overflow-x: hidden; overflow-y: hidden; height:100px; "></textarea>
+                                                    <textarea id="content" name="content" class="texteditor" style="overflow-x: hidden; overflow-y: hidden; height:100px; "></textarea>
                                                 </div>
                                             </div>
                                             <div class="da-form-row">

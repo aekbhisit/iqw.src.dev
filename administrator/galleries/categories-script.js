@@ -1,4 +1,5 @@
 // JavaScript Document
+"use strict";
 var oTable ;
 var modules = "galleries";
 (function($) {

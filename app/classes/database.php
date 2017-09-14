@@ -23,7 +23,7 @@ class Database {
 		$this->connect();
 		$this->table = $table;
 		$this->primary_key = $primary_key;
-		$this->select_db();
+		$this-> select_db();
 	}
 	function domainCheck(){
 		$allowed_hosts = array('example.com');
@@ -31,7 +31,7 @@ class Database {
 			header($_SERVER['SERVER_PROTOCOL'].' 400 Bad Request');
 			exit;
 		}
-	}
+ 	}
 	public function connect(){
 		$this->conn = @mysql_connect(DB_SERVER,DB_USER,DB_PASS);
 	}
@@ -40,17 +40,14 @@ class Database {
 			@mysql_query("SET NAMES UTF8"); 
 			@mysql_query("SET CHARACTER SET 'uft8'");  
 	}
-	
 	public function disconnect() {
 		return @mysql_close();
 	}
-	
 	public function query(){
 		$this->result = NULL;
 		//echo $this->sql;
 		$this->result = @mysql_query($this->sql) or die( mysql_error() );
 	}
-	
 	public function num_rows() {
 		return @mysql_num_rows($this->result);
 	}
@@ -96,7 +93,24 @@ class Database {
 	public function insert_id() {
 		return @mysql_insert_id();
 	}
+	public function setString($string){ 
+		return trim(htmlentities($string,ENT_QUOTES,'UTF-8'));
+		//$convmap = array(0x0, 0x1FFFFF, 0, 0x1FFFFF);
+		//return mb_encode_numericentity ($string, array (0x0, 0xffff, 0, 0xffff), 'UTF-8');
+		//return mb_encode_numericentity(htmlentities($string,ENT_QUOTES,'UTF-8'),$convmap,'utf-8') ;
+	}
 	
+	public function getString($string){
+		return html_entity_decode($string,ENT_QUOTES,'UTF-8');
+	}
+	
+	public function setInt($int){
+		return (int)addslashes($int);
+	}
+	
+	public function setFloat($float){
+		return (float)addslashes($float);
+	}
 	//// custom common function
 	function select($type=NULL){
 		$this->query();
@@ -237,9 +251,9 @@ class Database {
 	 
  	function get_tree($where=NULL,$table=NULL){
 		if(empty($table)){
-			$this->sql = "select c.*, COUNT(*)-1 as clevel from $this->table as c, $this->table as p where   c.lft between  p.lft and p.rght ";
+			$this->sql = "select c.*, COUNT(*)-1 as clevel from $this->table as c, $this->table as p where c.lft between  p.lft and p.rght";
 		}else{
-			$this->sql = "select c.*, COUNT(*)-1 as clevel from $table as c, $table as p where   c.lft between  p.lft and p.rght ";
+			$this->sql = "select c.*, COUNT(*)-1 as clevel from $table as c, $table as p where c.lft between p.lft and p.rght ";
 		}
 		if(!empty($where)){
 			if($where=='enable'){
@@ -254,6 +268,7 @@ class Database {
 		}else{
 			$this->sql  .= " group by c.lft order by c.lft ";
 		}
+		// echo $this->sql ;
 		$this->select();   
 		return $this->rows ;
 	}
@@ -277,7 +292,7 @@ class Database {
 		}else{
 			$this->sql  .= " group by c.lft order by c.lft ";
 		}
-		//echo $this->sql  ;
+		// echo $this->sql  ;
 		$this->select();   
 		return $this->rows ;
 	}
@@ -296,6 +311,7 @@ class Database {
 	}
 	
 	function get_child_node($id,$enable=NULL,$slug=false){
+		// echo "id=$id";
 		if($slug==true&&!empty($id)){
 			if($slug==true){
 					$this->sql  = "select id from $this->table where slug like '$id' " ;
@@ -314,7 +330,7 @@ class Database {
 				$this->sql .= " and c.status=1 and p.status=1" ;
 		}
 		$this->sql  .= " group by c.lft order by c.lft asc ";
-		//echo '<p>'. $this->sql ;
+		// echo '<p>'. $this->sql ;
 		$this->select();   
 		return $this->rows ;
 	}
@@ -640,7 +656,7 @@ function sanitize($title) {
 					}
 				}else{
 					if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
-						$key = (int)$key ;
+						$key = (int)$key;
 						$this->sql = "select * from $this->table where $this->table.$this->primary_key = $key";
 					}else{
 						$this->sql  = "select $this->table.*, $this->translate_table.* from $this->table left join $this->translate_table on $this->table.$this->primary_key=$this->translate_table.$this->primary_key  where $this->table.$this->primary_key = $key and $this->translate_table.lang='$language' ";
@@ -725,7 +741,7 @@ function sanitize($title) {
 				if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
 				 	$this->sql = "select * from $this->parent_table where $this->parent_primary_key=$key ";
 				}else{
-					$this->sql  = "select $this->parent_table.*, $this->parent_translate_table.* from $this->parent_table left join $this->parent_translate_table on $this->parent_table.$this->primary_key=$this->parent_translate_table.$this->primary_key  where $this->parent_table.slug = '$key' and $this->parent_translate_table.lang='$language' ";
+					$this->sql  = "select $this->parent_table.*, $this->parent_translate_table.* from $this->parent_table left join $this->parent_translate_table on $this->parent_table.$this->primary_key=$this->parent_translate_table.$this->primary_key  where $this->parent_table.$this->primary_key = $key and $this->parent_translate_table.lang = '$language' ";
 				}
 				$this->select();
 				return $this->rows[0];
@@ -755,7 +771,7 @@ function sanitize($title) {
 							$this->sql .= " LIMIT  $start_rec,$length ";
 						}
 					}else{
-						$this->sql = "SELECT $this->table.*, $this->translate_table.*, $this->parent_table.name as category, $this->parent_table.id as category_id FROM $this->table  LEFT JOIN $this->parent_table ON $this->table.category_id=$this->parent_table.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->translate_table.$this->primary_key=$this->table.$this->primary_key WHERE  $this->table.category_id= ".$category['id']." AND $this->table.status=$status and $this->translate_table.lang='$language' ";
+						$this->sql = "SELECT $this->table.*, $this->translate_table.*, $this->parent_table.name as category, $this->parent_table.id as category_id FROM $this->table  LEFT JOIN $this->parent_table ON $this->table.category_id=$this->parent_table.$this->parent_primary_key LEFT JOIN $this->translate_table ON $this->translate_table.$this->primary_key=$this->table.$this->primary_key WHERE $this->table.category_id= ".$category['id']." AND $this->table.status=$status and $this->translate_table.lang='$language' ";
 						if(!empty($search)){
 							$this->sql .= " AND ($this->translate_table.name LIKE '%$search%' OR $this->translate_table.content LIKE '%$search%') ";
 						}
