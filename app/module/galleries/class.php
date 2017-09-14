@@ -214,8 +214,8 @@ class Galleries extends Database {
 		$this->sql ="update galleries_images_translate  set title='$title',description='$description' where image_id=$image_id and lang='$lang' ";
 		$this->update();
 	}
-	public function saveDataImageTranslate($lang, $image_id,$title,$description){
-		$this->sql = "select  id from galleries_images_translate where lang='$lang' and image_id=$image_id";
+	public function saveDataImageTranslate($lang,$image_id,$title,$description){
+		$this->sql = "select  id from galleries_images_translate where lang='$lang' and image_id = $image_id";
 		$this->select();
 		if(!empty($this->rows)){
 			$this->updateDataImageTranslate($lang,$image_id,$title,$description);
@@ -223,12 +223,12 @@ class Galleries extends Database {
 			$this->insertDataImageTranslate($lang,$image_id,$title,$description);
 		}
 	}
-	public function saveTranslate($lang,$id,$name,$content,$cover,$params,$meta_key,$meta_description){
-		$this->sql =" select id from $this->translate_table where id=$id and lang='$lang' ";
+	public function saveTranslate($lang,$id,$name,$content,$images,$cover,$params,$meta_key,$meta_description){
+		$this->sql =" select id from $this->translate_table where id = $id and lang = '$lang' ";
 		$this->select();
 		$result = $this->rows;
 		if(empty($result)){
-			$this->sql = "insert into $this->translate_table(lang,id,name,content,cover,params,meta_key,meta_description) values ('$lang',$id,'$name','$content','$cover','$params','$meta_key','$meta_description')";
+			$this->sql = "insert into $this->translate_table (lang,id,name,content,cover,params,meta_key,meta_description) values ('$lang',$id,'$name','$content','$cover','$params','$meta_key','$meta_description') ";
 			$this->insert();
 			$gallery_id = $this->insert_id();
 			if(!empty($images)){

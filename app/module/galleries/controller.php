@@ -101,8 +101,8 @@ if(isset($_GET['task'])){
 			if($_GET['mode']=='edit'){
 				$id = $oModule->setInt($_GET['id']);
 				$data = $oCategories->getCategory($id);
-				$data['name'] = htmlspecialchars_decode($data['name'],ENT_QUOTES);
-				$data['description'] = htmlspecialchars_decode($data['description'],ENT_QUOTES);
+				$data['name'] = $oModule->getString($data['name']);
+				$data['description'] = $oModule->getString($data['description']);
 				echo json_encode($data);
 			}
 		break;
@@ -291,15 +291,15 @@ if(isset($_GET['task'])){
 		break;
 		case "saveTranslate":
 			$user = $oUsers->getAdminLoginUser();
-			$id = $oModule->setInt($_GET['id']);
+			$id = $oModule->setInt($_POST['id']);
 			$lang = $oModule->setString($_POST['translate_language']); 
 			$name = $oModule->setString($_POST["name"]);
 			$content = $oModule->setString($_POST["content"]);
 			$meta_key = $oModule->setString($_POST['meta_key']);
 			$meta_description = $oModule->setString($_POST['meta_description']);
-			$images = $oModule->setString($_POST['images']);
+			$images = $_POST['images'];
 			$cover = $oModule->setString($_POST['cover']);
-			$oModule->saveTranslate($lang,$id,$name,$content,$images,$cover,$meta_key,$meta_description);
+			$oModule->saveTranslate($lang,$id,$name,$content,$images,$cover,'',$meta_key,$meta_description);
 		break;
 		case 'duplicate':
 			$user = $oUsers->getAdminLoginUser();

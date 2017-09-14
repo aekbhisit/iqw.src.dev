@@ -8,7 +8,6 @@ var modules = 'galleries';
 			formInit();
 		});
 		loadLanguage();
-		//selectImages();
 		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
 	});// document_ready
 }) (jQuery);
@@ -28,7 +27,7 @@ function formInit(){
 			$('#meta_description').val(data.meta_description);
 			$('#name').val(data.name);
 			$('#now_translate').val(data.translate_from);
-			$('#content').val(data.content);
+			$('#content').html(data.content);
 			tinyMCE.activeEditor.setContent(data.content);
 			if(data.cover!=''){
 				$('#cover').val(data.cover);
