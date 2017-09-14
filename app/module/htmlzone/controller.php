@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
@@ -51,10 +54,10 @@ if(isset($_GET['task'])){
 		break;
 		case 'saveData':
 			$user = $oUsers->getAdminLoginUser();
-			$id = $_POST['id'];
-			$name = addslashes($_POST['name']);
-			$description = addslashes($_POST['description']);
-			$status = (int)addslashes($_POST['status']);
+			$id = $oModule->setInt($_POST['id']);
+			$name = $oModule->setString($_POST['name']);
+			$description = $oModule->setString($_POST['description']);
+			$status = $oModule->setInt($_POST['status']);
 			$sequence = $oModule->getSize();
 			if(empty($id)){		
 				$oModule->insertData($name,$description,$sequence,$status);
@@ -179,22 +182,22 @@ if(isset($_GET['task'])){
 		break;
 		case 'saveData':
 			$user = $oUsers->getAdminLoginUser();
-			$id = $_POST['id'];
-			$category_id = $_POST['categories'];
-			$name = $_POST['name'];	
+			$id = $oModule->setInt($_POST['id']);
+			$category_id = $oModule->setInt($_POST['categories']);
+			$name = $oModule->setString($_POST['name']);	
 			if(empty($_POST['slug'])){
 				$slug = $oModule->createSlug($name);
 			}else{
 				$slug = $_POST['slug'];
 			}
-			$link = $_POST['linkurl'];
-			$content = $_POST['content'];
-			$meta_key = $_POST['meta_key'];
-			$meta_description = $_POST['meta_description'];
+			$link = $oModule->setString($_POST['linkurl']);
+			$content = $oModule->setString($_POST['content']);
+			$meta_key = $oModule->setString($_POST['meta_key']);
+			$meta_description = $oModule->setString($_POST['meta_description']);
 			$image = (!empty($_POST['image']))?$_POST['image']:'';
 			$start = date('Y-m-d H:i:s'); //(!empty($_POST['start']))?$oModule->datePickerToTime($_POST['start']):'';
 			$end = date('Y-m-d H:i:s'); //(!empty($_POST['end']))?$oModule->datePickerToTime($_POST['end']):'';
-			$status= $_POST['status'];
+			$status = $oModule->setInt($_POST['status']);
 			$params = '';
 			if(empty($id)){		
 				$oModule->insertData($category_id,$name,$slug,$content,$image,$params,$link,$meta_key,$meta_description,$user['id'],$status,$start,$end);
@@ -204,21 +207,21 @@ if(isset($_GET['task'])){
 		break;
 		case 'duplicate':
 			$user = $oUsers->getAdminLoginUser();
-			$id = $_GET['id'];
+			$id = $oModule->setInt($_GET['id']);
 			$oModule->duplicateData($id,$user['id']);
 		break;
 		case 'setStatus':
-			$id = addslashes($_GET['id']);
-			$status = addslashes($_GET['status']);
+			$id = $oModule->setInt($_GET['id']);
+			$status = $oModule->setInt($_GET['status']);
 			$oModule->updateStatus($id,$status);
 		break;
 		case 'setMove':
-			$id = addslashes($_GET['id']);
+			$id = $oModule->setInt($_GET['id']);
 			$type = addslashes($_GET['type']);
 			$oModule->moveRow($id,$type);
 		break;
 		case 'setDelete':
-			$id = addslashes($_GET['id']);
+			$id = $oModule->setInt($_GET['id']);
 			$oModule->deleteData($id);
 		break;
 		case 'loadBlock':
@@ -296,11 +299,10 @@ if(isset($_GET['task'])){
 // 			echo json_encode($output) ;
 // 		break;
 		case 'formInitHtmlZone':
-			$id = (int)addslashes($_GET['id']);
+			$id = $oModule->setInt($_GET['id']);
 			$data = $oModuleHtmlZone->getOneHtmlZone($id);
-			$data['all_project'] = (int)$data['all_project'];
-			$data['ongoing_roof'] = (int)$data['ongoing_roof'];
-			$data['ongoing_ground'] = (int)$data['ongoing_ground'];
+			$data['name'] = $oModule->setString($data['name']);
+			$data['description'] = $oModule->setString($data['description']);
 			echo json_encode($data);
 		break;
 		case 'getDataHTMLZone':
@@ -362,26 +364,26 @@ if(isset($_GET['task'])){
 		break;
 		case 'duplicateHtmlZone':
 			$user = $oUsers->getAdminLoginUser();
-			$id = $_GET['id'];
+			$id = $oModule->setInt($_GET['id']);
 			$oModuleHtmlZone->duplicateHtmlZone($id,$user['id']);
 		break;
 		case 'setStatusHtmlZone':
-			$id = addslashes($_GET['id']);
-			$status = addslashes($_GET['status']);
+			$id = $oModule->setInt($_GET['id']);
+			$status = $oModule->setInt($_GET['status']);
 			$oModuleHtmlZone->setStatusHtmlZone($id,$status);
 		break;
 		case 'setDeleteHtmlZone':
-			$id = addslashes($_GET['id']);
+			$id = $oModule->setInt($_GET['id']);
 			$oModuleHtmlZone->deleteDataHtmlZone($id);
 		break;
 		case 'saveDataInput':
 			$user = $oUsers->getAdminLoginUser();
-			$id = (int)addslashes($_POST['id']);
-			$zone_id = (int)addslashes($_POST['zone_id']);
-			$name = addslashes($_POST['name']);	
-			$description = addslashes($_POST['description']);
-			$type = (int)addslashes($_POST['type']);
-			$status = (int)addslashes($_POST['status']);
+			$id = $oModule->setInt($_POST['id']);
+			$zone_id = $oModule->setInt($_POST['zone_id']);
+			$name = $oModule->setString($_POST['name']);	
+			$description = $oModule->setString($_POST['description']);
+			$type = $oModule->setInt($_POST['type']);
+			$status = $oModule->setInt($_POST['status']);
 			if(empty($id)){		
 				$oModuleHtmlZone->insertDataInput($zone_id,$name,$description,$type,$status);
 			}else{
@@ -389,24 +391,24 @@ if(isset($_GET['task'])){
 			}
 		break;
 		case 'getAllInputInBlock':
-			$zone_id = (int)addslashes($_GET['id']);
+			$zone_id = $oModuleHtmlZone->setInt($_GET['id']);
 			$data = $oModuleHtmlZone->getAllInputInBlock($zone_id);
 			echo json_encode($data);
 		break;
 		case 'getAllInputInBlock_lang':
-			$zone_id = (int)addslashes($_GET['id']);
-			$language = addslashes($_GET['language']);
+			$zone_id = $oModuleHtmlZone->setInt($_GET['id']);
+			$language = $oModuleHtmlZone->setString($_GET['language']);
 			$data = $oModuleHtmlZone->getAllInputInBlock_lang($zone_id,$language);
 			echo json_encode($data);
 		break;
 		case 'saveDataHTML':
-			$zone_id = (int)$_POST['id'];
+			$zone_id = $oModule->setInt($_POST['id']);
 			foreach ($_POST['block'] as $key_zone_input_id => $value) {
 				$data = array(
-					"zone_data_id"=>$value['zone_data_id'],
-					"zone_id"=>$zone_id,
-					"zone_input_id"=>$key_zone_input_id,
-					"params"=>"'".$value['text']."'",
+					"zone_data_id"=>$oModule->setInt($value['zone_data_id']),
+					"zone_id"=>$oModule->setInt($zone_id),
+					"zone_input_id"=>$oModule->setInt($key_zone_input_id),
+					"params"=>"'".$oModule->setString($value['text'])."'",
 					"mdate"=>"NOW()",
 					"cdate"=>"NOW()"
 				);
@@ -414,22 +416,21 @@ if(isset($_GET['task'])){
 			}
 		break;
 		case 'saveTranslateContent':
-			$zone_id = (int)$_POST['id'];
-			$lang = $_POST['translate_language'];
+			$zone_id = $oModule->setInt($_POST['id']);
+			$lang = $oModule->setString($_POST['translate_language']);
 			foreach ($_POST['block'] as $key_zone_input_id => $value) {
 				$data = array(
-					"zone_data_id"=>$value['zone_data_id'],
-					"zone_id"=>$zone_id,
-					"zone_input_id"=>$key_zone_input_id,
+					"zone_data_id"=>$oModule->setInt($value['zone_data_id']),
+					"zone_id"=>$oModule->setInt($zone_id),
+					"zone_input_id"=>$oModule->setInt($key_zone_input_id),
 					"lang"=>"'$lang'",
-					"params"=>"'".$value['text']."'",
+					"params"=>"'".$oModule->setString($value['text'])."'",
 					"mdate"=>"NOW()",
 					"cdate"=>"NOW()"
 				);
 				$oModuleDATAHtml->setManagementDataTranslate($data);
 			}
 		break;
-
 		case 'getDataInFinds':
 			$columns = array('zone_id','name','zone_id','mdate','sequence');
 			$limit = '';
@@ -478,8 +479,8 @@ if(isset($_GET['task'])){
 		case "loadFindOneInit":
 			$id = (int)$_GET['id'];
 			$data = $oModule->getOneHTML($id);
-			$data['name'] = htmlspecialchars_decode($data['name'],ENT_QUOTES);
-			$data['slug'] = htmlspecialchars_decode($data['name'],ENT_QUOTES);
+			$data['name'] = $oModule->getString($data['name']);
+			$data['slug'] = $oModule->getString($data['name']);
 			echo json_encode($data,true);
 		break;	
 // 				case 'loadFindCategoryInit':

@@ -1,8 +1,11 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 class Zonehtml extends Database {
 	var $module;
 	public function __construct($params=NULL){
-		$this->module = $params['module']  ;
+		$this->module = $params['module'];
 		parent::__construct((empty($params['table']))?$module:$params['table'] );
 		if(isset($params['primary_key'])){
 			$this->primary_key = $params['primary_key'];
@@ -174,7 +177,7 @@ class Zonehtml extends Database {
 		$this->select();
 		$rows = $this->rows;
 		if(!empty($rows)) {
-			$this->sql="update $this->table set zone_id=".$data['zone_input_id'].",zone_input_id=".$data['zone_id'].",params=".$data['params'].",mdate=".$data['mdate']." where $this->primary_key = ".$data['zone_data_id']." and zone_input_id = ".$data['zone_input_id']." ";
+			$this->sql="update $this->table set zone_input_id=".$data['zone_input_id'].",zone_id=".$data['zone_id'].",params=".$data['params'].",mdate=".$data['mdate']." where $this->primary_key = ".$data['zone_data_id']." and zone_input_id = ".$data['zone_input_id']." ";
 			$this->update();
 		} else {
 			$this->sql = "insert into $this->table (zone_id,zone_input_id,params,mdate,cdate) ";
@@ -206,10 +209,10 @@ class Zonehtml extends Database {
 		$this->sql = "update $this->table set category_id=$category_id where $this->primary_key=$id  ";
 		$this->update();
 	}
-// function for pages frontend /////////////////////////////////////////////////
-// Develop by iQuickweb.com 13/08/2012
-///////////////////////////////////////////////////////////////////////////////////
-function find($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search=NULL,$filter='',$order=NULL,$sort=NULL,$separate=false,$pagenate=false,$page=NULL,$length=10,$oParent=NULL){
+	// function for pages frontend /////////////////////////////////////////////////
+	// Develop by iQuickweb.com 13/08/2012
+	///////////////////////////////////////////////////////////////////////////////////
+	function find($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search=NULL,$filter='',$order=NULL,$sort=NULL,$separate=false,$pagenate=false,$page=NULL,$length=10,$oParent=NULL){
 		/* type
 			1. one = fine one item by id
 			3. all  =  fine all item and category
@@ -238,8 +241,7 @@ function find($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search
 		return $data;
 	}
 	function findcount($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search=NULL,$filter='',$oParent=NULL){
-		 return  $this->_findcount($type,$key,$slug,$status,$language,$search,$filter,$oParent); 
+		return $this->_findcount($type,$key,$slug,$status,$language,$search,$filter,$oParent); 
 	}
-
 }
 ?>
