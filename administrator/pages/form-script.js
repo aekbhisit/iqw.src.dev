@@ -1,77 +1,71 @@
 // JavaScript Document
+"use strict";
 var modules = "pages";
 (function($) {
 	$(document).ready(function(e) {
-		formInit() ;
+		formInit();
 		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
 	});// document_ready
 }) (jQuery);
-
 function gotoManagePage(){
 	var url = 'index.php'; 
 	window.location.replace(url);
 }
-
 function formInit(){
 	var d = new Date();
-	var request = window.location.search.replace('?','') ;
-	var url = "../../app/index.php?module="+modules+"&task=formInit&"+request+"&d"+d.getTime() ;
+	var request = window.location.search.replace('?','');
+	var url = "../../app/index.php?module="+modules+"&task=formInit&"+request+"&d"+d.getTime();
 	$.getJSON(url,function(data){ 
-			if(typeof data=='object' && data!=null){
-				$('#id').val(data.id);
-				 loadNowCategories(data.category_id) ;
-				$('#javascript').val(data.javascript);
-				$('#css').val(data.css);
-				$('#meta_key').val(data.meta_key);
-				$('#meta_description').val(data.meta_description);
-				$('#name').val(data.name);
-				$('#slug').val(data.slug);
-			//	$('#page_content').html(data.content);
-				$('#content').elrte('val', data.content);
-				$('#status').find('option:[value="'+data.status+'"]').attr('selected','selected');
-			}else{
-				loadNowCategories(0) ;
-			}
+		if(typeof data=='object' && data!=null){
+			$('#id').val(data.id);
+			loadNowCategories(data.category_id) ;
+			$('#javascript').val(data.javascript);
+			$('#css').val(data.css);
+			$('#meta_key').val(data.meta_key);
+			$('#meta_description').val(data.meta_description);
+			$('#name').val(data.name);
+			$('#slug').val(data.slug);
+			$('#content').val(data.content);
+			$('#status').find('option:[value="'+data.status+'"]').attr('selected','selected');
+		}else{
+			loadNowCategories(0);
+		}
 	});
 }
-
 function loadNowCategories(selected){
 	var d = new Date();
-	var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime() ;
+	var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime();
 	$.getJSON(url,function(data){
 		var options_list = "";
 		$.each(data,function(index,value){
 			var indent = '';
-			for(i=0;i<value.level-1;i++){
+			for(var i=0;i<value.level-1;i++){
 				indent += '-';
 			}
 			if(value.level>0||value.id==0){
 				if(value.id==selected){
-					options_list += '<option value="'+value.id+'" selected="selected">'+indent+' '+value.name+'</option>' ;
+					options_list += '<option value="'+value.id+'" selected="selected">'+indent+' '+value.name+'</option>';
 				}else{
-					options_list += '<option value="'+value.id+'" >'+indent+' '+value.name+'</option>' ;
+					options_list += '<option value="'+value.id+'" >'+indent+' '+value.name+'</option>';
 				}
 			}
 		});
-		$('#categories').html(options_list) ;
-		$('#categories').removeAttr('disabled') ;
+		$('#categories').html(options_list);
+		$('#categories').removeAttr('disabled');
 	});
 }
-
 function setSaveData(){
 	var d = new Date();	
-	var url = "../../app/index.php?module="+modules+"&task=saveData&d"+d.getTime() ;
-	$('#form').find('.elrte').each(function(){
-		$(this).elrte('updateSource');
-	});
+	var url = "../../app/index.php?module="+modules+"&task=saveData&d"+d.getTime();
+	tinyMCE.triggerSave();
 	$.ajax({
-		  type: 'POST', 
-		  url: url, 
-		  enctype: 'multipart/form-data', 
-		  data: $('#form').serialize(),
-		  beforeSend: function() {
-				$('#form').validate({ 
-					rules: {
+		type: 'POST', 
+		url: url, 
+		enctype: 'multipart/form-data', 
+		data: $('#form').serialize(),
+		beforeSend: function() {
+			$('#form').validate({ 
+				rules: {
 					page_name: {
 						required: true
 					}
@@ -87,12 +81,12 @@ function setSaveData(){
 						$("#form-error").hide();
 					}
 				}
-				 });
-				return $('#form').valid();
-			  },
-		  success: function(data){
-			 //alert(data);  
-			 gotoManagePage()
-		 }
+			});
+			return $('#form').valid();
+		},
+		success: function(data){
+			//alert(data);  
+			gotoManagePage()
+		}
 	});
 }

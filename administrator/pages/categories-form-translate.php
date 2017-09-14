@@ -89,7 +89,8 @@ $module_active = 'pages' ;
 
 <!-- Demo JavaScript Files -->
 <!--<script type="text/javascript" src="js/demo/demo.files.js"></script>-->
-
+<!-- all-pages-include-script -->
+<?php include('../all-pages-include-script.php'); ?>
 <!-- Custom script for all page -->
 <script type="text/javascript" src="../all-pages-script.js"></script>
 
@@ -205,7 +206,7 @@ $module_active = 'pages' ;
                                                 <label>คำอธิบายหมวดหมู่</label>
                                                 <div class="da-form-item large">
                                                 	<span class="formNote"  >ใส่คำอธิบายหมวดหมู่</span>
-                                                   <textarea id="categories_description" name="categories_description" style="overflow-x: hidden; overflow-y: hidden; height: 50px; "></textarea>
+                                                   <textarea id="categories_description" class="texteditor" name="categories_description" style="overflow-x: hidden; overflow-y: hidden; height: 50px; "></textarea>
                                                 </div>
                                             </div>
                                             <div class="da-form-row">

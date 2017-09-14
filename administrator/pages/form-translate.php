@@ -1,8 +1,8 @@
-<?php @include ("../inc/auth.inc.php") ; ?>
+<?php @include ("../inc/auth.inc.php"); ?>
 <?php
 $modules = 'pages';
 $modules_name = 'pages';
-$module_active = 'pages' ;
+$module_active = 'pages';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -88,7 +88,8 @@ $module_active = 'pages' ;
 
 <!-- Demo JavaScript Files -->
 <!--<script type="text/javascript" src="js/demo/demo.files.js"></script>-->
-
+<!-- all-pages-include-script -->
+<?php include('../all-pages-include-script.php'); ?>
 <!-- Custom script for all page -->
 <script type="text/javascript" src="../all-pages-script.js"></script>
 
@@ -234,7 +235,7 @@ $module_active = 'pages' ;
                                                 <label>เนื้อหาเว็บเพจ<span class="required">*</span></label>
                                                 <div class="da-form-item large">
                                                 	<span class="formNote"  >ใส่เนื้อหาเว็บเพจ</span>
-                                                   <textarea id="content" name="content" class="elrte" style="overflow-x: hidden; overflow-y: hidden; height:500px; "></textarea>
+                                                   <textarea id="content" name="content" class="texteditor" style="overflow-x: hidden; overflow-y: hidden; height:500px; "></textarea>
                                                 </div>
                                                 <div id="myelfinder"></div>
                                             </div>

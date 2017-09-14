@@ -1,9 +1,9 @@
 // JavaScript Document
+"use strict";
 var modules = "pages";
-var oTable ;
-var oTableData ;
-var chkSortableMsg =true ;
-
+var oTable;
+var oTableData;
+var chkSortableMsg = true;
 (function($) {
 	$(document).ready(function(e) {
 		var d = new Date();
