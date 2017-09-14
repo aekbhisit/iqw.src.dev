@@ -1,4 +1,5 @@
 // JavaScript Document
+"use strict";
 var oTable;
 var modules = "htmlzone";
 var oTableData;
@@ -32,20 +33,20 @@ var chkSortableMsg = true;
 				}
 			},
 			"oLanguage": {
-           		 	"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",
-           		 	"sZeroRecords": "ขออภัยไม่พบข้อมูล",
-            		"sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
-            		"sInfoEmpty": "แสดง 0 ถึิง 0 จาก 0 รายการ",
-            		"sInfoFiltered": "(กรองข้อมูลจาก _MAX_ รายการทั้งหมด)",
-					"oPaginate": {
-       					 "sFirst": "หน้าแรก",
-						  "sLast": "หน้าสุดท้าย",
-						  "sNext": "ถัดไป",
-						  "sPrevious": "ก่อนหน้า"
-    				  },
-					  "sSearch": "ค้นหา :",
-					  "sLoadingRecords": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>",
-					  "sProcessing": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>"
+				"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",
+				"sZeroRecords": "ขออภัยไม่พบข้อมูล",
+				"sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+				"sInfoEmpty": "แสดง 0 ถึิง 0 จาก 0 รายการ",
+				"sInfoFiltered": "(กรองข้อมูลจาก _MAX_ รายการทั้งหมด)",
+				"oPaginate": {
+					"sFirst": "หน้าแรก",
+					"sLast": "หน้าสุดท้าย",
+					"sNext": "ถัดไป",
+					"sPrevious": "ก่อนหน้า"
+				},
+				"sSearch": "ค้นหา :",
+				"sLoadingRecords": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>",
+				"sProcessing": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>"
         	}
 		});
 		// LoadCategoryFilter();

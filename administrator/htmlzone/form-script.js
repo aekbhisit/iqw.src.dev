@@ -1,10 +1,11 @@
 // JavaScript Document
+"use strict";
 var modules = "htmlzone";
 (function($) {
 	$(document).ready(function(e) {
 		formInit();
 		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
-	});// document_ready
+	}); // document_ready
 }) (jQuery);
 function gotoManagePage(){
 	var url = 'index.php'; 
@@ -20,14 +21,7 @@ function formInit(){
 			$('#name').val(data.name);
 			$('#zonenumber').val(data.zone);
 			$('#description').val(data.description);
-			// $('#content').val(data.content);
-			// $('#url').val(data.url);
 			$('#status').find('option:[value="'+data.status+'"]').attr('selected','selected');
-			// if(data.image!=''){
-			// 	$('#image').val(data.image);
-			// 	$('#show_image').attr('src',getPreImageURL()+data.image);
-			// 	$('#show_image').fadeIn('fast');
-			// }
 		}
 	});
 }

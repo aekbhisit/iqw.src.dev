@@ -1,4 +1,5 @@
 // JavaScript Document
+"use strict";
 var oTable;
 var modules = "htmlzone";
 var oTableData;
@@ -74,7 +75,7 @@ function setDeleteSelectedData(){
 }
 function setDeleteData(id,confirmed,length,index){
 	var d = new Date();
-	var  url = "../../app/index.php?module="+modules+"&task=setDelete&id="+id+"&d"+d.getTime();
+	var  url = "../../app/index.php?module="+modules+"&task=setDeleteHtmlZone&id="+id+"&d"+d.getTime();
 	if(confirmed){
 		$.get(url,function(data){
 			if(length==(index+1)){ 
@@ -158,44 +159,42 @@ function showChangeCategoryDialog(){
 }
 function sortable(status){
 	if(status){
-		var is_sortable = $('#sortable').hasClass('ui-sortable') ;
+		var is_sortable = $('#sortable').hasClass('ui-sortable');
 		if(is_sortable){
-			if(	$( "#sortable" ).sortable("option","enable")){
-				$( "#sortable" ).sortable("enable");
+			if($("#sortable").sortable("option","enable")){
+				$("#sortable").sortable("enable");
 			}
 		}else{
-	  		$( "#sortable" ).sortable({
+	  		$("#sortable").sortable({
      	 		placeholder: "ui-state-highlight",
 	 	 		delay: 300
     		});
-		$( "#sortable" ).bind( "sortstop", function(event, ui) {
-			var sort_list = 'start' ;
-			var id_list = 'start' ;
-			$.each($( "#sortable" ).sortable("toArray"),function(index,value){
-				var sequence_id = '#sequence_'+value ;
-				sort_list += '-'+$(sequence_id).val() ;
-				id_list += '-'+value ;
+			$("#sortable").bind( "sortstop", function(event, ui) {
+				var sort_list = 'start';
+				var id_list = 'start';
+				$.each($( "#sortable" ).sortable("toArray"),function(index,value){
+					var sequence_id = '#sequence_'+value;
+					sort_list += '-'+$(sequence_id).val();
+					id_list += '-'+value;
+				});
+				var d= new Date();
+				var url = "../../app/index.php?module="+modules+"&task=reorderDataHtmlZone&sort="+sort_list+"&id="+id_list+"&d"+d.getTime();
+				$.get(url, function(data){
+					reloadTableData(oTable);
+					$.jGrowl("แจ้งเตือน ! <br> จัดลำดับสำเร็จ", {position: "bottom-right"});
+				});	
 			});
-		
-			var d= new Date();
-			var url = "../../app/index.php?module="+modules+"&task=reorderData&sort="+sort_list+"&id="+id_list+"&d"+d.getTime() ;
-			$.get(url, function(data){
-				reloadTableData(oTable);
-				$.jGrowl("แจ้งเตือน ! <br> จัดลำดับสำเร็จ", {position: "bottom-right"});
-			}) ;	
-		});
 		}// disable 
 	}else{ //disable sort
-		$( "#sortable" ).sortable('disable');
+		$("#sortable").sortable('disable');
 	}
 }
-
 function switchDataOrder(id){
 	 var sort_val = $('#sequence_'+id).val();
 	 var old_sort_val  = $('#sequence_'+id).attr('title');
 	 if(sort_val!=old_sort_val){
 	 var d= new Date();
-	var url = "../../app/index.php?module="+modules+"&task=switchOrder&id="+id+"&sort="+sort_val+"&d"+d.getTime();
+	var url = "../../app/index.php?module="+modules+"&task=switchOrderHtmlZone&id="+id+"&sort="+sort_val+"&d"+d.getTime();
 	 $.get(url, function(data){
 			reloadTableData(oTable);
 			$.jGrowl("แจ้งเตือน ! <br> เรียงลำดับเสร็จ", {position: "bottom-right"});
@@ -209,7 +208,7 @@ function setReorderAll(){
 	var column = sort_split[0];
 	var direction = sort_split[1];
 	var d= new Date();
-	var url = "../../app/index.php?module="+modules+"&task=setReorderAll&column="+column+"&direction="+direction+"&d"+d.getTime();
+	var url = "../../app/index.php?module="+modules+"&task=setReorderAllHtmlZone&column="+column+"&direction="+direction+"&d"+d.getTime();
 	if(confirm('ยีนยันเรียงลำดับข้อมูลใหม่ตามการแสดงผลของตาราง !')){
 		 $.get(url, function(data){
 			reloadTableData(oTable);

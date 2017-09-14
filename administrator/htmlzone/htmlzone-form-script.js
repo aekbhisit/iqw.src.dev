@@ -1,4 +1,5 @@
 // JavaScript Document
+"use strict";
 var modules = "htmlzone";
 (function($) {
 	$(document).ready(function(e) {
@@ -33,18 +34,10 @@ function formInit(){
 	$.getJSON(url,function(data){ 
 		if(typeof data=='object' && data!=null){
 			$('#id').val(data.zone_input_id);
-			//$('#zone_id').val(data.zone_id);
 			$('#name').val(data.name);
 			$('#type').val(data.type);
 			$('#description').val(data.description);
-			// $('#content').val(data.content);
-			// $('#url').val(data.url);
 			$('#status').find('option:[value="'+data.status+'"]').attr('selected','selected');
-			// if(data.image!=''){
-			// 	$('#image').val(data.image);
-			// 	$('#show_image').attr('src',getPreImageURL()+data.image);
-			// 	$('#show_image').fadeIn('fast');
-			// }
 			loadBlock(data.zone_id);
 		} else {
 			loadBlock(0);

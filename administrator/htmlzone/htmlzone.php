@@ -122,8 +122,8 @@ $module_active = 'htmlzone';
                       <thead>
                         <tr>
                           <th width="40">ลำดับ</th>
-                          <th>ชือ</th>
-                          <th width="75">โซน</th>
+                          <th>ชื่อ</th>
+                          <th width="75">บล็อก</th>
                           <th width="70">วันที่</th>
                           <th width="50">ลำดับ</th>
                           <th width="75">แก้ไข</th> 

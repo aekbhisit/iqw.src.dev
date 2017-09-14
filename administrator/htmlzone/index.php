@@ -114,7 +114,7 @@ $module_active = 'htmlzone';
                 <div class="da-panel collapsible">
                   <div class="da-panel-header">
                     <span class="da-panel-title">
-                      <img src="../images/icons/black/16/list.png" alt="" />จัดการคลิป
+                      <img src="../images/icons/black/16/list.png" alt="" />จัดการตอนเทน
                     </span>
                   </div>
                   <div class="da-panel-content">
@@ -123,44 +123,42 @@ $module_active = 'htmlzone';
                         <tr>
                           <th width="40">ลำดับ</th>
                           <th>ชือ</th>
-                          <th width="75">โซน</th>
-                                                <th width="70">วันที่</th>
-                                                <th width="50">ลำดับ</th>
-                                                <th width="75">แก้ไข</th> 
-                                                <th width="25">#ID</th> 
-                                            </tr>
-                                        </thead>
-                                        <tbody id="sortable">
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="da-icon-column">             
-                                               		 <a href="#"><img src="../images/icons/color/magnifier.png" /></a>
-                                                	<a href="#"><img src="../images/icons/color/pencil.png" /></a>
-                                                	<a href="#"><img src="../images/icons/color/cross.png" /></a>
-                                                </td>
-                                                <td></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div><!--end grid-->
-                        
-                   <div style="display:block; width:100%; min-height:35px; height:auto; clear:both; padding-left:10px; padding-right:10px;"><button class="da-button blue medium" onclick="setCheckAll();"><label for="checkboxAll"><input name="checkboxAll"  id="checkboxAll" type="checkbox" value="" />เลือกทั้งหมด</label></button> | <button class="da-button red medium" onclick="setDeleteSelectedData();">ลบรายการที่เลือก</button>  |  <button class="da-button orange medium" id="da-dialog-change-cat">ย้ายหมวดหมู่รายการที่เลือก</button> <button class="da-button pink medium" onclick="setReorderAll();" style="float:right; margin-right:20px;">เรียงลำดับข้อมูลใหม่ </button></div>                       
-                    	<!--change category dialog-->
-                         <div id="da-dialog-div-category" style="display:none;">
-                         		 <div class="da-panel-content" id="da-ex-datatable-category-container">
-                                           <table id="change-category-dialog-container" class="da-table">
-                                                 <thead>
-                                                     <tr>
-                                                       <th width="40">ลำดับ</th>
-                                                       <th>ชื่อ</th>
-                                                       <th>ระดับ</th>
-                                                       <th>สถานะ</th>
+                          <th width="70">วันที่</th>
+                          <th width="50">ลำดับ</th>
+                          <th width="75">แก้ไข</th> 
+                          <th width="25">#ID</th> 
+                        </tr>
+                      </thead>
+                      <tbody id="sortable">
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td class="da-icon-column">             
+                            <a href="#"><img src="../images/icons/color/magnifier.png" /></a>
+                            <a href="#"><img src="../images/icons/color/pencil.png" /></a>
+                            <a href="#"><img src="../images/icons/color/cross.png" /></a>
+                          </td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!--end grid-->
+            <div style="display:block; width:100%; min-height:35px; height:auto; clear:both; padding-left:10px; padding-right:10px;"><button class="da-button blue medium" onclick="setCheckAll();"><label for="checkboxAll"><input name="checkboxAll"  id="checkboxAll" type="checkbox" value="" />เลือกทั้งหมด</label></button> | <button class="da-button red medium" onclick="setDeleteSelectedData();">ลบรายการที่เลือก</button>  |  <button class="da-button orange medium" id="da-dialog-change-cat">ย้ายหมวดหมู่รายการที่เลือก</button> <button class="da-button pink medium" onclick="setReorderAll();" style="float:right; margin-right:20px;">เรียงลำดับข้อมูลใหม่ </button></div>                       
+            <!--change category dialog-->
+            <div id="da-dialog-div-category" style="display:none;">
+              <div class="da-panel-content" id="da-ex-datatable-category-container">
+                <table id="change-category-dialog-container" class="da-table">
+                  <thead>
+                    <tr>
+                      <th width="40">ลำดับ</th>
+                      <th>ชื่อ</th>
+                      <th>ระดับ</th>
+                      <th>สถานะ</th>
                       <th width="38">#ID</th> 
                     </tr>
                   </thead>

@@ -1,7 +1,4 @@
 <?php
-// ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
 if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
@@ -44,12 +41,9 @@ $oModule = new Zonehtml($params);
 if(isset($_GET['task'])){
 	$task =$_GET['task'];
 	switch($task){
-		// pages-form.html
 		case 'formInit':
-			$data = $oModule->getOne(1);
-			$data['all_project'] = (int)$data['all_project'];
-			$data['ongoing_roof'] = (int)$data['ongoing_roof'];
-			$data['ongoing_ground'] = (int)$data['ongoing_ground'];
+			$id = $oModule->setInt($_GET['id']);
+			$data = $oModule->getOne($id);
 			echo json_encode($data);
 		break;
 		case 'saveData':
@@ -66,27 +60,27 @@ if(isset($_GET['task'])){
 			}
 		break;
 		case 'getData':
-			$columns = array('zone_id','name','zone','mdate','sequence','zone_id','zone_id');
+			$columns = array('zone_id','name','mdate','sequence','zone_id','zone_id');
 			$limit = '';
 			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart = $_GET['iDisplayStart'];
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
-			$iSortCol_0= $_GET['iSortCol_0'];
-			$sSortDir_0= $_GET['sSortDir_0'];
+			$iSortCol_0 = $_GET['iSortCol_0'];
+			$sSortDir_0 = $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
 				$orderby = " order by $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $_GET['sSearch']; 
 			if($sSearch=='undefined'){
 				$sSearch = '';
 			}
 			$search = '';
 			if(!empty($sSearch)){
-				$search =  " WHERE $oModule->table.name like '%$sSearch%' ";
+				$search = " WHERE $oModule->table.name like '%$sSearch%' ";
 			}
 			$data = $oModule->getAll($search,$orderby,$limit);
 			$iTotal = $oModule->getSize();
@@ -95,7 +89,7 @@ if(isset($_GET['task'])){
 				"sEcho"=>intval($_GET['sEcho']),
 				"iTotalRecords"=>$iTotal,
 				"iTotalDisplayRecords"=>$iTotal, // $iFilteredTotal,
-				"aaData"=> array()
+				"aaData"=>array()
 			);
 			$cnt = 1;
 			if(!empty($data)){
@@ -116,7 +110,7 @@ if(isset($_GET['task'])){
 					// if empty category
 					$value['category'] = (empty($value['category']))?'  - ':$value['category'];
 					$showname = '<a href="javascript:void(0)" onclick="setEdit('.$value['zone_id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$value['name'].'</a>';
-					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['zone_id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['zone_id']);
+					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['mdate'],3=>$order,4=>$iconbar,5=>$value['zone_id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['zone_id']);
 					$cnt++ ;
 				}
 			}
@@ -152,22 +146,15 @@ if(isset($_GET['task'])){
 				"sEcho"=>intval($_GET['sEcho']),
 				"iTotalRecords"=>$iTotal,
 				"iTotalDisplayRecords"=>$iTotal, // $iFilteredTotal,
-				"aaData"=> array()
+				"aaData"=>array()
 			);
 			$cnt = 1;
 			if(!empty($data)){
 				foreach($data as $key =>$value){
 					$iconbar = '';
-					// if($value['status']==1){	
-					// 	$iconbar = '<a href="javascript:void(0)" onclick="setStatus('.$value['zone_id'].',0)" ><img src="../images/icons/color/target.png" title="เปิด" /></a>&nbsp;';
-					// }else{
-					// 	$iconbar = '<a href="javascript:void(0)" onclick="setStatus('.$value['zone_id'].',1)" ><img src="../images/icons/color/stop.png" title="ปิด" /></a>&nbsp;';
-					// }
-					// $iconbar .=	'<a href="javascript:void(0)" onclick="setDuplicate('.$value['zone_id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>';
 					if(SITE_TRANSLATE){				
 						$iconbar .=	'<a href="javascript:void(0)" onclick="setTranslate('.$value['zone_id'].')"><img src="../images/icons/color/style.png" title="แปลภาษา" /></a>';
 					}
-					// $iconbar .= '<a href="javascript:void(0)" onclick="setDelete('.$value['zone_id'].')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>	';
 					$order = '<a href="javascript:void(0)" onclick="setMove('.$value['zone_id'].',\'up\')"><img src="../images/icons/black/16/arrow_up_small.png" title="ขึ้น" /></a><a href="javascript:void(0)" onclick="setMove('.$value['zone_id'].',\'down\')" ><img src="../images/icons/black/16/arrow_down_small.png" title="ลง" /></a>';					
 					$order = '<input name="sequence_'.$value['zone_id'].'" id="sequence_'.$value['zone_id'].'" type="text"  value="'.$value['sequence'].'" title="'.$value['sequence'].'" style="width:40px;" onblur="switchDataOrder('.$value['zone_id'].')" />';				  
 					$row_chk = '<input name="table_select_'.$value['zone_id'].'" id="table_select_'.$value['zone_id'].'" class="table_checkbox" type="checkbox" value="'.$value['zone_id'].'" />&nbsp;'.($cnt+$iDisplayStart);
@@ -175,7 +162,7 @@ if(isset($_GET['task'])){
 					$value['category'] = (empty($value['category']))?'  - ':$value['category'];
 					$showname = '<a href="javascript:void(0)" onclick="setEdit('.$value['zone_id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$value['name'].'</a>';
 					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['zone_id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['zone_id']);
-					$cnt++ ;
+					$cnt++;
 				}
 			}
 			echo json_encode($output);
@@ -188,7 +175,7 @@ if(isset($_GET['task'])){
 			if(empty($_POST['slug'])){
 				$slug = $oModule->createSlug($name);
 			}else{
-				$slug = $_POST['slug'];
+				$slug = $oModule->setString($_POST['slug']);
 			}
 			$link = $oModule->setString($_POST['linkurl']);
 			$content = $oModule->setString($_POST['content']);
@@ -242,62 +229,6 @@ if(isset($_GET['task'])){
 			$lang = $oModule->getLanguage();
 			echo json_encode($lang);
 		break;
-// 		// for find module	
-// 		case 'getCategoriesDataInFinds':
-// 				$columns = array('','name','level','mdate','lft');
-// 				$limit = '';
-// 				$orderby = '';
-// 				$search = '';
-// 				$iDisplayLength = $_GET['iDisplayLength'];
-// 				$iDisplayStart= $_GET['iDisplayStart'];
-// 				$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength ;
-// 				$iSortCol_0= $_GET['iSortCol_0'];
-// 				$sSortDir_0= $_GET['sSortDir_0'];
-// 				if(!empty($columns[$iSortCol_0])){
-// 					$orderby = " order by  ".$columns[$iSortCol_0].' '.$sSortDir_0 ;
-// 				}else{
-// 					$orderby = " order by  ".$columns[4].' '.$sSortDir_0 ;
-// 				}
-// 				$sSearch= $_GET['sSearch']; 
-// 				if(!empty($sSearch)){
-// 					$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') " ;
-// 				}
-// 				$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
-// 				//print_r($categories);
-// 				$iTotal = $oCategories->getCategoriesSize() ;
-// 				 $iFilteredTotal =  count($categories);
-// 				$output = array(
-// 						"sEcho" => intval($_GET['sEcho']),
-// 						"iTotalRecords" => $iTotal,
-// 						"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-// 						"aaData" => array()
-// 					);
-// 				$cnt = 1;
-// 				if(!empty($categories)){
-// 				foreach($categories as $key =>$value){
-// 				if($value['level']>0){
-// 				if($value['status']){	
-// 					$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/target.png" title="เปิด" /></a>';
-// 				}else{
-// 					$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/stop.png"  title="ปิด" /></a>';
-// 				}
-// 				//application_double.png
-					
-// 					$indent = '';	
-// 					for($i=1;$i<$value['level'];$i++){
-// 						$indent .= '-';
-// 					}
-				
-// 					$showname = $value['name'].'<input name="showName_'.$value['id'].'" id="showName_'.$value['id'].'" type="hidden" value="'.$value['name'].'" />'.'<input name="showSlug_'.$value['id'].'" id="showSlug_'.$value['id'].'" type="hidden" value="'.$value['slug'].'" />' ;;			 
-					 
-// 					$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
-// 					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['level'],3=>$iconbar,4=>$value['id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
-// 					$cnt++ ;
-// 					}
-// 				}
-// 			}
-// 			echo json_encode($output) ;
-// 		break;
 		case 'formInitHtmlZone':
 			$id = $oModule->setInt($_GET['id']);
 			$data = $oModuleHtmlZone->getOneHtmlZone($id);
@@ -320,13 +251,13 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $_GET['sSearch']; 
 			if($sSearch=='undefined'){
 				$sSearch = '';
 			}
 			$search = '';
 			if(!empty($sSearch)){
-				$search =  " WHERE $oModuleHtmlZone->table.name like '%$sSearch%' ";
+				$search = " WHERE $oModuleHtmlZone->table.name like '%$sSearch%' ";
 			}
 			$data = $oModuleHtmlZone->getAllHtmlZone($search,$orderby,$limit);
 			$iTotal = $oModuleHtmlZone->getSizeHtmlZone();
@@ -356,39 +287,55 @@ if(isset($_GET['task'])){
 					// if empty category
 					$value['category'] = (empty($value['category']))?'  - ':$value['category'];
 					$showname = '<a href="javascript:void(0)" onclick="setEdit('.$value['zone_input_id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$value['name'].'</a>';
-					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['zone_id'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['zone_input_id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['zone_input_id']);
+					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['zone_name'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['zone_input_id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['zone_input_id']);
 					$cnt++;
 				}
 			}
 			echo json_encode($output);
 		break;
 		case 'duplicateHtmlZone':
-			$user = $oUsers->getAdminLoginUser();
-			$id = $oModule->setInt($_GET['id']);
+			$user = $oModuleHtmlZone->getAdminLoginUser();
+			$id = $oModuleHtmlZone->setInt($_GET['id']);
 			$oModuleHtmlZone->duplicateHtmlZone($id,$user['id']);
 		break;
 		case 'setStatusHtmlZone':
-			$id = $oModule->setInt($_GET['id']);
-			$status = $oModule->setInt($_GET['status']);
+			$id = $oModuleHtmlZone->setInt($_GET['id']);
+			$status = $oModuleHtmlZone->setInt($_GET['status']);
 			$oModuleHtmlZone->setStatusHtmlZone($id,$status);
 		break;
 		case 'setDeleteHtmlZone':
-			$id = $oModule->setInt($_GET['id']);
+			$id = $oModuleHtmlZone->setInt($_GET['id']);
 			$oModuleHtmlZone->deleteDataHtmlZone($id);
 		break;
 		case 'saveDataInput':
 			$user = $oUsers->getAdminLoginUser();
-			$id = $oModule->setInt($_POST['id']);
-			$zone_id = $oModule->setInt($_POST['zone_id']);
-			$name = $oModule->setString($_POST['name']);	
-			$description = $oModule->setString($_POST['description']);
-			$type = $oModule->setInt($_POST['type']);
-			$status = $oModule->setInt($_POST['status']);
+			$id = $oModuleHtmlZone->setInt($_POST['id']);
+			$zone_id = $oModuleHtmlZone->setInt($_POST['zone_id']);
+			$name = $oModuleHtmlZone->setString($_POST['name']);	
+			$description = $oModuleHtmlZone->setString($_POST['description']);
+			$type = $oModuleHtmlZone->setInt($_POST['type']);
+			$status = $oModuleHtmlZone->setInt($_POST['status']);
 			if(empty($id)){		
 				$oModuleHtmlZone->insertDataInput($zone_id,$name,$description,$type,$status);
 			}else{
 				$oModuleHtmlZone->updateDataInput($id,$zone_id,$name,$description,$type,$status);
 			}
+		break;
+		case 'reorderDataHtmlZone':
+			$id = explode('-',$_GET['id']);
+			$sort = explode('-',$_GET['sort']);
+			$oModuleHtmlZone->reOrderDataDragDrop($id,$sort);
+		break;
+		case 'switchOrderHtmlZone';
+			$id = $oModuleHtmlZone->setInt($_GET['id']);
+			$sort = $_GET['sort'];
+			$oModuleHtmlZone->switchOrder($id,$sort);
+		break;
+		case 'setReorderAllHtmlZone':
+			$columns = array('zone_id','name','mdate','sequence','zone_id','zone_id');
+			$column = $columns[(int)$_GET['column']];
+			$direction =strtoupper(addslashes($_GET['direction']));
+			$oModuleHtmlZone->setReorderAll($column,$direction);
 		break;
 		case 'getAllInputInBlock':
 			$zone_id = $oModuleHtmlZone->setInt($_GET['id']);
@@ -477,20 +424,13 @@ if(isset($_GET['task'])){
 			echo json_encode($output);
 		break;
 		case "loadFindOneInit":
-			$id = (int)$_GET['id'];
+			$id = $oModule->setInt($_GET['id']);
 			$data = $oModule->getOneHTML($id);
 			$data['name'] = $oModule->getString($data['name']);
 			$data['slug'] = $oModule->getString($data['name']);
 			echo json_encode($data,true);
 		break;	
-// 				case 'loadFindCategoryInit':
-// 						$id = addslashes($_GET['id']);
-// 						$data = $oCategories->getCategory($id);
-// 						$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
-// 						$data['description']=htmlspecialchars_decode($data['description'],ENT_QUOTES);
-// 						echo json_encode($data,true);
-// 				break;
-// ////////////////  reorder function /////////////
+		// reorder function /////////////
 		case 'loadCategoriesFilter':
 			$block = $oModule->getBlockAll();
 			$options = '<option value="0">--All Block--</option>';
@@ -502,30 +442,30 @@ if(isset($_GET['task'])){
 			}
 			echo $options;
 		break;
-// 			case 'reorderData':
-// 						$id = explode('-',$_GET['id']) ;
-// 						$sort = explode('-',$_GET['sort']) ;
-// 						$oModule->reOrderDataDragDrop($id,$sort);
-// 			break ;		
-// 			case 'switchOrder';
-// 				$id=$_GET['id'];
-// 				$sort = $_GET['sort'] ;
-// 				$oModule->switchOrder($id,$sort);
-// 			break ;	
-// 			case 'setReorderAll' :
-// 				$columns = array('id','name','category_id','mdate','sequence','id','id');
-// 				$column = $columns[(int)$_GET['column']] ;
-// 				$direction =strtoupper(addslashes($_GET['direction']));
-// 				$oModule->setReorderAll($column,$direction);
-// 			break; 
-// 			case 'changeCategory':
-// 				$id=$_GET['id'];
-// 				$category_id = $_GET['category_id'] ;
-// 				$oModule->changeCategory($id,$category_id);
-// 			break;	
-////////////////task for frontend  ///////////
-		case "find" :
-			$language = LANG;// ($_SESSION['site_language'])?$_SESSION['site_language']:SITE_LANGUAGE;
+		case 'reorderData':
+			$id = explode('-',$_GET['id']);
+			$sort = explode('-',$_GET['sort']);
+			$oModule->reOrderDataDragDrop($id,$sort);
+		break;
+		case 'switchOrder';
+			$id = $oModule->setInt($_GET['id']);
+			$sort = $_GET['sort'];
+			$oModule->switchOrder($id,$sort);
+		break;
+		case 'setReorderAll':
+			$columns = array('zone_id','name','mdate','sequence','zone_id','zone_id');
+			$column = $columns[(int)$_GET['column']];
+			$direction =strtoupper(addslashes($_GET['direction']));
+			$oModule->setReorderAll($column,$direction);
+		break;
+			// case 'changeCategory':
+			// 	$id=$_GET['id'];
+			// 	$category_id = $_GET['category_id'] ;
+			// 	$oModule->changeCategory($id,$category_id);
+			// break;	
+		////////////////task for frontend  ///////////
+		case "find":
+			$language = LANG;
 			$module = $_GET['module'];
 			$task = $_GET['task'];
 			$type = $_GET['type'];
