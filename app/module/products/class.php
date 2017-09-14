@@ -119,13 +119,13 @@ class Products extends Database {
 		return	$this->rows[0] ;
 	}
 	
-	function saveCategoriesTranslate( $categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,$param){
+	function saveCategoriesTranslate($categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,$param){
 		$this->sql ="select id from $this->translate_table where lang='$categories_lang' and id=$categories_id ";
 		//echo $this->sql ;
 		$this->select();
-		$chk = (empty($this->rows[0]['id']))?true:false ;
+		$chk = (empty($this->rows[0]['id']))?true:false;
 		if($chk){
-			$this->sql ="insert into  $this->translate_table(lang, id, name, description , image,params ) values ('$categories_lang',$categories_id,'$categories_name','$categories_description','$categories_images','$param')  ";
+			$this->sql ="insert into $this->translate_table(lang, id, name, description , image,params ) values ('$categories_lang',$categories_id,'$categories_name','$categories_description','$categories_images','$param')  ";
 			//echo $this->sql  ;
 			$this->insert();
 		}else{
