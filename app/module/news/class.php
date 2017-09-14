@@ -2,7 +2,7 @@
 class News extends Database {
 	var $module;
 	public function __construct($params=NULL){
-		$this->module = $params['module']  ;
+		$this->module = $params['module'];
 		parent::__construct((empty($params['table']))?$module:$params['table']);
 		if(isset($params['primary_key'])){
 			$this->primary_key = $params['primary_key'];
@@ -27,15 +27,15 @@ class News extends Database {
 		}
 	}
 	function datePickerToTime($in_date){
-		list($date,$time) = explode(' ',$in_date);
+		list($date,$time) = explode(' ',$in_date) ;
 		list($month,$day,$year) = explode('/',$date);
-		return $year.'-'.$month.'-'.$day.' '.$time.':00';
+		return $year.'-'.$month.'-'.$day.' '.$time.':00' ;
 	}
 	function timeToDatePicker($in_date){
-		list($date,$time) = explode(' ',$in_date);
+		list($date,$time) = explode(' ',$in_date) ;
 		list($year,$month,$day) = explode('-',$date);
 		list($h,$m,$s)=explode(':',$time);
-		return $month.'/'.$day.'/'. $year.' '.$h.':'.$m;
+		return $month.'/'.$day.'/'. $year.' '.$h.':'.$m ;
 	}
 	// function for categories /////////////////////////////////////////////////
 	// Develop by iQuickweb.com 28/06/2012
@@ -46,11 +46,12 @@ class News extends Database {
 		return $this->rows;
 	}
 	public function getCategoriesTreeAll($where=NULL){
-		return  $this->get_tree($where);
+		return $this->get_tree($where);
 	}
+	
 	public function getCategoriesSize(){
 		$this->sql = "select $this->primary_key from $this->table where level >0 ";
-		return  $this->select('size');
+		return $this->select('size');
 	}
 	public function getCategory($id){
 		$this->sql = "select id, parent_id, name, slug, description, image, status from $this->table where $this->primary_key=$id ";
@@ -58,17 +59,16 @@ class News extends Database {
 		return  $this->rows[0];
 	}
 	public function  insert_categories($parent_id,$name,$slug,$description,$image,$params,$user_id,$status){
-			if((int)$parent_id==0){
-				$parent_id = $this->check_root_node();
-			}
-			$this->sql = "insert into $this->table (parent_id,name,slug,description,image,params,user_id,status,mdate,cdate) " ;
-			$this->sql .="values ($parent_id,'$name','$slug','$description','$image','$params',$user_id,$status,NOW(),NOW())";
-			$this->insert() ;
-			$id = $this->insert_id();
-			$this->insert_node($parent_id,$id) ;
-			return $id ;
+		if((int)$parent_id==0){
+			$parent_id = $this->check_root_node();
+		}
+		$this->sql = "insert into $this->table (parent_id,name,slug,description,image,params,user_id,status,mdate,cdate) " ;
+		$this->sql .="values ($parent_id,'$name','$slug','$description','$image','$params',$user_id,$status,NOW(),NOW())";
+		$this->insert();
+		$id = $this->insert_id();
+		$this->insert_node($parent_id,$id);
+		return $id;
 	}
-	
 	public function  update_categories($id,$parent_id,$name,$slug,$description,$image,$params, $user_id,$status){
 		if($parent_id==0){
 			$parent_id = $this->check_root_node();
@@ -77,7 +77,7 @@ class News extends Database {
 				$this->move_parent($id,$parent_id);
 			}
 		}
-		$this->sql = "update $this->table set parent_id=$parent_id, name='$name',slug='$slug',description='$description', image='$image',params='$params', user_id=$user_id,status=$status, mdate=NOW() where $this->primary_key=$id ";
+		$this->sql = "update $this->table set parent_id=$parent_id, name='$name',slug='$slug',description='$description', image='$image',params='$params', user_id=$user_id,status=$status, mdate=NOW() where $this->primary_key=$id " ;
 		$this->update();
 	}
 	
@@ -92,7 +92,7 @@ class News extends Database {
 		$data = $this->rows;
 		if(!empty($data)){
 			foreach($data as $d){
-				$this->saveCategoriesTranslate( $d['lang'],$new_id,$d['name'],$d['description'],$d['image'],$d['params']);
+				$this->saveCategoriesTranslate($d['lang'],$new_id,$d['name'],$d['description'],$d['image'],$d['params']);
 			}
 		}
 	}
@@ -125,7 +125,7 @@ class News extends Database {
 		$this->select();
 		$chk = (empty($this->rows[0]['id']))?true:false ;
 		if($chk){
-			$this->sql ="insert into  $this->translate_table(lang, id, name, description , image,params ) values ('$categories_lang',$categories_id,'$categories_name','$categories_description','$categories_images','$param')  ";
+			$this->sql ="insert into  $this->translate_table(lang, id, name, description , image,params ) values ('$categories_lang',$categories_id,'$categories_name','$categories_description','$categories_images','$param') ";
 			//echo $this->sql  ;
 			$this->insert();
 		}else{
@@ -195,28 +195,30 @@ class News extends Database {
 	
 	public function getParentCategory($key,$language=NULL){
 		if(!empty($language)&&$language!=$this->site_language){
-			$this->sql = " select * from $this->parent_translate_table where id = $key ";
+			$this->sql = " select * from $this->parent_translate_table  where id =$key ";
 		}else{
-			$this->sql = " select * from $this->parent_table  where id = $key ";
+			$this->sql = " select * from $this->parent_table  where id =$key ";
 		}
 		$this->select();
-		return  $this->rows[0];
+		return  $this->rows[0] ;
 	}
-	function insertData($category_id,$name,$description,$slug,$content,$image,$params,$meta_key,$meta_description,$user_id,$status,$start,$end){
-		$this->sql ="insert into $this->table (category_id,name,slug,description,content,image,params,meta_key,meta_description,user_id,status,mdate,cdate,start,end,sequence) ";
-		$this->sql .=" values($category_id,'$name','$slug','$description','$content','$image','$params','$meta_key','$meta_description',$user_id,$status,NOW(),NOW(),'$start','$end',0) " ;
-		//echo $this->sql;
+	
+	function insertData($category_id,$name,$slug,$content,$image,$params,$meta_key,$meta_description,$user_id,$status,$start,$end){
+		$this->sql ="insert into $this->table (category_id,name,slug,content,image,params,meta_key,meta_description,user_id,status,mdate,cdate,start,end,sequence) ";
+		$this->sql .=" values($category_id,'$name','$slug','$content','$image','$params','$meta_key','$meta_description',$user_id,$status,NOW(),NOW(),'$start','$end',0) " ;
 		$this->insert();
 	}
-	function updateData($id,$category_id,$name,$description,$slug,$content,$image,$params,$meta_key,$meta_description,$user_id,$status,$start,$end){
-		$this->sql ="update $this->table set category_id=$category_id,name='$name',description='$description',slug='$slug',content='$content',image='$image',params='$params',meta_key='$meta_key',meta_description='$meta_description',user_id=$user_id,status=$status,mdate=NOW(),start='$start',end='$end' where $this->primary_key = $id ";
-		$this->update();
+	
+	function updateData($id,$category_id,$name,$slug,$content,$image,$params,$meta_key,$meta_description,$user_id,$status,$start,$end){
+		$this->sql ="update $this->table set category_id=$category_id, name='$name', slug='$slug',content='$content' ,image='$image', params='$params', meta_key='$meta_key', meta_description='$meta_description', user_id=$user_id, status=$status, mdate=NOW(),start='$start',end='$end' where $this->primary_key = $id ";
+		$this->update() ;
 	}
+	
 	function duplicateData($id,$user_id){
 		$this->sql = "select * from $this->table where $this->primary_key = $id ";
 		$this->select();
 		$data = $this->rows[0] ;
-		$this->insertData($data['category_id'],$data['name'],$data['description'],$data['slug'],$data['content'],$data['image'],$data['params'],$data['meta_key'],$data['meta_description'],$user_id,$data['status'],$data['start'],$data['end']) ;
+		$this->insertData($data['category_id'],$data['name'],$data['slug'],$data['content'],$data['image'],$data['params'],$data['meta_key'],$data['meta_description'],$user_id,$data['status'],$data['start'],$data['end']) ;
 		// insert translate 
 		$new_id = $this->insert_id();
 		$this->sql = "select * from $this->translate_table where $this->primary_key = $id ";
@@ -224,46 +226,55 @@ class News extends Database {
 		$data = $this->rows ;
 		if(!empty($data)){
 			foreach($data as $d){ 
-				$this->saveTranslate($d['lang'],$new_id,$d['name'],$d['description'],$d['content'],$d['image'],$d['params'],$d['meta_key'],$d['meta_description']);
+				$this->saveTranslate( $d['lang'],$new_id,$d['name'],$d['content'],$d['image'],$d['params'],$d['meta_key'],$d['meta_description']);
 			}
 		}
 	}
+	
 	function deleteData($id){
-		$this->sql = "delete from $this->table where $this->primary_key=$id ";
+		$this->sql = "delete from $this->table where $this->primary_key=$id " ;
 		$this->delete();
 		if($this->is_translate){
-			$this->sql = "delete from $this->translate_table where $this->translate_table.$this->primary_key=$id ";
+			$this->sql = "delete from $this->translate_table where $this->translate_table.$this->primary_key=$id " ;
 			$this->delete();
 		}
 	}
+	
 	function updateStatus($id,$status){
 		$this->sql="update $this->table set status=$status where $this->primary_key=$id ";
 		$this->update();
 	}
-	// page translate
+// page translate
 	function getTranslate($id,$lang){
-		$this->sql = "select $this->table.id as translate_id , $this->table.name as translate_from, $this->table.id as page_id, $this->translate_table.* from $this->table left join $this->translate_table on $this->table.id = $this->translate_table.id and $this->translate_table.lang = '$lang' where $this->table.id=$id ";
+		$this->sql = "select $this->table.id as translate_id ,  $this->table.name as translate_from, $this->table.id as page_id, $this->translate_table.* from $this->table left join $this->translate_table on $this->table.id= $this->translate_table.id and $this->translate_table.lang='$lang' where $this->table.id=$id  ";
+	//	echo $this->sql ;
 		$this->select();
-		return $this->rows[0];
+		return $this->rows[0] ;
 	}
-  	public function saveTranslate($lang,$id,$name,$description,$content,$image,$params,$meta_key,$meta_description){
+
+  function saveTranslate( $lang,$id,$name,$content,$image,$params,$meta_key,$meta_description){
 		$this->sql ="select id from $this->translate_table where lang='$lang' and id=$id ";
+	//	echo $this->sql ;
 		$this->select(); 
-		$chk = (empty($this->rows[0]['id']))?true:false;
+		$chk = (empty($this->rows[0]['id']))?true:false ;
 		if($chk){
-			$this->sql ="insert into $this->translate_table (lang,id,name,description,content,image,params,meta_key,meta_description) values ('$lang',$id,'$name','$description','$content','$image','$params','$meta_key','$meta_description') ";
+			$this->sql ="insert into  $this->translate_table (lang, id, name, content ,image,params,meta_key,meta_description) values ('$lang',$id,'$name','$content','$image','$params','$meta_key','$meta_description')  ";
+		//	echo $this->sql ;
 			$this->insert();
 		}else{
-			$this->sql = "update $this->translate_table set lang='$lang',name='$name',description='$description',content='$content',image='$image' ,params ='$params',meta_key='$meta_key',meta_description='$meta_description' where lang='$lang' and id=$id ";
+			$this->sql = "update  $this->translate_table set lang='$lang', name='$name', content='$content',image='$image' ,params ='$params' ,meta_key='$meta_key', meta_description='$meta_description' where id=$id  ";
+		//	echo $this->sql ;
 			$this->update();
+			
 		}
 	}
-	function front_getInCategory($categories,$search,$orderby,$limit){
+
+function front_getInCategory($categories,$search,$orderby,$limit){
 		foreach($categories as $category){
 			$new_search = $search.' and category_id = $category_id ';
-			$pages[$category['id']] =$this->getPagesAll($new_search,$order,$limit);
+			$pages[$category['id']] =$this->getPagesAll($new_search,$order,$limit) ;
 		}
-		return $pages;
+		return $pages ;
 	}
 
 //////////////  order function  /////////////////////////////
@@ -305,12 +316,14 @@ class News extends Database {
 													  ORDER BY  p.$column $direction
 													 ) ranks ON (ranks.$this->primary_key = $this->table.$this->primary_key)
 											SET    $this->table.sequence = ranks.rank " ;
-		$this->update();
+				$this->update();
 	}
+	
 	function  changeCategory($id,$category_id){
 		$this->sql = "update $this->table set category_id=$category_id where $this->primary_key=$id  ";
 		$this->update();
 	}
+	
 // function for pages frontend /////////////////////////////////////////////////
 // Develop by iQuickweb.com 13/08/2012
 ///////////////////////////////////////////////////////////////////////////////////
