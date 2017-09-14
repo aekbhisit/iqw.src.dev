@@ -535,47 +535,99 @@ if(isset($_GET['task'])){
 			$status =(!empty($_GET['status']))?$_GET['status']:1;
 			$search = (!empty($_GET['search']))?$_GET['search']:'';
 			$filter = (!empty($_GET['filter']))?$_GET['filter']:'';
-			$order = (!empty($_GET['order']))?$_GET['order']:'';
+			$order = (!empty($_GET['order']))?$_GET['order']:'' ;
 			$separate = (!empty($_GET['separate']))?$_GET['separate']:0;
-			$pagenate =  (!empty($_GET['paginate']))?$_GET['paginate']:0;
+			$pagenate = (!empty($_GET['paginate']))?$_GET['paginate']:0;
 			$page = (!empty($_GET['page']))?$_GET['page']:1;
 			$length = (!empty($_GET['length']))?$_GET['length']:10;
-			$count = (!empty($_GET['count']))?$_GET['count']:0;
+			$count = (!empty($_GET['count']))?$_GET['count']:0 ;
 			$data_key =  (!empty($_GET['data_key']))?$_GET['data_key']:$module;
 			if(is_array($key)&&!empty($key)){
 				$keys = $key;
 				foreach($keys as $key){
 					$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
-				 	if($separate){
-						$listQueryData = $_DATA[$data_key];
+					// get gallery images
+					if($type=='one'){
+						if(!empty($_DATA[$data_key])){
+							$_DATA[$data_key]['images'] = $oModule->getGalleriesImages($_DATA[$data_key]['id'],$language);
+						}
+					}else{
+						if(!empty($_DATA[$data_key])){
+							foreach($_DATA[$data_key] as $g_k =>$g_v){
+								if(!empty($g_v['id'])){
+									$_DATA[$data_key][$g_k]['images'] = $oModule->getGalleriesImages($g_v['id'],$language);
+								}
+							}
+						}
+					}
+					if($separate){
+						$listQueryData =$_DATA[$data_key];
 						$_DATA[$data_key] = NULL;
 						foreach($listQueryData as $kk=>$val){
 							$_DATA[$data_key][$val['slug']] = $val;
+							// get gallery images
+							if(!empty($_DATA[$data_key][$val['slug']])){
+								foreach($_DATA[$data_key][$val['slug']] as $g_k =>$g_v){
+									if(!empty($g_v['id'])){
+										$_DATA[$data_key][$val['slug']][$g_k]['images'] = $oModule->getGalleriesImages($g_v['id'],$language);
+									}
+								}
+							}
 						}
 					}
 					if($count){
 						if(!empty($key)){
 							$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+							$_DATA['TOTALPAGE'][$data_key] = ceil((int)$_DATA['COUNT'][$data_key]/$length);
+							$_DATA['PAGE'][$data_key] = $page;
 						}else{
-							$_DATA['COUNT'][$data_key]= $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+							$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+							$_DATA['TOTALPAGE'][$data_key] = ceil((int)$_DATA['COUNT'][$data_key]/$length);
+							$_DATA['PAGE'][$data_key] = $page;
 						}
 					}
 				}
 			}else{
 				$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
+				// get gallery images
+				if($type=='one'){
+					if(!empty($_DATA[$data_key])){
+						$_DATA[$data_key]['images'] = $oModule->getGalleriesImages($_DATA[$data_key]['id'],$language);
+					}
+				}else{
+					if(!empty($_DATA[$data_key])){
+						foreach($_DATA[$data_key] as $g_k =>$g_v){
+							if(!empty($g_v['id'])){
+								$_DATA[$data_key][$g_k]['images'] = $oModule->getGalleriesImages($g_v['id'],$language);
+							}
+						}
+					}
+				}
 				if($count){
 					if(!empty($key)){
 						$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+						$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
+						$_DATA['PAGE'][$data_key] = $page;
 					}else{
 						$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+						$_DATA['TOTALPAGE'][$data_key] = ceil((int)$_DATA['COUNT'][$data_key]/$length);
+						$_DATA['PAGE'][$data_key] = $page;
 					}
 				}
 				if($separate){
 					$listQueryData = $_DATA[$data_key];
 					$_DATA[$data_key] = NULL;
 					if(!empty($listQueryData)){
-						foreach( $listQueryData as $kk=>$val){
+						foreach($listQueryData as $kk=>$val){
 							$_DATA[$data_key][$val['slug']] = $val;
+							// get gallery image
+							if(!empty($_DATA[$data_key][$val['slug']])){
+								foreach($_DATA[$data_key][$val['slug']] as $g_k => $g_v){
+									if(!empty($g_v['id'])){
+										$_DATA[$data_key][$val['slug']][$g_k]['images'] = $oModule->getGalleriesImages($g_v['id'],$language);
+									}
+								}
+							}
 						}
 					}
 				}

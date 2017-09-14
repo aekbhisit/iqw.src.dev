@@ -365,18 +365,17 @@ class Galleries extends Database {
 // function for pages frontend /////////////////////////////////////////////////
 // Develop by iQuickweb.com 13/08/2012
 ///////////////////////////////////////////////////////////////////////////////////
-function find($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search=NULL,$filter='',$order=NULL,$sort=NULL,$separate=false,$pagenate=false,$page=NULL,$length=10,$oParent=NULL){
-			/* type
-					1. one = fine one item by id
-					3. all  =  fine all item and category
-					4. category_all = fine  category_id
-					6. category_one = find item in category 
-					7. in_category = fine all and relation incateogry
-			*/
-			return $this->_find($type,$key,$slug,$status,$language,$search,$filter,$order,$sort,$separate,$pagenate,$page,$length,$oParent) ; 
+	function find($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search=NULL,$filter='',$order=NULL,$sort=NULL,$separate=false,$pagenate=false,$page=NULL,$length=10,$oParent=NULL){
+		/* type
+			1. one = fine one item by id
+			3. all  =  fine all item and category
+			4. category_all = fine  category_id
+			6. category_one = find item in category 
+			7. in_category = fine all and relation incateogry
+		*/
+		return $this->_find($type,$key,$slug,$status,$language,$search,$filter,$order,$sort,$separate,$pagenate,$page,$length,$oParent) ; 
 		
 	}
-	
 	function findcount($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search=NULL,$filter='',$oParent=NULL){
 		 return  $this->_findcount($type,$key,$slug,$status,$language,$search,$filter,$oParent); 
 	}
