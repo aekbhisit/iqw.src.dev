@@ -1,4 +1,5 @@
 // JavaScript Document
+"use strict";
 var modules = "htmlzone";
 (function($) {
 	$(document).ready(function(e) {
@@ -58,7 +59,7 @@ function checkBlock(data) {
 			html += '<label>'+data.name+' <span class="required">*</span></label>';
 			html += '<div class="da-form-item large">';
 			html += '<span class="formNote">'+data.description+'</span>';
-			html += '<input type="hidden" name="block['+data.zone_input_id+'][zone_data_id]" id="image" value="'+data.zone_data_id+'" />';
+			html += '<input type="hidden" name="block['+data.zone_input_id+'][zone_data_id]" value="'+data.zone_data_id+'" />';
 			html += '<input type="text" name="block['+data.zone_input_id+'][text]" id="name" value="'+data.params+'" />';
 			html += '</div>';
 			html += '</div>';
@@ -69,7 +70,7 @@ function checkBlock(data) {
 			html += '<label>'+data.name+' <span class="required">*</span></label>';
 			html += '<div class="da-form-item large">';
 			html += '<span class="formNote">'+data.description+'</span>';
-			html += '<input type="hidden" name="block['+data.zone_input_id+'][zone_data_id]" id="image" value="'+data.zone_data_id+'" />';
+			html += '<input type="hidden" name="block['+data.zone_input_id+'][zone_data_id]" value="'+data.zone_data_id+'" />';
 			html += '<textarea class="texteditor" name="block['+data.zone_input_id+'][text]" id="description">'+data.params+'</textarea>';
 			html += '</div>';
 			html += '</div>';
@@ -81,7 +82,7 @@ function checkBlock(data) {
 			html += '<div class="da-form-item large">';
 			html += '<span class="formNote">'+data.description+'</span>';
 			html += '<div id="finder"></div>';
-			html += '<input type="hidden" name="block['+data.zone_input_id+'][zone_data_id]" id="image" value="'+data.zone_data_id+'" />';
+			html += '<input type="hidden" name="block['+data.zone_input_id+'][zone_data_id]" value="'+data.zone_data_id+'" />';
 			html += '<input type="text" name="block['+data.zone_input_id+'][text]" id="image" value="'+data.params+'" class="elfinder-browse" />';
 			html += '<img src="" id="show_image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />';
 			html += '</div>';

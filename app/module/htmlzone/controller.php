@@ -117,27 +117,27 @@ if(isset($_GET['task'])){
 			echo json_encode($output);
 		break;
 		case 'getDataContent':
-			$columns = array('zone_id','name','zone','mdate','sequence','zone_id','zone_id');
+			$columns = array('zone_id','name','mdate','sequence','zone_id','zone_id');
 			$limit = '';
 			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart = $_GET['iDisplayStart'];
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
-			$iSortCol_0= $_GET['iSortCol_0'];
-			$sSortDir_0= $_GET['sSortDir_0'];
+			$iSortCol_0 = $_GET['iSortCol_0'];
+			$sSortDir_0 = $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
 				$orderby = " order by $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $_GET['sSearch']; 
 			if($sSearch=='undefined'){
 				$sSearch = '';
 			}
 			$search = '';
 			if(!empty($sSearch)){
-				$search =  " WHERE $oModule->table.name like '%$sSearch%' ";
+				$search = " WHERE $oModule->table.name like '%$sSearch%' ";
 			}
 			$data = $oModule->getAll($search,$orderby,$limit);
 			$iTotal = $oModule->getSize();
@@ -161,7 +161,7 @@ if(isset($_GET['task'])){
 					// if empty category
 					$value['category'] = (empty($value['category']))?'  - ':$value['category'];
 					$showname = '<a href="javascript:void(0)" onclick="setEdit('.$value['zone_id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$value['name'].'</a>';
-					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['zone_id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['zone_id']);
+					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['mdate'],3=>$order,4=>$iconbar,5=>$value['zone_id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['zone_id']);
 					$cnt++;
 				}
 			}
