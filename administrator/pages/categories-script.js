@@ -1,5 +1,6 @@
 // JavaScript Document
-var oTable ;
+"use strict";
+var oTable;
 var modules = "pages";
 (function($) {
 	$(document).ready(function(e) {
@@ -28,26 +29,22 @@ var modules = "pages";
         	}
 		});
 	});// document_ready
-	
 }) (jQuery);
-
 function setDeleteSelectedData(){
-	var selected = getTableCheckboxChecked() ;
+	var selected = getTableCheckboxChecked();
 	if(selected.length<=0){
-			$.jGrowl("แจ้งเตือน ! <br> ท่านต้องเลือกรายการที่ต้องการลบอย่างน้อย 1 รายการ", {position: "bottom-right"});
-		}else{
-			if(confirm('ยืนยันลบข้อมูลที่เลือก !')){
-				 $.each(selected,function(index,value){
-					setDeleteData(value,true,selected.length,index) ;
-				})	;
-			}
+		$.jGrowl("แจ้งเตือน ! <br> ท่านต้องเลือกรายการที่ต้องการลบอย่างน้อย 1 รายการ", {position: "bottom-right"});
+	}else{
+		if(confirm('ยืนยันลบข้อมูลที่เลือก !')){
+			$.each(selected,function(index,value){
+				setDeleteData(value,true,selected.length,index);
+			});
 		}
-		
+	}
 }
-
 function setDeleteData(id,confirmed,length,index){
 	var d = new Date() ;
-	var url = "../../app/index.php?module="+modules+"&task=setCategoryDelete&id="+id+"&d"+d.getTime() ;
+	var url = "../../app/index.php?module="+modules+"&task=setCategoryDelete&id="+id+"&d"+d.getTime();
 	if(confirmed){
 		$.get(url,function(data){
 			if(length==(index+1)){ 

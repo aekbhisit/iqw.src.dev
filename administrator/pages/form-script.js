@@ -1,12 +1,11 @@
 // JavaScript Document
 "use strict";
 var modules = "pages";
-(function($) {
-	$(document).ready(function(e) {
-		formInit();
-		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
-	});// document_ready
-}) (jQuery);
+$(document).ready(function(e) {
+	initFormTextEditor();
+	formInit();
+	$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
+});
 function gotoManagePage(){
 	var url = 'index.php'; 
 	window.location.replace(url);
@@ -85,8 +84,7 @@ function setSaveData(){
 			return $('#form').valid();
 		},
 		success: function(data){
-			//alert(data);  
-			gotoManagePage()
+			gotoManagePage();
 		}
 	});
 }

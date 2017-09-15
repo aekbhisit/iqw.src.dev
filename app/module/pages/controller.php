@@ -175,14 +175,14 @@ if(isset($_GET['task'])){
 						echo json_encode($data);
 					}
 				break;
-			case 'saveCategoryTranslate':
-					 $categories_id = $_POST["categories_id"] ; 
-					 $categories_lang = $_POST["categories_language"] ; 
-					 $categories_name = $_POST["categories_name"];
-					 $categories_description = $_POST["categories_description"];
-					 $categories_images = $_POST["categories_server_images"] ;
-					 $oCategories->saveCategoriesTranslate( $categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,'');
-				break;
+		case 'saveCategoryTranslate':
+			$categories_id = (int)$_POST["categories_id"]; 
+			$categories_lang = addslashes($_POST["categories_language"]); 
+			$categories_name = addslashes($_POST["categories_name"]);
+			$categories_description = addslashes($_POST["categories_description"]);
+			$categories_images = addslashes($_POST["categories_server_images"]);
+			$oCategories->saveCategoriesTranslate($categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,'');
+		break;
 ///  pages-form.html
 			case 'formInit':
 				if($_GET['mode']=='edit'){
@@ -541,7 +541,7 @@ if(isset($_GET['task'])){
 				$oModule->changeCategory($id,$category_id);
 			break;	
 				
-////////////////task for frontend  ///////////
+		////////////////task for frontend  ///////////
 		case "find":
 			$language = LANG;
 			$module = $_GET['module'];

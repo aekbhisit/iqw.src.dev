@@ -1,12 +1,11 @@
 // JavaScript Document
 "use strict";
 var modules = "pages";
-(function($) {
-	$(document).ready(function(e) {
-		categoryFormInit();
-		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
-	});// document_ready
-}) (jQuery);
+$(document).ready(function(e) {
+	initFormTextEditor();
+	categoryFormInit();
+	$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
+});// document_ready
 function gotoManagePage(){
 	var url = 'categories.php'; 
 	window.location.replace(url);
@@ -29,11 +28,10 @@ function categoryFormInit(){
 			}
 			$('#categories_status').find('option:[value="'+data.status+'"]').attr('selected','selected');
 		}else{
-			loadNowCategories(0) ;
+			loadNowCategories(0);
 		}
 	});
 }
-
 function loadNowCategories(selected){
 	var d = new Date();
 	var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime();
@@ -62,10 +60,9 @@ function loadNowCategories(selected){
 		$('#categories_parent').removeAttr('disabled');
 	});
 }
-
 function setSaveCategories(){
 	var d = new Date();	
-	var url = "../../app/index.php?module="+modules+"&task=saveCategory&d"+d.getTime() ;
+	var url = "../../app/index.php?module="+modules+"&task=saveCategory&d"+d.getTime();
 	$('#categories_form').find('.elrte').each(function(){
 		$(this).elrte('updateSource');
 	});
@@ -97,8 +94,7 @@ function setSaveCategories(){
 			return $('#categories_form').valid();
 		},
 		success: function(data){
-			//alert(data);
-			gotoManagePage()
+			gotoManagePage();
 		}
 	});
 }

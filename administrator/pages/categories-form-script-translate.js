@@ -1,17 +1,16 @@
 // JavaScript Document
 "use strict";
 var modules = "pages";
-(function($) {
-	$(document).ready(function(e) {
-		loadLanguage();
-		$('#categories_language').bind('change',function(){
-			var lang = $('#categories_language').val();
-			categoryFormTranslateInit(lang);
-		});
-		selectImages();
-		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
-	});// document_ready
-}) (jQuery);
+$(document).ready(function(e) {
+	initFormTextEditor();
+	loadLanguage();
+	$('#categories_language').bind('change',function(){
+		var lang = $('#categories_language').val();
+		categoryFormTranslateInit(lang);
+	});
+	selectImages();
+	$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
+});// document_ready
 function gotoManagePage(){
 	var url = 'categories.php'; 
 	window.location.replace(url);
@@ -99,7 +98,7 @@ function setSaveCategoriesTranslate(){
 			return $('#categories_form').valid();
 		},
 		success: function(data){
-			gotoManagePage()
+			gotoManagePage();
 		}
 	});
 }
