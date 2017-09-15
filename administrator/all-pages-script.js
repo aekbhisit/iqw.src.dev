@@ -1,6 +1,8 @@
 // JavaScript Document
+"use strict";
 var APP_ROOT = '../../';
 var FILE_ROOT = '../../';
+var oSettings = '';
 (function($) {
 	$(document).ready(function(e) {
 		getAdminLoginUser() ;
@@ -8,12 +10,11 @@ var FILE_ROOT = '../../';
 		getMessagesTopRight();
 		setAdminLogOut();
 		setLoadingPage();
-		loadTextEditor() ;
-		overWriteValidateMesssage() ;
+		//loadTextEditor();
+		overWriteValidateMesssage();
 		inputBrowserFile();
 		initFormTextEditor();
 	});// document_ready
-	
 }) (jQuery);	
 // default function
 function getUrlVars(){
@@ -27,7 +28,6 @@ function getUrlVars(){
     }
     return vars;
 }
-
 function reloadTableData(oTable){	
 	oSettings=oTable.fnSettings() ;
 	if(oSettings.oFeatures.bServerSide === false){
@@ -39,93 +39,83 @@ function reloadTableData(oTable){
 	oSettings.oApi._fnDraw(oSettings);
 	//oTable.fnDraw();
 }
-
 function getTableCheckboxChecked(){
-	var id = new Array() ;
+	var id = new Array();
 	var cnt = 0 
 	 $('#da-ex-datatable-numberpaging').find('input.table_checkbox:checked').each(function(){
 		id[cnt] = $(this).val();
-		cnt++ ;
-	}) ;
-	return id ;
+		cnt++;
+	});
+	return id;
 }
-
 // load user login
 function getAdminLoginUser(){
-		var d = new Date();
-		var url = APP_ROOT+"app/index.php?module=users&task=getAdminLoginUser&"+d.getTime();
-		$.getJSON(url,function(data){
-			if(data.id!=false){
-				$('#da-user-info').html(data.info);
-				$('#da-user-avatar img').attr('src',data.avatar);
-			}else{
-				var url = '../';
-				window.location.replace(url);
-			}
-		});
+	var d = new Date();
+	var url = APP_ROOT+"app/index.php?module=users&task=getAdminLoginUser&"+d.getTime();
+	$.getJSON(url,function(data){
+		if(data.id!=false){
+			$('#da-user-info').html(data.info);
+			$('#da-user-avatar img').attr('src',data.avatar);
+		}else{
+			var url = '../';
+			window.location.replace(url);
+		}
+	});
 }
 
 // load notif top_right
 function getCommentsTopRight(){
-		var d = new Date();
-		var url = APP_ROOT+"app/index.php?module=comments&task=getCommentsTopRight&"+d.getTime();
-			$.get(url,function(data){
-				if(data!=null&&$.trim(data)!=''){
-				var data = $.parseJSON(data);  
-				if(data!=null&&$.trim(data)!=''&&data.length>0){
-					$('#show-comment-unread').html(data.length);
-					$.each(data,function(key,val){
+	var d = new Date();
+	var url = APP_ROOT+"app/index.php?module=comments&task=getCommentsTopRight&"+d.getTime();
+	$.get(url,function(data){
+		if(data!=null&&$.trim(data)!=''){
+			var data = $.parseJSON(data);  
+			if(data!=null&&$.trim(data)!=''&&data.length>0){
+				$('#show-comment-unread').html(data.length);
+				$.each(data,function(key,val){
 					var comments = '<li class="'+val.read+'"><a href="../comments/comments.php"><span class="message">'+val.title+'</span><span class="time">'+val.date+'</span></a></li>';
 					$('#show-comments').append(comments);
 				});
-				}else{
-					$('#show-comment-unread').fadeOut();
-				}
-				}else{
-						$('#show-comment-unread').fadeOut();
-				}
-		});
+			}else{
+				$('#show-comment-unread').fadeOut();
+			}
+		}else{
+			$('#show-comment-unread').fadeOut();
+		}
+	});
 }
-
 // load contact us top_right
 function getMessagesTopRight(){
-		var d = new Date();
-		var url = APP_ROOT+"app/index.php?module=contacts&task=getMessagesTopRight&"+d.getTime();
-			$.get(url,function(data){
-				if(data!=null&&$.trim(data)!=''){
-				var data = $.parseJSON(data);  
-				if(data!=null&&data.length>0){
-					$('#show-messages-unread').html(data.length);
-						$.each(data,function(key,val){
-				//	var messages = '<li class="'+val.read+'"><a href="../contacts/contacts.php"><span class="message">'+val.title+'</span><span class="time">'+val.date+'</span></a></li>';
+	var d = new Date();
+	var url = APP_ROOT+"app/index.php?module=contacts&task=getMessagesTopRight&"+d.getTime();
+	$.get(url,function(data){
+		if(data!=null&&$.trim(data)!=''){
+			var data = $.parseJSON(data);  
+			if(data!=null&&data.length>0){
+				$('#show-messages-unread').html(data.length);
+				$.each(data,function(key,val){
 					var messages = '<li class="'+val.read+'"><a href="#"><span class="message">'+val.title+'</span><span class="time">'+val.date+'</span></a></li>';
 					$('#show-messages').append(messages);
 				});
-				}else{
-					$('#show-messages-unread').fadeOut();
-				}
-				}// if empty data 
-				else{
-					$('#show-messages-unread').fadeOut();
-				}
-				
-		});
-			
+			}else{
+				$('#show-messages-unread').fadeOut();
+			}
+		}else{
+			$('#show-messages-unread').fadeOut();
+		}	
+	});	
 }
-
 // logout
 function setAdminLogOut(){
-		var d = new Date();
-		var url = APP_ROOT+"app/index.php?module=users&task=setAdminLogout&"+d.getTime();
-		$('#logout').bind('click',function(){
-			$.get(url,function(data){
-			 	$.jGrowl("แจ้งเตือน ! <br> ท่านได้ทำการออกจากระบบแล้ว", {position: "bottom-right"});
-				setTimeout(window.location.replace('../'),5000);
-			});
-		})
-		
+	var d = new Date();
+	var url = APP_ROOT+"app/index.php?module=users&task=setAdminLogout&"+d.getTime();
+	$('#logout').bind('click',function(){
+		$.get(url,function(data){
+		 	$.jGrowl("แจ้งเตือน ! <br> ท่านได้ทำการออกจากระบบแล้ว", {position: "bottom-right"});
+			setTimeout(window.location.replace('../'),5000);
+		});
+	});
 }
-
 function setLoadingPage(){
 	$("body").on({
 		// When ajaxStart is fired, add 'loading' to body class
@@ -138,10 +128,9 @@ function setLoadingPage(){
 		}    
 	});
 }
-
 function loadTextEditor(){
 	var dialog ;
-	 var opts = {
+	var opts = {
         cssClass : 'el-rte bodyclass',
         toolbar  : 'maxi',
         denyTags  : ['span'],
@@ -158,28 +147,28 @@ function loadTextEditor(){
 			// '../../themes/phet_th/css/responsive.css',
 			// '../../themes/phet_th/css/color-variations/red.css',
 			// '../../themes/phet_th/css/style.css'
-        	],
+        ],
 		fmAllow: true, 
 		fmOpen: function(callback) {
 		//	if (!dialog) {
-			  // create new elFinder
-			  dialog = $('<div id="finder" />').dialogelfinder({
+			// create new elFinder
+			dialog = $('<div id="finder" />').dialogelfinder({
 				url: FILE_ROOT+'files/php/connector.php',
 				commandsOptions: {
-				  getfile: {
-					oncomplete : 'destroy', // close/hide elFinder
-					multiple : false,
-					folders  : false,
-				  }
+				  	getfile: {
+						oncomplete : 'destroy', // close/hide elFinder
+						multiple : false,
+						folders  : false,
+				  	}
 				},
 				getFileCallback: callback // pass callback to file manager
-			  });
+			});
 		//	} else {
 			  // reopen elFinder
 		//	  dialog.dialogelfinder('open')
 		//	}
-		  }	
-	 }
+		}	
+	}
 	if($(document).has('.elrte').length>=1){
 		$(document).find('.elrte').each(function(){
 			$(this).elrte(opts);
@@ -209,47 +198,41 @@ function overWriteValidateMesssage(){
 			});
 	}
 }
-
 function reloadPageNow(){
 	//window.location.reload(true);
 }
-
 function setSiteSearch(){
 	var keyword = $('#siteSearch_keyword').val();
 	var url = "../search/search.php?find="+keyword;
 	window.location.replace(url);	
 }
-
 function inputBrowserFile(){
 	$(document).find('.elfinder-browse').each(function(){
-   	 $(this).bind('click',function () {
-		var input = $(this) ;
-			  // create new elFinder
-			  dialog = $('<div id="finder" />').dialogelfinder({
+   	 	$(this).bind('click',function () {
+			var input = $(this) ;
+			// create new elFinder
+			var dialog = $('<div id="finder" />').dialogelfinder({
 				url : '../../files/php/connector.php',
 				commandsOptions: {
-				  getfile: {
-					 oncomplete: 'destroy' 
-				  }
+					getfile: {
+				 		oncomplete: 'destroy' 
+				  	}
 				},
 				getFileCallback: function(file){
 					$(input).val(file);
 				} // pass callback to file manager
-			  });
-   	  });	
+			});
+   	  	});	
 	});
 }
-
 function getCurrentDomainURL(){
 	return location.protocol + "//" + location.host;
 }
-
 function getPreImageURL(){
-	var admin_index = location.href.indexOf('administrator') ;
+	var admin_index = location.href.indexOf('administrator');
 	var image_url = location.href.substr(0,admin_index);
-	return image_url ;
+	return image_url;
 }
-
 function initFormTextEditor(){
 	//console.log('auto resize'); 
 	tinymce.init({
