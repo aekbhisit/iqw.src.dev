@@ -98,7 +98,6 @@ function setSaveData(){
 			return $('#form').valid();
 		},
 		success: function(data){
-			// alert(data);
 			gotoManagePage()
 		}
 	});

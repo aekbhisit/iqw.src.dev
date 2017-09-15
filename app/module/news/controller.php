@@ -173,7 +173,6 @@ if(isset($_GET['task'])){
 			$categories_images = $oModule->setString($_POST["categories_server_images"]);
 			$oCategories->saveCategoriesTranslate($categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,'');
 		break;
-		// pages-form.html
 		case 'formInit':
 			if($_GET['mode']=='edit'){
 				$id = $oModule->setInt($_GET['id']);
@@ -213,7 +212,7 @@ if(isset($_GET['task'])){
 			}else{
 				$category_id = $_GET['filterCategoryID']; 
 				if($category_id>0){
-					$search =  " WHERE  $oModule->table.category_id = $category_id ";
+					$search =  " WHERE $oModule->table.category_id = $category_id ";
 				}
 			}
 			$data = $oModule->getAll($search,$orderby,$limit);
@@ -264,6 +263,7 @@ if(isset($_GET['task'])){
 			}else{
 				$slug = $_POST['slug'];
 			}
+			$description = $oModule->setString($_POST['description']);
 			$content = $oModule->setString($_POST['content']);
 			$meta_key = $oModule->setString($_POST['meta_key']);
 			$meta_description = $oModule->setString($_POST['meta_description']);
@@ -274,9 +274,9 @@ if(isset($_GET['task'])){
 			$slug = urldecode($slug);
 			$params = $oModule->setString($_POST['params']);
 			if(empty($id)){		
-				$oModule->insertData($category_id,$name,$slug,$content,$image,$params,$meta_key,$meta_description,$user['id'],$status,$start,$end);
+				$oModule->insertData($category_id,$name,$slug,$description,$content,$image,$params,$meta_key,$meta_description,$user['id'],$status,$start,$end);
 			}else{
-				$oModule-> updateData($id,$category_id,$name,$slug,$content,$image,$params,$meta_key,$meta_description,$user['id'],$status,$start,$end);
+				$oModule->updateData($id,$category_id,$name,$slug,$description,$content,$image,$params,$meta_key,$meta_description,$user['id'],$status,$start,$end);
 			}
 		break;
 		case 'setStatus':
@@ -515,7 +515,11 @@ if(isset($_GET['task'])){
 			$id = $oModule->setInt($_GET['id']);
 			$category_id = $oModule->setInt($_GET['category_id']);
 			$oModule->changeCategory($id,$category_id);
-		break;	
+		break;
+		case 'setUpdateStatViewd':
+			$id = $oModule->setInt($_GET['id']);
+			$oModule->setUpdateStatViewd($id);
+		break;
 		////////////////task for frontend  ///////////
 		case "find":
 			$language = LANG;
@@ -537,6 +541,7 @@ if(isset($_GET['task'])){
 			if(is_array($key)&&!empty($key)){
 				$keys = $key;
 				foreach($keys as $key){
+					$key = $oModule->setInt($key);
 					$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
 				 	if($separate){
 						$listQueryData = $_DATA[$data_key];

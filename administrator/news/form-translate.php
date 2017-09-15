@@ -209,13 +209,13 @@ $module_active = 'news';
                                                         <input type="text" name="name" id="name" value="" />
                                                     </div>
                                                 </div>
-                                                <div class="da-form-row">
+                                                <!-- <div class="da-form-row">
                                                     <label>รายละเอียด <span class="required">*</span></label>
                                                     <div class="da-form-item large">
                                                         <span class="formNote">ใส่รายละเอียด</span>
                                                         <input type="text" name="description" id="description" value="" />
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <div class="da-form-row">
                                                     <label>เนื้อหาข่าว<span class="required">*</span></label>
                                                     <div class="da-form-item large">
