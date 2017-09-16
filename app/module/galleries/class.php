@@ -349,13 +349,13 @@ class Galleries extends Database {
 	
 	function getGalleriesImages($id,$language){
 		if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
-			$this->sql = " select * from galleries_images where gallery_id=$id ";
+			$this->sql = " select * from galleries_images where gallery_id = $id ";
 			$this->select();
-			return $this->rows ;
+			return $this->rows;
 		}else{
-			$this->sql = " select galleries_images.*, galleries_images_translate.title, galleries_images_translate.description from galleries_images left join galleries_images_translate on galleries_images.id=galleries_images_translate.image_id where galleries_images.id=$id ";
+			$this->sql = " select galleries_images.*, galleries_images_translate.title, galleries_images_translate.description from galleries_images left join galleries_images_translate on galleries_images.id = galleries_images_translate.image_id where galleries_images.gallery_id = $id and lang = '$language' ";
 			$this->select();
-			return $this->rows ;
+			return $this->rows;
 		}
 	}
 	
