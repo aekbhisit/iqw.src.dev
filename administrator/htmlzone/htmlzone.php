@@ -123,6 +123,7 @@ $module_active = 'htmlzone';
                         <tr>
                           <th width="40">ลำดับ</th>
                           <th>ชื่อ</th>
+                          <th width="75">ประเภค</th>
                           <th width="75">บล็อก</th>
                           <th width="70">วันที่</th>
                           <th width="50">ลำดับ</th>
@@ -133,6 +134,7 @@ $module_active = 'htmlzone';
                       <tbody id="sortable">
                         <tr>
                           <td></td>
+                          
                           <td></td>
                           <td></td>
                           <td></td>
