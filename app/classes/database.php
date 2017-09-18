@@ -36,9 +36,9 @@ class Database {
 		$this->conn = @mysql_connect(DB_SERVER,DB_USER,DB_PASS);
 	}
 	public function select_db(){
-			@mysql_select_db(DB_DATABASE,$this->conn);
-			@mysql_query("SET NAMES UTF8"); 
-			@mysql_query("SET CHARACTER SET 'uft8'");  
+		@mysql_select_db(DB_DATABASE,$this->conn);
+		@mysql_query("SET NAMES UTF8"); 
+		@mysql_query("SET CHARACTER SET 'uft8'");  
 	}
 	public function disconnect() {
 		return @mysql_close();
@@ -749,7 +749,6 @@ function sanitize($title) {
 			case 'in_category':
 				//	echo 'find in cat' ;
 				$categories = $oParent->get_child_node($key,'enable',$slug);
-				//	echo 'categories parent';
 				foreach($categories as $category){
 					if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
 						$this->sql = "SELECT $this->table.*, $this->parent_table.name as category, $this->parent_table.id as category_id FROM $this->table LEFT JOIN $this->parent_table ON $this->table.category_id=$this->parent_table.$this->parent_primary_key WHERE $this->table.category_id= ".$category['id']." AND $this->table.status=$status ";

@@ -43,7 +43,7 @@ if(isset($_GET['task'])){
 	switch($task){
 		case 'formInit':
 			$id = $oModule->setInt($_GET['id']);
-			$data = $oModule->getOne($id);
+			$data = $oModule->getOneHTML($id);
 			echo json_encode($data);
 		break;
 		case 'saveData':
