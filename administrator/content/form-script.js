@@ -60,7 +60,7 @@ function checkBlock(data) {
 			html += '<div class="da-form-item large">';
 			html += '<span class="formNote">'+data.description+'</span>';
 			html += '<input type="hidden" name="block['+data.zone_input_id+'][zone_data_id]" value="'+data.zone_data_id+'" />';
-			html += '<input type="text" name="block['+data.zone_input_id+'][text]" id="name" value="'+data.params+'" />';
+			html += '<input type="text" name="block['+data.zone_input_id+'][text]" value="'+data.params+'" />';
 			html += '</div>';
 			html += '</div>';
 		break;
@@ -71,7 +71,7 @@ function checkBlock(data) {
 			html += '<div class="da-form-item large">';
 			html += '<span class="formNote">'+data.description+'</span>';
 			html += '<input type="hidden" name="block['+data.zone_input_id+'][zone_data_id]" value="'+data.zone_data_id+'" />';
-			html += '<textarea class="texteditor" name="block['+data.zone_input_id+'][text]" id="description">'+data.params+'</textarea>';
+			html += '<textarea class="texteditor" name="block['+data.zone_input_id+'][text]">'+data.params+'</textarea>';
 			html += '</div>';
 			html += '</div>';
 		break;

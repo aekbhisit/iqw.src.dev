@@ -287,7 +287,19 @@ if(isset($_GET['task'])){
 					// if empty category
 					$value['category'] = (empty($value['category']))?'  - ':$value['category'];
 					$showname = '<a href="javascript:void(0)" onclick="setEdit('.$value['zone_input_id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$value['name'].'</a>';
-					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['zone_name'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['zone_input_id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['zone_input_id']);
+					$type_text = '';
+					switch ($value['type']) {
+						case 1:
+							$type_text = 'Text';
+						break;
+						case 2:
+							$type_text = 'TextArea';
+						break;
+						case 3:
+							$type_text = 'Image';
+						break;
+					}
+					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$type_text,3=>$value['zone_name'],4=>$value['mdate'],5=>$order,6=>$iconbar,7=>$value['zone_input_id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['zone_input_id']);
 					$cnt++;
 				}
 			}
@@ -340,12 +352,22 @@ if(isset($_GET['task'])){
 		case 'getAllInputInBlock':
 			$zone_id = $oModuleHtmlZone->setInt($_GET['id']);
 			$data = $oModuleHtmlZone->getAllInputInBlock($zone_id);
+			if(!empty($data)) {
+				foreach ($data as $key => $value) {
+					$data[$key]['params'] = $oModule->getString($value['params']);
+				}
+			}
 			echo json_encode($data);
 		break;
 		case 'getAllInputInBlock_lang':
 			$zone_id = $oModuleHtmlZone->setInt($_GET['id']);
 			$language = $oModuleHtmlZone->setString($_GET['language']);
 			$data = $oModuleHtmlZone->getAllInputInBlock_lang($zone_id,$language);
+			if(!empty($data)) {
+				foreach ($data as $key => $value) {
+					$data[$key]['params'] = $oModule->getString($value['params']);
+				}
+			}
 			echo json_encode($data);
 		break;
 		case 'saveDataHTML':
@@ -416,8 +438,8 @@ if(isset($_GET['task'])){
 					}
 					$row_chk = '<input name="table_select_'.$value['zone_id'].'" id="table_select_'.$value['zone_id'].'" class="table_checkbox" type="checkbox" value="'.$value['zone_id'].'" />&nbsp;'.($cnt+$iDisplayStart);
 					$showname = $value['name'].'<input name="showName_'.$value['zone_id'].'" id="showName_'.$value['zone_id'].'" type="hidden" value="'.$value['name'].'" />'.'<input name="showSlug_'.$value['zone_id'].'" id="showSlug_'.$value['zone_id'].'" type="hidden" value="'.$value['slug'].'" />';
-					$value['category'] = (empty($value['category']))?' - ':$value['category'] ;
-					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$iconbar,4=>$value['zone_id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['zone_id']);
+					$value['category'] = (empty($value['category']))?' - ':$value['category'];
+					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$iconbar,4=>$value['zone_id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['zone_id']);
 					$cnt++;
 				}
 			}

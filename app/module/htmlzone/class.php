@@ -208,15 +208,17 @@ class Zonehtml extends Database {
 		//$data = $this->_find($type,$key,$slug,$status,$language,$search,$filter,$order,$sort,$separate,$pagenate,$page,$length,$oParent);
 		$data = '';
 		if($type=='one') {
-			$this->sql = "select * from html_zone where html_zone.zone_id = $key ";
+			$this->sql = "select zone_id from html_zone where html_zone.zone_id = $key ";
 			$this->select();
 			$data = $this->rows[0];
 			if($language==SITE_LANGUAGE||SITE_TRANSLATE==false){
-				$this->sql = "select html_zone_input.*, html_zone_data.zone_data_id , html_zone_data.params from html_zone_input left join html_zone_data on html_zone_input.zone_input_id = html_zone_data.zone_input_id where html_zone_input.zone_id = ".$data['zone_id']." ";
+				$this->sql = "select html_zone_input.name , html_zone_data.params from html_zone_input left join html_zone_data on html_zone_input.zone_input_id = html_zone_data.zone_input_id where html_zone_input.zone_id = ".$data['zone_id']." ";
+				// $this->sql = "select html_zone_input.*, html_zone_data.zone_data_id , html_zone_data.params from html_zone_input left join html_zone_data on html_zone_input.zone_input_id = html_zone_data.zone_input_id where html_zone_input.zone_id = ".$data['zone_id']." ";
 				$this->select();
 				$data['html_data'] = $this->rows;
 			} else {
-				$this->sql = "select html_zone_input.*, html_zone_data_translate.zone_data_id , html_zone_data_translate.params from html_zone_input left join html_zone_data_translate on html_zone_input.zone_input_id = html_zone_data_translate.zone_input_id where html_zone_input.zone_id = ".$data['zone_id']." and html_zone_data_translate.lang = '$language' ";
+				$this->sql = "select html_zone_input.name , html_zone_data_translate.params from html_zone_input left join html_zone_data_translate on html_zone_input.zone_input_id = html_zone_data_translate.zone_input_id where html_zone_input.zone_id = ".$data['zone_id']." and html_zone_data_translate.lang = '$language' ";
+				// $this->sql = "select html_zone_input.*, html_zone_data_translate.zone_data_id , html_zone_data_translate.params from html_zone_input left join html_zone_data_translate on html_zone_input.zone_input_id = html_zone_data_translate.zone_input_id where html_zone_input.zone_id = ".$data['zone_id']." and html_zone_data_translate.lang = '$language' ";
 				$this->select();
 				$data['html_data'] = $this->rows;
 			}
