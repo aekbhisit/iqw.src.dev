@@ -303,6 +303,10 @@ if(isset($_GET['task'])){
 			$id = $oModule->setInt($_GET['id']);
 			$lang = $oModule->setString($_GET['language']);
 			$data = $oModule->getTranslate($id,$lang);
+			$data['name'] = $oModule->getString($data['name']);
+			$data['content'] = $oModule->getString($data['content']);
+			$data['meta_key'] = $oModule->getString($data['meta_key']);
+			$data['meta_description'] = $oModule->getString($data['meta_description']);
 			echo json_encode($data);
 		break ;
 		case 'saveTranslate':
@@ -330,7 +334,7 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $oModule->setString($_GET['sSearch']); 
+			$sSearch = $oModule->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
 				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
@@ -371,7 +375,7 @@ if(isset($_GET['task'])){
 			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
-			$iDisplayStart= $_GET['iDisplayStart'];
+			$iDisplayStart = $_GET['iDisplayStart'];
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
 			$iSortCol_0 = $_GET['iSortCol_0'];
 			$sSortDir_0 = $_GET['sSortDir_0'];
@@ -380,7 +384,7 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $oModule->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
 				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
@@ -421,7 +425,7 @@ if(isset($_GET['task'])){
 			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
-			$iDisplayStart= $_GET['iDisplayStart'];
+			$iDisplayStart = $_GET['iDisplayStart'];
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
 			$iSortCol_0 = $_GET['iSortCol_0'];
 			$sSortDir_0 = $_GET['sSortDir_0'];
@@ -430,18 +434,18 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $oModule->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
-				$search =  " WHERE ( $oModule->table.name like '%$sSearch%' or  $oModule->table.slug like '%$sSearch%') ";
+				$search =  " WHERE ( $oModule->table.name like '%$sSearch%' or $oModule->table.slug like '%$sSearch%') ";
 			}
 			$data = $oModule->getAll($search,$orderby,$limit);
 			$iTotal = $oModule->getSize();
 			$iFilteredTotal = count($data);
 			$output = array(
-				"sEcho" => intval($_GET['sEcho']),
-				"iTotalRecords" => $iTotal,
-				"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-				"aaData" => array()
+				"sEcho"=>intval($_GET['sEcho']),
+				"iTotalRecords"=>$iTotal,
+				"iTotalDisplayRecords"=>$iTotal, // $iFilteredTotal,
+				"aaData"=>array()
 			);
 			$cnt = 1;
 			if(!empty($data)){
@@ -465,60 +469,59 @@ if(isset($_GET['task'])){
 			echo json_encode($output);
 		break;
 		case "loadFindOneInit":
-			$id = addslashes($_GET['id']);
+			$id = $oModule->setInt($_GET['id']);
 			$data = $oModule->getOne($id);
-			$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
-			$data['meta_key']=htmlspecialchars_decode($data['meta_key'],ENT_QUOTES);
-			$data['meta_description']=htmlspecialchars_decode($data['meta_description'],ENT_QUOTES);
+			$data['name'] = $oModule->getString($data['name']);
+			$data['meta_key'] = $oModule->getString($data['meta_key']);
+			$data['meta_description'] = $oModule->getString($data['meta_description']);
 			echo json_encode($data,true);
 		break;	
 		case 'loadFindCategoryInit':
-			$id = addslashes($_GET['id']);
+			$id = $oCategories->setInt($_GET['id']);
 			$data = $oCategories->getCategory($id);
-			$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
-			$data['description']=htmlspecialchars_decode($data['description'],ENT_QUOTES);
+			$data['name'] = $oCategories->getString($data['name']);
+			$data['description'] = $oCategories->getString($data['description']);
 			echo json_encode($data,true);
 		break;
 		////////////////  reorder function /////////////
 		case 'loadCategoriesFilter':
-					$categories = $oCategories->getCategoriesTreeAll();
-					$options = '<option value="0">--หมวดหมู่ทั้งหมด--</option>';
-					$cnt =1 ;
-					if(!empty($categories)){
-						foreach($categories as $c){
-							$indent = '';
-							if($c['level']>0){
-								if($c['level']>1){
-									$indent =  str_pad($indent,$c['level']-1,'-');
-								}
-								$options .= '<option value="'.$c['id'].'" >'.$indent.$c['name'].'</option>';
-							}
-							}
-					 }
-					echo $options ;
-				break;
-			case 'reorderData':
-						$id = explode('-',$_GET['id']) ;
-						$sort = explode('-',$_GET['sort']) ;
-						$oModule->reOrderDataDragDrop($id,$sort);
-			break ;		
-			case 'switchOrder';
-				$id=$_GET['id'];
-				$sort = $_GET['sort'] ;
-				$oModule->switchOrder($id,$sort);
-			break ;	
-			case 'setReorderAll' :
-				$columns = array('id','name','category_id','mdate','sequence','id','id');
-				$column = $columns[(int)$_GET['column']] ;
-				$direction =strtoupper(addslashes($_GET['direction']));
-				$oModule->setReorderAll($column,$direction);
-			break; 
-			case 'changeCategory':
-				$id=$_GET['id'];
-				$category_id = $_GET['category_id'] ;
-				$oModule->changeCategory($id,$category_id);
-			break;	
-				
+			$categories = $oCategories->getCategoriesTreeAll();
+			$options = '<option value="0">--หมวดหมู่ทั้งหมด--</option>';
+			$cnt = 1;
+			if(!empty($categories)){
+				foreach($categories as $c){
+					$indent = '';
+					if($c['level']>0){
+						if($c['level']>1){
+							$indent =  str_pad($indent,$c['level']-1,'-');
+						}
+						$options .= '<option value="'.$c['id'].'" >'.$indent.$c['name'].'</option>';
+					}
+				}
+			}
+			echo $options;
+		break;
+		case 'reorderData':
+			$id = explode('-',$_GET['id']);
+			$sort = explode('-',$_GET['sort']);
+			$oModule->reOrderDataDragDrop($id,$sort);
+		break;		
+		case 'switchOrder';
+			$id = $oModule->setInt($_GET['id']);
+			$sort = $oModule->setInt($_GET['sort']);
+			$oModule->switchOrder($id,$sort);
+		break;	
+		case 'setReorderAll':
+			$columns = array('id','name','category_id','mdate','sequence','id','id');
+			$column = $columns[(int)$_GET['column']];
+			$direction = strtoupper($oModule->setString($_GET['direction']));
+			$oModule->setReorderAll($column,$direction);
+		break; 
+		case 'changeCategory':
+			$id = $oModule->setInt($_GET['id']);
+			$category_id = $oModule->setInt($_GET['category_id']);
+			$oModule->changeCategory($id,$category_id);
+		break;	
 		////////////////task for frontend  ///////////
 		case "find":
 			$language = LANG;
