@@ -1,5 +1,5 @@
 // JavaScript Document
-var modules = "views";
+var modules = "menus";
 (function($) {
 	$(document).ready(function(e) {
 		categoryFormInit() ;
@@ -9,7 +9,7 @@ var modules = "views";
 }) (jQuery);
 
 function gotoManagePage(){
-	var url = 'categories.php'; 
+	var url = 'index.php'; 
 	window.location.replace(url);
 }
 
@@ -31,7 +31,7 @@ function categoryFormInit(){
 				}
 				$('#categories_status').find('option:[value="'+data.status+'"]').attr('selected','selected');
 			}else{
-				loadNowCategories(0) ;
+				//loadNowCategories(0) ;
 			}
 	});
 }
@@ -68,12 +68,13 @@ function loadNowCategories(selected){
 
 function setSaveCategories(){
 	var d = new Date();	
-	var url = "../../app/index.php?module="+modules+"&task=saveCategory&d"+d.getTime() ;
+	var url = "../../app/index.php?module="+modules+"&task=saveCategoryMenu&d"+d.getTime() ;
 	$.ajax({
 		  type: 'POST', 
 		  url: url, 
 		  enctype: 'multipart/form-data', 
 		  data: $('#categories_form').serialize(),
+		  dataType: 'json',
 		  beforeSend: function() {
 				$('#categories_form').validate({ 
 					rules: {
@@ -96,8 +97,11 @@ function setSaveCategories(){
 				return $('#categories_form').valid();
 			  },
 		  success: function(data){
-			  //alert(data);
-			 gotoManagePage()
+			if(data.response == "0"){
+				gotoManagePage();
+			}else{
+				alert('ไม่สามารถเพิ่มเมนูได้ กรุณาลองใหม่อีกครั้ง');
+			}
 		 }
 	});
 	

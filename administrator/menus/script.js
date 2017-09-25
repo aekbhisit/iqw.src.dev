@@ -14,7 +14,7 @@ var modules = "menus";
            		 	"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",
            		 	"sZeroRecords": "ขออภัยไม่พบข้อมูล",
             		"sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
-            		"sInfoEmpty": "แสดง 0 ถึิง 0 จาก 0 รายการ",
+            		"sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 รายการ",
             		"sInfoFiltered": "(กรองข้อมูลจาก _MAX_ รายการทั้งหมด)",
 					"oPaginate": {
        					 "sFirst": "หน้าแรก",
@@ -70,7 +70,7 @@ function setStatus(id,status){
 	var url = "../../app/index.php?module="+modules+"&task=setStatus&status="+status+"&id="+id+"&d"+d.getTime() ;
 	$.get(url, function(data){
 		reloadTableData(oTable);
-		$.jGrowl("แจ้งเตือน ! <br>เปลี่ยนสถานะเว็บเพจสำเร็จ", {position: "bottom-right"});
+		$.jGrowl("แจ้งเตือน ! <br>เปลี่ยนสถานะเมนูสำเร็จ", {position: "bottom-right"});
 	});
 }
 
@@ -94,16 +94,48 @@ function setTranslate(id){
 }
 
 
-function setDelete(id){
-	if(confirm('ยืนยันลบหมวดหมู่')){
+function setDelete(id,title){
+	if(confirm('ยืนยันการลบกลุ่มเมนู '+title+' ?')){
 		var d= new Date();
 		var url = "../../app/index.php?module="+modules+"&task=setDelete&id="+id+"&d"+d.getTime() ;
 		$.get(url, function(data){
+			if(data == 0){
 				reloadTableData(oTable);
 				$.jGrowl("แจ้งเตือน ! <br> ลบเว็บเพจสำเร็จ", {position: "bottom-right"});
-			
+			}else{
+				$.jGrowl("ผิดพลาด ! <br> ไม่สามารถลบข้อมูลได้ กรุณาลองใหม่", {position: "bottom-right"});
+			}
 		});
 	}
+}
+
+function setCheckAll(){
+	var is_checked =$('#checkboxAll').attr('checked');
+	if(is_checked=='checked'||is_checked==true){
+		$('#da-ex-datatable-numberpaging').find('input.table_checkbox').each(function(){
+			$(this).attr('checked','checked');	
+		});
+		$('#checkboxAll').attr('checked','checked');
+	}else{
+		$('#da-ex-datatable-numberpaging').find('input.table_checkbox').each(function(){
+			$(this).removeAttr('checked');	
+		});
+		$('#checkboxAll').removeAttr('checked');
+	}
+}
+
+function setDeleteSelectedData(){
+	var selected = getTableCheckboxChecked() ;
+	if(selected.length<=0){
+			$.jGrowl("แจ้งเตือน ! <br> ท่านต้องเลือกรายการที่ต้องการลบอย่างน้อย 1 รายการ", {position: "bottom-right"});
+		}else{
+			if(confirm('ยืนยันลบข้อมูลที่เลือก !')){
+				$.each(selected,function(index,value){
+						setDeleteData(value,true,selected.length,index) ;
+				})	;
+			}
+		}
+		
 }
 
 function setMove(id,position){

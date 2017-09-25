@@ -1,7 +1,7 @@
 <?php @include ("../inc/auth.inc.php") ; ?>
 <?php
 $modules = 'menus';
-$modules_name = 'menus';
+$modules_name = 'จัดการเมนู';
 $module_active = 'menus' ;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -89,7 +89,7 @@ $module_active = 'menus' ;
 
 <!-- Demo JavaScript Files -->
 <!--<script type="text/javascript" src="js/demo/demo.files.js"></script>-->
-
+<?php include('../all-pages-include-script.php'); ?>
 <!-- Custom script for all page -->
 <script type="text/javascript" src="../all-pages-script.js"></script>
 
@@ -124,7 +124,7 @@ $module_active = 'menus' ;
                     <?php 
 					$breadcrumbs = array(
 						0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>''),
-						1=>array('name'=>'หมวดหมู่','alt'=>'Categoies','link'=>'categories.php','class'=>''),
+						1=>array('name'=>'หมวดหมู่','alt'=>'Categoies','link'=>'categories-form.php','class'=>''),
 						2=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
 					);
 					include('../inc/breadcrumbs.php');
@@ -171,7 +171,7 @@ $module_active = 'menus' ;
                             	<div class="da-panel-header">
                                 	<span class="da-panel-title">
                                         <img src="../images/icons/black/16/pencil.png" alt="" />
-                                        เพิ่มหมวดหมู่
+                                        เพิ่มกลุ่มเมนู
                                     </span>
                                     
                                 </div>
@@ -180,51 +180,11 @@ $module_active = 'menus' ;
                                 	<form class="da-form" name="categories_form" id="categories_form" enctype="multipart/form-data" onsubmit="setSaveCategories();return false;">
                                  		<input name="categories_id"  id="categories_id" type="hidden" value="" />
                                     	<div class="da-form-inline">
-                                         	 <div class="da-form-row">
-                                                <label>หมวดหมู่หลัก<span class="required">*</span></label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote"  >เลือกหมวดหมู่หลัก (ถ้ามี)</span>
-                                                    <select id="categories_parent" name="categories_parent" disabled="disabled" ></select>
-                                                </div>
-                                            </div>
                                             <div class="da-form-row">
-                                                <label>ชื่อหมวดหมู่ <span class="required">*</span></label>
+                                                <label>ชื่อกลุ่มเมนู<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote" >ใส่ชื่อหมวดหมู่</span>
+                                                	<span class="formNote" >ใส่ชื่อกลุ่มเมนู</span>
                                                     <input type="text" name="categories_name" id="categories_name" value="" />
-                                                </div>
-                                            </div>
-                                             <div class="da-form-row">
-                                                <label>Slug</label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote"  >ใส่ Slug หมวดหมู่</span>
-                                                    <input type="text" name="categories_slug" id="categories_slug" value="" />
-                                                </div>
-                                            </div>
-                                            <div class="da-form-row">
-                                                <label>คำอธิบายหมวดหมู่</label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote"  >ใส่คำอธิบายหมวดหมู่</span>
-                                                   <textarea id="categories_description" name="categories_description" style="overflow-x: hidden; overflow-y: hidden; height: 50px; "></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="da-form-row">
-                                                <label>ภาพหมวดหมู่</label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote" >ใส่ภาพหลักหมวดหมู่ถ้ามี</span>
-                                                    <div id="finder"></div>
-                                                     <input type="text" name="categories_server_images" id="categories_server_images" value="" class="elfinder-browse" />
-                                                     <img src="" id="show-categories-image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
-                                                </div>
-                                            </div>
-                                      		<div class="da-form-row">
-                                                <label>เปิดใช้งาน<span class="required">*</span></label>
-                                                <div class="da-form-item small">
-                                                	<span class="formNote">เลือกสถานการใช้งานหมวดหมู่</span>
-                                                    <select id="categories_status" name="categories_status" >
-                                                    <option value="1">เปิดใช้งาน</option>
-                                                    <option value="0">ปิดใช้งาน</option>
-                                                    </select>
                                                 </div>
                                             </div>
                                    			<div class="da-button-row">
