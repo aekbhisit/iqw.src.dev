@@ -506,7 +506,7 @@ if(isset($_GET['task'])){
 			if(is_array($key)&&!empty($key)){
 				$keys = $key;
 				foreach($keys as $key){
-					$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
+					$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oModuleHtmlZone);
 					if($separate){
 						$listQueryData =$_DATA[$data_key];
 						$_DATA[$data_key] = NULL;
@@ -516,25 +516,25 @@ if(isset($_GET['task'])){
 					}
 					if($count){
 						if(!empty($key)){
-							$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+							$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oModuleHtmlZone);
 							$_DATA['TOTALPAGE'][$data_key] = ceil((int)$_DATA['COUNT'][$data_key]/$length);
 							$_DATA['PAGE'][$data_key] = $page;
 						}else{
-							$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+							$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oModuleHtmlZone);
 							$_DATA['TOTALPAGE'][$data_key] = ceil((int)$_DATA['COUNT'][$data_key]/$length);
 							$_DATA['PAGE'][$data_key] = $page;
 						}
 					}
 				}
 			}else{
-				$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
+				$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oModuleHtmlZone);
 				if($count){
 					if(!empty($key)){
-						$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+						$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oModuleHtmlZone);
 						$_DATA['TOTALPAGE'][$data_key] = ceil((int)$_DATA['COUNT'][$data_key]/$length);
 						$_DATA['PAGE'][$data_key] = $page;
 					}else{
-						$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+						$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oModuleHtmlZone);
 						$_DATA['TOTALPAGE'][$data_key] = ceil((int)$_DATA['COUNT'][$data_key]/$length);
 						$_DATA['PAGE'][$data_key] = $page;
 					}
