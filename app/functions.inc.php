@@ -110,38 +110,44 @@ function convertMonth($MM,$format,$lang){
 			}
 		break;
 		case "th":
-			case "MM":
-			case "MMM":
-					case '01':  return 'ม.ค.' ; break ;
-					case '02':  return 'ก.พ.' ; break ;
-					case '03':  return 'มี.ค.' ; break ;
-					case '04':  return 'เม.ย.' ; break ;
-					case '05':  return 'พ.ค.' ; break ;
-					case '06':  return 'มิ.ย.' ; break ;
-					case '07':  return 'ก.ค.' ; break ;
-					case '08':  return 'ส.ค.' ; break ;
-					case '09':  return 'ก.ย.' ; break ;
-					case '10':  return 'ต.ค.' ; break ;
-					case '11':  return 'พ.ค.' ; break ;
-					case '12':  return 'ธ.ค.' ; break ;
+			switch($format){
+				case "MM":
+				case "MMM":
+					switch($MM){
+						case '01':  return 'ม.ค.'; break ;
+						case '02':  return 'ก.พ.'; break ;
+						case '03':  return 'มี.ค.'; break ;
+						case '04':  return 'เม.ย.'; break ;
+						case '05':  return 'พ.ค.'; break ;
+						case '06':  return 'มิ.ย.'; break ;
+						case '07':  return 'ก.ค.'; break ;
+						case '08':  return 'ส.ค.'; break ;
+						case '09':  return 'ก.ย.'; break ;
+						case '10':  return 'ต.ค.'; break ;
+						case '11':  return 'พ.ค.'; break ;
+						case '12':  return 'ธ.ค.'; break ;
+					}
 				break;
 				case "MMMM":
-						case '01':  return 'มกราคม' ; break ;
-						case '02':  return 'กุมภาพันธ์' ; break ;
-						case '03':  return 'มีนาคม' ; break ;
-						case '04':  return 'เมษายน' ; break ;
-						case '05':  return 'พฤษภาคม' ; break ;
-						case '06':  return 'มิถุนายน' ; break ;
-						case '07':  return 'กรกฎาคม' ; break ;
-						case '08':  return 'สิงหาคม' ; break ;
-						case '09':  return 'กันยายน' ; break ;
-						case '10':  return 'ตุลาคม' ; break ;
-						case '11':  return 'พฤษภาคม' ; break ;
-						case '12':  return 'ธันวาคม' ; break ;
+					switch($MM){
+						case '01':  return 'มกราคม'; break;
+						case '02':  return 'กุมภาพันธ์'; break;
+						case '03':  return 'มีนาคม'; break;
+						case '04':  return 'เมษายน'; break;
+						case '05':  return 'พฤษภาคม'; break;
+						case '06':  return 'มิถุนายน'; break;
+						case '07':  return 'กรกฎาคม'; break;
+						case '08':  return 'สิงหาคม'; break;
+						case '09':  return 'กันยายน'; break;
+						case '10':  return 'ตุลาคม'; break;
+						case '11':  return 'พฤษภาคม'; break;
+						case '12':  return 'ธันวาคม'; break;
+					}
 				break;
 				default:
-						return $MM ;
-				break ;
+					return $MM;
+				break;
+			}
 		break;
 	}
 }
