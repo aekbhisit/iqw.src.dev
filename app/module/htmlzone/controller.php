@@ -230,11 +230,13 @@ if(isset($_GET['task'])){
 			echo json_encode($lang);
 		break;
 		case 'formInitHtmlZone':
-			$id = $oModule->setInt($_GET['id']);
-			$data = $oModuleHtmlZone->getOneHtmlZone($id);
-			$data['name'] = $oModule->setString($data['name']);
-			$data['description'] = $oModule->setString($data['description']);
-			echo json_encode($data);
+			if($_GET['mode']=='edit') {
+				$id = $oModule->setInt($_GET['id']);
+				$data = $oModuleHtmlZone->getOneHtmlZone($id);
+				$data['name'] = $oModule->setString($data['name']);
+				$data['description'] = $oModule->setString($data['description']);
+				echo json_encode($data);
+			}
 		break;
 		case 'getDataHTMLZone':
 			$columns = array('zone_input_id','name','zone_id','mdate','sequence','zone_input_id','zone_input_id');
@@ -437,7 +439,7 @@ if(isset($_GET['task'])){
 						$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/stop.png" title="ปิด" /></a>';
 					}
 					$row_chk = '<input name="table_select_'.$value['zone_id'].'" id="table_select_'.$value['zone_id'].'" class="table_checkbox" type="checkbox" value="'.$value['zone_id'].'" />&nbsp;'.($cnt+$iDisplayStart);
-					$showname = $value['name'].'<input name="showName_'.$value['zone_id'].'" id="showName_'.$value['zone_id'].'" type="hidden" value="'.$value['name'].'" />'.'<input name="showSlug_'.$value['zone_id'].'" id="showSlug_'.$value['zone_id'].'" type="hidden" value="'.$value['slug'].'" />';
+					$showname = $value['name'].'<input name="showName_'.$value['zone_id'].'" id="showName_'.$value['zone_id'].'" type="hidden" value="'.$value['name'].'" />'.'<input name="showSlug_'.$value['zone_id'].'" id="showSlug_'.$value['zone_id'].'" type="hidden" value="'.$value['name'].'" />';
 					$value['category'] = (empty($value['category']))?' - ':$value['category'];
 					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$iconbar,4=>$value['zone_id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['zone_id']);
 					$cnt++;
