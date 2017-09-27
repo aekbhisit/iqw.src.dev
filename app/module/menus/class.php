@@ -337,6 +337,12 @@ class Menus extends Database {
 		}
 	}
 
+	public function checkHaveChildren($id){
+		$this->sql = "select * from $this->table where parent_id = $id";
+		$this->select();   
+		return $this->rows ;
+	}
+
 	public function setInsertData($data)
 	{
 		if($data['parent_id']==0)
@@ -482,6 +488,22 @@ class Menus extends Database {
 		}
 		$this->sql = "delete from menus_categories where category_id = $category_id ";
 		$this->delete();
+	}
+
+	public function findOneMenuGroup($id,$language){
+		if(!empty($language)&&$language!=$this->site_language){
+			$this->sql = "select m.*, t.* from $this->table m
+						  left join $this->translate_table t on (m.menu_id = t.menu_id)
+						  where m.status = 1 and m.$this->parent_primary_key = $id and t.lang='$language'
+						  order by m.n_left asc ";
+			$this->select();
+		}else{
+			$this->sql = "select * from $this->table where status = 1 and $this->parent_primary_key = $id order by n_left asc ";
+			$this->select();
+		}
+		//echo $this->sql; exit;
+		$data = $this->rows;
+		return $data;
 	}
 
 	//---- END : Function for Krungthaicarrent (Start from 12/09/2017) ----//

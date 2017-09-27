@@ -1,6 +1,7 @@
 <?php
 if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
+
 // config module
 $params_category = array(
 	'module'=>'menus_categories',
@@ -24,6 +25,7 @@ $params = array(
 );
 $oModule = new Menus($params);
 if(isset($_GET['task'])){
+	
 	$task = $_GET['task'];
 	switch($task){
 		// categories task   
@@ -222,20 +224,32 @@ if(isset($_GET['task'])){
 			$cnt = 1;
 			if(!empty($data)){
 				foreach($data as $key =>$value){
-					if($value['status']==1){	
-						$iconbar = '<a href="javascript:void(0)" onclick="setStatus('.$value['category_id'].',0)" ><img src="../images/icons/color/target.png" title="เปิด" /></a>&nbsp;';
-					}else{
-						$iconbar = '<a href="javascript:void(0)" onclick="setStatus('.$value['category_id'].',1)" ><img src="../images/icons/color/stop.png" title="ปิด" /></a>&nbsp;';
+					if($acc['menus']['edit'] == 1){
+						if($value['status']==1){	
+							$iconbar = '<a href="javascript:void(0)" onclick="setStatus('.$value['category_id'].',0)" ><img src="../images/icons/color/target.png" title="เปิด" /></a>&nbsp;';
+						}else{
+							$iconbar = '<a href="javascript:void(0)" onclick="setStatus('.$value['category_id'].',1)" ><img src="../images/icons/color/stop.png" title="ปิด" /></a>&nbsp;';
+						}
+						// $iconbar .=	'<a href="javascript:void(0)" onclick="setDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>';
+						if(SITE_TRANSLATE){				
+							$iconbar .=	'<a href="javascript:void(0)" onclick="setTranslate('.$value['category_id'].')"><img src="../images/icons/color/style.png" title="แปลภาษา" /></a>';
+						}
 					}
-					// $iconbar .=	'<a href="javascript:void(0)" onclick="setDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>';
-					if(SITE_TRANSLATE){				
-						$iconbar .=	'<a href="javascript:void(0)" onclick="setTranslate('.$value['category_id'].')"><img src="../images/icons/color/style.png" title="แปลภาษา" /></a>';
+					if($acc['menus']['delete'] == 1){
+						$iconbar .= '<a href="javascript:void(0)" onclick="setDelete('.$value['category_id'].',\''.$value['title'].'\')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>';
 					}
-					$iconbar .= '<a href="javascript:void(0)" onclick="setDelete('.$value['category_id'].',\''.$value['title'].'\')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>';
+					if($acc['menus']['edit'] == 1){
 					$order = '<a href="javascript:void(0)" onclick="setMove('.$value['category_id'].',\'up\')"><img src="../images/icons/black/16/arrow_up_small.png" title="ขึ้น" /></a><a href="javascript:void(0)" onclick="setMove('.$value['category_id'].',\'down\')" ><img src="../images/icons/black/16/arrow_down_small.png" title="ลง" /></a>';
 					$order = '<input name="sequence_'.$value['category_id'].'" id="sequence_'.$value['category_id'].'" type="text"  value="'.$value['sequence'].'" title="'.$value['sequence'].'" style="width:40px;" onblur="switchDataOrder('.$value['category_id'].')" />';
+					}else{
+						$order = $value['sequence'];
+					}
 					$row_chk = '<input name="table_select_'.$value['category_id'].'" id="table_select_'.$value['category_id'].'" class="table_checkbox" type="checkbox" value="'.$value['category_id'].'" />&nbsp;'.($cnt+$iDisplayStart);
-					$showname = '<a href="javascript:void(0)" onclick="setEdit('.$value['category_id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$value['title'].'</a>';
+					if($acc['menus']['edit'] == 1){
+						$showname = '<a href="javascript:void(0)" onclick="setEdit('.$value['category_id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$value['title'].'</a>';
+					}else{
+						$showname = $value['title'];
+					}
 					$value['category'] = (empty($value['category']))?'  - ':$value['category'] ;
 					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['mdate'],3=>$iconbar,4=>$value['category_id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['category_id']);
 					$cnt++;
@@ -557,53 +571,56 @@ if(isset($_GET['task'])){
 					$count =  (!empty($_GET['count']))?$_GET['count']:0 ;
 					$data_key =  (!empty($_GET['data_key']))?$_GET['data_key']:$module;
 					
-				
-					if(is_array($key)&&!empty($key)){
-						$keys = $key ;
-						foreach($keys as $key){
-							$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
-						 if($separate){
-									$listQueryData =$_DATA[$data_key] ;
-									$_DATA[$data_key] = NULL ;
-									foreach( $listQueryData as $kk=>$val){
-										$_DATA[$data_key][$val['slug']] = $val ;
-									}
-							}
-							if($count){
-									if(!empty($key)){
-										$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
-										$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
-										$_DATA['PAGE'][$data_key]  =$page ;
-									}else{
-										$_DATA['COUNT'][$data_key]= $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
-										$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
-										$_DATA['PAGE'][$data_key]  =$page ;
-									}
-							}
-						}
-					}else{
-						$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
-						if($count){
-							if(!empty($key)){
-								$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
-								$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
-								$_DATA['PAGE'][$data_key]  =$page ;
-							}else{
-								$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
-								$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
-								$_DATA['PAGE'][$data_key]  =$page ;
-							}
-						}
-						if($separate){
-									$listQueryData = $_DATA[$data_key] ;
-									 $_DATA[$data_key] = NULL ;
-									 if(!empty($listQueryData)){
-										foreach( $listQueryData as $kk=>$val){
-											$_DATA[$data_key][$val['slug']] = $val ;
-										}
-									}
-							}
-					}
+					$list = $oModule->findOneMenuGroup($key[0],$language);
+					$_DATA[$data_key] = $list;
+
+
+					// if(is_array($key)&&!empty($key)){
+					// 	$keys = $key ;
+					// 	foreach($keys as $key){
+					// 		$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
+					// 	 if($separate){
+					// 				$listQueryData =$_DATA[$data_key] ;
+					// 				$_DATA[$data_key] = NULL ;
+					// 				foreach( $listQueryData as $kk=>$val){
+					// 					$_DATA[$data_key][$val['slug']] = $val ;
+					// 				}
+					// 		}
+					// 		if($count){
+					// 				if(!empty($key)){
+					// 					$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+					// 					$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
+					// 					$_DATA['PAGE'][$data_key]  =$page ;
+					// 				}else{
+					// 					$_DATA['COUNT'][$data_key]= $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+					// 					$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
+					// 					$_DATA['PAGE'][$data_key]  =$page ;
+					// 				}
+					// 		}
+					// 	}
+					// }else{
+					// 	$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
+					// 	if($count){
+					// 		if(!empty($key)){
+					// 			$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+					// 			$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
+					// 			$_DATA['PAGE'][$data_key]  =$page ;
+					// 		}else{
+					// 			$_DATA['COUNT'][$data_key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+					// 			$_DATA['TOTALPAGE'][$data_key]  = ceil((int)$_DATA['COUNT'][$data_key]/$length);
+					// 			$_DATA['PAGE'][$data_key]  =$page ;
+					// 		}
+					// 	}
+					// 	if($separate){
+					// 				$listQueryData = $_DATA[$data_key] ;
+					// 				 $_DATA[$data_key] = NULL ;
+					// 				 if(!empty($listQueryData)){
+					// 					foreach( $listQueryData as $kk=>$val){
+					// 						$_DATA[$data_key][$val['slug']] = $val ;
+					// 					}
+					// 				}
+					// 		}
+					// }
 				break ;
 
 		case 'setSaveMenuData' :
@@ -942,8 +959,13 @@ if(isset($_GET['task'])){
 
 		case 'setDeleteMenus' :
 			$id = $oModule->setInt($_GET['id']);
-			$oModule->setDeleteMenus($id);
-			echo 0 ;
+			$chk_submenu = $oModule->checkHaveChildren($id);
+			if(!empty($chk_submenu)){
+				echo 1 ;
+			}else{
+				$oModule->setDeleteMenus($id);
+				echo 0;
+			}
 		break;
 
 		case 'setDuplicateMenu':

@@ -214,6 +214,7 @@ function SaveAddMenuData(){
 					$.jGrowl("เพิ่มเมนูสำเร็จ ! <br> เมนูใหม่ถูกเพิ่มแล้ว", {position: "bottom-right"});
 					initGetList($('#cate_id').val());
 					$('#menuAddName').val("");
+					$('#menuAddType').val(0);
 					$('#addMenuModal').css('display','none');
 
 					// noty({force: true, layout: 'bottomRight', text:$.i18n._('menus_i_insert_data_completed'),  type: 'success',  timeout: 700, modal: true, callback: {
@@ -230,6 +231,7 @@ function SaveAddMenuData(){
 					$.jGrowl("อัพเดทเมนูสำเร็จ ! <br> เมนูใหม่ถูกอัพเดทแล้ว", {position: "bottom-right"});
 					initGetList($('#cate_id').val());
 					$('#menuAddName').val("");
+					$('#menuAddType').val(0);
 					$('#addMenuModal').css('display','none');
 					// noty({force: true, layout: 'bottomRight',  text:$.i18n._('menus_i_update_data_completed'),  type: 'success',  timeout: 700, modal: true, callback: {
 					// 	afterClose: function() { 
@@ -332,6 +334,9 @@ function setDeleteMenu(id,event){
 					$.jGrowl("ลบเมนูสำเร็จ ! <br> เมนูถูกลบแล้ว", {position: "bottom-right"});
 					initGetList(category_id);
 					break; 
+					case '1':
+					$.jGrowl("ผิดพลาด ! <br> ไม่สามารถลบเมนูนี้ได้ เนื้องจากมีเมนูย่อยอยู่่", {position: "bottom-right"});
+					break;
 					default:
 					$.jGrowl("ผิดพลาด ! <br> ไม่สามารถลบข้อมูลได้ กรุณาลองใหม่", {position: "bottom-right"});
 					break;
