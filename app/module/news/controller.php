@@ -41,13 +41,13 @@ if(isset($_GET['task'])){
 			$iSortCol_0 = $_GET['iSortCol_0'];
 			$sSortDir_0 = $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
-				$orderby = " order by  ".$columns[$iSortCol_0].' '.$sSortDir_0;
+				$orderby = " order by ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
-				$orderby = " order by  ".$columns[4].' '.$sSortDir_0;
+				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $_GET['sSearch']; 
+			$sSearch = $oCategories->setString($_GET['sSearch']); 
 			if(!empty($sSearch)){
-				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
+				$search = " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
 			$iTotal = $oCategories->getCategoriesSize();
@@ -102,26 +102,26 @@ if(isset($_GET['task'])){
 		break;
 		case 'categoryFormInit':
 			if($_GET['mode']=='edit'){
-				$id = $oModule->setInt($_GET['id']);
+				$id = $oCategories->setInt($_GET['id']);
 				$data = $oCategories->getCategory($id);
-				$data['name'] = $oModule->getString($data['name']);
-				$data['description'] = $oModule->getString($data['description']);
+				$data['name'] = $oCategories->getString($data['name']);
+				$data['description'] = $oCategories->getString($data['description']);
 				echo json_encode($data);
 			}
 		break;
 		case 'saveCategory':
 			$user = $oUsers->getAdminLoginUser();
-			$categories_id = $oModule->setInt($_POST["categories_id"]); 
-			$categories_parent = $oModule->setInt($_POST["categories_parent"]);
-			$categories_name = $oModule->setString($_POST["categories_name"]);
+			$categories_id = $oCategories->setInt($_POST["categories_id"]); 
+			$categories_parent = $oCategories->setInt($_POST["categories_parent"]);
+			$categories_name = $oCategories->setString($_POST["categories_name"]);
 			if(empty($_POST['categories_slug'])){
-				$categories_slug = $oModule->createSlug($categories_name);
+				$categories_slug = $oCategories->createSlug($categories_name);
 			}else{
-				$categories_slug = $_POST['categories_slug'];
+				$categories_slug = $oCategories->setString($_POST['categories_slug']);
 			}
-			$categories_description = $oModule->setString($_POST["categories_description"]);
-			$categories_images = $oModule->setString($_POST["categories_server_images"]);
-			$categories_status = $oModule->setInt($_POST["categories_status"]);
+			$categories_description = $oCategories->setString($_POST["categories_description"]);
+			$categories_images = $oCategories->setString($_POST["categories_server_images"]);
+			$categories_status = $oCategories->setInt($_POST["categories_status"]);
 			$categories_slug = urldecode($categories_slug);
 			if(!empty($categories_id)){
 				$oCategories->update_categories($categories_id,$categories_parent,$categories_name,$categories_slug,$categories_description,$categories_images,'',$user['id'],$categories_status);
@@ -131,16 +131,16 @@ if(isset($_GET['task'])){
 		break;
 		case 'duplicateCategory':
 			$user = $oUsers->getAdminLoginUser();
-			$id = $oModule->setInt($_GET['id']);
+			$id = $oCategories->setInt($_GET['id']);
 			$oCategories->duplicate_categories($id,$user['id']);
 		break;
 		case 'setCategoryStatus':
-			$id = $oModule->setInt($_GET['id']);
-			$status = $oModule->setInt($_GET['status']);
+			$id = $oCategories->setInt($_GET['id']);
+			$status = $oCategories->setInt($_GET['status']);
 			$oCategories->update_category_status($id,$status);
 		break;
 		case 'setCategoryDelete':
-			$id = $oModule->setInt($_GET['id']);
+			$id = $oCategories->setInt($_GET['id']);
 			$child = $oCategories->get_onlychild_node($id);
 			if(empty($child)){
 			 	$oCategories->delete_node($id);
@@ -150,8 +150,8 @@ if(isset($_GET['task'])){
 			}
 		break;
 		case 'setCategoryMove':
-			$id = $oModule->setInt($_GET['id']);
-			$position = $_GET['position'];
+			$id = $oCategories->setInt($_GET['id']);
+			$position = $oCategories->setString($_GET['position']);
 			$oCategories->move($id,$position);
 		break;
 		// translate
@@ -177,10 +177,10 @@ if(isset($_GET['task'])){
 			if($_GET['mode']=='edit'){
 				$id = $oModule->setInt($_GET['id']);
 				$data = $oModule->getOne($id);
-				$data['name'] = $oModule->setString($data['name']);
-				$data['content'] = $oModule->setString($data['content']);
-				$data['meta_key'] = $oModule->setString($data['meta_key']);
-				$data['meta_description'] = $oModule->setString($data['meta_description']);
+				$data['name'] = $oModule->getString($data['name']);
+				$data['content'] = $oModule->getString($data['content']);
+				$data['meta_key'] = $oModule->getString($data['meta_key']);
+				$data['meta_description'] = $oModule->getString($data['meta_description']);
 				echo json_encode($data);
 			}
 		break;
@@ -199,7 +199,7 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $oModule->setString($_GET['sSearch']); 
 			if($sSearch=='undefined'){
 				$sSearch = '';
 			}
@@ -212,7 +212,7 @@ if(isset($_GET['task'])){
 			}else{
 				$category_id = $_GET['filterCategoryID']; 
 				if($category_id>0){
-					$search =  " WHERE $oModule->table.category_id = $category_id ";
+					$search = " WHERE $oModule->table.category_id = $category_id ";
 				}
 			}
 			$data = $oModule->getAll($search,$orderby,$limit);
@@ -261,7 +261,7 @@ if(isset($_GET['task'])){
 			if(empty($_POST['slug'])){
 				$slug = $oModule->createSlug($_POST['name']);
 			}else{
-				$slug = $_POST['slug'];
+				$slug = $oModule->setString($_POST['slug']);
 			}
 			$description = $oModule->setString($_POST['description']);
 			$content = $oModule->setString($_POST['content']);
@@ -286,7 +286,7 @@ if(isset($_GET['task'])){
 		break;
 		case 'setMove':
 			$id = $oModule->setInt($_GET['id']);
-			$type = addslashes($_GET['type']);
+			$type = $oModule->setString($_GET['type']);
 			$oModule->moveRow($id,$type);
 		break;
 		case 'setDelete':
@@ -332,7 +332,7 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $oCategories->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
 				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
@@ -382,7 +382,7 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $_GET['sSearch']; 
+			$sSearch = $oCategories->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
 				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
@@ -400,9 +400,9 @@ if(isset($_GET['task'])){
 				foreach($categories as $key =>$value){
 					if($value['level']>0){
 						if($value['status']){	
-							$iconbar = '<a href="javascript:void(0)"  ><img src="../images/icons/color/target.png" title="เปิด" /></a>';
+							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/target.png" title="เปิด" /></a>';
 						}else{
-							$iconbar = '<a href="javascript:void(0)"  ><img src="../images/icons/color/stop.png"  title="ปิด" /></a>';
+							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/stop.png" title="ปิด" /></a>';
 						}
 						$indent = '';	
 						for($i=1;$i<$value['level'];$i++){
@@ -432,9 +432,9 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by  ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $oCategories->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
-				$search =  " WHERE ( $oModule->table.name like '%$sSearch%' or  $oModule->table.slug like '%$sSearch%') ";
+				$search = " WHERE ( $oModule->table.name like '%$sSearch%' or  $oModule->table.slug like '%$sSearch%') ";
 			}
 			$data = $oModule->getAll($search,$orderby,$limit);
 			$iTotal = $oModule->getSize();
@@ -465,16 +465,16 @@ if(isset($_GET['task'])){
 		case "loadFindOneInit":
 			$id = $oModule->setInt($_GET['id']);
 			$data = $oModule->getOne($id);
-			$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
-			$data['meta_key']=htmlspecialchars_decode($data['meta_key'],ENT_QUOTES);
-			$data['meta_description']=htmlspecialchars_decode($data['meta_description'],ENT_QUOTES);
+			$data['name'] = $oModule->getString($data['name']);
+			$data['meta_key'] = $oModule->getString($data['meta_key']);
+			$data['meta_description'] = $oModule->getString($data['meta_description']);
 			echo json_encode($data,true);
 		break;
 		case 'loadFindCategoryInit':
 			$id = $oModule->setInt($_GET['id']);
 			$data = $oCategories->getCategory($id);
-			$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
-			$data['description']=htmlspecialchars_decode($data['description'],ENT_QUOTES);
+			$data['name'] = $oModule->getString($data['name']);
+			$data['description'] = $oModule->getString($data['description']);
 			echo json_encode($data,true);
 		break;
 		////////////////  reorder function /////////////
@@ -496,19 +496,19 @@ if(isset($_GET['task'])){
 			echo $options;
 		break;
 		case 'reorderData':
-			$id = explode('-',$_GET['id']) ;
-			$sort = explode('-',$_GET['sort']) ;
+			$id = explode('-',$_GET['id']);
+			$sort = explode('-',$_GET['sort']);
 			$oModule->reOrderDataDragDrop($id,$sort);
 		break ;		
 		case 'switchOrder';
 			$id = $oModule->setInt($_GET['id']);
-			$sort = $_GET['sort'];
+			$sort = $oModule->setInt($_GET['sort']);
 			$oModule->switchOrder($id,$sort);
 		break ;	
 		case 'setReorderAll':
 			$columns = array('id','name','category_id','mdate','sequence','id','id');
 			$column = $columns[(int)$_GET['column']] ;
-			$direction =strtoupper(addslashes($_GET['direction']));
+			$direction = strtoupper(addslashes($_GET['direction']));
 			$oModule->setReorderAll($column,$direction);
 		break; 
 		case 'changeCategory':
@@ -559,6 +559,7 @@ if(isset($_GET['task'])){
 					}
 				}
 			}else{
+				$key = $oModule->setInt($key);
 				$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
 				if($count){
 					if(!empty($key)){
