@@ -9,7 +9,7 @@ if(isset($_GET['task'])){
 		case 'getStatsData':
 			$columns = array('id','ip','browser','platform','date');
 			$limit = '';
-			$orderby ='' ;
+			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart= $_GET['iDisplayStart'];
@@ -17,10 +17,9 @@ if(isset($_GET['task'])){
 			$iSortCol_0= $_GET['iSortCol_0'];
 			$sSortDir_0= $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
-				//$orderby = " order by  $oStats->table.".$columns[$iSortCol_0].' '.$sSortDir_0 ;
-				$orderby = " order by  stats_visit.date desc";
+				$orderby = " order by stats_visit.date desc";
 			}else{
-				$orderby = " order by  stats_visit.date desc";
+				$orderby = " order by stats_visit.date desc";
 			}
 			$sSearch= $_GET['sSearch']; 
 			if(!empty($sSearch)){
@@ -30,24 +29,22 @@ if(isset($_GET['task'])){
 			$iTotal = $oStats->getStatsSize();
 			$iFilteredTotal = count($stats);
 			$output = array(
-							"sEcho" => intval($_GET['sEcho']),
-							"iTotalRecords" => $iTotal,
-							"iTotalDisplayRecords" => $iTotal,  // $iFilteredTotal,
-							"aaData" => array()
-						);
-					$cnt = $iDisplayStart+1;
-					if(!empty($stats)){
-					foreach($stats as $key =>$value){
-						$iconbar ='<a href="'.$value['url'].'" target="_blank"><img src="../images/icons/color/magnifier.png" /></a>';
-						$row_chk = '';
-					
-						$output["aaData"][] = array(0=>$cnt,1=>long2ip($value['ip']),2=>$value['browser'].' '.$value['version'],3=>$value['platform'],4=>$oStats->getCountry($value['ip']),5=>$value['date'],6=>$iconbar ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
-						$cnt++ ;
-						}
-					}
-						echo json_encode($output) ;
-						
-				break;
+				"sEcho"=>intval($_GET['sEcho']),
+				"iTotalRecords"=>$iTotal,
+				"iTotalDisplayRecords"=>$iTotal,  // $iFilteredTotal,
+				"aaData"=>array()
+			);
+			$cnt = $iDisplayStart+1;
+			if(!empty($stats)){
+				foreach($stats as $key =>$value){
+					$iconbar ='<a href="'.$value['url'].'" target="_blank"><img src="../images/icons/color/magnifier.png" /></a>';
+					$row_chk = '';
+					$output["aaData"][] = array(0=>$cnt,1=>long2ip($value['ip']),2=>$value['browser'].' '.$value['version'],3=>$value['platform'],4=>$oStats->getCountry($value['ip']),5=>$value['date'],6=>$iconbar ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
+					$cnt++;
+				}
+			}
+			echo json_encode($output);
+		break;
 		case 'insertStatsLogs':
 			$oStats->insertStatsLogs();
 		break;
@@ -88,19 +85,16 @@ if(isset($_GET['task'])){
 			}
 			echo json_encode($data);
 		break;
-			case "showCountAllModule":
-				$modules = array('pages','blogs','news','products_mainproduct','contacts','users');
-				$count = $oStats->showCountAllModule($modules);
-				echo json_encode($count);
-			break;
-
-			case "setDeleteAllStatData":
-				$oStats->setDeleteAllStatData();
-				unset($_SESSION['stats_sumary']) ;
-				echo json_encode(array('success'=>1));
-			break;
-	
-				
+		case "showCountAllModule":
+			$modules = array('pages','blogs','news','products_mainproduct','contacts','users');
+			$count = $oStats->showCountAllModule($modules);
+			echo json_encode($count);
+		break;
+		case "setDeleteAllStatData":
+			$oStats->setDeleteAllStatData();
+			unset($_SESSION['stats_sumary']);
+			echo json_encode(array('success'=>1));
+		break;
 	}// switch
 }// if isset
 ?>

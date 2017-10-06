@@ -1,26 +1,25 @@
 <?php
 class Statistics extends Database {
-	var $module   ;
-	var $stats_visit_table = 'stats_visit' ;
+	var $module;
+	var $stats_visit_table = 'stats_visit';
 	public function __construct($module,$table=NULL){
-		$this->module = (empty($table))?$module:$table  ;
-		 parent::__construct((empty($table))?$module:$table );
+		$this->module = (empty($table))?$module:$table;
+		 parent::__construct((empty($table))?$module:$table);
 	}
-	
-// function for rate  /////////////////////////////////////////////////
-// Develop by iQuickweb.com 28/06/2012
-///////////////////////////////////////////////////////////////////////////////////
+	// function for rate  /////////////////////////////////////////////////
+	// Develop by
+	///////////////////////////////////////////////////////////////////////////////////
 	public function getStatsSize(){
-		$this->sql = "SELECT $this->table.*, $this->stats_visit_table.url  as url FROM $this->table Left Join  $this->stats_visit_table ON $this->stats_visit_table.stat_id= $this->table.id ";
+		$this->sql = "SELECT $this->table.*, $this->stats_visit_table.url as url FROM $this->table Left Join $this->stats_visit_table ON $this->stats_visit_table.stat_id = $this->table.id ";
 		return  $this->select('size');
 	}
 	public function getStatsAll($search,$order,$limit){
-		$this->sql = "SELECT $this->table.*, $this->stats_visit_table.url  as url FROM $this->table Left Join  $this->stats_visit_table ON $this->stats_visit_table.stat_id= $this->table.id  $search $order $limit";
+		$this->sql = "SELECT $this->table.*, $this->stats_visit_table.url as url FROM $this->table Left Join $this->stats_visit_table ON $this->stats_visit_table.stat_id = $this->table.id  $search $order $limit";
 		$this->select();
 		return $this->rows;
 	}
 	public function getStats($id){
-		$this->sql = "select * from $this->table where $this->primary_key=$id ";
+		$this->sql = "select * from $this->table where $this->primary_key = $id ";
 		$this->select();
 		return  $this->rows[0];
 	}
@@ -128,7 +127,6 @@ class Statistics extends Database {
 		$stat['all_pv'] = $this->rows[0]['pv'];
 		return $stat;
 	}
-
 	public function getVisitorSumary($type=NULL,$date=NULL,$month=NULL){ //type : day week month ,$date date start to find data 2012-08-17 
 		switch($type){
 			case 'day':
@@ -166,20 +164,19 @@ class Statistics extends Database {
 				}
 			break;
 			case "all":
-				$start =  '0';
-				$end =   date("Y-m-d").' 23:59:59';  
+				$start = '0';
+				$end = date("Y-m-d").' 23:59:59';  
 			break ;
 			default:
-				$start =   date("Y-m-d").' 00:00:00';
-				$end =   date("Y-m-d").' 23:59:59';  
+				$start = date("Y-m-d").' 00:00:00';
+				$end = date("Y-m-d").' 23:59:59';  
 			break;
 		}
-		$this->sql = "select count(DISTINCT $this->table.id) as visitor, count($this->stats_visit_table.id) as pages   from $this->table left join $this->stats_visit_table  on $this->table.id=$this->stats_visit_table.stat_id where $this->table.date between '$start' and '$end'  ";
+		$this->sql = "select count(DISTINCT $this->table.id) as visitor, count($this->stats_visit_table.id) as pages from $this->table left join $this->stats_visit_table  on $this->table.id=$this->stats_visit_table.stat_id where $this->table.date between '$start' and '$end' ";
 		$this->select();
-		$stats = $this->rows[0] ;
-		return $stats ;
+		$stats = $this->rows[0];
+		return $stats;
 	}
-	
 	public function getStatYearGraph(){
 		$today_y = (int)date("Y");
 		$this->sql = " select visitor,pv,month from stats_sum_all where year=$today_y ";
@@ -211,10 +208,9 @@ class Statistics extends Database {
 		}
 		return $year;
 	}
-	function setDeleteAllStatData(){
-		$this->sql = "update configs_site set stat_today_visit=0,stat_today_pv=0, stat_thisweek_visit=0 ,stat_thisweek_pv=0, stat_last_update=NOW() where id=1 " ;
+	public function setDeleteAllStatData(){
+		$this->sql = "update configs_site set stat_today_visit=0,stat_today_pv=0, stat_thisweek_visit=0 ,stat_thisweek_pv=0, stat_last_update=NOW() where id=1 ";
 		$this->update();
-
 		$this->sql = " delete from stats ";
 		$this->delete();
 		$this->sql = " delete from stats_visit ";
@@ -222,12 +218,11 @@ class Statistics extends Database {
 		$this->sql = " delete from stats_sum_all ";
 		$this->delete();
 	}
-
-	function insertStatsLogs($url=NULL){
+	public function insertStatsLogs($url=NULL){
 		if(!isset($_SESSION['stat_logs']['id'])){
 			$ip = sprintf('%u', ip2long($_SERVER['REMOTE_ADDR']));
 			$useragent =  $_SERVER['HTTP_USER_AGENT'];
-			$UA =$this->getBrowser();
+			$UA = $this->getBrowser();
 			$browser = $UA['browser'];
 			$version = $UA['version'];
 			$platform = $UA['platform'];
@@ -235,20 +230,19 @@ class Statistics extends Database {
 			if(isset($_SERVER['HTTP_REFERER'])) {
 				$refer_url = $_SERVER['HTTP_REFERER'];
 			}
-			$this->sql ="insert into $this->table (ip,browser,version,platform,refer_url,date) ";
-			$this->sql .=" values($ip,'$browser','$version','$platform','$refer_url',NOW()) ";
+			$this->sql = "insert into $this->table (ip,browser,version,platform,refer_url,date) ";
+			$this->sql .= " values($ip,'$browser','$version','$platform','$refer_url',NOW()) ";
 			$this->insert();
 			$stat_id = $this->insert_id();
-			$_SESSION['stat_logs']['id']  =  $stat_id;
+			$_SESSION['stat_logs']['id'] = $stat_id;
 			$this->insertStateVisitLogs($stat_id,$url);
 		}else{
 			$this->insertStateVisitLogs($_SESSION['stat_logs']['id'] ,$url);
 		}
 	}
-	
-	function insertStateVisitLogs($stat_id,$url=NULL){
+	public function insertStateVisitLogs($stat_id,$url=NULL){
 		if(empty($url)){
-			$url = $_SERVER['REQUEST_URI']  ;
+			$url = $_SERVER['REQUEST_URI'];
 		}
 		if(empty($_SESSION['stat_logs']['visit'][$url])){
 			$this->sql  = "insert into $this->stats_visit_table (stat_id,url,date) values ($stat_id,'$url',NOW()) ";
@@ -256,103 +250,76 @@ class Statistics extends Database {
 			$_SESSION['stat_logs']['visit'][$url] = time();
 		}
 	}
-	
-	function getCountry($ip){
+	public function getCountry($ip){
 		$this->sql  = "select country, co1 FROM stats_country WHERE ip1 <= {$ip} AND ip2 >= {$ip};" ;
 		$this->select();
 		if(empty($this->rows)){
-			return '--no data--' ;
+			return '--no data--';
 		}else{
-			 return	$this->rows[0]['country'];
+			return $this->rows[0]['country'];
 		}
 	}
-	
-	function getBrowser() 
-	{ 
-			$u_agent = $_SERVER['HTTP_USER_AGENT']; 
-			$bname = 'Unknown';
-			$platform = 'Unknown';
-			$version= "";
-
-			//First get the platform?
-			if (preg_match('/linux/i', $u_agent)) {
-				$platform = 'linux';
-			}
-			elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
-				$platform = 'mac';
-			}
-			elseif (preg_match('/windows|win32/i', $u_agent)) {
-				$platform = 'windows';
-			}
-			
-			// Next get the name of the useragent yes seperately and for good reason
-			if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent)) 
-			{ 
-				$bname = 'Internet Explorer'; 
-				$ub = "MSIE"; 
-			} 
-			elseif(preg_match('/Firefox/i',$u_agent)) 
-			{ 
-				$bname = 'Mozilla Firefox'; 
-				$ub = "Firefox"; 
-			} 
-			elseif(preg_match('/Chrome/i',$u_agent)) 
-			{ 
-				$bname = 'Google Chrome'; 
-				$ub = "Chrome"; 
-			} 
-			elseif(preg_match('/Safari/i',$u_agent)) 
-			{ 
-				$bname = 'Apple Safari'; 
-				$ub = "Safari"; 
-			} 
-			elseif(preg_match('/Opera/i',$u_agent)) 
-			{ 
-				$bname = 'Opera'; 
-				$ub = "Opera"; 
-			} 
-			elseif(preg_match('/Netscape/i',$u_agent)) 
-			{ 
-				$bname = 'Netscape'; 
-				$ub = "Netscape"; 
-			} 
-			
-			// finally get the correct version number
-			$known = array('Version', $ub, 'other');
-			$pattern = '#(?<browser>' . join('|', $known) .
-			')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
-			if (!preg_match_all($pattern, $u_agent, $matches)) {
-				// we have no matching number just continue
-			}
-			
-			// see how many we have
-			$i = count($matches['browser']);
-			if ($i != 1) {
-				//we will have two since we are not using 'other' argument yet
-				//see if version is before or after the name
-				if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
-					$version= $matches['version'][0];
-				}
-				else {
-					$version= $matches['version'][1];
-				}
-			}
-			else {
+	public function getBrowser() { 
+		$u_agent = $_SERVER['HTTP_USER_AGENT']; 
+		$bname = 'Unknown';
+		$platform = 'Unknown';
+		$version = "";
+		//First get the platform?
+		if (preg_match('/linux/i', $u_agent)) {
+			$platform = 'linux';
+		}elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+			$platform = 'mac';
+		}elseif (preg_match('/windows|win32/i', $u_agent)) {
+			$platform = 'windows';
+		}
+		// Next get the name of the useragent yes seperately and for good reason
+		if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent)) { 
+			$bname = 'Internet Explorer'; 
+			$ub = "MSIE"; 
+		} elseif(preg_match('/Firefox/i',$u_agent)) { 
+			$bname = 'Mozilla Firefox'; 
+			$ub = "Firefox"; 
+		} elseif(preg_match('/Chrome/i',$u_agent)) { 
+			$bname = 'Google Chrome'; 
+			$ub = "Chrome"; 
+		} elseif(preg_match('/Safari/i',$u_agent)) { 
+			$bname = 'Apple Safari'; 
+			$ub = "Safari"; 
+		} elseif(preg_match('/Opera/i',$u_agent)) { 
+			$bname = 'Opera'; 
+			$ub = "Opera"; 
+		} elseif(preg_match('/Netscape/i',$u_agent)) { 
+			$bname = 'Netscape'; 
+			$ub = "Netscape"; 
+		} 
+		// finally get the correct version number
+		$known = array('Version', $ub, 'other');
+		$pattern = '#(?<browser>' . join('|', $known) . ')[/ ]+(?<version>[0-9.|a-zA-Z.]*)#';
+		if (!preg_match_all($pattern,$u_agent,$matches)) {
+			// we have no matching number just continue
+		}
+		// see how many we have
+		$i = count($matches['browser']);
+		if ($i != 1) {
+			//we will have two since we are not using 'other' argument yet
+			//see if version is before or after the name
+			if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
 				$version= $matches['version'][0];
+			} else {
+				$version= $matches['version'][1];
 			}
-			
-			// check if we have a number
-			if ($version==null || $version=="") {$version="?";}
-			
-			return array(
-				'userAgent' => $u_agent,
-				'browser'      => $bname,
-				'version'   => $version,
-				'platform'  => $platform,
-				'pattern'    => $pattern
-			);
-} 
-
-
+		} else {
+			$version= $matches['version'][0];
+		}
+		// check if we have a number
+		if ($version==null || $version=="") {$version="?";}
+		return array(
+			'userAgent'=>$u_agent,
+			'browser'=>$bname,
+			'version'=>$version,
+			'platform'=>$platform,
+			'pattern'=>$pattern
+		);
+	} 
 }
 ?>
