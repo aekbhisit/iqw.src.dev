@@ -92,34 +92,34 @@ function checkBlock(data) {
 	return html;
 }
 function setSaveData(){
-	var d = new Date();	
+	var d = new Date();
 	var url = "../../app/index.php?module="+modules+"&task=saveDataHTML&d"+d.getTime();
 	tinyMCE.triggerSave();
 	$.ajax({
-		type: 'POST', 
-		url: url, 
-		enctype: 'multipart/form-data', 
+		type: 'POST',
+		url: url,
+		enctype: 'multipart/form-data',
 		data: $('#form').serialize(),
 		beforeSend: function() {
 
 		},
-		success: function(data){  
+		success: function(data){
 			gotoManagePage();
 		}
 	});
 }
 function selectImages(){
 	var input = $('#image');
-    $(input).bind('click',function () {
+	$(input).bind('click',function () {
 		if($(document).has('#finder').length<=0){
 			$('#image').after('<div id="finder"></div>');
 		}
 		$('#finder').elfinder({
-         	url : '../../files/php/connector.php',
-        	closeOnEditorCallback: false,
-        	getFileCallback: function(url) {
+			url : '../../files/php/connector.php',
+			closeOnEditorCallback: false,
+			getFileCallback: function(url) {
 				$(input).val(url);
-     	   }
+			}
 		});
-    });	
+	});
 }

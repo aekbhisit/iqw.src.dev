@@ -65,7 +65,7 @@ $module_active = 'content';
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
 </head>
 <body>
-	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
+  <!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
 	<div id="da-wrapper" class="fluid">
     <!-- Header -->
     <div id="da-header">
@@ -85,8 +85,7 @@ $module_active = 'content';
           <?php 
 					$breadcrumbs = array(
 						0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>''),
-						1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>''),
-						2=>array('name'=>$modules_name,'alt'=>$modules_name,'link'=>'javascript:void(0)','class'=>'active')
+						1=>array('name'=>'คอนเทน','alt'=>'Content','link'=>'javascript:void(0)','class'=>'active')
 					);
 					include('../inc/breadcrumbs.php');
 					?>
@@ -111,7 +110,7 @@ $module_active = 'content';
                 <div class="da-panel collapsible">
                   <div class="da-panel-header">
                     <span class="da-panel-title">
-                      <img src="../images/icons/black/16/list.png" alt="" />จัดการ Content
+                      <img src="../images/icons/black/16/list.png" alt="" />จัดการ คอนเทน
                     </span>
                   </div>
                   <div class="da-panel-content">
@@ -132,7 +131,7 @@ $module_active = 'content';
                           <td></td>
                           <td></td>
                           <td></td>
-                          <td class="da-icon-column">             
+                          <td class="da-icon-column">
                             <a href="#"><img src="../images/icons/color/magnifier.png" /></a>
                             <a href="#"><img src="../images/icons/color/pencil.png" /></a>
                             <a href="#"><img src="../images/icons/color/cross.png" /></a>
@@ -145,7 +144,20 @@ $module_active = 'content';
                 </div>
               </div>
               <!--end grid-->
-            <div style="display:block; width:100%; min-height:35px; height:auto; clear:both; padding-left:10px; padding-right:10px;"><button class="da-button blue medium" onclick="setCheckAll();"><label for="checkboxAll"><input name="checkboxAll"  id="checkboxAll" type="checkbox" value="" />เลือกทั้งหมด</label></button> | <button class="da-button red medium" onclick="setDeleteSelectedData();">ลบรายการที่เลือก</button>  |  <button class="da-button orange medium" id="da-dialog-change-cat">ย้ายหมวดหมู่รายการที่เลือก</button> <button class="da-button pink medium" onclick="setReorderAll();" style="float:right; margin-right:20px;">เรียงลำดับข้อมูลใหม่ </button></div>                       
+            <div style="display:block; width:100%; min-height:35px; height:auto; clear:both; padding-left:10px; padding-right:10px;">
+              <button class="da-button blue medium" onclick="setCheckAll();">
+                <label for="checkboxAll">
+                  <input name="checkboxAll" id="checkboxAll" type="checkbox" value="" />เลือกทั้งหมด
+                </label>
+              </button>
+                | 
+              <button class="da-button red medium" onclick="setDeleteSelectedData();">ลบรายการที่เลือก</button>
+                | 
+              <button class="da-button orange medium" id="da-dialog-change-cat">ย้ายหมวดหมู่รายการที่เลือก</button> 
+              <button class="da-button pink medium" onclick="setReorderAll();" style="float:right; margin-right:20px;">
+                เรียงลำดับข้อมูลใหม่ 
+              </button>
+            </div>
             <!--change category dialog-->
             <div id="da-dialog-div-category" style="display:none;">
               <div class="da-panel-content" id="da-ex-datatable-category-container">

@@ -9,15 +9,15 @@ var chkSortableMsg = true;
 		var d = new Date();
 		oTable = $("table#da-ex-datatable-numberpaging").dataTable({
 			"sPaginationType": "full_numbers",
-       		"bProcessing": true,
-        	"bServerSide": true,
+			"bProcessing": true,
+			"bServerSide": true,
 			"bStateSave": true,
-        	"sAjaxSource": "../../app/index.php?module="+modules+"&task=getDataContent",
-			"fnServerParams": function( aoData ){ aoData.push( { name: "filterCategoryID", value: $('#TableCategoryFilter').val()});},
+			"sAjaxSource": "../../app/index.php?module="+modules+"&task=getDataContent",
+			"fnServerParams": function( aoData ){ aoData.push( { name: "filterCategoryID", value: $('#TableCategoryFilter').val() }); },
 			"fnStateSaveParams": function (oSettings, oData) {  
 				oTableData = oData;
-				if(oData.oSearch.sSearch=='undefined' ){ oData.oSearch.sSearch = "";}
-				var sort_rule =oTableData.aaSorting+'';
+				if(oData.oSearch.sSearch=='undefined' ){ oData.oSearch.sSearch = ""; }
+				var sort_rule = oTableData.aaSorting+'';
 				var sort_split = sort_rule.split(',');
 				var column = sort_split[0];
 				var direction = sort_split[1];
@@ -33,24 +33,22 @@ var chkSortableMsg = true;
 				}
 			},
 			"oLanguage": {
-           		 	"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",
-           		 	"sZeroRecords": "ขออภัยไม่พบข้อมูล",
-            		"sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
-            		"sInfoEmpty": "แสดง 0 ถึิง 0 จาก 0 รายการ",
-            		"sInfoFiltered": "(กรองข้อมูลจาก _MAX_ รายการทั้งหมด)",
-					"oPaginate": {
-       					 "sFirst": "หน้าแรก",
-						  "sLast": "หน้าสุดท้าย",
-						  "sNext": "ถัดไป",
-						  "sPrevious": "ก่อนหน้า"
-    				  },
-					  "sSearch": "ค้นหา :",
-					  "sLoadingRecords": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>",
-					  "sProcessing": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>"
-        	}
+				"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",
+				"sZeroRecords": "ขออภัยไม่พบข้อมูล",
+				"sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+				"sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 รายการ",
+				"sInfoFiltered": "(กรองข้อมูลจาก _MAX_ รายการทั้งหมด)",
+				"oPaginate": {
+					"sFirst": "หน้าแรก",
+					"sLast": "หน้าสุดท้าย",
+					"sNext": "ถัดไป",
+					"sPrevious": "ก่อนหน้า"
+				},
+				"sSearch": "ค้นหา :",
+				"sLoadingRecords": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>",
+				"sProcessing": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>"
+			}
 		});
-		// LoadCategoryFilter();
-		// showChangeCategoryDialog();
 	});// document_ready
 }) (jQuery);
 function setDeleteSelectedData(){
@@ -151,71 +149,62 @@ function showChangeCategoryDialog(){
 }
 function sortable(status){
 	if(status){
-		var is_sortable = $('#sortable').hasClass('ui-sortable') ;
+		var is_sortable = $('#sortable').hasClass('ui-sortable');
 		if(is_sortable){
-			if(	$( "#sortable" ).sortable("option","enable")){
-				$( "#sortable" ).sortable("enable");
+			if($("#sortable").sortable("option","enable")){
+				$("#sortable").sortable("enable");
 			}
 		}else{
-	  		$( "#sortable" ).sortable({
-     	 		placeholder: "ui-state-highlight",
-	 	 		delay: 300
-    		});
-		$( "#sortable" ).bind( "sortstop", function(event, ui) {
-			var sort_list = 'start' ;
-			var id_list = 'start' ;
-			$.each($( "#sortable" ).sortable("toArray"),function(index,value){
-				var sequence_id = '#sequence_'+value ;
-				sort_list += '-'+$(sequence_id).val() ;
-				id_list += '-'+value ;
+			$("#sortable").sortable({
+				placeholder: "ui-state-highlight",
+				delay: 300
 			});
-		
-			var d= new Date();
-			var url = "../../app/index.php?module="+modules+"&task=reorderData&sort="+sort_list+"&id="+id_list+"&d"+d.getTime() ;
-			$.get(url, function(data){
-				reloadTableData(oTable);
-				$.jGrowl("แจ้งเตือน ! <br> จัดลำดับสำเร็จ", {position: "bottom-right"});
-			}) ;	
-		});
+			$("#sortable").bind("sortstop",function(event, ui) {
+				var sort_list = 'start';
+				var id_list = 'start';
+				$.each($( "#sortable" ).sortable("toArray"),function(index,value){
+					var sequence_id = '#sequence_'+value;
+					sort_list += '-'+$(sequence_id).val();
+					id_list += '-'+value;
+				});
+				var d= new Date();
+				var url = "../../app/index.php?module="+modules+"&task=reorderData&sort="+sort_list+"&id="+id_list+"&d"+d.getTime();
+				$.get(url, function(data){
+					reloadTableData(oTable);
+					$.jGrowl("แจ้งเตือน ! <br> จัดลำดับสำเร็จ", {position:"bottom-right"});
+				});
+			});
 		}// disable 
 	}else{ //disable sort
-		$( "#sortable" ).sortable('disable');
+		$("#sortable").sortable('disable');
 	}
 }
 function switchDataOrder(id){
-	 var sort_val = $('#sequence_'+id).val();
-	 var old_sort_val  = $('#sequence_'+id).attr('title');
-	 if(sort_val!=old_sort_val){
-	 var d= new Date();
-	var url = "../../app/index.php?module="+modules+"&task=switchOrder&id="+id+"&sort="+sort_val+"&d"+d.getTime();
-	 $.get(url, function(data){
+	var sort_val = $('#sequence_'+id).val();
+	var old_sort_val = $('#sequence_'+id).attr('title');
+	if(sort_val!=old_sort_val){
+		var d= new Date();
+		var url = "../../app/index.php?module="+modules+"&task=switchOrder&id="+id+"&sort="+sort_val+"&d"+d.getTime();
+		$.get(url, function(data){
 			reloadTableData(oTable);
 			$.jGrowl("แจ้งเตือน ! <br> เรียงลำดับเสร็จ", {position: "bottom-right"});
-		}) ;	
-	 }
+		});
+	}
 }
 function setReorderAll(){
-	var sort_rule =oTableData.aaSorting+'';
+	var sort_rule = oTableData.aaSorting+'';
 	var sort_split = sort_rule.split(',');
 	var column = sort_split[0];
 	var direction = sort_split[1];
-	var d= new Date();
+	var d = new Date();
 	var url = "../../app/index.php?module="+modules+"&task=setReorderAll&column="+column+"&direction="+direction+"&d"+d.getTime();
 	if(confirm('ยีนยันเรียงลำดับข้อมูลใหม่ตามการแสดงผลของตาราง !')){
 		 $.get(url, function(data){
 			reloadTableData(oTable);
 			$.jGrowl("แจ้งเตือน ! <br> เรียงลำดับเสร็จ", {position: "bottom-right"});
-		}) ;	
+		});
 	}
 }
-// function LoadCategoryFilter(){
-// 	var d= new Date();
-// 	var url = "../../app/index.php?module="+modules+"&task=loadCategoriesFilter&d"+d.getTime() ;
-// 	$.get(url, function(data){
-// 		var filter = '<div style="width:auto; min-width:150px; position:relative; float:right; display: inline-block; padding: 10px; text-align:right;"><label >หมวดหมู่ : <select name="TableCategoryFilter" id="TableCategoryFilter" onchange="setCategoryFilter()">'+data+'</select></label></div>';
-//     	$('#da-ex-datatable-numberpaging_filter').after(filter) ;
-// 	});
-// }
 function setCategoryFilter(){
 	oTable.fnFilter();
 }
@@ -230,32 +219,32 @@ function showChangeCategoryDialog(){
 			$("#da-dialog-div-category").dialog("option",{modal: false}).dialog("open");
 			event.preventDefault();
 		}
-	});	
+	});
 }
 function configChangeCategoryDialog(){
 	$("#da-dialog-div-category").dialog({
-		autoOpen: false, 
-		title: "เลือกหมวดที่ต้องการ", 
-		modal: true, 
+		autoOpen: false,
+		title: "เลือกหมวดที่ต้องการ",
+		modal: true,
 		width: "80%",
 		height:'500',
 		buttons: [{
 		text: "ย้ายข้อมูล", 
 		click: function() {
-			 saveChangeCategory();
-			$( this ).dialog( "close" );
+			saveChangeCategory();
+			$(this).dialog("close");
 		}}]
 	});	
 }
 function saveChangeCategory(){
 	var category_id = $('#da-ex-datatable-'+modules+'-changecategory').find('input.table_checkbox:checked').val();
-	var selected = getTableCheckboxChecked() ;
+	var selected = getTableCheckboxChecked();
 	if(selected.length<=0){
-		$.jGrowl("แจ้งเตือน ! <br> ท่านต้องเลือกรายการที่ต้องการย้ายอย่างน้อย 1 รายการ", {position: "bottom-right"});
+		$.jGrowl("แจ้งเตือน ! <br> ท่านต้องเลือกรายการที่ต้องการย้ายอย่างน้อย 1 รายการ",{position:"bottom-right"});
 	}else{
 		if(confirm('ย้ายข้อมูลไปยังหมวดหมู่ที่เลือก !')){
 			$.each(selected,function(index,value){
-				setChangeCategory(value,category_id,selected.length,index) ;
+				setChangeCategory(value,category_id,selected.length,index);
 			});
 		}
 	}
@@ -272,28 +261,28 @@ function setChangeCategory(id,category_id,length,index){
 }
 function loadChangeCategoryTableData(){
 	var df_table = '<table id="da-ex-datatable-'+modules+'-changecategory" class="da-table"> <thead> <tr> <th width="40">ลำดับ</th> <th>ชื่อ</th><th>ระดับ</th><th>สถานนะ</th><th width="38">#ID</th></tr> </thead> <tbody></tbody></table>';
-	$("#da-ex-datatable-category-container").html(df_table);	 
-		oTableChange = $("table#da-ex-datatable-"+modules+"-changecategory").dataTable({
+	$("#da-ex-datatable-category-container").html(df_table);
+	oTableChange = $("table#da-ex-datatable-"+modules+"-changecategory").dataTable({
 		"sPaginationType": "full_numbers",
-       	"bProcessing": true,
-        "bServerSide": true,
+		"bProcessing": true,
+		"bServerSide": true,
 		"bStateSave": true,
-        "sAjaxSource": "../../app/index.php?module="+modules+"&task=getCategoriesDataInChangeCategory",
+		"sAjaxSource": "../../app/index.php?module="+modules+"&task=getCategoriesDataInChangeCategory",
 		"oLanguage": {
-           	"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",
-           	"sZeroRecords": "ขออภัยไม่พบข้อมูล",
-            "sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
-            "sInfoEmpty": "แสดง 0 ถึิง 0 จาก 0 รายการ",
-            "sInfoFiltered": "(กรองข้อมูลจาก _MAX_ รายการทั้งหมด)",
+			"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",
+			"sZeroRecords": "ขออภัยไม่พบข้อมูล",
+			"sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+			"sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 รายการ",
+			"sInfoFiltered": "(กรองข้อมูลจาก _MAX_ รายการทั้งหมด)",
 			"oPaginate": {
-       			"sFirst": "หน้าแรก",
+				"sFirst": "หน้าแรก",
 				"sLast": "หน้าสุดท้าย",
 				"sNext": "ถัดไป",
 				"sPrevious": "ก่อนหน้า"
-    		},
+			},
 			"sSearch": "ค้นหา :",
 			"sLoadingRecords": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>",
 			"sProcessing": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>"
-        }
-	});	
+		}
+	});
 }

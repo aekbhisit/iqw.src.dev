@@ -9,28 +9,28 @@ var chkSortableMsg = true;
 		var d = new Date();
 		oTable = $("table#da-ex-datatable-numberpaging").dataTable({
 			"sPaginationType": "full_numbers",
-       		 "bProcessing": true,
-        	"bServerSide": true,
+			"bProcessing": true,
+			"bServerSide": true,
 			"bStateSave": true,
-        	"sAjaxSource": "../../app/index.php?module="+modules+"&task=getData",
+			"sAjaxSource": "../../app/index.php?module="+modules+"&task=getData",
 			"fnServerParams": function( aoData ){ aoData.push( { name: "filterCategoryID", value: $('#TableCategoryFilter').val()});},
 			"fnStateSaveParams": function (oSettings, oData) {  
-					oTableData = oData ;
-					if(oData.oSearch.sSearch=='undefined' ){ oData.oSearch.sSearch = "";}
-					var sort_rule =oTableData.aaSorting+'';
-					var sort_split = sort_rule.split(',');
-					var column = sort_split[0] ;
-					var direction = sort_split[1] ;
-					// alert drag & drop to sort
-					if(column=='4'&&direction=='asc'){ 
-							sortable(true); 
-							if(chkSortableMsg){
-								chkSortableMsg = false ;
-								$.jGrowl("แจ้งให้ทราบ ! <br> ท่านสามารถเรียงลำดับข้อมูลได้โดยการ Drag & Drop ข้อมูลในตาราง", {position: "bottom-right"});
-							}
-					}else{
-						sortable(false);
+				oTableData = oData ;
+				if(oData.oSearch.sSearch=='undefined' ){ oData.oSearch.sSearch = "";}
+				var sort_rule =oTableData.aaSorting+'';
+				var sort_split = sort_rule.split(',');
+				var column = sort_split[0];
+				var direction = sort_split[1];
+				// alert drag & drop to sort
+				if(column=='4'&&direction=='asc'){ 
+					sortable(true); 
+					if(chkSortableMsg){
+						chkSortableMsg = false;
+						$.jGrowl("แจ้งให้ทราบ ! <br> ท่านสามารถเรียงลำดับข้อมูลได้โดยการ Drag & Drop ข้อมูลในตาราง", {position: "bottom-right"});
 					}
+				}else{
+					sortable(false);
+				}
 			},
 			"oLanguage": {
            		 	"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",

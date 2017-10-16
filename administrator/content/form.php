@@ -55,23 +55,11 @@ $module_active = 'content';
 <script type="text/javascript" src="../js/core/dandelion.customizer.js"></script>
 <script type="text/javascript" src="../plugins/jgrowl/jquery.jgrowl.js"></script>
 <link rel="stylesheet" type="text/css" href="../plugins/jgrowl/jquery.jgrowl.css" media="screen" />
-<!--Text editor -->
-<script type="text/javascript" src="../plugins/elrte/js/elrte.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../plugins/elrte/css/elrte.css" />
 <!-- elFinder Plugin -->
 <script type="text/javascript" src="../plugins/elfinder/js/elfinder.min.js"></script>
 <link rel="stylesheet" href="../plugins/elfinder/css/elfinder.css" media="screen" />
 <!--form validate-->
 <script type="text/javascript" src="../plugins/validate/jquery.validate.min.js"></script>
-<!-- PLUpload Plugin -->
-<!--<script type="text/javascript" src="plugins/plupload/plupload.js"></script>
-<script type="text/javascript" src="plugins/plupload/plupload.flash.js"></script>
-<script type="text/javascript" src="plugins/plupload/plupload.html4.js"></script>
-<script type="text/javascript" src="plugins/plupload/plupload.html5.js"></script>
-<script type="text/javascript" src="plugins/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
-<link rel="stylesheet" href="plugins/plupload/jquery.plupload.queue.css" />-->
-<!-- Demo JavaScript Files -->
-<!--<script type="text/javascript" src="js/demo/demo.files.js"></script>-->
 <!-- all-pages-include-script -->
 <?php include('../all-pages-include-script.php'); ?>
 <!-- Custom script for all page -->
@@ -101,9 +89,8 @@ $module_active = 'content';
                     <?php 
 						$breadcrumbs = array(
 						0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>false),
-						1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>false),
-						2=>array('name'=>$modules_name,'alt'=>$modules_name,'link'=>'index.php','class'=>false),
-						3=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
+						1=>array('name'=>'คอนเทน','alt'=>'Content','link'=>'index.php','class'=>false),
+						2=>array('name'=>'แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
 					);
 					include('../inc/breadcrumbs.php');
 					?>
@@ -167,7 +154,7 @@ $module_active = 'content';
                             </div> 
                             <!--grid 4-->
                         </form>
-                        <!--enf form-->        
+                        <!--enf form-->
                     </div>
                 </div>
             </div> 
@@ -180,6 +167,6 @@ $module_active = 'content';
         </div>
         
     </div>
-    <div class="modal" onclick="reloadPageNow()"></div>​
+    <div class="modal" onclick="reloadPageNow();"></div>​
 </body>
 </html>
