@@ -5,7 +5,6 @@ $oStats = new Statistics('stats');
 if(isset($_GET['task'])){
 	$task = $_GET['task'];
 	switch($task){
-		// rates-form.html
 		case 'getStatsData':
 			$columns = array('id','ip','browser','platform','date');
 			$limit = '';
@@ -14,14 +13,14 @@ if(isset($_GET['task'])){
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart= $_GET['iDisplayStart'];
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
-			$iSortCol_0= $_GET['iSortCol_0'];
-			$sSortDir_0= $_GET['sSortDir_0'];
+			$iSortCol_0 = $_GET['iSortCol_0'];
+			$sSortDir_0 = $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
 				$orderby = " order by stats_visit.date desc";
 			}else{
 				$orderby = " order by stats_visit.date desc";
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $oStats->setString($_GET['sSearch']); 
 			if(!empty($sSearch)){
 				$search = " WHERE ( $oStats->table.browser like '%$sSearch%' or $oStats->table.version like '%$sSearch%' or $oStats->table.platform like '%$sSearch%' or $oStats->table.date like '%$sSearch%') ";
 			}
@@ -56,14 +55,14 @@ if(isset($_GET['task'])){
 			}else{
 				$stats = $_SESSION['stats_sumary'];
 			}
-			$today = $stats['today_visitor'];
-			$today_pv = $stats['today_pv'];
-			$week = $stats['week_visitor'];
-			$week_pv = $stats['week_pv'];
-			$month = $stats['month_visitor'];
-			$month_pv = $stats['month_pv'];
-			$all = $stats['all_visitor'];
-			$all_pv = $stats['all_pv'];
+			$today = $oStats->setInt($stats['today_visitor']);
+			$today_pv = $oStats->setInt($stats['today_pv']);
+			$week = $oStats->setInt($stats['week_visitor']);
+			$week_pv = $oStats->setInt($stats['week_pv']);
+			$month = $oStats->setInt($stats['month_visitor']);
+			$month_pv = $oStats->setInt($stats['month_pv']);
+			$all = $oStats->setInt($stats['all_visitor']);
+			$all_pv = $oStats->setInt($stats['all_pv']);
 			$circular_stat = "
 			<li class=\"da-circular-stat {fillColor: '#a6d037', value: ".$today.", maxValue: ".$today_pv.", label: 'Today'}\"></li>
 			<li class=\"da-circular-stat {fillColor: '#ea799b',  value: ".$week.", maxValue: ".$week_pv.", label: 'This Week'}\"></li>
@@ -95,6 +94,6 @@ if(isset($_GET['task'])){
 			unset($_SESSION['stats_sumary']);
 			echo json_encode(array('success'=>1));
 		break;
-	}// switch
-}// if isset
+	} // switch
+} // if isset
 ?>

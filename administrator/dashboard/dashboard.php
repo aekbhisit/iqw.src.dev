@@ -1,5 +1,10 @@
 <?php @include ("../inc/auth.inc.php"); ?>
 <?php include ("../inc/gettext.inc.php"); ?>
+<?php
+$modules = 'dashboard';
+$modules_name = 'dashboard';
+$module_active = 'dashboard';
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -62,8 +67,8 @@
 <!-- Load Google Chart Plugin -->
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
-	// Load the Visualization API and the piechart package.
-	google.load('visualization', '1.0', {'packages':['corechart']});
+    // Load the Visualization API and the piechart package.
+    google.load('visualization', '1.0', {'packages':['corechart']});
 </script>
 <!-- Debounced resize script for preventing to many window.resize events Recommended for Google Charts to perform optimally when resizing -->
 <script type="text/javascript" src="../js/jquery.debouncedresize.js"></script>
@@ -82,14 +87,14 @@
 <script type="text/javascript" src="dashboard-script.js"></script>
 <style>
 h1, h2{
-	padding-left:10px;
+    padding-left:10px;
 }
 </style>
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
 </head>
 <body>
-	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
-	<div id="da-wrapper" class="fluid">
+    <!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
+    <div id="da-wrapper" class="fluid">
         <!-- Header -->
         <div id="da-header">
         <!--header top-->
@@ -100,16 +105,16 @@ h1, h2{
                 <!-- Container -->
                 <div class="da-container clearfix">
                 <!--search box-->
-           			<?php 
-					include('../inc/search_top.php');
-					?>
-                	<!--end search box-->
+                    <?php 
+                    include('../inc/search_top.php');
+                    ?>
+                    <!--end search box-->
                      <?php 
-					$breadcrumbs = array(
-						0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>'active'),
-					);
-					include('../inc/breadcrumbs.php');
-					?>
+                    $breadcrumbs = array(
+                        0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>'active'),
+                    );
+                    include('../inc/breadcrumbs.php');
+                    ?>
                 </div>
             </div>
         </div>
@@ -117,34 +122,34 @@ h1, h2{
         <div id="da-content">
             <!-- Container -->
             <div class="da-container clearfix">
-	            <!-- Sidebar Separator do not remove -->
+                <!-- Sidebar Separator do not remove -->
                 <div id="da-sidebar-separator"></div>
                 <!-- Sidebar -->
                 <?php
-                	include('../inc/side_bar.php');
-				?>
+                    include('../inc/side_bar.php');
+                ?>
                 <!-- Main Content Wrapper -->
                 <div id="da-content-wrap" class="clearfix">
-                	<!-- Content Area -->
-                	<div id="da-content-area">
-                    	<div class="grid_4" >
+                    <!-- Content Area -->
+                    <div id="da-content-area">
+                        <div class="grid_4" >
                             <ul class="da-circular-stat-wrap" id="showCircularStat">
                                 <li class="da-circular-stat {fillColor: '#a6d037', value: 10, maxValue: 100, label: 'Today'}"></li>
                                 <li class="da-circular-stat {fillColor: '#ea799b', value: 20, maxValue: 100, label: 'This Week'}"></li>
                                 <li class="da-circular-stat {fillColor: '#fab241', value: 50, maxValue: 100, label: 'This Month'}"></li>
                                 <li class="da-circular-stat {fillColor: '#61a5e4', value: 90, maxValue: 100, label: 'Total'}"></li>
                             </ul>
-                        	<div class="da-panel-widget">
+                            <div class="da-panel-widget">
                                 <h1  style=" padding-left:10px; padding-top:10px;"><?=T_("จำนวนผู้เข้าชมย้อยหลัง")?></h1>
                                 <div id="da-ex-gchart-line" style="height:225px;"></div>
                             </div>
                         </div>
                         <!-- <div class="grid_1" >
-                        	<div class="da-panel-widget">
+                            <div class="da-panel-widget">
                                 <h1 style=" padding-left:10px; padding-top:10px;"><?=T_("สรุป")?></h1>
                                 <ul class="da-summary-stat">
-                                	<li id="pages_sumary">
-                                    	<a href="#">
+                                    <li id="pages_sumary">
+                                        <a href="#">
                                             <span class="da-summary-icon" style="background-color:#e15656;">
                                                 <img src="../images/icons/white/32/computer_imac.png" alt="" />
                                             </span>
@@ -155,7 +160,7 @@ h1, h2{
                                         </a>
                                     </li>
                                     <li id="blogs_sumary">
-                                    	<a href="#">
+                                        <a href="#">
                                             <span class="da-summary-icon" style="background-color:#a6d037;">
                                                 <img src="../images/icons/white/32/single_document.png" alt="" />
                                             </span>
@@ -166,7 +171,7 @@ h1, h2{
                                         </a>
                                     </li>
                                       <li id="news_sumary">
-                                    	<a href="#">
+                                        <a href="#">
                                             <span class="da-summary-icon" style="background-color:#a6d037;">
                                                 <img src="../images/icons/white/32/digg_3.png" alt="" />
                                             </span>
@@ -177,14 +182,14 @@ h1, h2{
                                         </a>
                                     </li>
                                     <li id="products_sumary">
-                                    	<a href="#">
+                                        <a href="#">
                                             <span class="da-summary-icon" style="background-color:#ea799b;">
                                                 <img src="../images/icons/white/32/scan_label.png" alt="" />
                                             </span>
                                             <span class="da-summary-text">
                                                 <span class="value" id="show_products_mainproduct_count">100</span>                                        
                                                 <span class="label">Products</span>
-	                                        </span>
+                                            </span>
                                         </a>
                                     </li>
                                     <li id="contacts_sumary">
@@ -199,7 +204,7 @@ h1, h2{
                                         </a>
                                     </li>
                                     <li id="user_sumary">
-                                    	<a href="#">
+                                        <a href="#">
                                             <span class="da-summary-icon" style="background-color:#656565;">
                                                 <img src="../images/icons/white/32/single_user.png" alt="" />
                                             </span>
@@ -213,16 +218,16 @@ h1, h2{
                             </div>
                         </div> -->
                         <div class="clear"></div>
-                    	<div class="grid_2" >
-                        	<div class="da-panel">
-                            	<div class="da-panel-header">
-                                	<span class="da-panel-title">
+                        <div class="grid_2" >
+                            <div class="da-panel">
+                                <div class="da-panel-header">
+                                    <span class="da-panel-title">
                                         <img src="../images/icons/color/comment.png" alt="" />
                                        <?=T_("คู่มือการใช้งาน")?>
                                     </span>
                                 </div>
                                 <div class="da-panel-content with-padding">
-                              		<div style="padding:20px;">
+                                    <div style="padding:20px;">
                                     <ul>
                                         <li><a href="../../manual/1.pdf" target="_blank">1. ปุ่มจัดการเบื้องต้น</a></li>
                                         <li><a href="../../manual/2.pdf" target="_blank">2. แก้ไขเนื้อหาหน้าแรก</a></li>
@@ -244,8 +249,8 @@ h1, h2{
         </div>
         <!-- Footer -->
         <div id="da-footer">
-        	<div class="da-container clearfix">
-            	   <p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
+            <div class="da-container clearfix">
+                   <p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
             </div>
         </div>
     </div>

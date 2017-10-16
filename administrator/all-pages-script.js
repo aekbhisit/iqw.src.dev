@@ -10,10 +10,8 @@ var oSettings = '';
 		getMessagesTopRight();
 		setAdminLogOut();
 		setLoadingPage();
-		//loadTextEditor();
 		overWriteValidateMesssage();
 		inputBrowserFile();
-		initFormTextEditor();
 	});// document_ready
 }) (jQuery);	
 // default function
@@ -37,7 +35,6 @@ function reloadTableData(oTable){
 		oSettings.oApi._fnCalculateEnd(oSettings);
 	}
 	oSettings.oApi._fnDraw(oSettings);
-	//oTable.fnDraw();
 }
 function getTableCheckboxChecked(){
 	var id = new Array();
@@ -128,78 +125,31 @@ function setLoadingPage(){
 		}    
 	});
 }
-function loadTextEditor(){
-	var dialog ;
-	var opts = {
-        cssClass : 'el-rte bodyclass',
-        toolbar  : 'maxi',
-        denyTags  : ['span'],
-        // allowTags : ['span'],
-        cssfiles : [
-        	'plugins/elrte/css/elrte-inner.css',
-        	// '../../themes/phet_th/vendor/bootstrap/css/bootstrap.min.css',
-			'../../themes/phet_th/vendor/fontawesome/css/font-awesome.min.css'
-			// '../../themes/phet_th/vendor/animateit/animate.min.css',
-			// '../../themes/phet_th/vendor/owlcarousel/owl.carousel.css',
-			// '../../themes/phet_th/vendor/magnific-popup/magnific-popup.css',
-			// '../../themes/phet_th/css/theme-base.css',
-			// '../../themes/phet_th/css/theme-elements.css',
-			// '../../themes/phet_th/css/responsive.css',
-			// '../../themes/phet_th/css/color-variations/red.css',
-			// '../../themes/phet_th/css/style.css'
-        ],
-		fmAllow: true, 
-		fmOpen: function(callback) {
-		//	if (!dialog) {
-			// create new elFinder
-			dialog = $('<div id="finder" />').dialogelfinder({
-				url: FILE_ROOT+'files/php/connector.php',
-				commandsOptions: {
-				  	getfile: {
-						oncomplete : 'destroy', // close/hide elFinder
-						multiple : false,
-						folders  : false,
-				  	}
-				},
-				getFileCallback: callback // pass callback to file manager
-			});
-		//	} else {
-			  // reopen elFinder
-		//	  dialog.dialogelfinder('open')
-		//	}
-		}	
-	}
-	if($(document).has('.elrte').length>=1){
-		$(document).find('.elrte').each(function(){
-			$(this).elrte(opts);
+function overWriteValidateMesssage(){
+	if($.fn.validate) {
+		jQuery.extend(jQuery.validator.messages, {
+			required: "ต้องใส่ข้อมูล.",
+			remote: "ข้อมูลไม่ถูกต้อง.",
+			email: "อีเมลไม่ถูกต้อง.",
+			url: "URL ไม่ถูกต้อง.",
+			date: "วันที่ไม่ถูกต้อง",
+			dateISO: "วันที่ไม่ถูกต้อง (ISO).",
+			number: "กรุณาใส่ตัวเลข.",
+			digits: "ใส่ตัวเลขเท่านั้น.",
+			creditcard: "กรุณาใส่เลขที่เครติดการ์ดให้ถูกต้อง.",
+			equalTo: "ข้อมูลไม่ตรงกัน.",
+			accept: "ข้อมูลไม่ถูกต้อง.",
+			maxlength: jQuery.validator.format("กรุณาใส่ข้อมูลไม่เกิน {0} ตัวอักษร."),
+			minlength: jQuery.validator.format("กรุณาใส่ข้อมูลอย่างน้อย {0} ตัวอักษร."),
+			rangelength: jQuery.validator.format("กรุณาใส่ข้อมูลระหว่าง {0} และ {1} ตัวอักษร."),
+			range: jQuery.validator.format("กรุณาใส่ข้อมูลระหว่าง{0} และ {1}."),
+			max: jQuery.validator.format("กรุณาใส่ข้อมูลที่น้อยกว่าหรือเท่ากับ {0}."),
+			min: jQuery.validator.format("กรุณาใส่ข้อมูลที่มากว่าหรือเท่ากับ {0}.")
 		});
 	}
 }
-function overWriteValidateMesssage(){
-	if($.fn.validate) {
-			jQuery.extend(jQuery.validator.messages, {
-				required: "ต้องใส่ข้อมูล.",
-				remote: "ข้อมูลไม่ถูกต้อง.",
-				email: "อีเมลไม่ถูกต้อง.",
-				url: "URL ไม่ถูกต้อง.",
-				date: "วันที่ไม่ถูกต้อง",
-				dateISO: "วันที่ไม่ถูกต้อง (ISO).",
-				number: "กรุณาใส่ตัวเลข.",
-				digits: "ใส่ตัวเลขเท่านั้น.",
-				creditcard: "กรุณาใส่เลขที่เครติดการ์ดให้ถูกต้อง.",
-				equalTo: "ข้อมูลไม่ตรงกัน.",
-				accept: "ข้อมูลไม่ถูกต้อง.",
-				maxlength: jQuery.validator.format("กรุณาใส่ข้อมูลไม่เกิน {0} ตัวอักษร."),
-				minlength: jQuery.validator.format("กรุณาใส่ข้อมูลอย่างน้อย {0} ตัวอักษร."),
-				rangelength: jQuery.validator.format("กรุณาใส่ข้อมูลระหว่าง {0} และ {1} ตัวอักษร."),
-				range: jQuery.validator.format("กรุณาใส่ข้อมูลระหว่าง{0} และ {1}."),
-				max: jQuery.validator.format("กรุณาใส่ข้อมูลที่น้อยกว่าหรือเท่ากับ {0}."),
-				min: jQuery.validator.format("กรุณาใส่ข้อมูลที่มากว่าหรือเท่ากับ {0}.")
-			});
-	}
-}
 function reloadPageNow(){
-	//window.location.reload(true);
+	window.location.reload(true);
 }
 function setSiteSearch(){
 	var keyword = $('#siteSearch_keyword').val();
@@ -208,7 +158,7 @@ function setSiteSearch(){
 }
 function inputBrowserFile(){
 	$(document).find('.elfinder-browse').each(function(){
-   	 	$(this).bind('click',function () {
+		$(this).bind('click',function () {
 			var input = $(this) ;
 			// create new elFinder
 			var dialog = $('<div id="finder" />').dialogelfinder({
@@ -234,67 +184,49 @@ function getPreImageURL(){
 	return image_url;
 }
 function initFormTextEditor(){
-	//console.log('auto resize'); 
 	tinymce.init({
-			selector: "textarea.texteditor",
-			inline: false,
-			height:250,
-			mode : "textareas",
-			relative_urls: true , 
-			extended_valid_elements :  "iframe[src|frameborder|style|scrolling|class|width|height|name|align]",
-			fontsize_formats: "8pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 21pt 22pt 23pt 24pt 25pt 26pt 28pt 30pt 32pt 34pt 36pt",
-			// save_onsavecallback:function(){ suSetSaveEditElement();},
-			file_browser_callback : elFinderBrowser,
-			plugins: [
-				"advlist autoresize autolink lists link image charmap print preview anchor emoticons",  
-				"searchreplace visualblocks code fullscreen",
-				"insertdatetime media table contextmenu paste textcolor hr  template ",
-				"fontawesome"
-			],
-			autoresize_overflow_padding: 5,
-			autoresize_min_height: 250,
-			autoresize_max_height: 500,
-			extended_valid_elements: 'i[class|style|title],span[class|style|title],a[accesskey|charset|class|contenteditable|contextmenu|coords|dir|download|draggable|dropzone|hidden|href|hreflang|id|lang|media|name|rel|rev|shape|spellcheck|style|tabindex|target|title|translate|type|onclick|onfocus|onblur],marquee',
-			content_css : "../../themes/assets/css/bootstrap.min.css",
-			content_css: '../../files/font-awesome/css/font-awesome.min.css',
-			// templates: [ irradiance/fontsirradiance/fonts
-			// 	{title: 'Tab 2', description: 'Tab 2',  url: '../../assets/tinymce/template/tab_2.php'},
-			// 	{title: 'Tab 3', description: 'Tab 3',  url: '../../assets/tinymce/template/tab_3.php'},
-			// 	{title: 'Tab 4', description: 'Tab 4',  url: '../../assets/tinymce/template/tab_4.php'},
-			// 	{title: 'Tab 5', description: 'Tab 5',  url: '../../assets/tinymce/template/tab_5.php'},
-			// 	{title: '1 Column', description: '1 Column',  url: '../../assets/tinymce/template/1_col.php'},
-			// 	{title: '2 Column', description: '2 Column',  url: '../../assets/tinymce/template/2_col.php'},
-			// 	{title: '3 Column', description: '3 Column',  url: '../../assets/tinymce/template/3_col.php'},
-			// 	{title: '4 Column', description: '4 Column',  url: '../../assets/tinymce/template/4_col.php'},
-			// 	{title: '6 Column', description: '6 Column',  url: '../../assets/tinymce/template/6_col.php'},
-			// 	{title: '2:10 Column', description: '2:10 Column',  url: '../../assets/tinymce/template/210_col.php'},
-			// 	{title: '10:2 Column', description: '10:2 Column',  url: '../../assets/tinymce/template/102_col.php'},
-			// 	{title: '3:9 Column', description: '3:9 Column',  url: '../../assets/tinymce/template/39_col.php'},
-			// 	{title: '9:3 Column', description: '9:3 Column',  url: '../../assets/tinymce/template/93_col.php'},
-			// 	{title: '4:8 Column', description: '4:8 Column',  url: '../../assets/tinymce/template/48_col.php'},
-			// 	{title: '8:4 Column', description: '8:4 Column',  url: '../../assets/tinymce/template/84_col.php'}
-			// ],
-			toolbar1: " insertfile | undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image   | forecolor backcolor |  formatselect styleselect  fontselect fontsizeselect  | template emoticons fontawesome  ",
-			bootstrapConfig: {
-		        'bootstrapCssPath': '../../themes/assets/css/bootstrap.min.css', // <= replace with your custom bootstrap path
-		        'imagesPath': '../../media/Images/', // replace with your images folder path 
-		        // 'tinymceBackgroundColor': '#fff' // replaces editor background-color with custom
-		    }
-		});   
+		verify_html: false,
+		selector: "textarea.texteditor",
+		inline: false,
+		height:250,
+		mode : "textareas",
+		relative_urls: true,
+		//extended_valid_elements :  "iframe[src|frameborder|style|scrolling|class|width|height|name|align]",
+		fontsize_formats: "8pt 10pt 11pt 12pt 13pt 14pt 15pt 16pt 17pt 18pt 19pt 20pt 21pt 22pt 23pt 24pt 25pt 26pt 28pt 30pt 32pt 34pt 36pt",
+		// save_onsavecallback:function(){ suSetSaveEditElement();},
+		file_browser_callback : elFinderBrowser,
+		plugins: [
+			"advlist autoresize autolink lists link image charmap print preview anchor emoticons",
+			"searchreplace visualblocks code fullscreen",
+			"insertdatetime media table contextmenu paste textcolor hr  template ",
+			"fontawesome"
+		],
+		autoresize_overflow_padding: 5,
+		autoresize_min_height: 250,
+		autoresize_max_height: 500,
+		extended_valid_elements: 'i[class|style|title],span[class|style|title],a[accesskey|charset|class|contenteditable|contextmenu|coords|dir|download|draggable|dropzone|hidden|href|hreflang|id|lang|media|name|rel|rev|shape|spellcheck|style|tabindex|target|title|translate|type|onclick|onfocus|onblur],marquee',
+		content_css : "../../themes/assets/css/bootstrap.min.css",
+		content_css: '../../files/font-awesome/css/font-awesome.min.css',
+		toolbar1: " insertfile | undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image   | forecolor backcolor |  formatselect styleselect  fontselect fontsizeselect  | template emoticons fontawesome  ",
+		bootstrapConfig: {
+			'bootstrapCssPath': '../../themes/assets/css/bootstrap.min.css', // <= replace with your custom bootstrap path
+			'imagesPath': '../../media/Images/', // replace with your images folder path 
+			// 'tinymceBackgroundColor': '#fff' // replaces editor background-color with custom
+		}
+	});
 }
-
 function elFinderBrowser (field_name, url, type, win) {
-		  tinymce.activeEditor.windowManager.open({
-			// file: '../../assets/filesmanagement/embed_services.php',// use an absolute path!
-			file: FILE_ROOT+'files/embed.php',
-			title: 'Files Management',  
-			width: 900,  
-			height: 450,
-			resizable: 'yes'
-		  }, {
-			setUrl: function (url) {
-			  win.document.getElementById(field_name).value = url;
-			}
-		  });
-		  return false;
+	tinymce.activeEditor.windowManager.open({
+		// file: '../../assets/filesmanagement/embed_services.php',// use an absolute path!
+		file: FILE_ROOT+'files/embed.php',
+		title: 'Files Management',  
+		width: 900,  
+		height: 450,
+		resizable: 'yes'
+	},{
+		setUrl: function (url) {
+			win.document.getElementById(field_name).value = url;
+		}
+	});
+	return false;
 }
