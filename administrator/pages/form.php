@@ -102,7 +102,7 @@ $module_active = 'pages';
 						$breadcrumbs = array(
 						0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>false),
 						1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>false),
-						2=>array('name'=>$modules_name,'alt'=>$modules_name,'link'=>'index.php','class'=>false),
+						2=>array('name'=>'เว็บเพจ','alt'=>'Pages','link'=>'index.php','class'=>false),
 						3=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
 					);
 					include('../inc/breadcrumbs.php');
@@ -210,31 +210,48 @@ $module_active = 'pages';
                                             <div class="da-form-row">
                                                 <label>หมวดหมู่หลัก<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote"  >เลือกหมวดหมู่หลัก (ถ้ามี)</span>
+                                                	<span class="formNote">เลือกหมวดหมู่หลัก (ถ้ามี)</span>
                                                     <select id="categories" name="categories" disabled="disabled" ></select>
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
-                                                <label>ชื่อเพจ <span class="required">*</span></label>
+                                                <label>ชื่อ<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote" >ใส่ชื่อเพจ</span>
+                                                	<span class="formNote">ใส่ชื่อเว็บเพจ</span>
                                                     <input type="text" name="name" id="name" value="" />
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
                                                 <label>Slug </label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote" >ชื่อที่จะแสดงใน URL ต้องไม่ซ้ำกัน</span>
+                                                	<span class="formNote">ชื่อที่จะแสดงใน URL ต้องไม่ซ้ำกัน</span>
                                                     <input type="text" name="slug" id="slug" value="" />
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
-                                                <label>เนื้อหาเว็บเพจ<span class="required">*</span></label>
+                                                <label>รายละเอียด<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                    <span class="formNote"  >ใส่เนื้อหาเว็บเพจ</span>
+                                                    <span class="formNote">ใส่รายละเอียดเว็บเพจ</span>
+                                                    <textarea id="description" name="description"></textarea>
+                                                </div>
+                                                <div id="myelfinder"></div>
+                                            </div>
+                                            <div class="da-form-row">
+                                                <label>เนื้อหา<span class="required">*</span></label>
+                                                <div class="da-form-item large">
+                                                    <span class="formNote">ใส่เนื้อหาเว็บเพจ</span>
                                                     <textarea id="content" name="content" class="texteditor" style="overflow-x: hidden; overflow-y: hidden; height:500px; "></textarea>
                                                 </div>
                                                 <div id="myelfinder"></div>
+                                            </div>
+                                            <div class="da-form-row">
+                                                <label>ภาพ<span class="required">*</span></label>
+                                                <div class="da-form-item large">
+                                                    <span class="formNote">ใส่ภาพ (ถ้ามี)</span>
+                                                    <div id="finder"></div>
+                                                    <input type="text" name="image" id="image" value="" class="elfinder-browse" />
+                                                    <img src="" id="show_image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
+                                                </div>
                                             </div>
                                           	<div class="da-form-row">
                                                 <label>เปิดใช้งาน<span class="required">*</span></label>

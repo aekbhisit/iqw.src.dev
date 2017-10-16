@@ -38,7 +38,7 @@ class Pages extends Database {
 		return $month.'/'.$day.'/'. $year.' '.$h.':'.$m ;
 	}
 	public function getCategoriesAll($search,$order,$limit){
-		$this->sql = "select * from $this->table where level >0  $search $order $limit";
+		$this->sql = "select * from $this->table where level>0 $search $order $limit";
 		$this->select();
 		return $this->rows;
 	}
@@ -46,11 +46,11 @@ class Pages extends Database {
 		return $this->get_tree($where);
 	}
 	public function getCategoriesSize(){
-		$this->sql = "select $this->primary_key from $this->table where level >0 ";
+		$this->sql = "select $this->primary_key from $this->table where level>0 ";
 		return $this->select('size');
 	}
 	public function getCategory($id){
-		$this->sql = "select id, parent_id, name, slug,description, image, status from $this->table where $this->primary_key=$id ";
+		$this->sql = "select id,parent_id,name,slug,description,image,status from $this->table where $this->primary_key=$id ";
 		$this->select();
 		return  $this->rows[0];
 	}
@@ -69,30 +69,30 @@ class Pages extends Database {
 		if($parent_id==0){
 			$parent_id = $this->check_root_node();
 		}else{
-			if ($parent_id != $this->get_parent_id($id)){
+			if ($parent_id!=$this->get_parent_id($id)){
 				$this->move_parent($id,$parent_id);
 			}
 		}
-		$this->sql = "update $this->table set parent_id=$parent_id,name='$name',slug='$slug',description='$description',image='$image',params='$params',user_id=$user_id,status=$status, mdate=NOW() where $this->primary_key=$id ";
+		$this->sql = "update $this->table set parent_id=$parent_id,name='$name',slug='$slug',description='$description',image='$image',params='$params',user_id=$user_id,status=$status,mdate=NOW() where $this->primary_key=$id ";
 		$this->update();
 	}
 	public function duplicate_categories($id,$user_id){
 		$this->sql = "select * from $this->table where $this->primary_key=$id ";
 		$this->select();
 		$data = $this->rows[0];
-		$new_id = $this->insert_categories($data['parent_id'],$data['name'],$data['slug'],$data['description'],$data['image'],$data['params'],$user_id,$data['status']) ;
+		$new_id = $this->insert_categories($data['parent_id'],$data['name'],$data['slug'],$data['description'],$data['image'],$data['params'],$user_id,$data['status']);
 		// translate
 		$this->sql = "select * from $this->translate_table where $this->primary_key=$id ";
 		$this->select();
 		$data = $this->rows;
 		if(!empty($data)){
 			foreach($data as $d){
-				$this->saveCategoriesTranslate( $d['lang'],$new_id,$d['name'],$d['description'],$d['image'],$d['params']);
+				$this->saveCategoriesTranslate($d['lang'],$new_id,$d['name'],$d['description'],$d['image'],$d['params']);
 			}
 		}
 	}
 	public function deleteCategoryTranslate($id){
-		$this->sql = "select * from $this->translate_table where $this->primary_key=$id " ;
+		$this->sql = "select * from $this->translate_table where $this->primary_key=$id ";
 		$this->select();
 		$data = $this->rows;
 		if(!empty($data)){
@@ -106,19 +106,19 @@ class Pages extends Database {
 	}
 	// translate function
 	public function getTranslateCategory($id,$lang){
-		$this->sql = "select $this->table.id as category_id, $this->table.name as translate_from ,$this->translate_table.* from $this->table  left join $this->translate_table  on $this->table.id=$this->translate_table.id and $this->translate_table.lang='$lang'  where $this->table.id=$id ";
+		$this->sql = "select $this->table.id as category_id,$this->table.name as translate_from,$this->translate_table.* from $this->table left join $this->translate_table on $this->table.id=$this->translate_table.id and $this->translate_table.lang='$lang' where $this->table.id=$id ";
 		$this->select();
 		return	$this->rows[0];
 	}
-	public function saveCategoriesTranslate( $categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,$param){
+	public function saveCategoriesTranslate($categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,$param){
 		$this->sql ="select id from $this->translate_table where lang='$categories_lang' and id=$categories_id ";
 		$this->select();
 		$chk = (empty($this->rows[0]['id']))?true:false;
 		if($chk){
-			$this->sql ="insert into  $this->translate_table (lang, id, name, description , image,params ) values ('$categories_lang',$categories_id,'$categories_name','$categories_description','$categories_images','$param') ";
+			$this->sql ="insert into $this->translate_table (lang,id,name,description,image,params) values ('$categories_lang',$categories_id,'$categories_name','$categories_description','$categories_images','$param') ";
 			$this->insert();
 		}else{
-			$this->sql = "update  $this->translate_table set lang ='$categories_lang' , name='$categories_name', description='$categories_description' , image='$categories_images',params='$param' where id=$categories_id ";
+			$this->sql = "update $this->translate_table set lang='$categories_lang',name='$categories_name',description='$categories_description',image='$categories_images',params='$param' where id=$categories_id ";
 			$this->update();
 		}
 	}
@@ -127,45 +127,47 @@ class Pages extends Database {
 		return $this->select('size');
 	}
 	public function getAll($search,$order,$limit){
-		$this->sql = "SELECT $this->table.*, $this->parent_table.name as category FROM $this->table  LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key  $search $order $limit";
+		$this->sql = "SELECT $this->table.*, $this->parent_table.name as category FROM $this->table  LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key $search $order $limit";
 		$this->select();
 		return $this->rows;
 	}
 	public function getOne($id,$language='th'){
-		$this->sql = "select * from $this->table where $this->table.$this->primary_key = $id ";
+		$this->sql = "select * from $this->table where $this->table.$this->primary_key=$id ";
 		$this->select();
-		$this->rows[0]['css'] = htmlspecialchars_decode($this->rows[0]['css'],ENT_QUOTES) ;
-		$this->rows[0]['javscript'] =htmlspecialchars_decode($this->rows[0]['javscript'],ENT_QUOTES);
-		$this->rows[0]['meta_keyword'] = htmlspecialchars_decode($this->rows[0]['meta_keyword'],ENT_QUOTES);
-		$this->rows[0]['meta_description'] =htmlspecialchars_decode($this->rows[0]['meta_description'],ENT_QUOTES);
-		$this->rows[0]['name'] = htmlspecialchars_decode($this->rows[0]['name'],ENT_QUOTES);
-		$this->rows[0]['content'] =htmlspecialchars_decode($this->rows[0]['content'],ENT_QUOTES);
-		return  $this->rows[0] ;
+		$this->rows[0]['css'] = $this->getString($this->rows[0]['css']);
+		$this->rows[0]['javascript'] =$this->getString($this->rows[0]['javascript']);
+		$this->rows[0]['meta_key'] = $this->getString($this->rows[0]['meta_key']);
+		$this->rows[0]['meta_description'] = $this->getString($this->rows[0]['meta_description']);
+		$this->rows[0]['name'] = $this->getString($this->rows[0]['name']);
+		$this->rows[0]['description'] = $this->getString($this->rows[0]['description']);
+		$this->rows[0]['content'] = $this->getString($this->rows[0]['content']);
+		$this->rows[0]['image'] = $this->getString($this->rows[0]['image']);
+		return $this->rows[0];
 	}
-	public function insertData($category_id,$name,$slug,$content,$params,$javascript,$css,$meta_key,$meta_description,$user_id,$status,$sequence=0){
+	public function insertData($category_id,$name,$slug,$description,$content,$image,$params,$javascript,$css,$meta_key,$meta_description,$user_id,$status,$sequence=0){
 		$slug = urldecode($slug);
-		$this->sql ="insert into $this->table (category_id,name,slug,content,params,javascript,css,meta_key,meta_description,user_id,status,mdate,cdate,sequence) ";
-		$this->sql .=" values($category_id,'$name','$slug','$content','$params','$javascript','$css','$meta_key','$meta_description',$user_id,$status,NOW(),NOW(),$sequence) ";
+		$this->sql = "insert into $this->table (category_id,name,slug,description,content,image,params,javascript,css,meta_key,meta_description,user_id,status,mdate,cdate,sequence) ";
+		$this->sql .= " values($category_id,'$name','$slug','$description','$content','$image','$params','$javascript','$css','$meta_key','$meta_description',$user_id,$status,NOW(),NOW(),$sequence) ";
 		$this->insert();
 	}
-	public function updateData($id,$category_id,$name,$slug,$content,$params,$javascript,$css,$meta_key,$meta_description,$user_id,$status){
+	public function updateData($id,$category_id,$name,$slug,$description,$content,$image,$params,$javascript,$css,$meta_key,$meta_description,$user_id,$status){
 		$slug = urldecode($slug);
-		$this->sql ="update $this->table set category_id=$category_id, name='$name', slug='$slug',content='$content', params='$params', javascript='$javascript', css='$css', meta_key='$meta_key', meta_description='$meta_description', user_id=$user_id, status=$status, mdate=NOW() where $this->primary_key = $id ";
+		$this->sql ="update $this->table set category_id=$category_id,name='$name',slug='$slug',description='$description',content='$content',image='$image',params='$params',javascript='$javascript',css='$css',meta_key='$meta_key',meta_description='$meta_description',user_id=$user_id, status=$status,mdate=NOW() where $this->primary_key=$id ";
 		$this->update();
 	}
 	public function duplicateData($id,$user_id){
-		$this->sql = "select * from $this->table where $this->primary_key = $id ";
+		$this->sql = "select * from $this->table where $this->primary_key=$id ";
 		$this->select();
 		$data = $this->rows[0];
-		$this->insertData($data['category_id'],$data['name'],$data['slug'],$data['content'],$data['params'],$data['javascript'],$data['css'],$data['meta_key'],$data['meta_description'],$user_id,$data['status'],$data['sequence']);
+		$this->insertData($data['category_id'],$data['name'],$data['slug'],$data['description'],$data['content'],$data['image'],$data['params'],$data['javascript'],$data['css'],$data['meta_key'],$data['meta_description'],$user_id,$data['status'],$data['sequence']);
 		// insert translate 
 		$new_id = $this->insert_id();
-		$this->sql = "select * from $this->translate_table where $this->primary_key = $id ";
+		$this->sql = "select * from $this->translate_table where $this->primary_key=$id ";
 		$this->select();
 		$data = $this->rows;
 		if(!empty($data)){
 			foreach($data as $d){
-				$this->saveTranslate( $d['lang'],$new_id,$d['name'],$d['content'],$d['params'],$d['meta_key'],$d['meta_description']);
+				$this->saveTranslate($d['lang'],$new_id,$d['name'],$d['slug'],$d['description'],$d['content'],$d['image'],$d['params'],$d['meta_key'],$d['meta_description']);
 			}
 		}
 	}
@@ -186,15 +188,15 @@ class Pages extends Database {
 		$this->select();
 		return $this->rows[0];
 	}
-  	public function saveTranslate( $lang,$id,$name,$content,$params,$meta_key,$meta_description){
+  	public function saveTranslate($lang,$id,$name,$slug,$description,$content,$image,$params,$meta_key,$meta_description){
 		$this->sql ="select id from $this->translate_table where lang='$lang' and id=$id ";
 		$this->select(); 
 		$chk = (empty($this->rows[0]['id']))?true:false;
 		if($chk){
-			$this->sql ="insert into  $this->translate_table (lang,id,name,content,params,meta_key,meta_description) values ('$lang',$id,'$name','$content','$params','$meta_key','$meta_description')  ";
+			$this->sql ="insert into $this->translate_table (lang,id,name,slug,description,content,image,params,meta_key,meta_description) values ('$lang',$id,'$name','$slug','$description','$content','$image','$params','$meta_key','$meta_description') ";
 			$this->insert();
 		}else{
-			$this->sql = "update  $this->translate_table set lang='$lang',name='$name',content='$content',params ='$params',meta_key='$meta_key', meta_description='$meta_description' where id=$id  ";
+			$this->sql = "update $this->translate_table set lang='$lang',name='$name',slug='$slug',description='$description',content='$content',image='$image',params='$params',meta_key='$meta_key',meta_description='$meta_description' where id=$id ";
 			$this->update();
 		}
 	}
@@ -209,16 +211,16 @@ class Pages extends Database {
 		}
 	}
 	public function switchOrder($id,$sort){
-		$this->sql = "select sequence from $this->table where  $this->primary_key=$id ";
+		$this->sql = "select sequence from $this->table where $this->primary_key=$id ";
 		$this->select();
 		$old_sequence = $this->rows[0]['sequence'];
 		if($sort>$old_sequence){ // move up
-			$this->sql="update $this->table set sequence=sequence-1 where sequence <= $sort and sequence > $old_sequence ";
+			$this->sql="update $this->table set sequence=sequence-1 where sequence<=$sort and sequence>$old_sequence ";
 			$this->update();
 			$this->sql="update $this->table set sequence=$sort where $this->primary_key=$id ";
 			$this->update();
 		}else{ // move down
-			$this->sql="update $this->table set sequence=sequence+1 where sequence >= $sort and sequence < $old_sequence ";
+			$this->sql="update $this->table set sequence=sequence+1 where sequence>=$sort and sequence<$old_sequence ";
 			$this->update();
 			$this->sql="update $this->table set sequence=$sort where $this->primary_key=$id ";
 			$this->update();

@@ -2,7 +2,6 @@
 "use strict";
 var modules = "pages";
 $(document).ready(function(e) {
-	initFormTextEditor();
 	formInit();
 	$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
 });
@@ -17,17 +16,25 @@ function formInit(){
 	$.getJSON(url,function(data){ 
 		if(typeof data=='object' && data!=null){
 			$('#id').val(data.id);
-			loadNowCategories(data.category_id) ;
+			loadNowCategories(data.category_id);
 			$('#javascript').val(data.javascript);
 			$('#css').val(data.css);
 			$('#meta_key').val(data.meta_key);
 			$('#meta_description').val(data.meta_description);
 			$('#name').val(data.name);
 			$('#slug').val(data.slug);
-			$('#content').val(data.content);
+			$('#description').html(data.description);
+			$('#content').html(data.content);
+			if(data.image!=''){
+				$('#image').val(data.image);
+				$('#show_image').attr('src',data.image);
+				$('#show_image').fadeIn('fast');
+			}
 			$('#status').find('option:[value="'+data.status+'"]').attr('selected','selected');
+			initFormTextEditor();
 		}else{
 			loadNowCategories(0);
+			initFormTextEditor();
 		}
 	});
 }
@@ -87,4 +94,19 @@ function setSaveData(){
 			gotoManagePage();
 		}
 	});
+}
+function selectImages(){
+	var input = $('#image');
+	$(input).bind('click',function () {
+		if($(document).has('#finder').length<=0){
+			$('#image').after('<div id="finder"></div>');
+		}
+		$('#finder').elfinder({
+			url : '../../files/php/connector.php',
+			closeOnEditorCallback: false,
+			getFileCallback: function(url) {
+				$(input).val(url);
+			}
+		});
+	});	
 }

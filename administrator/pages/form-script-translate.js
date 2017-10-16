@@ -26,7 +26,13 @@ function formInit(){
 				$('#meta_key').val(data.meta_key);
 				$('#meta_description').val(data.meta_description);
 				$('#name').val(data.name);
+				$('#description').val(data.description);
 				$('#content').val(data.content);
+				if(data.image!=''){
+					$('#image').val(data.image);
+					$('#show_image').attr('src',data.image);
+					$('#show_image').fadeIn('fast');
+				}
 				tinyMCE.activeEditor.setContent(data.content);
 			}
 		});

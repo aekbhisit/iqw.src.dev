@@ -253,7 +253,9 @@ if(isset($_GET['task'])){
 			}else{
 				$slug = $oModule->setString($_POST['slug']);
 			}
+			$description = $oModule->setString($_POST['description']);
 			$content = $oModule->setString($_POST['content']);
+			$image = $oModule->setString($_POST['image']);
 			$javascript = $oModule->setString($_POST['javascript']);
 			$css = $oModule->setString($_POST['css']);
 			$meta_key = $oModule->setString($_POST['meta_key']);
@@ -262,9 +264,9 @@ if(isset($_GET['task'])){
 			$slug = urldecode($slug);
 			$params ='';
 			if(empty($id)){
-				$oModule->insertData($category_id,$name,$slug,$content,$params,$javascript,$css,$meta_key,$meta_description,$user['id'],$status);
+				$oModule->insertData($category_id,$name,$slug,$description,$content,$image,$params,$javascript,$css,$meta_key,$meta_description,$user['id'],$status);
 			}else{
-				$oModule->updateData($id,$category_id,$name,$slug,$content,$params,$javascript,$css,$meta_key,$meta_description,$user['id'],$status);
+				$oModule->updateData($id,$category_id,$name,$slug,$description,$content,$image,$params,$javascript,$css,$meta_key,$meta_description,$user['id'],$status);
 			}
 		break;
 		case 'duplicate':
@@ -296,17 +298,23 @@ if(isset($_GET['task'])){
 			$lang = $oModule->setString($_GET['language']);
 			$data = $oModule->getTranslate($id,$lang);
 			$data['name'] = $oModule->getString($data['name']);
+			$data['description'] = $oModule->getString($data['description']);
 			$data['content'] = $oModule->getString($data['content']);
+			$data['image'] = $oModule->getString($data['image']);
 			echo json_encode($data);
 		break;
 		case 'saveTranslate':
 			$id = $oModule->setInt($_POST['id']);
 			$lang = $oModule->setString($_POST['translate_language']);
 			$name = $oModule->setString($_POST['name']);
+			$slug = $oModule->createSlug($name);
+			$slug = urldecode($slug);
+			$description = $oModule->setString($_POST['description']);
 			$content = $oModule->setString($_POST['content']);
+			$image = $oModule->setString($_POST['image']);
 			$meta_key = $oModule->setString($_POST['meta_key']);
 			$meta_description = $oModule->setString($_POST['meta_description']);
-			$oModule->saveTranslate($lang,$id,$name,$content,'',$meta_key,$meta_description);
+			$oModule->saveTranslate($lang,$id,$name,$slug,$description,$content,$image,'',$meta_key,$meta_description);
 		break;
 		// for find module	
 		case 'getCategoriesDataInFinds':
@@ -344,7 +352,7 @@ if(isset($_GET['task'])){
 						if($value['status']){	
 							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/target.png" title="เปิด" /></a>';
 						}else{
-							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/stop.png"  title="ปิด" /></a>';
+							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/stop.png" title="ปิด" /></a>';
 						}
 						$indent = '';	
 						for($i=1;$i<$value['level'];$i++){
@@ -426,7 +434,7 @@ if(isset($_GET['task'])){
 			}
 			$sSearch = $oModule->setString($_GET['sSearch']); 
 			if(!empty($sSearch)){
-				$search = " WHERE ( $oModule->table.name like '%$sSearch%' or $oModule->table.slug like '%$sSearch%') ";
+				$search = " WHERE ($oModule->table.name like '%$sSearch%' or $oModule->table.slug like '%$sSearch%') ";
 			}
 			$data = $oModule->getAll($search,$orderby,$limit);
 			$iTotal = $oModule->getSize();
