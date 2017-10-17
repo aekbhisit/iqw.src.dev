@@ -1,4 +1,7 @@
 <?php
+/**
+Last Update Sathaporn
+**/
 class Pages extends Database {
 	var $module;
 	public function __construct($params=NULL){
@@ -184,7 +187,7 @@ class Pages extends Database {
 		$this->update();
 	}
 	public function getTranslate($id,$lang){
-		$this->sql = "select $this->table.id as page_id,$this->table.name as translate_from,$this->table.id as page_id,$this->translate_table.* from $this->table left join $this->translate_table on $this->table.id= $this->translate_table.id and $this->translate_table.lang='$lang' where $this->table.id=$id ";
+		$this->sql = "select $this->table.id as page_id,$this->table.name as translate_from,$this->table.id as page_id,$this->translate_table.* from $this->table left join $this->translate_table on $this->table.id=$this->translate_table.id and $this->translate_table.lang='$lang' where $this->table.id=$id ";
 		$this->select();
 		return $this->rows[0];
 	}

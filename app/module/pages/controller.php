@@ -1,4 +1,7 @@
 <?php
+/**
+Last Update Sathaporn
+**/
 if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
@@ -520,7 +523,7 @@ if(isset($_GET['task'])){
 			$category_id = $oCategories->setInt($_GET['category_id']);
 			$oModule->changeCategory($id,$category_id);
 		break;	
-		////////////////task for frontend  ///////////
+		//////////////// task for frontend  ///////////
 		case "find":
 			$language = LANG;
 			$module = $_GET['module'];

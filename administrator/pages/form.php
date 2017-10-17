@@ -234,7 +234,6 @@ $module_active = 'pages';
                                                     <span class="formNote">ใส่รายละเอียดเว็บเพจ</span>
                                                     <textarea id="description" name="description"></textarea>
                                                 </div>
-                                                <div id="myelfinder"></div>
                                             </div>
                                             <div class="da-form-row">
                                                 <label>เนื้อหา<span class="required">*</span></label>
@@ -286,6 +285,6 @@ $module_active = 'pages';
             </div>
         </div>
     </div>
-    <div class="modal" onclick="reloadPageNow()"></div>​
+    <div class="modal" onclick="reloadPageNow();"></div>​
 </body>
 </html>

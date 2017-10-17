@@ -1,27 +1,23 @@
-<?php @include ("../inc/auth.inc.php") ; ?>
+<?php @include ("../inc/auth.inc.php"); ?>
 <?php
 $modules = 'pages';
 $modules_name = 'pages';
-$module_active = 'pages' ;
+$module_active = 'pages';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <!-- Viewport metatags -->
 <meta name="HandheldFriendly" content="true" />
 <meta name="MobileOptimized" content="320" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
 <!-- iOS webapp metatags -->
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-
 <!-- iOS webapp icons -->
 <link rel="apple-touch-icon" href="../touch-icon-iphone.png" />
 <link rel="apple-touch-icon" sizes="72x72" href="../touch-icon-ipad.png" />
 <link rel="apple-touch-icon" sizes="114x114" href="../touch-icon-retina.png" />
-
 <!-- CSS Reset -->
 <link rel="stylesheet" type="text/css" href="../css/reset.css" media="screen" />
 <!--  Fluid Grid System -->
@@ -32,18 +28,14 @@ $module_active = 'pages' ;
 <link rel="stylesheet" type="text/css" href="../css/dandelion.css" media="screen" />
 <!-- Demo Stylesheet -->
 <link rel="stylesheet" type="text/css" href="../css/demo.css" media="screen" />
-
 <!-- jQuery JavaScript File -->
 <script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script>
-
 <!-- jQuery-UI JavaScript Files -->
 <script type="text/javascript" src="../jui/js/jquery-ui-1.8.20.min.js"></script>
 <script type="text/javascript" src="../jui/js/jquery.ui.timepicker.min.js"></script>
 <script type="text/javascript" src="../jui/js/jquery.ui.touch-punch.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../jui/css/jquery.ui.all.css" media="screen" />
-
 <!-- Plugin Files -->
-
 <!-- FileInput Plugin -->
 <script type="text/javascript" src="../js/jquery.fileinput.js"></script>
 <!-- Placeholder Plugin -->
@@ -55,30 +47,20 @@ $module_active = 'pages' ;
 <!-- Tooltips Plugin -->
 <script type="text/javascript" src="../plugins/tipsy/jquery.tipsy-min.js"></script>
 <link rel="stylesheet" href="../plugins/tipsy/tipsy.css" />
-
 <!-- DataTables Plugin -->
 <script type="text/javascript" src="../plugins/datatables/jquery.dataTables.min.js"></script>
-
 <!-- Core JavaScript Files -->
 <script type="text/javascript" src="../js/core/dandelion.core.js"></script>
-
 <!-- Customizer JavaScript File (remove if not needed) -->
 <script type="text/javascript" src="../js/core/dandelion.customizer.js"></script>
-
 <script type="text/javascript" src="../plugins/jgrowl/jquery.jgrowl.js"></script>
 <link rel="stylesheet" type="text/css" href="../plugins/jgrowl/jquery.jgrowl.css" media="screen" />
-
 <!--form validate-->
 <script type="text/javascript" src="../plugins/validate/jquery.validate.min.js"></script>
-
 <!--file manage -->
-
 <!-- elFinder Plugin -->
 <script type="text/javascript" src="../plugins/elfinder/js/elfinder.min.js"></script>
 <link rel="stylesheet" href="../plugins/elfinder/css/elfinder.css" media="screen" />
-
-
-
 <!-- PLUpload Plugin -->
 <!--<script type="text/javascript" src="plugins/plupload/plupload.js"></script>
 <script type="text/javascript" src="plugins/plupload/plupload.flash.js"></script>
@@ -86,85 +68,72 @@ $module_active = 'pages' ;
 <script type="text/javascript" src="plugins/plupload/plupload.html5.js"></script>
 <script type="text/javascript" src="plugins/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
 <link rel="stylesheet" href="plugins/plupload/jquery.plupload.queue.css" />-->
-
 <!-- Demo JavaScript Files -->
 <!--<script type="text/javascript" src="js/demo/demo.files.js"></script>-->
 <!-- all-pages-include-script -->
 <?php include('../all-pages-include-script.php'); ?>
 <!-- Custom script for all page -->
 <script type="text/javascript" src="../all-pages-script.js"></script>
-
 <!-- Custom script for this page -->
 <script type="text/javascript" src="categories-form-script-translate.js"></script>
-
-
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
-
 </head>
-
 <body class="loading">
 	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
 	<div id="da-wrapper" class="fluid">
-    
         <!-- Header -->
         <div id="da-header">
-         <!--header top-->
-        <?php include('../inc/header_top.php');?>
-        <!--end header top-->
-             <!--noti end--> 
+            <!--header top-->
+            <?php include('../inc/header_top.php');?>
+            <!--end header top-->
+            <!--noti end--> 
             <div id="da-header-bottom">
                 <!-- Container -->
                 <div class="da-container clearfix">
-                
-                  <!--search box-->
+                    <!--search box-->
            			<?php 
 					include('../inc/search_top.php');
 					?>
                 	<!--end search box-->
-                   <!-- Breadcrumbs -->
+                    <!-- Breadcrumbs -->
                     <?php 
-					$breadcrumbs = array(
-						0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>''),
-						1=>array('name'=>'หมวดหมู่','alt'=>'Categoies','link'=>'categories.php','class'=>''),
-						2=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
-					);
-					include('../inc/breadcrumbs.php');
+    					$breadcrumbs = array(
+    						0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>''),
+    						1=>array('name'=>'หมวดหมู่','alt'=>'Categoies','link'=>'categories.php','class'=>''),
+    						2=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
+    					);
+    					include('../inc/breadcrumbs.php');
 					?>
                     <!-- end Breadcrumbs -->
                 </div>
             </div>
         </div>
-    
         <!-- Content -->
         <div id="da-content">
-            
             <!-- Container -->
             <div class="da-container clearfix">
-                
 	            <!-- Sidebar Separator do not remove -->
                 <div id="da-sidebar-separator"></div>
-                
                 <!-- Sidebar -->
                 <?php
                 	include('../inc/side_bar.php');
 				?>
                 <!-- Main Content Wrapper -->
                 <div id="da-content-wrap" class="clearfix">
-                
                 	<!-- Content Area -->
                 	<div id="da-content-area">
-                    <div style="display:block; clear:both; margin-left:10px; margin-right:10px; display:none;">
-                    <!--start flash messaages-->
-                    <div class="da-message error">
-                                        This is an error message
-                     </div>
-                     <div class="da-message success">
-                                        This is a success message
-                     </div>
-                    <div class="da-message info">
-                                        This is an info message
-                    </div>
-                    </div>
+                        <div style="display:block; clear:both; margin-left:10px; margin-right:10px; display:none;">
+                            <!--start flash messaages-->
+                            <div class="da-message error">
+                                This is an error message
+                            </div>
+                            <div class="da-message success">
+                                This is a success message
+                            </div>
+                            <div class="da-message info">
+                                This is an info message
+                            </div>
+                        </div>
                     <!--end flash messaages-->
                     <!--start form-->
                       	<div class="grid_3">

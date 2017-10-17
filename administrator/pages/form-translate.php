@@ -141,14 +141,14 @@ $module_active = 'pages';
                                         <div class="da-form-row">
                                             <label>Meta Keywords</label>
                                             <div class="da-form-item large">
-                                            	<span class="formNote"  >ใส่ Meta Keywords (ถ้าต้องการ)</span>
+                                            	<span class="formNote">ใส่ Meta Keywords (ถ้าต้องการ)</span>
                                                 <input type="text" name="meta_key" id="meta_key" value="" />
                                             </div>
                                         </div>
                                         <div class="da-form-row">
                                             <label>Meta Descriptions</label>
                                             <div class="da-form-item large">
-                                            	<span class="formNote"  >ใส่ Meta Descriptions (ถ้าต้องการ)</span>
+                                            	<span class="formNote">ใส่ Meta Descriptions (ถ้าต้องการ)</span>
                                                 <input type="text" name="meta_description" id="meta_description" value="" />
                                             </div>
                                         </div>
@@ -161,7 +161,7 @@ $module_active = 'pages';
                                     <div class="da-panel-header">
                                         <span class="da-panel-title">
                                             <img src="../images/icons/black/16/pencil.png" alt="" />
-                                            แปลเว็บเพจ
+                                            แปลภาษาเว็บเพจ
                                         </span>
                                     </div>
                                     <div class="da-panel-content">
@@ -182,27 +182,35 @@ $module_active = 'pages';
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
-                                                <label>ชื่อ <span class="required">*</span></label>
+                                                <label>ชื่อ<span class="required">*</span></label>
                                                 <div class="da-form-item large">
                                                 	<span class="formNote">ใส่ชื่อเว็บเพจ</span>
                                                     <input type="text" name="name" id="name" value="" />
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
-                                                <label>รายละเอียด <span class="required">*</span></label>
+                                                <label>รายละเอียด<span class="required">*</span></label>
                                                 <div class="da-form-item large">
                                                     <span class="formNote">ใส่รายละเอียดเว็บเพจ</span>
                                                     <textarea id="description" name="description"></textarea>
                                                 </div>
-                                                <div id="myelfinder"></div>
                                             </div>
                                             <div class="da-form-row">
-                                                <label>เนื้อหา <span class="required">*</span></label>
+                                                <label>เนื้อหา<span class="required">*</span></label>
                                                 <div class="da-form-item large">
                                                 	<span class="formNote">ใส่เนื้อหาเว็บเพจ</span>
                                                    <textarea id="content" name="content" class="texteditor" style="overflow-x: hidden; overflow-y: hidden; height:500px; "></textarea>
                                                 </div>
                                                 <div id="myelfinder"></div>
+                                            </div>
+                                            <div class="da-form-row">
+                                                <label>ภาพ<span class="required">*</span></label>
+                                                <div class="da-form-item large">
+                                                    <span class="formNote">ใส่ภาพ (ถ้ามี)</span>
+                                                    <div id="finder"></div>
+                                                    <input type="text" name="image" id="image" value="" class="elfinder-browse" />
+                                                    <img src="" id="show_image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
+                                                </div>
                                             </div>
                                             <div class="da-button-row">
                                                 <input type="reset" value="ยกเลิก" class="da-button gray left" />
@@ -227,6 +235,6 @@ $module_active = 'pages';
             </div>
         </div>
     </div>
-    <div class="modal" onclick="reloadPageNow()"></div>​
+    <div class="modal" onclick="reloadPageNow();"></div>​
 </body>
 </html>

@@ -2,7 +2,6 @@
 "use strict";
 var modules = "pages";
 $(document).ready(function(e) {
-	initFormTextEditor();
 	categoryFormInit();
 	$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
 });// document_ready
@@ -27,8 +26,10 @@ function categoryFormInit(){
 				$('#show_categories_image').fadeIn('fast');
 			}
 			$('#categories_status').find('option:[value="'+data.status+'"]').attr('selected','selected');
+			initFormTextEditor();
 		}else{
 			loadNowCategories(0);
+			initFormTextEditor();
 		}
 	});
 }
@@ -63,13 +64,10 @@ function loadNowCategories(selected){
 function setSaveCategories(){
 	var d = new Date();	
 	var url = "../../app/index.php?module="+modules+"&task=saveCategory&d"+d.getTime();
-	$('#categories_form').find('.elrte').each(function(){
-		$(this).elrte('updateSource');
-	});
 	tinyMCE.triggerSave();
 	$.ajax({
-		  type: 'POST', 
-		  url: url, 
+		  type: 'POST',
+		  url: url,
 		  enctype: 'multipart/form-data', 
 		  data: $('#categories_form').serialize(),
 		  beforeSend: function() {
@@ -78,7 +76,7 @@ function setSaveCategories(){
 					categories_name: {
 						required: true
 					}
-				}, 
+				},
 				invalidHandler: function(form, validator) {
 					var errors = validator.numberOfInvalids();
 					if (errors) {
