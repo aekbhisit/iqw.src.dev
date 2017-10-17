@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 class Banners extends Database {
 	var $module;
 	public function __construct($params=NULL){
@@ -20,8 +23,8 @@ class Banners extends Database {
 			$this->site_language = $params['site_language'];
 		}
 		if(isset($params['is_translate'])){
-			$this->is_translate = $params['is_translate'];
-		}
+		 	$this->is_translate = $params['is_translate'];
+	 	}
 		if(isset($params['translate_table'])){
 			$this->translate_table = $params['translate_table'];
 		}
