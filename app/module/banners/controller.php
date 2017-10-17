@@ -48,7 +48,7 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $_GET['sSearch']; 
+			$sSearch = $oModule->setString($_GET['sSearch']); 
 			if($sSearch=='undefined'){
 				$sSearch = '';
 			}
@@ -97,7 +97,7 @@ if(isset($_GET['task'])){
 			$data = array(
 				0=>array('level'=>0,'id'=>0,'parent'=>0,'name'=>'--- ไม่เลือก ---'),
 			);
-			$cnt =1 ;
+			$cnt = 1;
 			if(!empty($categories)){
 				foreach($categories as $c){
 					if(!isset($c['parent'])) {
@@ -113,8 +113,8 @@ if(isset($_GET['task'])){
 			if($_GET['mode']=='edit'){
 				$id = $oCategories->setInt($_GET['id']);
 				$data = $oCategories->getCategory($id);
-				$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
-				$data['description']=htmlspecialchars_decode($data['description'],ENT_QUOTES);
+				$data['name'] = $oCategories->setString($data['name']);
+				$data['description'] = $oCategories->setString($data['description']);
 				echo json_encode($data);
 			}
 		break;
@@ -160,7 +160,7 @@ if(isset($_GET['task'])){
 		break;
 		case 'setCategoryMove':
 			$id = $oCategories->setInt($_GET['id']);
-			$position = $_GET['position'];
+			$position = $oCategories->setString($_GET['position']);
 			$oCategories->move($id,$position);
 		break;
 		// translate
@@ -180,10 +180,9 @@ if(isset($_GET['task'])){
 			$categories_images = $oCategories->setString($_POST["categories_server_images"]);
 			$oCategories->saveCategoriesTranslate($categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,'');
 		break;
-		// pages-form.html
 		case 'formInit':
 			if($_GET['mode']=='edit'){
-				$id = $oCategories->setInt($_GET['id']);
+				$id = $oModule->setInt($_GET['id']);
 				$data = $oModule->getOne($id);
 				echo json_encode($data);
 			}
@@ -203,49 +202,49 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $oModule->setString($_GET['sSearch']); 
 			if($sSearch=='undefined'){
 				$sSearch = '';
 			}
 			if(!empty($sSearch)){
-				$search =  " WHERE ( $oModule->table.name like '%$sSearch%' or $oModule->table.slug like '%$sSearch%') ";
-				$category_id  = $_GET['filterCategoryID']; 
+				$search = " WHERE ( $oModule->table.name like '%$sSearch%' or $oModule->table.slug like '%$sSearch%') ";
+				$category_id = $oModule->setInt($_GET['filterCategoryID']);
 				if($category_id>0){
-					$search .=  " AND $oModule->table.category_id = $category_id ";
+					$search .= " AND $oModule->table.category_id = $category_id ";
 				}
 			}else{
-				$category_id  = $_GET['filterCategoryID']; 
+				$category_id = $oModule->setInt($_GET['filterCategoryID']);
 				if($category_id>0){
-					$search =  " WHERE $oModule->table.category_id = $category_id ";
+					$search = " WHERE $oModule->table.category_id = $category_id ";
 				}
 			}
 			$data = $oModule->getAll($search,$orderby,$limit);
 			$iTotal = $oModule->getSize();
 			$iFilteredTotal = count($data);
 			$output = array(
-				"sEcho" => intval($_GET['sEcho']),
-				"iTotalRecords" => $iTotal,
-				"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-				"aaData" => array()
+				"sEcho"=>intval($_GET['sEcho']),
+				"iTotalRecords"=>$iTotal,
+				"iTotalDisplayRecords"=>$iTotal, // $iFilteredTotal,
+				"aaData"=>array()
 			);
 			$cnt = 1;
 			if(!empty($data)){
 				foreach($data as $key =>$value){
-					if($value['status']==1){	
-						$iconbar = '<a href="javascript:void(0)" onclick="setStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" title="เปิด" /></a>&nbsp;';
+					if($value['status']==1){
+						$iconbar = '<a href="javascript:void(0)" onclick="setStatus('.$value['id'].',0)"><img src="../images/icons/color/target.png" title="เปิด" /></a>&nbsp;';
 					}else{
-						$iconbar = '<a href="javascript:void(0)" onclick="setStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png" title="ปิด" /></a>&nbsp;';
+						$iconbar = '<a href="javascript:void(0)" onclick="setStatus('.$value['id'].',1)"><img src="../images/icons/color/stop.png" title="ปิด" /></a>&nbsp;';
 					}
 					$iconbar .=	'<a href="javascript:void(0)" onclick="setDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>';
-					if(SITE_TRANSLATE){				
+					if(SITE_TRANSLATE){
 						$iconbar .=	'<a href="javascript:void(0)" onclick="setTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title="แปลภาษา" /></a>';
 					}
-					$iconbar .= '<a href="javascript:void(0)" onclick="setDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>	';
+					$iconbar .= '<a href="javascript:void(0)" onclick="setDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>';
 					$order = '<a href="javascript:void(0)" onclick="setMove('.$value['id'].',\'up\')"><img src="../images/icons/black/16/arrow_up_small.png" title="ขึ้น" /></a><a href="javascript:void(0)" onclick="setMove('.$value['id'].',\'down\')" ><img src="../images/icons/black/16/arrow_down_small.png" title="ลง" /></a>';					
-					$order = '<input name="sequence_'.$value['id'].'" id="sequence_'.$value['id'].'" type="text"  value="'.$value['sequence'].'" title="'.$value['sequence'].'" style="width:40px;" onblur="switchDataOrder('.$value['id'].')" />';				  
+					$order = '<input name="sequence_'.$value['id'].'" id="sequence_'.$value['id'].'" type="text"  value="'.$value['sequence'].'" title="'.$value['sequence'].'" style="width:40px;" onblur="switchDataOrder('.$value['id'].')" />';
 					$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
 					// if empty category
-					$value['category'] = (empty($value['category']))?'  - ':$value['category'] ;
+					$value['category'] = (empty($value['category']))?'  - ':$value['category'];
 					$showname = '<a href="javascript:void(0)" onclick="setEdit('.$value['id'].')" ><img src="../images/icons/color/application_edit.png" title="แก้ไข" /> '.$value['name'].'</a>';
 					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$value['mdate'],4=>$order,5=>$iconbar,6=>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
 					$cnt++ ;
@@ -291,7 +290,7 @@ if(isset($_GET['task'])){
 		break;
 		case 'setMove':
 			$id = $oModule->setInt($_GET['id']);
-			$type = addslashes($_GET['type']);
+			$type = $oModule->setString($_GET['type']);
 			$oModule->moveRow($id,$type);
 		break;
 		case 'setDelete':
@@ -317,7 +316,7 @@ if(isset($_GET['task'])){
 			$image = $oModule->setString($_POST['image']);
 			$meta_key = $oModule->setString($_POST['meta_key']);
 			$meta_description = $oModule->setString($_POST['meta_description']);
-			$oModule->saveTranslate( $lang,$id,$name,$content,$image,'',$meta_key,$meta_description);
+			$oModule->saveTranslate($lang,$id,$name,$content,$image,'',$meta_key,$meta_description);
 		break;
 		// for find module	
 		case 'getCategoriesDataInFinds':
@@ -327,7 +326,7 @@ if(isset($_GET['task'])){
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart = $_GET['iDisplayStart'];
-			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength;
+			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
 			$iSortCol_0 = $_GET['iSortCol_0'];
 			$sSortDir_0 = $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
@@ -335,7 +334,7 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $oCategories->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
 				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
@@ -352,12 +351,12 @@ if(isset($_GET['task'])){
 			if(!empty($categories)){
 				foreach($categories as $key =>$value){
 					if($value['level']>0){
-						if($value['status']){	
+						if($value['status']){
 							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/target.png" title="เปิด" /></a>';
 						}else{
 							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/stop.png" title="ปิด" /></a>';
 						}
-						$indent = '';	
+						$indent = '';
 						for($i=1;$i<$value['level'];$i++){
 							$indent .= '-';
 						}
@@ -385,7 +384,7 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $oCategories->setString($_GET['sSearch']); 
 			if(!empty($sSearch)){
 				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
@@ -402,12 +401,12 @@ if(isset($_GET['task'])){
 			if(!empty($categories)){
 				foreach($categories as $key =>$value){
 					if($value['level']>0){
-						if($value['status']){	
+						if($value['status']){
 							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/target.png" title="เปิด" /></a>';
 						}else{
 							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/stop.png" title="ปิด" /></a>';
 						}
-						$indent = '';	
+						$indent = '';
 						for($i=1;$i<$value['level'];$i++){
 							$indent .= '-';
 						}
@@ -435,9 +434,9 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $_GET['sSearch']; 
+			$sSearch = $oModule->setString($_GET['sSearch']); 
 			if(!empty($sSearch)){
-				$search = " WHERE ( $oModule->table.name like '%$sSearch%' or $oModule->table.slug like '%$sSearch%') ";
+				$search = " WHERE ($oModule->table.name like '%$sSearch%' or $oModule->table.slug like '%$sSearch%') ";
 			}
 			$data = $oModule->getAll($search,$orderby,$limit);
 			$iTotal = $oModule->getSize();
@@ -451,7 +450,7 @@ if(isset($_GET['task'])){
 			$cnt = 1;
 			if(!empty($data)){
 				foreach($data as $key =>$value){
-					if($value['status']==1){	
+					if($value['status']==1){
 						$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/target.png" title="เปิด" /></a>';
 					}else{
 						$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/stop.png" title="ปิด" /></a>';
@@ -468,16 +467,16 @@ if(isset($_GET['task'])){
 		case "loadFindOneInit":
 			$id = $oModule->setInt($_GET['id']);
 			$data = $oModule->getOne($id);
-			$data['name'] = $oModule->setString($data['name']);
-			$data['meta_key'] = $oModule->setString($data['meta_key']);
-			$data['meta_description'] = $oModule->setString($data['meta_description']);
+			$data['name'] = $oModule->getString($data['name']);
+			$data['meta_key'] = $oModule->getString($data['meta_key']);
+			$data['meta_description'] = $oModule->getString($data['meta_description']);
 			echo json_encode($data,true);
 		break;	
 		case 'loadFindCategoryInit':
 			$id = $oModule->setInt($_GET['id']);
 			$data = $oCategories->getCategory($id);
-			$data['name'] = $oModule->setString($data['name']);
-			$data['description'] = $oModule->setString($data['description']);
+			$data['name'] = $oModule->getString($data['name']);
+			$data['description'] = $oModule->getString($data['description']);
 			echo json_encode($data,true);
 		break;
 		////////////////  reorder function /////////////
@@ -505,7 +504,7 @@ if(isset($_GET['task'])){
 		break ;		
 		case 'switchOrder';
 			$id = $oModule->setInt($_GET['id']);
-			$sort = $_GET['sort'];
+			$sort = $oModule->setString($_GET['sort']);
 			$oModule->switchOrder($id,$sort);
 		break ;	
 		case 'setReorderAll':
