@@ -27,7 +27,6 @@ $allow_module = array(
 	'restaurants'=>false,
 	'finds'=>true,
 	'configs'=>true,
-    'addon'=>true,
     'content'=>true,
     'htmlzone'=>true,
 );
@@ -311,19 +310,7 @@ $allow_module = array(
                                 	<li><a href="<?=($module_active=='contacts')?'index.php':'../contacts/index.php'?>">จัดการข้อความติดต่อ</a></li>
                                 </ul>
                             </li>
-                             <?php  }// if  ?>
-                            <?php if($allow_module['addon']){?>
-                            <li <?=($module_active=='addon')?'class="active"':''?>>
-                                <a href="<?=($module_active=='addon')?'index.php':'../addon/index.php'?>">
-                                    <!--<span class="da-nav-count">99</span>-->
-                                    <!-- Icon Container -->
-                                    <span class="da-nav-icon">
-                                        <img src="../images/icons/black/32/mail.png" alt="Contact" />
-                                    </span>
-                                    สถิติโปรเจค
-                                </a>
-                            </li>
-                            <?php  } // if  ?>
+                            <?php  }// if  ?>
                             <?php if($allow_module['newsletters']){?>
                              <li <?=($module_active=='newsletters')?'class="active"':''?>>
                             	<a href="<?=($module_active=='newsletters')?'index.php':'../newsletters/index.php'?>">
