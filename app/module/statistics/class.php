@@ -5,9 +5,9 @@
 class Statistics extends Database {
 	var $module;
 	var $stats_visit_table = 'stats_visit';
-	public function __construct($params=NULL){
-		$this->module = $params['module'];
-		parent::__construct((empty($params['table']))?$module:$params['table']);
+	public function __construct($module,$table=NULL){
+		$this->module = (empty($table))?$module:$table;
+	 	parent::__construct((empty($table))?$module:$table);
 		if(isset($params['primary_key'])){
 			$this->primary_key = $params['primary_key'];
 		}
@@ -258,7 +258,7 @@ class Statistics extends Database {
 			$_SESSION['stat_logs']['id'] = $stat_id;
 			$this->insertStateVisitLogs($stat_id,$url);
 		}else{
-			$this->insertStateVisitLogs($_SESSION['stat_logs']['id'] ,$url);
+			$this->insertStateVisitLogs($_SESSION['stat_logs']['id'],$url);
 		}
 	}
 	public function insertStateVisitLogs($stat_id,$url=NULL){
@@ -266,7 +266,7 @@ class Statistics extends Database {
 			$url = $_SERVER['REQUEST_URI'];
 		}
 		if(empty($_SESSION['stat_logs']['visit'][$url])){
-			$this->sql  = "insert into $this->stats_visit_table (stat_id,url,date) values ($stat_id,'$url',NOW()) ";
+			$this->sql = "insert into $this->stats_visit_table (stat_id,url,date) values ($stat_id,'$url',NOW()) ";
 			$this->insert();
 			$_SESSION['stat_logs']['visit'][$url] = time();
 		}
