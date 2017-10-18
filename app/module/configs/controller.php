@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 $oConfigsSite = new Configs('configs_site');
@@ -42,7 +45,7 @@ if(isset($_GET['task'])){
 			$smtp_port = $oConfigsEmail->setString($_POST['configs_smtp_port']);
 			$smtp_user = $oConfigsEmail->setString($_POST['configs_smtp_user']);
 			$smtp_password = $oConfigsEmail->setString($_POST['configs_smtp_password']);
-			if(empty($id)){		
+			if(empty($id)){
 				$oConfigsEmail->insertConfigsEmail($smtp,$smtp_secure,$smtp_server,$smtp_port,$smtp_user,$smtp_password);
 			}else{
 				$oConfigsEmail->updateConfigsEmail($id,$smtp,$smtp_secure,$smtp_server,$smtp_port,$smtp_user,$smtp_password);
@@ -54,7 +57,7 @@ if(isset($_GET['task'])){
 		break ;
 		case "front_setSiteLanguage";
 			$_SESSION['SITELANGUAGE'] = $oConfigsEmail->setString($_GET['language']);
-			setcookie("SITELANGUAGE",$_SESSION['SITELANGUAGE'],time()+3600*24*30, "/", DOMAIN);	
+			setcookie("SITELANGUAGE",$_SESSION['SITELANGUAGE'],time()+3600*24*30, "/", DOMAIN);
 		break ;
 	}// switch
 }// if isset

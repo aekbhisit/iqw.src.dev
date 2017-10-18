@@ -49,7 +49,7 @@ class Clips extends Database {
 		return $this->get_tree($where);
 	}
 	public function getCategoriesSize(){
-		$this->sql = "select $this->primary_key from $this->table where level >0 ";
+		$this->sql = "select $this->primary_key from $this->table where level>0 ";
 		return $this->select('size');
 	}
 	public function getCategory($id){
@@ -190,7 +190,7 @@ class Clips extends Database {
 		if(!empty($language)&&$language!=$this->site_language){
 			$this->sql = " select * from $this->parent_table_translate where id=$key ";
 		}else{
-			$this->sql = " select * from $this->parent_table  where id=$key ";
+			$this->sql = " select * from $this->parent_table where id=$key ";
 		}
 		$this->select();
 		return $this->rows[0];
@@ -211,7 +211,7 @@ class Clips extends Database {
 		$this->insertData($data['category_id'],$data['name'],$data['slug'],$data["description"],$data["url"],$data['content'],$data['params'],$data['image'],$data['meta_key'],$data['meta_description'],$user_id,$data['status']);
 		// insert translate 
 		$new_id = $this->insert_id();
-		$this->sql = "select * from $this->translate_table where $this->primary_key = $id ";
+		$this->sql = "select * from $this->translate_table where $this->primary_key=$id ";
 		$this->select();
 		$data = $this->rows;
 		if(!empty($data)){
@@ -251,7 +251,7 @@ class Clips extends Database {
 	}
 	public function front_getInCategory($categories,$search,$orderby,$limit){
 		foreach($categories as $category){
-			$new_search = $search.' and category_id = $category_id ';
+			$new_search = $search.' and category_id=$category_id ';
 			$pages[$category['id']] =$this->getPagesAll($new_search,$order,$limit);
 		}
 		return $pages;

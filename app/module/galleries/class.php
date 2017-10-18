@@ -1,8 +1,11 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 class Galleries extends Database {
 	var $module;
 	public function __construct($params=NULL){
-		$this->module = $params['module']  ;
+		$this->module = $params['module'];
 		parent::__construct((empty($params['table']))?$module:$params['table']);
 		if(isset($params['primary_key'])){
 			$this->primary_key = $params['primary_key'];
