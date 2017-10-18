@@ -118,7 +118,7 @@ if(isset($_GET['task'])){
 			if(empty($_POST['categories_slug'])){
 				$categories_slug = $oCategories->createSlug($categories_name);
 			}else{
-				$categories_slug = $oCategories->setString$_POST['categories_slug']);
+				$categories_slug = $oCategories->setString($_POST['categories_slug']);
 			}
 			$categories_layout = $oCategories->setString($_POST["categories_layout"]);
 			$categories_status = $oCategories->setInt($_POST["categories_status"]);
