@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
@@ -36,7 +39,7 @@ if(isset($_GET['task'])){
 			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
-			$iDisplayStart= $_GET['iDisplayStart'];
+			$iDisplayStart = $_GET['iDisplayStart'];
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
 			$iSortCol_0 = $_GET['iSortCol_0'];
 			$sSortDir_0 = $_GET['sSortDir_0'];
@@ -69,7 +72,7 @@ if(isset($_GET['task'])){
 						}
 						$iconbar .=	'<a href="javascript:void(0)" onclick="setCategoryDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>';
 						if(SITE_TRANSLATE){
-							$iconbar .=  '<a href="javascript:void(0)" onclick="setCategoryTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title=แปลภาษา /></a>';
+							$iconbar .= '<a href="javascript:void(0)" onclick="setCategoryTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title=แปลภาษา /></a>';
 						}
 			            $iconbar .= '<a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>';
 						$order = '<a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'left\')"><img src="../images/icons/black/16/arrow_up_small.png" title="ขึ้น" /></a><a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'right\')" ><img src="../images/icons/black/16/arrow_down_small.png" title="ลง" /></a>';
@@ -94,7 +97,7 @@ if(isset($_GET['task'])){
 			$cnt =1 ;
 			if(!empty($categories)){
 				foreach($categories as $c){
-					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']) ;
+					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']);
 					$cnt++;
 				}
 			}
@@ -157,20 +160,20 @@ if(isset($_GET['task'])){
 		// translate
 		case 'categoryFormTranslateInit':
 			if($_GET['mode']=='translate'){
-				$id = $oModule->setInt($_GET['id']);
-				$lang = $oModule->setString($_GET["language"]);
+				$id = $oCategories->setInt($_GET['id']);
+				$lang = $oCategories->setString($_GET["language"]);
 				$data = $oCategories->getTranslateCategory($id,$lang);
-				$data['name'] = $oModule->getString($_POST["name"]);
-				$data['description'] = $oModule->getString($_POST["description"]);
+				$data['name'] = $oCategories->getString($_POST["name"]);
+				$data['description'] = $oCategories->getString($_POST["description"]);
 				echo json_encode($data);
 			}
 		break;
 		case 'saveCategoryTranslate':
-			$categories_id = $oModule->setInt($_POST["categories_id"]); 
-			$categories_lang = $oModule->setString($_POST["categories_language"]); 
-			$categories_name = $oModule->setString($_POST["categories_name"]);
-			$categories_description = $oModule->setString($_POST["categories_description"]);
-			$categories_images = $oModule->setString($_POST["categories_server_images"]);
+			$categories_id = $oCategories->setInt($_POST["categories_id"]); 
+			$categories_lang = $oCategories->setString($_POST["categories_language"]); 
+			$categories_name = $oCategories->setString($_POST["categories_name"]);
+			$categories_description = $oCategories->setString($_POST["categories_description"]);
+			$categories_images = $oCategories->setString($_POST["categories_server_images"]);
 			$oCategories->saveCategoriesTranslate($categories_lang,$categories_id,$categories_name,$categories_description,$categories_images,'');
 		break;
 		case 'formInit':
@@ -205,12 +208,12 @@ if(isset($_GET['task'])){
 			}
 			if(!empty($sSearch)){
 				$search = " WHERE ( $oModule->table.name like '%$sSearch%' or $oModule->table.slug like '%$sSearch%') ";
-				$category_id = $_GET['filterCategoryID']; 
+				$category_id = $oModule->setInt($_GET['filterCategoryID']);
 				if($category_id>0){
 					$search .= " AND $oModule->table.category_id = $category_id ";
 				}
 			}else{
-				$category_id = $_GET['filterCategoryID']; 
+				$category_id = $oModule->setInt($_GET['filterCategoryID']);
 				if($category_id>0){
 					$search = " WHERE $oModule->table.category_id = $category_id ";
 				}
@@ -270,6 +273,9 @@ if(isset($_GET['task'])){
 			$image = (!empty($_POST['image']))?$_POST['image']:'';
 			$start = (!empty($_POST['start']))?$oModule->datePickerToTime($_POST['start']):'';
 			$end = (!empty($_POST['end']))?$oModule->datePickerToTime($_POST['end']):'';
+			$image = $oModule->setString($image);
+			$start = $oModule->setString($start);
+			$end = $oModule->setString($end);
 			$status = $oModule->setInt($_POST['status']);
 			$slug = urldecode($slug);
 			$params = $oModule->setString($_POST['params']);
@@ -349,12 +355,12 @@ if(isset($_GET['task'])){
 			if(!empty($categories)){
 				foreach($categories as $key =>$value){
 					if($value['level']>0){
-						if($value['status']){	
+						if($value['status']){
 							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/target.png" title="เปิด" /></a>';
 						}else{
 							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/stop.png"  title="ปิด" /></a>';
 						}
-						$indent = '';	
+						$indent = '';
 						for($i=1;$i<$value['level'];$i++){
 							$indent .= '-';
 						}
@@ -384,7 +390,7 @@ if(isset($_GET['task'])){
 			}
 			$sSearch = $oCategories->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
-				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
+				$search = " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
 			$iTotal = $oCategories->getCategoriesSize();
@@ -428,13 +434,13 @@ if(isset($_GET['task'])){
 			$iSortCol_0 = $_GET['iSortCol_0'];
 			$sSortDir_0 = $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
-				$orderby = " order by  $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0;
+				$orderby = " order by $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
-				$orderby = " order by  ".$columns[4].' '.$sSortDir_0;
+				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
 			$sSearch = $oCategories->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
-				$search = " WHERE ( $oModule->table.name like '%$sSearch%' or  $oModule->table.slug like '%$sSearch%') ";
+				$search = " WHERE ($oModule->table.name like '%$sSearch%' or $oModule->table.slug like '%$sSearch%') ";
 			}
 			$data = $oModule->getAll($search,$orderby,$limit);
 			$iTotal = $oModule->getSize();
@@ -471,23 +477,23 @@ if(isset($_GET['task'])){
 			echo json_encode($data,true);
 		break;
 		case 'loadFindCategoryInit':
-			$id = $oModule->setInt($_GET['id']);
+			$id = $oCategories->setInt($_GET['id']);
 			$data = $oCategories->getCategory($id);
-			$data['name'] = $oModule->getString($data['name']);
-			$data['description'] = $oModule->getString($data['description']);
+			$data['name'] = $oCategories->getString($data['name']);
+			$data['description'] = $oCategories->getString($data['description']);
 			echo json_encode($data,true);
 		break;
 		////////////////  reorder function /////////////
 		case 'loadCategoriesFilter':
 			$categories = $oCategories->getCategoriesTreeAll();
 			$options = '<option value="0">--หมวดหมู่ทั้งหมด--</option>';
-			$cnt =1 ;
+			$cnt = 1;
 			if(!empty($categories)){
 				foreach($categories as $c){
 					$indent = '';
 					if($c['level']>0){
 						if($c['level']>1){
-							$indent =  str_pad($indent,$c['level']-1,'-');
+							$indent = str_pad($indent,$c['level']-1,'-');
 						}
 						$options .= '<option value="'.$c['id'].'" >'.$indent.$c['name'].'</option>';
 					}

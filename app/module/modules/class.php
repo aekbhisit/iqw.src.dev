@@ -178,7 +178,7 @@ class Modules extends Database {
   	public function saveTranslate($lang,$id,$name,$content,$params,$meta_key,$meta_description){
 		$this->sql ="select id from $this->table_translate where lang='$lang' and id=$id ";
 		$this->select(); 
-		$chk = (empty($this->rows[0]['id']))?true:false ;
+		$chk = (empty($this->rows[0]['id']))?true:false;
 		if($chk){
 			$this->sql ="insert into $this->table_translate (lang,id,name,content,params,meta_key,meta_description) values ('$lang',$id,'$name','$content','$params','$meta_key','$meta_description') ";
 			$this->insert();
