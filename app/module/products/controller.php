@@ -544,6 +544,7 @@ if(isset($_GET['task'])){
 			if(is_array($key)&&!empty($key)){
 				$keys = $key;
 				foreach($keys as $key){
+					$key = $oModule->setInt($key);
 					$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
 				 	if($separate){
 						$listQueryData = $_DATA[$data_key];
@@ -561,6 +562,7 @@ if(isset($_GET['task'])){
 					}
 				}
 			}else{
+				$key = $oModule->setInt($key);
 				$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
 				if($count){
 					if(!empty($key)){
