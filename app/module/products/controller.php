@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
@@ -27,7 +30,7 @@ $params = array(
 );
 $oModule = new Products($params);
 if(isset($_GET['task'])){
-	$task =$_GET['task'];
+	$task = $_GET['task'];
 	switch($task){
 		//  categories task   
 		case 'getCategoriesData':
@@ -37,21 +40,21 @@ if(isset($_GET['task'])){
 			$search = '';
 			$iDisplayLength = (int)$_GET['iDisplayLength'];
 			$iDisplayStart= (int)$_GET['iDisplayStart'];
-			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength;
-			$iSortCol_0= addslashes($_GET['iSortCol_0']);
-			$sSortDir_0= addslashes($_GET['sSortDir_0']);
+			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
+			$iSortCol_0 = $oModule->setInt($_GET['iSortCol_0']);
+			$sSortDir_0 = $oModule->setString($_GET['sSortDir_0']);
 			if(!empty($columns[$iSortCol_0])){
-				$orderby = " order by ".addslashes($columns[$iSortCol_0]).' '.addslashes($sSortDir_0);
+				$orderby = " order by ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
-				$orderby = " order by ".addslashes($columns[4]).' '.addslashes($sSortDir_0);
+				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = addslashes($_GET['sSearch']); 
+			$sSearch = $oModule->setString($_GET['sSearch']); 
 			if(!empty($sSearch)){
 				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
 			$iTotal = $oCategories->getCategoriesSize();
-			$iFilteredTotal =  count($categories);
+			$iFilteredTotal = count($categories);
 			$output = array(
 				"sEcho"=>intval($_GET['sEcho']),
 				"iTotalRecords"=>$iTotal,
@@ -94,7 +97,7 @@ if(isset($_GET['task'])){
 			$cnt = 1;
 			if(!empty($categories)){
 				foreach($categories as $c){
-					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']) ;
+					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']);
 					$cnt++;
 				}
 			}
@@ -102,26 +105,26 @@ if(isset($_GET['task'])){
 		break;
 		case 'categoryFormInit':
 			if($_GET['mode']=='edit'){
-				$id = $oModule->setรnt($_GET['id']);
+				$id = $oCategories->setInt($_GET['id']);
 				$data = $oCategories->getCategory($id);
-				$data['name'] = $oModule->getString($data['name']);
-				$data['description'] = $oModule->getString($data['description']);
+				$data['name'] = $oCategories->getString($data['name']);
+				$data['description'] = $oCategories->getString($data['description']);
 				echo json_encode($data);
 			}
 		break;
 		case 'saveCategory':
 			$user = $oUsers->getAdminLoginUser();
-			$categories_id = $oModule->setInt($_POST["categories_id"]); 
-			$categories_parent = $_POST["categories_parent"];
-			$categories_name = $oModule->setStatus($_POST["categories_name"]);
+			$categories_id = $oCategories->setInt($_POST["categories_id"]); 
+			$categories_parent = $oCategories->setInt($_POST["categories_parent"]);
+			$categories_name = $oCategories->setStatus($_POST["categories_name"]);
 			if(empty($_POST['categories_slug'])){
-				$categories_slug= $oModule->createSlug($categories_name);
+				$categories_slug = $oCategories->createSlug($categories_name);
 			}else{
-				$categories_slug=$_POST['categories_slug'];
+				$categories_slug = $oCategories->setStatus($_POST['categories_slug']);
 			}
-			$categories_description = $oModule->setStatus($_POST["categories_description"]);
-			$categories_images = $oModule->setStatus($_POST["categories_server_images"]);
-			$categories_status = $oModule->setInt($_POST["categories_status"]);
+			$categories_description = $oCategories->setStatus($_POST["categories_description"]);
+			$categories_images = $oCategories->setStatus($_POST["categories_server_images"]);
+			$categories_status = $oCategories->setInt($_POST["categories_status"]);
 			$categories_slug = urldecode($categories_slug);
 			if(!empty($categories_id)){
 				$oCategories->update_categories($categories_id,$categories_parent,$categories_name,$categories_slug,$categories_description,$categories_images,'',$user['id'],$categories_status);

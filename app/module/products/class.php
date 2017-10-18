@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 class Products extends Database {
 	var $module;
 	public function __construct($params=NULL){
@@ -26,12 +29,12 @@ class Products extends Database {
 			$this->translate_table = $params['translate_table'];
 		}
 	}
-	function datePickerToTime($in_date){
+	public function datePickerToTime($in_date){
 		list($date,$time) = explode(' ',$in_date) ;
 		list($month,$day,$year) = explode('/',$date);
 		return $year.'-'.$month.'-'.$day.' '.$time.':00' ;
 	}
-	function timeToDatePicker($in_date){
+	public function timeToDatePicker($in_date){
 		list($date,$time) = explode(' ',$in_date) ;
 		list($year,$month,$day) = explode('-',$date);
 		list($h,$m,$s)=explode(':',$time);

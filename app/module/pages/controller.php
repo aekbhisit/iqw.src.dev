@@ -1,7 +1,7 @@
 <?php
-/**
-Last Update Sathaporn
-**/
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
@@ -47,7 +47,7 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $oModule->setString($_GET['sSearch']); 
+			$sSearch = $oCategories->setString($_GET['sSearch']); 
 			if(!empty($sSearch)){
 				$search = " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
@@ -509,7 +509,7 @@ if(isset($_GET['task'])){
 		break;		
 		case 'switchOrder';
 			$id = $oCategories->setInt($_GET['id']);
-			$sort = $oCategories->setInt($_GET['sort']);
+			$sort = $oCategories->setString($_GET['sort']);
 			$oModule->switchOrder($id,$sort);
 		break;	
 		case 'setReorderAll':

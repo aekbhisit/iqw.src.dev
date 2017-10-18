@@ -1,7 +1,7 @@
 <?php
-/**
-Last Update Sathaporn
-**/
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 class Pages extends Database {
 	var $module;
 	public function __construct($params=NULL){
@@ -68,7 +68,7 @@ class Pages extends Database {
 		$this->insert_node($parent_id,$id);
 		return $id;
 	}
-	public function update_categories($id,$parent_id,$name,$slug,$description,$image,$params, $user_id,$status){
+	public function update_categories($id,$parent_id,$name,$slug,$description,$image,$params,$user_id,$status){
 		if($parent_id==0){
 			$parent_id = $this->check_root_node();
 		}else{
@@ -130,7 +130,7 @@ class Pages extends Database {
 		return $this->select('size');
 	}
 	public function getAll($search,$order,$limit){
-		$this->sql = "SELECT $this->table.*, $this->parent_table.name as category FROM $this->table  LEFT JOIN $this->parent_table  ON  $this->table.category_id=$this->parent_table.$this->parent_primary_key $search $order $limit";
+		$this->sql = "SELECT $this->table.*,$this->parent_table.name as category FROM $this->table LEFT JOIN $this->parent_table ON $this->table.category_id=$this->parent_table.$this->parent_primary_key $search $order $limit";
 		$this->select();
 		return $this->rows;
 	}
@@ -155,7 +155,7 @@ class Pages extends Database {
 	}
 	public function updateData($id,$category_id,$name,$slug,$description,$content,$image,$params,$javascript,$css,$meta_key,$meta_description,$user_id,$status){
 		$slug = urldecode($slug);
-		$this->sql ="update $this->table set category_id=$category_id,name='$name',slug='$slug',description='$description',content='$content',image='$image',params='$params',javascript='$javascript',css='$css',meta_key='$meta_key',meta_description='$meta_description',user_id=$user_id, status=$status,mdate=NOW() where $this->primary_key=$id ";
+		$this->sql ="update $this->table set category_id=$category_id,name='$name',slug='$slug',description='$description',content='$content',image='$image',params='$params',javascript='$javascript',css='$css',meta_key='$meta_key',meta_description='$meta_description',user_id=$user_id,status=$status,mdate=NOW() where $this->primary_key=$id ";
 		$this->update();
 	}
 	public function duplicateData($id,$user_id){
@@ -239,11 +239,11 @@ class Pages extends Database {
 	}
 	public function find($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search=NULL,$filter='',$order=NULL,$separate=false,$pagenate=false,$page=NULL,$length=10,$oParent=NULL){
 		/* type
-			1. one = fine one item by id
-			3. all  =  fine all item and category
-			4. category_all = fine  category_id
-			6. category_one = find item in category 
-			7. in_category = fine all and relation incateogry
+		1. one = fine one item by id
+		3. all  =  fine all item and category
+		4. category_all = fine  category_id
+		6. category_one = find item in category 
+		7. in_category = fine all and relation incateogry
 		*/
 		return $this->_find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oParent); 
 	}
