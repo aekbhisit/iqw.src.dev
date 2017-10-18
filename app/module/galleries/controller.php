@@ -345,7 +345,7 @@ if(isset($_GET['task'])){
 			}
 			$sSearch = $oCategories->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
-				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
+				$search = " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
 			$iTotal = $oCategories->getCategoriesSize();
@@ -436,8 +436,8 @@ if(isset($_GET['task'])){
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart= $_GET['iDisplayStart'];
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
-			$iSortCol_0= $_GET['iSortCol_0'];
-			$sSortDir_0= $_GET['sSortDir_0'];
+			$iSortCol_0 = $_GET['iSortCol_0'];
+			$sSortDir_0 = $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
 				$orderby = " order by $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
@@ -460,14 +460,14 @@ if(isset($_GET['task'])){
 			if(!empty($data)){
 				foreach($data as $key =>$value){
 					if($value['status']==1){	
-						$iconbar = '<a href="javascript:void(0)"  ><img src="../images/icons/color/target.png" title="เปิด" /></a>';
+						$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/target.png" title="เปิด" /></a>';
 					}else{
-						$iconbar = '<a href="javascript:void(0)" ><img src="../images/icons/color/stop.png" title="ปิด" /></a>';
+						$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/stop.png" title="ปิด" /></a>';
 					}
 					$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
 					$showname = $value['name'].'<input name="showName_'.$value['id'].'" id="showName_'.$value['id'].'" type="hidden" value="'.$value['name'].'" />'.'<input name="showSlug_'.$value['id'].'" id="showSlug_'.$value['id'].'" type="hidden" value="'.$value['slug'].'" />';
-					$value['category'] = (empty($value['category']))?'  - ':$value['category'];
-					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$iconbar,4=>$value['id'] ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
+					$value['category'] = (empty($value['category']))?' - ':$value['category'];
+					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['category'],3=>$iconbar,4=>$value['id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
 					$cnt++;
 				}
 			}
@@ -476,16 +476,16 @@ if(isset($_GET['task'])){
 		case "loadFindOneInit":
 			$id = $oModule->setInt($_GET['id']);
 			$data = $oModule->getOne($id);
-			$data['name']=htmlspecialchars_decode($data['name'],ENT_QUOTES);
-			$data['meta_key']=htmlspecialchars_decode($data['meta_key'],ENT_QUOTES);
-			$data['meta_description']=htmlspecialchars_decode($data['meta_description'],ENT_QUOTES);
+			$data['name'] = $oModule->getString($data['name']);
+			$data['meta_key'] = $oModule->getString($data['meta_key']);
+			$data['meta_description'] = $oModule->getString($data['meta_description']);
 			echo json_encode($data,true);
 		break;	
 		case 'loadFindCategoryInit':
-			$id = $oModule->setInt($_GET['id']);
+			$id = $oCategories->setInt($_GET['id']);
 			$data = $oCategories->getCategory($id);
-			$data['name'] = htmlspecialchars_decode($data['name'],ENT_QUOTES);
-			$data['description'] = htmlspecialchars_decode($data['description'],ENT_QUOTES);
+			$data['name'] = $oCategories->getString($data['name']);
+			$data['description'] = $oCategories->getString($data['description']);
 			echo json_encode($data,true);
 		break;
 		////////////////  reorder function /////////////
@@ -498,7 +498,7 @@ if(isset($_GET['task'])){
 					$indent = '';
 					if($c['level']>0){
 						if($c['level']>1){
-							$indent =  str_pad($indent,$c['level']-1,'-');
+							$indent = str_pad($indent,$c['level']-1,'-');
 						}
 						$options .= '<option value="'.$c['id'].'" >'.$indent.$c['name'].'</option>';
 					}
@@ -507,19 +507,19 @@ if(isset($_GET['task'])){
 			echo $options;
 		break;
 		case 'reorderData':
-			$id = explode('-',$_GET['id']) ;
+			$id = explode('-',$_GET['id']);
 			$sort = explode('-',$_GET['sort']);
 			$oModule->reOrderDataDragDrop($id,$sort);
 		break;		
 		case 'switchOrder';
 			$id = $oModule->setInt($_GET['id']);
-			$sort = $_GET['sort'];
+			$sort = $oModule->setString($_GET['sort']);
 			$oModule->switchOrder($id,$sort);
 		break;	
 		case 'setReorderAll':
 			$columns = array('id','name','category_id','mdate','sequence','id','id');
 			$column = $columns[(int)$_GET['column']] ;
-			$direction =strtoupper(addslashes($_GET['direction']));
+			$direction = strtoupper(addslashes($_GET['direction']));
 			$oModule->setReorderAll($column,$direction);
 		break; 
 		case 'changeCategory':

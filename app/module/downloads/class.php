@@ -5,8 +5,8 @@
 class Downloads extends Database {
 	var $module;
 	public function __construct($params=NULL){
-		$this->module = $params['module']  ;
-		parent::__construct((empty($params['table']))?$module:$params['table'] );
+		$this->module = $params['module'];
+		parent::__construct((empty($params['table']))?$module:$params['table']);
 		if(isset($params['primary_key'])){
 			$this->primary_key = $params['primary_key'];
 		}
