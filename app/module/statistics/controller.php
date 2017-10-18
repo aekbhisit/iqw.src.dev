@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 $oStats = new Statistics('stats');
@@ -64,10 +67,10 @@ if(isset($_GET['task'])){
 			$all = $oStats->setInt($stats['all_visitor']);
 			$all_pv = $oStats->setInt($stats['all_pv']);
 			$circular_stat = "
-			<li class=\"da-circular-stat {fillColor: '#a6d037', value: ".$today.", maxValue: ".$today_pv.", label: 'Today'}\"></li>
-			<li class=\"da-circular-stat {fillColor: '#ea799b',  value: ".$week.", maxValue: ".$week_pv.", label: 'This Week'}\"></li>
-			<li class=\"da-circular-stat {fillColor: '#fab241', value: ".$month.", maxValue: ".$month_pv.", label: 'This Month'}\"></li>
-			<li class=\"da-circular-stat {fillColor: '#61a5e4',  value: ".$all.", maxValue: ".$all_pv.", label: 'Total'}\"></li>";
+			<li class=\"da-circular-stat {fillColor:'#a6d037',value:".$today.",maxValue:".$today_pv.",label:'Today'}\"></li>
+			<li class=\"da-circular-stat {fillColor:'#ea799b',value:".$week.",maxValue:".$week_pv.",label:'This Week'}\"></li>
+			<li class=\"da-circular-stat {fillColor:'#fab241',value:".$month.",maxValue:".$month_pv.",label:'This Month'}\"></li>
+			<li class=\"da-circular-stat {fillColor:'#61a5e4',value:".$all.",maxValue:".$all_pv.",label:'Total'}\"></li>";
 			echo $circular_stat;
 		break;
 		case "getVisitorGraphData":

@@ -1,25 +1,46 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 class Statistics extends Database {
 	var $module;
 	var $stats_visit_table = 'stats_visit';
-	public function __construct($module,$table=NULL){
-		$this->module = (empty($table))?$module:$table;
-		 parent::__construct((empty($table))?$module:$table);
+	public function __construct($params=NULL){
+		$this->module = $params['module'];
+		parent::__construct((empty($params['table']))?$module:$params['table']);
+		if(isset($params['primary_key'])){
+			$this->primary_key = $params['primary_key'];
+		}
+		if(isset($params['parent_table'])){
+			$this->parent_table = $params['parent_table'];
+		}
+		if(isset($params['parent_translate_table'])){
+			$this->parent_translate_table = $params['parent_translate_table'];
+		}
+		if(isset($params['parent_primary_key'])){
+			$this->parent_primary_key = $params['parent_primary_key'];
+		}
+		if(isset($params['site_language'])){
+			$this->site_language = $params['site_language'];
+		}
+		if(isset($params['is_translate'])){
+		 	$this->is_translate = $params['is_translate'];
+	 	}
+		if(isset($params['translate_table'])){
+			$this->translate_table = $params['translate_table'];
+		}
 	}
-	// function for rate  /////////////////////////////////////////////////
-	// Develop by
-	///////////////////////////////////////////////////////////////////////////////////
 	public function getStatsSize(){
-		$this->sql = "SELECT $this->table.*, $this->stats_visit_table.url as url FROM $this->table Left Join $this->stats_visit_table ON $this->stats_visit_table.stat_id = $this->table.id ";
+		$this->sql = "SELECT $this->table.*,$this->stats_visit_table.url as url FROM $this->table Left Join $this->stats_visit_table ON $this->stats_visit_table.stat_id=$this->table.id ";
 		return  $this->select('size');
 	}
 	public function getStatsAll($search,$order,$limit){
-		$this->sql = "SELECT $this->table.*, $this->stats_visit_table.url as url FROM $this->table Left Join $this->stats_visit_table ON $this->stats_visit_table.stat_id = $this->table.id  $search $order $limit";
+		$this->sql = "SELECT $this->table.*,$this->stats_visit_table.url as url FROM $this->table Left Join $this->stats_visit_table ON $this->stats_visit_table.stat_id=$this->table.id $search $order $limit";
 		$this->select();
 		return $this->rows;
 	}
 	public function getStats($id){
-		$this->sql = "select * from $this->table where $this->primary_key = $id ";
+		$this->sql = "select * from $this->table where $this->primary_key=$id ";
 		$this->select();
 		return  $this->rows[0];
 	}
@@ -50,7 +71,7 @@ class Statistics extends Database {
 			list($lsu_date,$lsu_time) = explode(' ',$last_stat_update);
 			list($lsu_y,$lsu_m,$lsu_d) = explode('-',$lsu_date);
  		}else{
- 			$lsu_m = '01' ;
+ 			$lsu_m = '01';
  			$lsu_y = date("Y");
  			$last_stat_update = date("Y").'-01-01 00:00:00';
  		}
@@ -66,16 +87,16 @@ class Statistics extends Database {
  		$this->sql = "select count(DISTINCT $this->table.id) as visitor from $this->table where $this->table.date between '$today_start' and '$today_end' ";
 		$this->select();
 		$today_visitor = $this->rows[0]['visitor'];
-		$this->sql = "select count($this->stats_visit_table.id) as pages from $this->stats_visit_table   where $this->stats_visit_table.date between '$today_start' and '$today_end'  ";
+		$this->sql = "select count($this->stats_visit_table.id) as pages from $this->stats_visit_table where $this->stats_visit_table.date between '$today_start' and '$today_end' ";
 		$this->select();
 		$today_pv = $this->rows[0]['pages'];
-		$this->sql = "select count(DISTINCT $this->table.id) as visitor from $this->table where $this->table.date between '$this_sunday' and '$next_sunday'  ";
+		$this->sql = "select count(DISTINCT $this->table.id) as visitor from $this->table where $this->table.date between '$this_sunday' and '$next_sunday' ";
 		$this->select();
 		$week_visitor = $this->rows[0]['visitor'];
-		$this->sql = "select count($this->stats_visit_table.id) as pages from $this->stats_visit_table   where $this->stats_visit_table.date between '$this_sunday' and '$next_sunday'  ";
+		$this->sql = "select count($this->stats_visit_table.id) as pages from $this->stats_visit_table where $this->stats_visit_table.date between '$this_sunday' and '$next_sunday' ";
 		$this->select();
 		$week_pv = $this->rows[0]['pages'];
-		$this->sql = "update configs_site set stat_today_visit=$today_visitor,stat_today_pv=$today_pv, stat_thisweek_visit=$week_visitor ,stat_thisweek_pv=$week_pv, stat_last_update=NOW()  where id=1 " ;
+		$this->sql = "update configs_site set stat_today_visit=$today_visitor,stat_today_pv=$today_pv,stat_thisweek_visit=$week_visitor ,stat_thisweek_pv=$week_pv,stat_last_update=NOW() where id=1 ";
 		$this->update();
  		$loop_m = (int)$lsu_m;
  		$loop_y = (int)$lsu_y;
@@ -96,16 +117,16 @@ class Statistics extends Database {
 			if(!empty($this->rows)){
 				$old_visitor = $this->rows[0]['visitor']+ $visitor;
 				$old_pv = $this->rows[0]['pv']+$pv;
-				$this->sql = "update stats_sum_all set visitor=$old_visitor,pv=$old_pv, mdate=NOW() where month=$month and year=$year ";
+				$this->sql = "update stats_sum_all set visitor=$old_visitor,pv=$old_pv,mdate=NOW() where month=$month and year=$year ";
 				$this->update();
 			}else{
-				$this->sql = "insert into stats_sum_all (month,year,visitor,pv,mdate) values($month,$year,$visitor,$pv,NOW() ) ";
+				$this->sql = "insert into stats_sum_all (month,year,visitor,pv,mdate) values($month,$year,$visitor,$pv,NOW()) ";
 				$this->insert();
 			}
  		}
- 		$this->sql = " delete from stats where date < '$this_sunday' ";
+ 		$this->sql = " delete from stats where date<'$this_sunday' ";
 		$this->delete();
-		$this->sql = " delete from stats_visit where date < '$this_sunday' ";
+		$this->sql = " delete from stats_visit where date<'$this_sunday' ";
 		$this->delete();
 	}
 	public function getSumaryCurrentStat(){
@@ -121,7 +142,7 @@ class Statistics extends Database {
 		$this->select();
 		$stat['month_visitor'] = $this->rows[0]['visitor'];
 		$stat['month_pv'] = $this->rows[0]['pv'];
-		$this->sql = " select sum(visitor) as visitor ,sum(pv) as pv from stats_sum_all ";
+		$this->sql = " select sum(visitor) as visitor,sum(pv) as pv from stats_sum_all ";
 		$this->select();
 		$stat['all_visitor'] = $this->rows[0]['visitor'];
 		$stat['all_pv'] = $this->rows[0]['pv'];
@@ -131,8 +152,8 @@ class Statistics extends Database {
 		switch($type){
 			case 'day':
 			if(empty($date)){
-				$start =   date("Y-m-d").' 00:00:00';
-				$end =   date("Y-m-d").' 23:59:59';  
+				$start = date("Y-m-d").' 00:00:00';
+				$end = date("Y-m-d").' 23:59:59';  
 			}else{
 				$start = $date .' 00:00:00';
 				$end = $date.' 23:59:59';  
@@ -172,7 +193,7 @@ class Statistics extends Database {
 				$end = date("Y-m-d").' 23:59:59';  
 			break;
 		}
-		$this->sql = "select count(DISTINCT $this->table.id) as visitor, count($this->stats_visit_table.id) as pages from $this->table left join $this->stats_visit_table  on $this->table.id=$this->stats_visit_table.stat_id where $this->table.date between '$start' and '$end' ";
+		$this->sql = "select count(DISTINCT $this->table.id) as visitor,count($this->stats_visit_table.id) as pages from $this->table left join $this->stats_visit_table on $this->table.id=$this->stats_visit_table.stat_id where $this->table.date between '$start' and '$end' ";
 		$this->select();
 		$stats = $this->rows[0];
 		return $stats;
@@ -209,7 +230,7 @@ class Statistics extends Database {
 		return $year;
 	}
 	public function setDeleteAllStatData(){
-		$this->sql = "update configs_site set stat_today_visit=0,stat_today_pv=0, stat_thisweek_visit=0 ,stat_thisweek_pv=0, stat_last_update=NOW() where id=1 ";
+		$this->sql = "update configs_site set stat_today_visit=0,stat_today_pv=0,stat_thisweek_visit=0,stat_thisweek_pv=0,stat_last_update=NOW() where id=1 ";
 		$this->update();
 		$this->sql = " delete from stats ";
 		$this->delete();
@@ -251,7 +272,7 @@ class Statistics extends Database {
 		}
 	}
 	public function getCountry($ip){
-		$this->sql  = "select country, co1 FROM stats_country WHERE ip1 <= {$ip} AND ip2 >= {$ip};" ;
+		$this->sql  = "select country, co1 FROM stats_country WHERE ip1<={$ip} AND ip2>={$ip};" ;
 		$this->select();
 		if(empty($this->rows)){
 			return '--no data--';
@@ -304,9 +325,9 @@ class Statistics extends Database {
 			//we will have two since we are not using 'other' argument yet
 			//see if version is before or after the name
 			if (strripos($u_agent,"Version") < strripos($u_agent,$ub)){
-				$version= $matches['version'][0];
+				$version = $matches['version'][0];
 			} else {
-				$version= $matches['version'][1];
+				$version = $matches['version'][1];
 			}
 		} else {
 			$version= $matches['version'][0];

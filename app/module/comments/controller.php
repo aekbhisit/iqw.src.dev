@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 $oCategories = new Comments('comments_categories');
@@ -6,108 +9,100 @@ $oComments = new Comments('comments');
 if(isset($_GET['task'])){
 	$task = $_GET['task'];
 	switch($task){
-//  categories task   
+		//  categories task   
 		case 'getCategoriesData':
 			$columns = array('','name','level','mdate','lft');
 			$limit = '';
-			$orderby ='' ;
+			$orderby = '';
 			$search = '';
 			$iDisplayLength = $_GET['iDisplayLength'];
 			$iDisplayStart= $_GET['iDisplayStart'];
-			$limit  = ' limit '.$iDisplayStart.','.$iDisplayLength ;
-			$iSortCol_0= $_GET['iSortCol_0'];
-			$sSortDir_0= $_GET['sSortDir_0'];
+			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
+			$iSortCol_0 = $_GET['iSortCol_0'];
+			$sSortDir_0 = $_GET['sSortDir_0'];
 			if(!empty($columns[$iSortCol_0])){
-				$orderby = " order by  ".$columns[$iSortCol_0].' '.$sSortDir_0 ;
+				$orderby = " order by ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
-				$orderby = " order by  ".$columns[4].' '.$sSortDir_0 ;
+				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch= $_GET['sSearch']; 
+			$sSearch = $oCategories->setString($_GET['sSearch']); 
 			if(!empty($sSearch)){
-				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') " ;
+				$search = " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
-			//print_r($categories);
-			$iTotal = $oCategories->getCategoriesSize() ;
-			 $iFilteredTotal =  count($categories);
+			$iTotal = $oCategories->getCategoriesSize();
+			$iFilteredTotal = count($categories);
 			$output = array(
-					"sEcho" => intval($_GET['sEcho']),
-					"iTotalRecords" => $iTotal,
-					"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-					"aaData" => array()
-				);
+				"sEcho"=>intval($_GET['sEcho']),
+				"iTotalRecords"=>$iTotal,
+				"iTotalDisplayRecords"=>$iTotal, // $iFilteredTotal,
+				"aaData"=>array()
+			);
 			$cnt = 1;
 			if(!empty($categories)){
-			foreach($categories as $key =>$value){
-			if($value['level']>0){
-			if($value['status']){	
-				$iconbar = '	<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" /></a>&nbsp;';
-			}else{
-				$iconbar = '	<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png" /></a>&nbsp;';
-			}
-									
-			$iconbar .=	'<!--<a href="#"><img src="images/icons/color/magnifier.png" /></a>-->
-                                	 <a href="javascript:void(0)" onclick="setCategoryEdit('.$value['id'].')"><img src="../images/icons/color/pencil.png" /></a>
-                                    <a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" /></a>';
-									
-			$order = '<a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'left\')"><img src="../images/icons/black/16/arrow_up_small.png" /></a>
-							     <a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'right\')" ><img src="../images/icons/black/16/arrow_down_small.png" /></a>
-							  ';
-			$indent = '';	
-				for($i=1;$i<$value['level'];$i++){
-					$indent .= '-';
-				}
-							  
-				$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
-				$output["aaData"][] = array(0=>$row_chk,1=>$indent.$value['name'],2=>$value['level'],3=>$value['mdate'],4=>$order,5=>$iconbar ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
-				$cnt++ ;
-				}
-			}
-			}
-				echo json_encode($output) ;
-				break;
-			case 'loadCategories':
-				$categories = $oCategories->getCategoriesTreeAll();
-				$data = array(
-					0=>array('level'=>0,'id'=>0,'parent'=>0,'name'=>'--- ไม่เลือก ---'),
-				);
-				$cnt =1 ;
-			    if(!empty($categories)){
-					foreach($categories as $c){
-						$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']) ;
-						$cnt++;
+				foreach($categories as $key =>$value){
+					if($value['level']>0){
+						if($value['status']){	
+							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" /></a>&nbsp;';
+						}else{
+							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png" /></a>&nbsp;';
+						}
+						$iconbar .=	'<a href="javascript:void(0)" onclick="setCategoryEdit('.$value['id'].')"><img src="../images/icons/color/pencil.png" /></a><a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" /></a>';
+						$order = '<a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'left\')"><img src="../images/icons/black/16/arrow_up_small.png" /></a><a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'right\')" ><img src="../images/icons/black/16/arrow_down_small.png" /></a>';
+						$indent = '';	
+						for($i=1;$i<$value['level'];$i++){
+							$indent .= '-';
+						}
+						$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
+						$output["aaData"][] = array(0=>$row_chk,1=>$indent.$value['name'],2=>$value['level'],3=>$value['mdate'],4=>$order,5=>$iconbar ,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
+						$cnt++ ;
 					}
-				 }
+				}
+			}
+			echo json_encode($output);
+		break;
+		case 'loadCategories':
+			$categories = $oCategories->getCategoriesTreeAll();
+			$data = array(
+				0=>array('level'=>0,'id'=>0,'parent'=>0,'name'=>'--- ไม่เลือก ---'),
+			);
+			$cnt = 1;
+			   if(!empty($categories)){
+				foreach($categories as $c){
+					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']);
+					$cnt++;
+				}
+			}
+			echo json_encode($data);
+		break;
+		case 'categoryFormInit':
+			if($_GET['mode']=='edit'){
+				$id = $oCategories->setInt($_GET['id']);
+				$data = $oCategories->getCategory($id);
 				echo json_encode($data);
-				break;
-			case 'categoryFormInit':
-					if($_GET['mode']=='edit'){
-						$id = addslashes($_GET['id']);
-						$data = $oCategories->getCategory($id);
-						echo json_encode($data);
-					}
-				break;
-			case 'saveCategory':
-					$user = $oUsers->getAdminLoginUser();
-					 $categories_id = $_POST["categories_id"] ; 
-					 $categories_parent = $_POST["categories_parent"];
-					 $categories_name = $_POST["categories_name"];
-					 $categories_description = $_POST["categories_description"];
-					 $categories_images = $_POST["categories_server_images"] ;
-					 $categories_status = $_POST["categories_status"] ;
-					 if(!empty($categories_id)){
-						 $oCategories->update_categories($categories_id,$categories_parent,$categories_name,$categories_description,$categories_images,'',$user['id'],$categories_status);
-					 }else{
-						 $oCategories->insert_categories($categories_parent,$categories_name,$categories_description,$categories_images,'',$user['id'],$categories_status);
-					 }
-				break;
-			case 'setCategoryStatus':
-					$id = addslashes($_GET['id']);
-					$status =addslashes($_GET['status']);
-					$oCategories->update_category_status($id,$status);
-				break;
-			case 'setCategoryDelete':
-				$id = addslashes($_GET['id']);
+			}
+		break;
+		case 'saveCategory':
+			$user = $oUsers->getAdminLoginUser();
+			$categories_id = $oCategories->setInt($_POST["categories_id"]);
+			$categories_parent = $oCategories->setInt($_POST["categories_parent"]);
+			$categories_name = $oCategories->setString($_POST["categories_name"]);
+			$categories_description = $oCategories->setString($_POST["categories_description"]);
+			$categories_images = $oCategories->setString($_POST["categories_server_images"]);
+			$categories_status = $oCategories->setInt($_POST["categories_status"]);
+			if(!empty($categories_id)){
+				$oCategories->update_categories($categories_id,$categories_parent,$categories_name,$categories_description,$categories_images,'',$user['id'],$categories_status);
+			}else{
+				$oCategories->insert_categories($categories_parent,$categories_name,$categories_description,$categories_images,'',$user['id'],$categories_status);
+			}
+		break;
+		case 'setCategoryStatus':
+			$id = $oCategories->setInt($_GET['id']);
+			$status =$oCategories->setInt($_GET['status']);
+			$oCategories->update_category_status($id,$status);
+		break;
+		case 'setCategoryDelete':
+				$id = $oCategories->setInt($_GET['id']);
 				$child = $oCategories->get_onlychild_node($id);
 				if(empty($child)){
 			 		$oCategories->delete_node($id);
