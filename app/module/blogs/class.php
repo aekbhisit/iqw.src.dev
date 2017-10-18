@@ -1,31 +1,33 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 class Blogs extends Database {
-	var $module   ;
+	var $module;
 	public function __construct($params=NULL){
-		$this->module = $params['module']  ;
-		 parent::__construct((empty($params['table']))?$module:$params['table'] );
-		 
-		 if(isset($params['primary_key'])){
-			 $this->primary_key  =$params['primary_key'] ;
-		 }
-		 if(isset($params['parent_table'])){
-			 $this->parent_table  =$params['parent_table'] ;
-		 }
-		  if(isset($params['parent_table_translate'])){
-			 $this->parent_table_translate  =$params['parent_table_translate'] ;
-		 }
-		  if(isset($params['parent_primary_key'])){
-			 $this->parent_primary_key  =$params['parent_primary_key'] ;
-		 }
-		 if(isset($params['site_language'])){
-			 $this->site_language  =$params['site_language'] ;
-		 }
-		 if(isset($params['is_translate'])){
-			 $this->is_translate  =$params['is_translate'] ;
-		 }
-		 if(isset($params['table_translate'])){
-			 $this->table_translate  =$params['table_translate'] ;
-		 }
+		$this->module = $params['module'];
+		parent::__construct((empty($params['table']))?$module:$params['table']);
+		if(isset($params['primary_key'])){
+			$this->primary_key = $params['primary_key'];
+		}
+		if(isset($params['parent_table'])){
+			$this->parent_table = $params['parent_table'];
+		}
+		if(isset($params['parent_translate_table'])){
+			$this->parent_translate_table = $params['parent_translate_table'];
+		}
+		if(isset($params['parent_primary_key'])){
+			$this->parent_primary_key = $params['parent_primary_key'];
+		}
+		if(isset($params['site_language'])){
+			$this->site_language = $params['site_language'];
+		}
+		if(isset($params['is_translate'])){
+		 	$this->is_translate = $params['is_translate'];
+	 	}
+		if(isset($params['translate_table'])){
+			$this->translate_table = $params['translate_table'];
+		}
 	}
 	
 	function datePickerToTime($in_date){
