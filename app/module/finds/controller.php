@@ -1,4 +1,7 @@
 <?php
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
 if ( is_session_started() === FALSE ) { session_start(); }
 $oUsers = new Users('users');
 // config module
@@ -35,41 +38,39 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $_GET['sSearch']; 
+			$sSearch = $oCategories->setString($_GET['sSearch']); 
 			if(!empty($sSearch)){
 				$search = " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
-			//print_r($categories);
 			$iTotal = $oCategories->getCategoriesSize();
-			$iFilteredTotal =  count($categories);
+			$iFilteredTotal = count($categories);
 			$output = array(
-				"sEcho" => intval($_GET['sEcho']),
-				"iTotalRecords" => $iTotal,
-				"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-				"aaData" => array()
+				"sEcho"=>intval($_GET['sEcho']),
+				"iTotalRecords"=>$iTotal,
+				"iTotalDisplayRecords"=>$iTotal, // $iFilteredTotal,
+				"aaData"=>array()
 			);
 			$cnt = 1;
 			if(!empty($categories)){
-				foreach($categories as $key =>$value){
-				if($value['level']>0){
-				if($value['status']){	
-					$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" title="เปิด" /></a>  ';
-				}else{
-					$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png"  title="ปิด" /></a>  ';
-				}
-				//application_double.png
-				$iconbar .=	'  <a href="javascript:void(0)" onclick="setCategoryDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>  ';
-				if(SITE_TRANSLATE){					 
-					$iconbar .='  <a href="javascript:void(0)" onclick="setCategoryTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title=แปลภาษา /></a>  ';
-				}
-	               	$iconbar .=	' <a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" title="ลบ" /></a> ';
-					
-				if($value['status_index']){	
-					$iconbar .= '<a href="javascript:void(0)" onclick="setCategoryStatusIndex('.$value['id'].',0)" ><img src="../images/icons/color/house.png" title="หน้าแรม" /></a>  ';
-				}else{
-					$iconbar.= '<a href="javascript:void(0)" onclick="setCategoryStatusIndex('.$value['id'].',1)" ><img src="../images/icons/color/blog.png"  title="หน้าปกติ" /></a>  ';
-				}
+				foreach($categories as $key => $value){
+					if($value['level']>0){
+						if($value['status']){	
+							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" title="เปิด" /></a>';
+						}else{
+							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png"  title="ปิด" /></a>';
+						}
+						$iconbar .=	'<a href="javascript:void(0)" onclick="setCategoryDuplicate('.$value['id'].')"><img src="../images/icons/color/application_double.png" title="คัดลอก" /></a>';
+						if(SITE_TRANSLATE){					 
+							$iconbar .='<a href="javascript:void(0)" onclick="setCategoryTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title=แปลภาษา /></a>';
+						}
+			               	$iconbar .=	'<a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>';
+							
+						if($value['status_index']){	
+							$iconbar .= '<a href="javascript:void(0)" onclick="setCategoryStatusIndex('.$value['id'].',0)" ><img src="../images/icons/color/house.png" title="หน้าแรม" /></a>';
+						}else{
+							$iconbar.= '<a href="javascript:void(0)" onclick="setCategoryStatusIndex('.$value['id'].',1)" ><img src="../images/icons/color/blog.png" title="หน้าปกติ" /></a>';
+						}
 										
 				$order = '<a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'left\')"><img src="../images/icons/black/16/arrow_up_small.png" title="ขึ้น" /></a>
 								     <a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'right\')" ><img src="../images/icons/black/16/arrow_down_small.png" title="ลง" /></a>
