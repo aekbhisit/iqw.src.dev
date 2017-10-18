@@ -463,10 +463,10 @@ if(isset($_GET['task'])){
 			$iTotal = $oModule->getSize();
 			$iFilteredTotal = count($data);
 			$output = array(
-				"sEcho" => intval($_GET['sEcho']),
-				"iTotalRecords" => $iTotal,
-				"iTotalDisplayRecords" => $iTotal, // $iFilteredTotal,
-				"aaData" => array()
+				"sEcho"=>intval($_GET['sEcho']),
+				"iTotalRecords"=> $iTotal,
+				"iTotalDisplayRecords"=>$iTotal, // $iFilteredTotal,
+				"aaData"=>array()
 			);
 			$cnt = 1;
 			if(!empty($data)){
@@ -478,175 +478,164 @@ if(isset($_GET['task'])){
 					}  
 					$row_chk = '<input name="table_select_'.$value['id'].'" id="table_select_'.$value['id'].'" class="table_checkbox" type="checkbox" value="'.$value['id'].'" />&nbsp;'.($cnt+$iDisplayStart);
 					$showname = '<input name="showName_'.$value['id'].'" id="showName_'.$value['id'].'" type="hidden" value="'.$value['find_name'].'" /><input name="showModule_'.$value['id'].'" id="showModule_'.$value['id'].'" type="hidden" value="'.$value['find_module'].'" />'.$value['find_name'];
-						$output["aaData"][] = array(
-							0=>$row_chk,
-							1=>$showname,
-							2=>$value['find_module'],
-							3=>$value['find_task'],
-							4=>$value['find_type'],
-							5=>$value['find_key'],
-							6=>$value['id'].':'. $iconbar,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
-						$cnt++ ;
-						}
+					$output["aaData"][] = array(0=>$row_chk,1=>$showname,2=>$value['find_module'],3=>$value['find_task'],4=>$value['find_type'],5=>$value['find_key'],6=>$value['id'].':'. $iconbar,"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
+					$cnt++;
+				}
+			}
+			echo json_encode($output);
+		break;
+		case "generateQueryFile":
+			// recusive creat tree
+			function createTree(&$list, $parent){
+				$tree = array();
+				foreach ($parent as $k=>$l){
+					if(isset($list[$l['id']])){
+						$l['children'] = createTree($list,$list[$l['id']]);
 					}
-						echo json_encode($output) ;
-				break;
-				case "generateQueryFile":
-					// recusive  creat tree
-						function createTree(&$list, $parent){
-								$tree = array();
-								foreach ($parent as $k=>$l){
-									if(isset($list[$l['id']])){
-										$l['children'] = createTree($list, $list[$l['id']]);
-									}
-									$tree[] = $l;
-								} 
-								return $tree;
+					$tree[] = $l;
+				} 
+				return $tree;
+			}
+			function createSwtich($list,$switch,$oModule){
+				foreach ($list as $k=>$l){
+					if(!empty($l['children'])&&is_array($l['children'])){
+						$exp_route_slug = explode(',',$l['slug']);
+						if(count($exp_route_slug)>1){
+							foreach($exp_route_slug as $ers){
+								$switch .= "\n".'case "'.$ers.'" : ';
 							}
-						
-							function createSwtich($list,$switch,$oModule){
-								foreach ($list as $k=>$l){
-									if(!empty($l['children'])&&is_array($l['children'])){
-										$exp_route_slug = explode(',',$l['slug']);
-										if(count($exp_route_slug)>1){
-											foreach($exp_route_slug as $ers){
-												$switch .= "\n".'case "'.$ers.'" : ' ;
-											}
-										}else{
-											$switch .= "\n".'case "'.$exp_route_slug[0].'" : ' ;
-										}
-											$param = '$_PARAM['.($l['clevel']).']' ;
-											$switch .= "\n".'switch (urldecode('.$param.')){  ' ;
-											$switch .= createSwtich($l['children'], '',$oModule);
-											$switch .= "\n".'default :' ;
-											$switch .= "\n".' '.$oModule->createRequestRoute($l['id']).' ;' ;
-											$switch .= "\n".' '.$oModule->createLoopQuery($l['layout']).' ;' ;
-											$switch .="\n".'break; ' ;
-											$switch .= "\n".'}' ;
-										$switch .= "\n".' break; ' ;
-									}else{
-										$exp_route_slug = explode(',',$l['slug']);
-										if(count($exp_route_slug)>1){
-											foreach($exp_route_slug as $ers){
-												$switch .= "\n".'case "'.$ers.'" : ' ;
-											}
-										}else{
-											$switch .= "\n".'case "'.$exp_route_slug[0].'" : ' ;
-										}
-										$switch .= "\n".' '.$oModule->createRequestRoute($l['id']).';' ;
-										$switch .= "\n".' '.$oModule->createLoopQuery($l['layout']).' ;' ;
-										$switch .= "\n".' break;' ;
-									}
-								} 
-								return $switch;
-							}
-					// recusive
-						
-						$route = $oCategories->getCategoriesTreeAll();	
-						$new = array();
-							foreach ($route as $rt){
-								$new[$rt['parent_id']][] = $rt;
-							}
-						$tree = createTree($new, array($route[0]));
-						$switch = "<?PHP".
-						// load theme split rule
-						$switch .= "\n".'$Q =(isset($_GET["q"]))?$_GET["q"]:""; ' ;
-
-						$switch .= "\n".'$split_url = explode("/",$Q ) ;';
-						$switch .= "\n".'switch(count($split_url)){' ;
-						$switch .= "\n".'	case 2:';
-						$switch .= "\n".'		$_SESSION["site_language"] = $split_url[0] ; ' ;
-						$switch .= "\n".'		$Q =(isset($_GET["q"]))?$split_url[1]:""; ';
-						$switch .= "\n".'		define("LANG", $_SESSION["site_language"] );';
-						$switch .= "\n".'	break;';
-						$switch .= "\n".'	case 3:';
-						$switch .= "\n".'		$_SESSION["site_language"] = $split_url[1] ;';
-						$switch .= "\n".'		$_SESSION["_country"] = $split_url[0] ;';
-						$switch .= "\n".'		$Q =(isset($_GET["q"]))?$split_url[2]:""; ';
-						$switch .= "\n".'		define("LANG", $_SESSION["site_language"] );';
-						$switch .= "\n".'	break;';
-						$switch .= "\n".'	default:';
-						$switch .= "\n".'		$Q =(isset($_GET["q"]))?$_GET["q"]:"";';
-						$switch .= "\n".'		define("LANG", "th" ); $_SESSION["site_language"] = "th";';
-						$switch .= "\n".'	break;';
+						}else{
+							$switch .= "\n".'case "'.$exp_route_slug[0].'" : ';
+						}
+						$param = '$_PARAM['.($l['clevel']).']';
+						$switch .= "\n".'switch (urldecode('.$param.')){  ';
+						$switch .= createSwtich($l['children'], '',$oModule);
+						$switch .= "\n".'default :';
+						$switch .= "\n".' '.$oModule->createRequestRoute($l['id']).' ;';
+						$switch .= "\n".' '.$oModule->createLoopQuery($l['layout']).' ;';
+						$switch .="\n".'break; ';
 						$switch .= "\n".'}';
-
-
-						$switch .= "\n".'$_PARAM = explode("-",$Q);';
-						$switch .= "\n".'$_PARAM_PLUS[1] = explode("-",$Q,1);';
-						$switch .= "\n".'if(count($_PARAM)>=2){list($bf1,$_PARAM_PLUS[2]) = explode("-",$Q,2);}';
-						$switch .= "\n".'if(count($_PARAM)>=3){list($bf1,$bf2,$_PARAM_PLUS[3]) = explode("-",$Q,3);}';
-						$switch .= "\n".'if(count($_PARAM)>=4){list($bf1,$bf2,$bf3,$_PARAM_PLUS[4]) = explode("-",$Q,4);}';
-						$switch .= "\n".'if(count($_PARAM)>=5){list($bf1,$bf2,$bf3,$bf4,$_PARAM_PLUS[5]) = explode("-",$Q,5);}';
-						$switch .= "\n".'if(count($_PARAM)>=6){list($bf1,$bf2,$bf3,$b4,$bf5,$_PARAM_PLUS[6]) = explode("-",$Q,6);}';
-						$switch .= "\n".'if(count($_PARAM)>=7){list($bf1,$bf2,$bf3,$b4,$bf5,$bf6,$_PARAM_PLUS[7]) = explode("-",$Q,7);}';
-						$switch .= "\n".'if(count($_PARAM)>=8){list($bf1,$bf2,$bf3,$b4,$bf5,$bf6,$bf7,$_PARAM_PLUS[8]) = explode("-",$Q,8);}';
-						$switch .= "\n".'if(count($_PARAM)>=9){list($bf1,$bf2,$bf3,$b4,$bf5,$bf6,$bf7,$bf8,$_PARAM_PLUS[9]) = explode("-",$Q,9);}';
-						$switch .= "\n".'if(count($_PARAM)>=10){list($bf1,$bf2,$bf3,$b4,$bf5,$bf6,$bf7,$bf8,$bf9,$_PARAM_PLUS[10]) = explode("-",$Q,10);}';
-						// run stat log
-						$switch .= "\n".'$request_route = array(0=>array("module" => "statistics","task"=>"insertStatsLogs","type"=>NULL,"key"=>NULL, "slug"=>NULL,"status"=>NULL,"search"=>NULL,"order"=>NULL,"sort"=>NULL,"paginate"=>NULL,"count"=>true,"slugkey"=>true ));';
-						// loadn theme split rule
-						$switch .= "\n".'switch(urldecode($_PARAM[0])){ ';
-						$switch .= createSwtich($tree[0]['children'],'',$oModule);
-						$switch .= "\n".'default: ';
-						$switch .= "\n".' '.$oModule->createRequestHomeRoute().'; ';
-						$switch .= "\n".' '.$oModule->createLoopQuery('index.php').' ;' ;
-						$switch .= "\n".'break; ';
-						$switch .="\n".'} ';
-						$switch .="\n".' ?> ';
-						$objFile = fopen('route.php','w');
-						fwrite($objFile,$switch);
-						fclose($objFile);
-						chmod('route.php',0777);
-				break ;
-////////////////task for frontend  ///////////
-				case "find" :
-					$module = $_GET['module'];
-					$task = $_GET['task'];
-					$type  = $_GET['type'] ;
-					$key = $_GET['key'] ;
-					$slug =  (!empty($_GET['slug']))?$_GET['slug']:true ;
-					$status =(!empty($_GET['status']))?$_GET['status']:NULL ;
-					$language =  ($_COOKIE['SITELANGUAGE'])?$_COOKIE['SITELANGUAGE']:SITE_LANGUAGE;
-					$search = (!empty($_GET['search']))?$_GET['search']:NULL;
-					$filter = (!empty($_GET['filter']))?$_GET['filter']:NULL;
-					$order = (!empty($_GET['order']))?$_GET['order']:NULL ;
-					$sort = (!empty($_GET['sort']))?$_GET['sort']:NULL ;
-					$separate = (!empty($_GET['separate']))?$_GET['separate']:false ;
-					$pagenate =  (!empty($_GET['paginate']))?$_GET['paginate']:NULL ;
-					$page =  (!empty($_GET['page']))?$_GET['page']:1 ;
-					$length =  (!empty($_GET['length']))?$_GET['length']:NULL ;
-					$count =  (!empty($_GET['count']))?$_GET['count']:false ;
-					$slugkey =   (!empty($_GET['slugkey']))?$_GET['slugkey']:false ; 
-					if(is_array($key)&&!empty($key)){
-						$keys = $key ;
-						foreach($keys as $key){
-							$data[$module][$type][$key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$sort,$separate,$pagenate,$page,$length,$oCategories);
-						 if($slugkey){
-									$listQueryData = $data[$module][$type][$key] ;
-									 $data[$module][$type][$key] = NULL ;
-									foreach( $listQueryData as $kk=>$val){
-										$data[$module][$type][$key][$val['slug']] = $val ;
-									}
-							}
-							if($count){
-								$data[$module][$type]['count'][$key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
-							}
-						}
+						$switch .= "\n".' break; ';
 					}else{
-						$data[$module][$type][$key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$sort,$separate,$pagenate,$page,$length,$oCategories);
-						if($count){
-							$data[$module][$type]['count'][$key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
-						}
-						if($slugkey){
-									$listQueryData = $data[$module][$type][$key] ;
-									 $data[$module][$type][$key] = NULL ;
-									foreach( $listQueryData as $kk=>$val){
-										$data[$module][$type][$key][$val['slug']] = $val ;
-									}
+						$exp_route_slug = explode(',',$l['slug']);
+						if(count($exp_route_slug)>1){
+							foreach($exp_route_slug as $ers){
+								$switch .= "\n".'case "'.$ers.'" : ';
 							}
+						}else{
+							$switch .= "\n".'case "'.$exp_route_slug[0].'" : ';
+						}
+						$switch .= "\n".' '.$oModule->createRequestRoute($l['id']).';';
+						$switch .= "\n".' '.$oModule->createLoopQuery($l['layout']).' ;';
+						$switch .= "\n".' break;';
 					}
-				break ;
+				} 
+				return $switch;
+			}
+			// recusive
+			$route = $oCategories->getCategoriesTreeAll();	
+			$new = array();
+			foreach ($route as $rt){
+				$new[$rt['parent_id']][] = $rt;
+			}
+			$tree = createTree($new, array($route[0]));
+			$switch = "<?PHP".
+			// load theme split rule
+			$switch .= "\n".'$Q =(isset($_GET["q"]))?$_GET["q"]:""; ';
+			$switch .= "\n".'$split_url = explode("/",$Q ) ;';
+			$switch .= "\n".'switch(count($split_url)){' ;
+			$switch .= "\n".'	case 2:';
+			$switch .= "\n".'		$_SESSION["site_language"] = $split_url[0] ; ';
+			$switch .= "\n".'		$Q =(isset($_GET["q"]))?$split_url[1]:""; ';
+			$switch .= "\n".'		define("LANG", $_SESSION["site_language"] );';
+			$switch .= "\n".'	break;';
+			$switch .= "\n".'	case 3:';
+			$switch .= "\n".'		$_SESSION["site_language"] = $split_url[1] ;';
+			$switch .= "\n".'		$_SESSION["_country"] = $split_url[0] ;';
+			$switch .= "\n".'		$Q =(isset($_GET["q"]))?$split_url[2]:""; ';
+			$switch .= "\n".'		define("LANG", $_SESSION["site_language"] );';
+			$switch .= "\n".'	break;';
+			$switch .= "\n".'	default:';
+			$switch .= "\n".'		$Q =(isset($_GET["q"]))?$_GET["q"]:"";';
+			$switch .= "\n".'		define("LANG", "th" ); $_SESSION["site_language"] = "th";';
+			$switch .= "\n".'	break;';
+			$switch .= "\n".'}';
+			$switch .= "\n".'$_PARAM = explode("-",$Q);';
+			$switch .= "\n".'$_PARAM_PLUS[1] = explode("-",$Q,1);';
+			$switch .= "\n".'if(count($_PARAM)>=2){list($bf1,$_PARAM_PLUS[2]) = explode("-",$Q,2);}';
+			$switch .= "\n".'if(count($_PARAM)>=3){list($bf1,$bf2,$_PARAM_PLUS[3]) = explode("-",$Q,3);}';
+			$switch .= "\n".'if(count($_PARAM)>=4){list($bf1,$bf2,$bf3,$_PARAM_PLUS[4]) = explode("-",$Q,4);}';
+			$switch .= "\n".'if(count($_PARAM)>=5){list($bf1,$bf2,$bf3,$bf4,$_PARAM_PLUS[5]) = explode("-",$Q,5);}';
+			$switch .= "\n".'if(count($_PARAM)>=6){list($bf1,$bf2,$bf3,$b4,$bf5,$_PARAM_PLUS[6]) = explode("-",$Q,6);}';
+			$switch .= "\n".'if(count($_PARAM)>=7){list($bf1,$bf2,$bf3,$b4,$bf5,$bf6,$_PARAM_PLUS[7]) = explode("-",$Q,7);}';
+			$switch .= "\n".'if(count($_PARAM)>=8){list($bf1,$bf2,$bf3,$b4,$bf5,$bf6,$bf7,$_PARAM_PLUS[8]) = explode("-",$Q,8);}';
+			$switch .= "\n".'if(count($_PARAM)>=9){list($bf1,$bf2,$bf3,$b4,$bf5,$bf6,$bf7,$bf8,$_PARAM_PLUS[9]) = explode("-",$Q,9);}';
+			$switch .= "\n".'if(count($_PARAM)>=10){list($bf1,$bf2,$bf3,$b4,$bf5,$bf6,$bf7,$bf8,$bf9,$_PARAM_PLUS[10]) = explode("-",$Q,10);}';
+			// run stat log
+			$switch .= "\n".'$request_route = array(0=>array("module" => "statistics","task"=>"insertStatsLogs","type"=>NULL,"key"=>NULL, "slug"=>NULL,"status"=>NULL,"search"=>NULL,"order"=>NULL,"sort"=>NULL,"paginate"=>NULL,"count"=>true,"slugkey"=>true ));';
+			// loadn theme split rule
+			$switch .= "\n".'switch(urldecode($_PARAM[0])){ ';
+			$switch .= createSwtich($tree[0]['children'],'',$oModule);
+			$switch .= "\n".'default: ';
+			$switch .= "\n".' '.$oModule->createRequestHomeRoute().'; ';
+			$switch .= "\n".' '.$oModule->createLoopQuery('index.php').' ;';
+			$switch .= "\n".'break; ';
+			$switch .="\n".'} ';
+			$switch .="\n".' ?> ';
+			$objFile = fopen('route.php','w');
+			fwrite($objFile,$switch);
+			fclose($objFile);
+			chmod('route.php',0777);
+		break;
+		////////////////task for frontend  ///////////
+		case "find" :
+			$language = LANG;
+			$module = $_GET['module'];
+			$task = $_GET['task'];
+			$type = $_GET['type'];
+			$key = $_GET['key'];
+			$slug = (!empty($_GET['slug']))?$_GET['slug']:0;
+			$status =(!empty($_GET['status']))?$_GET['status']:1;
+			$search = (!empty($_GET['search']))?$_GET['search']:'';
+			$filter = (!empty($_GET['filter']))?$_GET['filter']:'';
+			$order = (!empty($_GET['order']))?$_GET['order']:'';
+			$separate = (!empty($_GET['separate']))?$_GET['separate']:0;
+			$pagenate = (!empty($_GET['paginate']))?$_GET['paginate']:0;
+			$page = (!empty($_GET['page']))?$_GET['page']:1;
+			$length = (!empty($_GET['length']))?$_GET['length']:10;
+			$count = (!empty($_GET['count']))?$_GET['count']:0;
+			$data_key =  (!empty($_GET['data_key']))?$_GET['data_key']:$module;
+			if(is_array($key)&&!empty($key)){
+				$keys = $key;
+				foreach($keys as $key){
+					$key = $oModule->setInt($key);
+					$data[$module][$type][$key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$sort,$separate,$pagenate,$page,$length,$oCategories);
+				 	if($slugkey){
+						$listQueryData = $data[$module][$type][$key];
+						$data[$module][$type][$key] = NULL ;
+						foreach($listQueryData as $kk=>$val){
+							$data[$module][$type][$key][$val['slug']] = $val;
+						}
+					}
+					if($count){
+						$data[$module][$type]['count'][$key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+					}
+				}
+			}else{
+				$key = $oModule->setInt($key);
+				$data[$module][$type][$key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$sort,$separate,$pagenate,$page,$length,$oCategories);
+				if($count){
+					$data[$module][$type]['count'][$key] = $oModule->findcount($type,$key,$slug,$status,$language,$search,$filter,$oCategories);
+				}
+				if($slugkey){
+					$listQueryData = $data[$module][$type][$key];
+					$data[$module][$type][$key] = NULL;
+					foreach( $listQueryData as $kk=>$val){
+						$data[$module][$type][$key][$val['slug']] = $val;
+					}
+				}
+			}
+		break;
 	}// switch
 }// if isset
 ?>
