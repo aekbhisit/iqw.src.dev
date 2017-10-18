@@ -76,7 +76,7 @@ class Banners extends Database {
 				$this->move_parent($id,$parent_id);
 			}
 		}
-		$this->sql = "update $this->table set parent_id=$parent_id, name='$name',slug='$slug',description='$description',image='$image',params='$params',user_id=$user_id,status=$status,mdate=NOW() where $this->primary_key=$id ";
+		$this->sql = "update $this->table set parent_id=$parent_id,name='$name',slug='$slug',description='$description',image='$image',params='$params',user_id=$user_id,status=$status,mdate=NOW() where $this->primary_key=$id ";
 		$this->update();
 	}
 	public function duplicate_categories($id,$user_id){

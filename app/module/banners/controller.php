@@ -48,7 +48,7 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $oModule->setString($_GET['sSearch']); 
+			$sSearch = $oCategories->setString($_GET['sSearch']); 
 			if($sSearch=='undefined'){
 				$sSearch = '';
 			}
@@ -124,7 +124,7 @@ if(isset($_GET['task'])){
 			$categories_parent = $oCategories->setInt($_POST["categories_parent"]);
 			$categories_name = $oCategories->setString($_POST["categories_name"]);
 			if(empty($_POST['categories_slug'])){
-				$categories_slug = $oModule->createSlug($categories_name);
+				$categories_slug = $oCategories->createSlug($categories_name);
 			}else{
 				$categories_slug = $oCategories->setString($_POST['categories_slug']);
 			}
@@ -473,10 +473,10 @@ if(isset($_GET['task'])){
 			echo json_encode($data,true);
 		break;	
 		case 'loadFindCategoryInit':
-			$id = $oModule->setInt($_GET['id']);
+			$id = $oCategories->setInt($_GET['id']);
 			$data = $oCategories->getCategory($id);
-			$data['name'] = $oModule->getString($data['name']);
-			$data['description'] = $oModule->getString($data['description']);
+			$data['name'] = $oCategories->getString($data['name']);
+			$data['description'] = $oCategories->getString($data['description']);
 			echo json_encode($data,true);
 		break;
 		////////////////  reorder function /////////////
@@ -557,6 +557,7 @@ if(isset($_GET['task'])){
 					}
 				}
 			}else{
+				$key = $oModule->setInt($key);
 				$_DATA[$data_key] = $oModule->find($type,$key,$slug,$status,$language,$search,$filter,$order,$separate,$pagenate,$page,$length,$oCategories);
 				if($count){
 					if(!empty($key)){
