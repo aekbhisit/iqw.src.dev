@@ -62,7 +62,7 @@ class Banners extends Database {
 			$parent_id = $this->check_root_node();
 		}
 		$this->sql = "insert into $this->table (parent_id,name,slug,description,image,params,user_id,status,mdate,cdate) ";
-		$this->sql .="values ($parent_id,'$name','$slug','$description','$image','$params',$user_id,$status,NOW(),NOW())";
+		$this->sql .= "values ($parent_id,'$name','$slug','$description','$image','$params',$user_id,$status,NOW(),NOW()) ";
 		$this->insert();
 		$id = $this->insert_id();
 		$this->insert_node($parent_id,$id);
@@ -178,9 +178,9 @@ class Banners extends Database {
 	}
 	public function getParentCategory($key,$language=NULL){
 		if(!empty($language)&&$language!=$this->site_language){
-			$this->sql = " select * from $this->parent_translate_table where id=$key ";
+			$this->sql = "select * from $this->parent_translate_table where id=$key ";
 		}else{
-			$this->sql = " select * from $this->parent_table where id=$key ";
+			$this->sql = "select * from $this->parent_table where id=$key ";
 		}
 		$this->select();
 		return  $this->rows[0];
@@ -219,7 +219,7 @@ class Banners extends Database {
 		}
 	}
 	public function updateStatus($id,$status){
-		$this->sql="update $this->table set status=$status where $this->primary_key=$id ";
+		$this->sql = "update $this->table set status=$status where $this->primary_key=$id ";
 		$this->update();
 	}
 	public function getTranslate($id,$lang){
@@ -228,7 +228,7 @@ class Banners extends Database {
 		return $this->rows[0];
 	}
   	public function saveTranslate($lang,$id,$name,$content,$image,$params,$meta_key,$meta_description){
-		$this->sql ="select id from $this->translate_table where lang='$lang' and id=$id ";
+		$this->sql = "select id from $this->translate_table where lang='$lang' and id=$id ";
 		$this->select(); 
 		$chk = (empty($this->rows[0]['id']))?true:false;
 		if($chk){
@@ -252,7 +252,7 @@ class Banners extends Database {
 		$min = min($sort);
 		foreach($ids as $id){
 			if($id!='start'){
-				$this->sql="update $this->table set sequence=$min where $this->primary_key=$id ";
+				$this->sql = "update $this->table set sequence=$min where $this->primary_key=$id ";
 				$this->update();
 				$min++;
 			}
@@ -263,14 +263,14 @@ class Banners extends Database {
 		$this->select();
 		$old_sequence = $this->rows[0]['sequence'];
 		if($sort>$old_sequence){ // move up
-			$this->sql="update $this->table set sequence=sequence-1 where sequence<=$sort and sequence>$old_sequence ";
+			$this->sql = "update $this->table set sequence=sequence-1 where sequence<=$sort and sequence>$old_sequence ";
 			$this->update();
-			$this->sql="update $this->table set sequence=$sort where $this->primary_key=$id ";
+			$this->sql = "update $this->table set sequence=$sort where $this->primary_key=$id ";
 			$this->update();
 		}else{ // move down
-			$this->sql="update $this->table set sequence=sequence+1 where sequence>=$sort and sequence<$old_sequence ";
+			$this->sql = "update $this->table set sequence=sequence+1 where sequence>=$sort and sequence<$old_sequence ";
 			$this->update();
-			$this->sql="update $this->table set sequence=$sort where $this->primary_key=$id ";
+			$this->sql = "update $this->table set sequence=$sort where $this->primary_key=$id ";
 			$this->update();
 		}
 	}

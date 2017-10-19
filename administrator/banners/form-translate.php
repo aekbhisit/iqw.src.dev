@@ -92,7 +92,7 @@ $module_active = 'banners';
 						0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>false),
 						1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>false),
 						2=>array('name'=>'แบนเนอร์','alt'=>'Banners','link'=>'index.php','class'=>false),
-						3=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
+						3=>array('name'=>'แปลภาษาแบนเนอร์','alt'=>'Translate Banners','link'=>'javascript:void(0)','class'=>'active')
 					);
 					include('../inc/breadcrumbs.php');
 					?>

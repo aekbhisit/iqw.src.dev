@@ -169,6 +169,11 @@ if(isset($_GET['task'])){
 				$id = $oCategories->setInt($_GET['id']);
 				$lang = $oCategories->setString($_GET["language"]);
 				$data = $oCategories->getTranslateCategory($id,$lang);
+				$data['name'] = $oCategories->getString($data['name']);
+				$data['image'] = $oCategories->getString($data['image']);
+				$data['content'] = $oCategories->getString($data['content']);
+				$data['meta_key'] = $oCategories->getString($data['meta_key']);
+				$data['meta_description'] = $oCategories->getString($data['meta_description']);
 				echo json_encode($data);
 			}
 		break;
@@ -277,6 +282,7 @@ if(isset($_GET['task'])){
 			}else{
 				$oModule->updateData($id,$category_id,$name,$slug,$content,$image,$params,$link,$meta_key,$meta_description,$user['id'],$status,$start,$end);
 			}
+			echo '1';
 		break;
 		case 'duplicate':
 			$user = $oUsers->getAdminLoginUser();
@@ -306,6 +312,11 @@ if(isset($_GET['task'])){
 			$id = $oModule->setInt($_GET['id']);
 			$lang = $oModule->setString($_GET['language']);
 			$data = $oModule->getTranslate($id,$lang);
+			$data['name'] = $oModule->getString($data['name']);
+			$data['content'] = $oModule->getString($data['content']);
+			$data['image'] = $oModule->getString($data['image']);
+			$data['meta_key'] = $oModule->getString($data['meta_key']);
+			$data['meta_description'] = $oModule->getString($data['meta_description']);
 			echo json_encode($data);
 		break;
 		case 'saveTranslate':
@@ -317,6 +328,7 @@ if(isset($_GET['task'])){
 			$meta_key = $oModule->setString($_POST['meta_key']);
 			$meta_description = $oModule->setString($_POST['meta_description']);
 			$oModule->saveTranslate($lang,$id,$name,$content,$image,'',$meta_key,$meta_description);
+			echo '1';
 		break;
 		// for find module	
 		case 'getCategoriesDataInFinds':

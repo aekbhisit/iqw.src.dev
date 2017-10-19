@@ -93,7 +93,9 @@ function setSaveTranslate(){
 			return $('#form').valid();
 		},
 		success: function(data){
-			gotoManagePage();
+			if(data=='1') {
+				gotoManagePage();
+			}
 		}
 	});
 }
