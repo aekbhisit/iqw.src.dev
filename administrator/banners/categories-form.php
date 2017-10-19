@@ -1,8 +1,8 @@
-<?php @include ("../inc/auth.inc.php") ; ?>
+<?php @include ("../inc/auth.inc.php"); ?>
 <?php
 $modules = 'banners';
 $modules_name = 'banners';
-$module_active = 'banners' ;
+$module_active = 'banners';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
@@ -79,145 +79,137 @@ $module_active = 'banners' ;
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
 </head>
 <body class="loading">
-	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
-	<div id="da-wrapper" class="fluid">
-    
+    <!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
+    <div id="da-wrapper" class="fluid">
         <!-- Header -->
         <div id="da-header">
-         <!--header top-->
+        <!--header top-->
         <?php include('../inc/header_top.php');?>
         <!--end header top-->
-             <!--noti end--> 
+            <!--noti end--> 
             <div id="da-header-bottom">
                 <!-- Container -->
                 <div class="da-container clearfix">
-                
-                  <!--search box-->
-           			<?php 
-					include('../inc/search_top.php');
-					?>
-                	<!--end search box-->
-                   <!-- Breadcrumbs -->
+                    <!--search box-->
                     <?php 
-					$breadcrumbs = array(
-						0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>''),
-						1=>array('name'=>'หมวดหมู่','alt'=>'Categoies','link'=>'categories.php','class'=>''),
-						2=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
-					);
-					include('../inc/breadcrumbs.php');
-					?>
+                    include('../inc/search_top.php');
+                    ?>
+                    <!--end search box-->
+                    <!-- Breadcrumbs -->
+                    <?php 
+                    $breadcrumbs = array(
+                        0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>''),
+                        1=>array('name'=>'หมวดหมู่','alt'=>'Categoies','link'=>'categories.php','class'=>''),
+                        2=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
+                    );
+                    include('../inc/breadcrumbs.php');
+                    ?>
                     <!-- end Breadcrumbs -->
                 </div>
             </div>
         </div>
-    
         <!-- Content -->
         <div id="da-content">
-            
             <!-- Container -->
             <div class="da-container clearfix">
-                
-	            <!-- Sidebar Separator do not remove -->
+                <!-- Sidebar Separator do not remove -->
                 <div id="da-sidebar-separator"></div>
-                
                 <!-- Sidebar -->
                 <?php
-                	include('../inc/side_bar.php');
-				?>
+                include('../inc/side_bar.php');
+                ?>
                 <!-- Main Content Wrapper -->
                 <div id="da-content-wrap" class="clearfix">
-                
                 	<!-- Content Area -->
                 	<div id="da-content-area">
-                    <div style="display:block; clear:both; margin-left:10px; margin-right:10px; display:none;">
-                    <!--start flash messaages-->
-                    <div class="da-message error">
-                                        This is an error message
-                     </div>
-                     <div class="da-message success">
-                                        This is a success message
-                     </div>
-                    <div class="da-message info">
-                                        This is an info message
-                    </div>
-                    </div>
-                    <!--end flash messaages-->
-                    <!--start form-->
+                        <div style="display:block; clear:both; margin-left:10px; margin-right:10px; display:none;">
+                            <!--start flash messaages-->
+                            <div class="da-message error">
+                                This is an error message
+                            </div>
+                            <div class="da-message success">
+                                This is a success message
+                            </div>
+                            <div class="da-message info">
+                                This is an info message
+                            </div>
+                        </div>
+                        <!--end flash messaages-->
+                        <!--start form-->
                       	<div class="grid_3">
                         	<div class="da-panel">
                             	<div class="da-panel-header">
                                 	<span class="da-panel-title">
                                         <img src="../images/icons/black/16/pencil.png" alt="" />
-                                        เพิ่มหมวดหมู่
+                                        เพิ่ม / แก้ไขหมวดหมู่
                                     </span>
-                                    
                                 </div>
                                 <div class="da-panel-content">
-                                 <div id="form-error" class="da-message error" style="display:none;"></div>
-                                	<form class="da-form" name="categories_form" id="categories_form" enctype="multipart/form-data" onsubmit="setSaveCategories();return false;">
-                                 		<input name="categories_id"  id="categories_id" type="hidden" value="" />
-                                    	<div class="da-form-inline">
-                                         	 <div class="da-form-row">
-                                                <label>หมวดหมู่หลัก<span class="required">*</span></label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote"  >เลือกหมวดหมู่หลัก (ถ้ามี)</span>
-                                                    <select id="categories_parent" name="categories_parent" disabled="disabled" ></select>
+                                    <div id="form-error" class="da-message error" style="display:none;"></div>
+                                        <form class="da-form" name="categories_form" id="categories_form" enctype="multipart/form-data" onsubmit="setSaveCategories();return false;">
+                                            <input name="categories_id" id="categories_id" type="hidden" value="" />
+                                            <div class="da-form-inline">
+                                                <div class="da-form-row">
+                                                    <label>หมวดหมู่หลัก<span class="required">*</span></label>
+                                                    <div class="da-form-item large">
+                                                	   <span class="formNote">เลือกหมวดหมู่หลัก (ถ้ามี)</span>
+                                                        <select id="categories_parent" name="categories_parent" disabled="disabled" ></select>
+                                                    </div>
+                                                </div>
+                                                <div class="da-form-row">
+                                                    <label>ชื่อหมวดหมู่ <span class="required">*</span></label>
+                                                    <div class="da-form-item large">
+                                                        <span class="formNote">ใส่ชื่อหมวดหมู่</span>
+                                                        <input type="text" name="categories_name" id="categories_name" value="" />
+                                                    </div>
+                                                </div>
+                                                <div class="da-form-row">
+                                                    <label>Slug </label>
+                                                    <div class="da-form-item large">
+                                                       <span class="formNote">ใส่ Slug หมวดหมู่</span>
+                                                        <input type="text" name="categories_slug" id="categories_slug" value="" />
+                                                    </div>
+                                                </div>
+                                                <div class="da-form-row">
+                                                    <label>คำอธิบายหมวดหมู่</label>
+                                                    <div class="da-form-item large">
+                                                        <span class="formNote">ใส่คำอธิบายหมวดหมู่</span>
+                                                        <textarea id="categories_description" name="categories_description" style="overflow-x: hidden; overflow-y: hidden; height: 50px; "></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="da-form-row">
+                                                    <label>ภาพหมวดหมู่</label>
+                                                    <div class="da-form-item large">
+                                                        <span class="formNote">ใส่ภาพหลักหมวดหมู่ถ้ามี</span>
+                                                        <div id="finder"></div>
+                                                        <input type="text" name="categories_server_images" id="categories_server_images" value="" class="elfinder-browse" />
+                                                        <img src="" id="show-categories-image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
+                                                    </div>
+                                                </div>
+                                                <div class="da-form-row">
+                                                    <label>เปิดใช้งาน<span class="required">*</span></label>
+                                                    <div class="da-form-item small">
+                                                        <span class="formNote">เลือกสถานการใช้งานหมวดหมู่</span>
+                                                        <select id="categories_status" name="categories_status">
+                                                            <option value="1">เปิดใช้งาน</option>
+                                                            <option value="0">ปิดใช้งาน</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="da-button-row">
+                                                    <input type="reset" value="ยกเลิก" class="da-button gray left" />
+                                                    <input type="submit" value="บันทึก" class="da-button green" />
                                                 </div>
                                             </div>
-                                            <div class="da-form-row">
-                                                <label>ชื่อหมวดหมู่ <span class="required">*</span></label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote" >ใส่ชื่อหมวดหมู่</span>
-                                                    <input type="text" name="categories_name" id="categories_name" value="" />
-                                                </div>
-                                            </div>
-                                              <div class="da-form-row">
-                                                <label>Slug </label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote" >ใส่ Slug หมวดหมู่</span>
-                                                    <input type="text" name="categories_slug" id="categories_slug" value="" />
-                                                </div>
-                                            </div>
-                                            <div class="da-form-row">
-                                                <label>คำอธิบายหมวดหมู่</label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote"  >ใส่คำอธิบายหมวดหมู่</span>
-                                                   <textarea id="categories_description" name="categories_description" style="overflow-x: hidden; overflow-y: hidden; height: 50px; "></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="da-form-row">
-                                                <label>ภาพหมวดหมู่</label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote" >ใส่ภาพหลักหมวดหมู่ถ้ามี</span>
-                                                    <div id="finder"></div>
-                                                     <input type="text" name="categories_server_images" id="categories_server_images" value="" class="elfinder-browse" />
-                                                     <img src="" id="show-categories-image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
-                                                </div>
-                                            </div>
-                                      		<div class="da-form-row">
-                                                <label>เปิดใช้งาน<span class="required">*</span></label>
-                                                <div class="da-form-item small">
-                                                	<span class="formNote">เลือกสถานการใช้งานหมวดหมู่</span>
-                                                    <select id="categories_status" name="categories_status" >
-                                                    <option value="1">เปิดใช้งาน</option>
-                                                    <option value="0">ปิดใช้งาน</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                   			<div class="da-button-row">
-                                        	<input type="reset" value="ยกเลิก" class="da-button gray left">
-                                        	<input type="submit" value="บันทึก" class="da-button green">
-                                        </div>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                <!--enf form-->        
-                 	<div class="grid_1">
-                        	<div class="da-panel">
-                            	<div class="da-panel-header">
-                                	<span class="da-panel-title">
+                            <!--enf form-->
+                            <div class="grid_1">
+                                <div class="da-panel">
+                                    <div class="da-panel-header">
+                                        <span class="da-panel-title">
                                         <img src="../images/icons/black/16/list.png" alt="" />
                                         หมวดหมู่ปัจจุบัน
                                     </span>
@@ -230,16 +222,13 @@ $module_active = 'banners' ;
                     </div>
                 </div>
             </div> 
-      
         </div>
-        
         <!-- Footer -->
         <div id="da-footer">
         	<div class="da-container clearfix">
             	<p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
             </div>
         </div>
-        
     </div>
     <div class="modal"></div>​
 </body>

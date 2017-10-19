@@ -35,7 +35,7 @@ $(document).ready(function(e) {
            	"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",
            	"sZeroRecords": "ขออภัยไม่พบข้อมูล",
             "sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
-            "sInfoEmpty": "แสดง 0 ถึิง 0 จาก 0 รายการ",
+            "sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 รายการ",
             "sInfoFiltered": "(กรองข้อมูลจาก _MAX_ รายการทั้งหมด)",
 			"oPaginate": {
        			"sFirst": "หน้าแรก",
@@ -280,7 +280,7 @@ function loadChangeCategoryTableData(){
            	"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",
            	"sZeroRecords": "ขออภัยไม่พบข้อมูล",
             "sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
-            "sInfoEmpty": "แสดง 0 ถึิง 0 จาก 0 รายการ",
+            "sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 รายการ",
             "sInfoFiltered": "(กรองข้อมูลจาก _MAX_ รายการทั้งหมด)",
 			"oPaginate": {
        			"sFirst": "หน้าแรก",
