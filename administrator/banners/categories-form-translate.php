@@ -100,7 +100,7 @@ $module_active = 'banners';
                     $breadcrumbs = array(
                         0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>''),
                         1=>array('name'=>'หมวดหมู่','alt'=>'Categoies','link'=>'categories.php','class'=>''),
-                        2=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
+                        2=>array('name'=>'แปลภาษาหมวดหมู่','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
                     );
                     include('../inc/breadcrumbs.php');
                     ?>
@@ -143,12 +143,11 @@ $module_active = 'banners';
                                         <img src="../images/icons/black/16/pencil.png" alt="" />
                                         แปลภาษาหมวดหมู่
                                     </span>
-                                    
                                 </div>
                                 <div class="da-panel-content">
                                     <div id="form-error" class="da-message error" style="display:none;"></div>
                                     <form class="da-form" name="categories_form" id="categories_form" enctype="multipart/form-data" onsubmit="setSaveCategoriesTranslate();return false;">
-                                        <input name="categories_id"  id="categories_id" type="hidden" value="" />
+                                        <input name="categories_id" id="categories_id" type="hidden" value="" />
                                         <div class="da-form-inline">
                                             <div class="da-form-row">
                                                 <label>ภาษา<span class="required">*</span></label>
@@ -161,7 +160,7 @@ $module_active = 'banners';
                                                 <label>กำลังแปล</label>
                                                 <div class="da-form-item large">
                                                     <span class="formNote">ชื่อหมวดหมู่ที่ท่านต้องการแปล</span>
-                                                     <input type="text" name="now_translate" id="now_translate"  disabled="disabled" value=""/>
+                                                     <input type="text" name="now_translate" id="now_translate" disabled="disabled" value=""/>
                                                 </div>
                                             </div>
                                             <div class="da-form-row">

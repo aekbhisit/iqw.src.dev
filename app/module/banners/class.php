@@ -53,7 +53,7 @@ class Banners extends Database {
 		return  $this->select('size');
 	}
 	public function getCategory($id){
-		$this->sql = "select id,parent_id,name,slug,description,image,statusfrom $this->table where $this->primary_key=$id ";
+		$this->sql = "select id,parent_id,name,slug,description,image,status from $this->table where $this->primary_key=$id ";
 		$this->select();
 		return $this->rows[0];
 	}

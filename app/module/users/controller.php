@@ -68,10 +68,10 @@ if(isset($_GET['task'])){
 			$data = array(
 				0=>array('level'=>0,'id'=>0,'parent'=>0,'name'=>'--- ไม่เลือก ---'),
 			);
-			$cnt =1 ;
+			$cnt = 1;
 			if(!empty($categories)){
 				foreach($categories as $c){
-					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']) ;
+					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']);
 					$cnt++;
 				}
 			}
