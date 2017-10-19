@@ -1,15 +1,13 @@
 // JavaScript Document
+"use strict";
 var modules = "banners";
-(function($) {
-	$(document).ready(function(e) {
-		formInit() ;
-		//selectImages();
-		$(document).find(".datetimepicker").each(function(){
-			$(this).datetimepicker();
-			});
-		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
-	});// document_ready
-}) (jQuery);
+$(document).ready(function(e) {
+	formInit();
+	$(document).find(".datetimepicker").each(function(){
+		$(this).datetimepicker();
+		});
+	$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
+});// document_ready
 function gotoManagePage(){
 	var url = 'index.php'; 
 	window.location.replace(url);
@@ -27,8 +25,8 @@ function formInit(){
 			$('#name').val(data.name);
 			$('#slug').val(data.slug);
 			$('#linkurl').val(data.link);
-			$('#content').val(data.content);
-			//$('#content').elrte('val', data.content);
+			$('#content').html(data.content);
+			initFormTextEditor();
 			if(data.image!=''){
 				$('#image').val(data.image);
 				$('#show_image').attr('src',data.image);
@@ -39,6 +37,7 @@ function formInit(){
 			$('#status').find('option:[value="'+data.status+'"]').attr('selected','selected');
 		}else{
 			loadNowCategories(0);
+			initFormTextEditor();
 		}
 	});
 }
@@ -49,7 +48,7 @@ function loadNowCategories(selected){
 		var options_list = "";
 		$.each(data,function(index,value){
 			var indent = '';
-			for(i=0;i<value.level-1;i++){
+			for(var i=0;i<value.level-1;i++){
 				indent += '-';
 			}
 			if(value.level>0||value.id==0){
@@ -67,9 +66,6 @@ function loadNowCategories(selected){
 function setSaveData(){
 	var d = new Date();	
 	var url = "../../app/index.php?module="+modules+"&task=saveData&d"+d.getTime();
-	$('#form').find('.elrte').each(function(){
-		$(this).elrte('updateSource');
-	});
 	tinyMCE.triggerSave();
 	$.ajax({
 		type: 'POST', 
@@ -101,23 +97,22 @@ function setSaveData(){
 			return $('#form').valid();
 		},
 		success: function(data){
-			// alert(data);  
-			gotoManagePage()
+			gotoManagePage();
 		}
 	});
 }
 function selectImages(){
-	 var input = $('#image');
-    $(input).bind('click',function () {
+	var input = $('#image');
+	$(input).bind('click',function () {
 		if($(document).has('#finder').length<=0){
 			$('#image').after('<div id="finder"></div>');
 		}
-		 $('#finder').elfinder({
-         	url : '../../files/php/connector.php',
-        	closeOnEditorCallback: false,
-        	getFileCallback: function(url) {
+		$('#finder').elfinder({
+			url : '../../files/php/connector.php',
+			closeOnEditorCallback: false,
+			getFileCallback: function(url) {
 				$(input).val(url);
-     	   }
+			}
 		});
-    });	
+	});	
 }

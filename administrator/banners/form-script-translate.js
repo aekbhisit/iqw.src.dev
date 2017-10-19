@@ -1,19 +1,18 @@
 // JavaScript Document
+"use strict";
 var modules = "banners";
-(function($) {
-	$(document).ready(function(e) {
-		$('#translate_language').bind('change',function(){
-			var lang = $('#translate_language').val();
-			formInit() ;
-		});
-		$(document).find(".datetimepicker").each(function(){
-			$(this).datetimepicker();
-		});
-	//	selectImages();
-		loadLanguage();
-		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
-	});// document_ready
-}) (jQuery);
+$(document).ready(function(e) {
+	initFormTextEditor();
+	$('#translate_language').bind('change',function(){
+		var lang = $('#translate_language').val();
+		formInit();
+	});
+	$(document).find(".datetimepicker").each(function(){
+		$(this).datetimepicker();
+	});
+	loadLanguage();
+	$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
+});// document_ready
 function gotoManagePage(){
 	var url = 'index.php'; 
 	window.location.replace(url);
@@ -22,7 +21,7 @@ function formInit(){
 	var d = new Date();
 	var request = window.location.search.replace('?','');
 	if($('#translate_language').val()!='0'){
-		var url = "../../app/index.php?module="+modules+"&task=formTranslateInit&language="+$('#translate_language').val()+'&'+request+"&d"+d.getTime() ;
+		var url = "../../app/index.php?module="+modules+"&task=formTranslateInit&language="+$('#translate_language').val()+'&'+request+"&d"+d.getTime();
 		$.getJSON(url,function(data){ 
 			if(typeof data=='object' && data!=null){
 				$('#id').val(data.translate_id);
@@ -43,33 +42,29 @@ function formInit(){
 }
 function loadNowCategories(selected){
 	var d = new Date();
-		var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime();
-		$.getJSON(url,function(data){
-			var options_list = "";
-			$.each(data,function(index,value){
-				var indent = '';
-				for(i=0;i<value.level-1;i++){
-					indent += '-';
+	var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime();
+	$.getJSON(url,function(data){
+		var options_list = "";
+		$.each(data,function(index,value){
+			var indent = '';
+			for(var i=0;i<value.level-1;i++){
+				indent += '-';
+			}
+			if(value.level>0||value.id==0){
+				if(value.id==selected){
+					options_list += '<option value="'+value.id+'" selected="selected">'+indent+' '+value.name+'</option>';
+				}else{
+					options_list += '<option value="'+value.id+'">'+indent+' '+value.name+'</option>';
 				}
-				if(value.level>0||value.id==0){
-					if(value.id==selected){
-						options_list += '<option value="'+value.id+'" selected="selected">'+indent+' '+value.name+'</option>';
-					}else{
-						options_list += '<option value="'+value.id+'" >'+indent+' '+value.name+'</option>';
-					}
-				}
-			});
-			$('#categories').html(options_list);
-			$('#categories').removeAttr('disabled');
+			}
 		});
+		$('#categories').html(options_list);
+		$('#categories').removeAttr('disabled');
+	});
 }
-
 function setSaveTranslate(){
 	var d = new Date();	
 	var url = "../../app/index.php?module="+modules+"&task=saveTranslate&d"+d.getTime();
-	$('#form').find('.elrte').each(function(){
-		$(this).elrte('updateSource');
-	});
 	tinyMCE.triggerSave();
 	$.ajax({
 		type: 'POST', 
@@ -98,8 +93,7 @@ function setSaveTranslate(){
 			return $('#form').valid();
 		},
 		success: function(data){
-			//alert(data);  
-			gotoManagePage()
+			gotoManagePage();
 		}
 	});
 }
@@ -119,9 +113,11 @@ function loadLanguage(){
 	$.getJSON(url,function(data){
 		var ul_list = '<br><ul style="list-style:none;">';
 		var options_list = "<option value='0'>--เลือกภาษา--</option>";
-		$.each(data,function(index,value){
-			options_list += '<option value="'+value.code+'" >'+value.language+'</option>';
-		});
+		if(typeof data === 'object') {
+			$.each(data,function(index,value){
+				options_list += '<option value="'+value.code+'" >'+value.language+'</option>';
+			});
+		}
 		$('#translate_language').html(options_list);
 		$('#translate_language').removeAttr('disabled');
 	});

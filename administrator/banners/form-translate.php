@@ -55,23 +55,12 @@ $module_active = 'banners';
 <script type="text/javascript" src="../js/core/dandelion.customizer.js"></script>
 <script type="text/javascript" src="../plugins/jgrowl/jquery.jgrowl.js"></script>
 <link rel="stylesheet" type="text/css" href="../plugins/jgrowl/jquery.jgrowl.css" media="screen" />
-<!--Text editor -->
-<script type="text/javascript" src="../plugins/elrte/js/elrte.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../plugins/elrte/css/elrte.css" />
 <!-- elFinder Plugin -->
 <script type="text/javascript" src="../plugins/elfinder/js/elfinder.min.js"></script>
 <link rel="stylesheet" href="../plugins/elfinder/css/elfinder.css" media="screen" />
 <!--form validate-->
 <script type="text/javascript" src="../plugins/validate/jquery.validate.min.js"></script>
 <!-- PLUpload Plugin -->
-<!--<script type="text/javascript" src="plugins/plupload/plupload.js"></script>
-<script type="text/javascript" src="plugins/plupload/plupload.flash.js"></script>
-<script type="text/javascript" src="plugins/plupload/plupload.html4.js"></script>
-<script type="text/javascript" src="plugins/plupload/plupload.html5.js"></script>
-<script type="text/javascript" src="plugins/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
-<link rel="stylesheet" href="plugins/plupload/jquery.plupload.queue.css" />-->
-<!-- Demo JavaScript Files -->
-<!--<script type="text/javascript" src="js/demo/demo.files.js"></script>-->
 <!-- all-pages-include-script -->
 <?php include('../all-pages-include-script.php'); ?>
 <!-- Custom script for all page -->
@@ -102,7 +91,7 @@ $module_active = 'banners';
 						$breadcrumbs = array(
 						0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>false),
 						1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>false),
-						2=>array('name'=>$modules_name,'alt'=>$modules_name,'link'=>'index.php','class'=>false),
+						2=>array('name'=>'แบนเนอร์','alt'=>'Banners','link'=>'index.php','class'=>false),
 						3=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
 					);
 					include('../inc/breadcrumbs.php');
@@ -140,13 +129,13 @@ $module_active = 'banners';
                         <!--end flash messaages-->
                         <!--start form-->
                         <form class="da-form" name="form" id="form" enctype="multipart/form-data" onsubmit="setSaveTranslate();return false;">
-                            <input name="id"  id="id" type="hidden" value="" />
+                            <input name="id" id="id" type="hidden" value="" />
                             <div class="grid_4">
                                 <div class="da-panel collapsible collapsed">
                                     <div class="da-panel-header">
                                         <span class="da-panel-title">
                                             <img src="../images/icons/black/16/documents_small.png" />
-                                            เพิ่ม SEO Meta Data
+                                                เพิ่ม SEO Meta Data
                                         </span>
                                     </div>
                                     <div class="da-panel-content">
@@ -182,35 +171,35 @@ $module_active = 'banners';
                                             <div class="da-form-row">
                                                 <label>ภาษา<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote"  >เลือกภาษาที่ต้องการแปล</span>
+                                                	<span class="formNote">เลือกภาษาที่ต้องการแปล</span>
                                                     <select id="translate_language" name="translate_language" disabled="disabled" ></select>
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
                                                 <label>กำลังแปล</label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote"  >ชื่อเพจที่ท่านต้องการแปล</span>
-                                                    <input type="text" name="now_translate" id="now_translate"  disabled="disabled" value=""/>
+                                                	<span class="formNote">ชื่อเพจที่ท่านต้องการแปล</span>
+                                                    <input type="text" name="now_translate" id="now_translate" disabled="disabled" value=""/>
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
                                                 <label>ชื่อแบนเนอร์ <span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote" >ใส่ชื่อแบนเนอร์</span>
+                                                	<span class="formNote">ใส่ชื่อแบนเนอร์</span>
                                                     <input type="text" name="name" id="name" value="" />
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
                                                 <label>Slug </label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote" >ชื่อที่จะแสดงใน URL ต้องไม่ซ้ำกัน</span>
+                                                	<span class="formNote">ชื่อที่จะแสดงใน URL ต้องไม่ซ้ำกัน</span>
                                                     <input type="text" name="slug" id="slug" value="" />
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
                                                 <label>ภาพแบนเนอร์ <span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                    <span class="formNote" >ใส่ภาพของแบนเนอร์ (ถ้ามี)</span>
+                                                    <span class="formNote">ใส่ภาพของแบนเนอร์ (ถ้ามี)</span>
                                                     <div id="finder"></div>
                                                     <input type="text" name="image" id="image" value="" class="elfinder-browse" />
                                                     <img src="" id="show_image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
@@ -219,7 +208,7 @@ $module_active = 'banners';
                                             <div class="da-form-row">
                                                 <label>คำอธิบายแบนเนอร์</label>
                                                 <div class="da-form-item large">
-                                                    <span class="formNote"  >ใส่คำอธิบายแบนเนอร์</span>
+                                                    <span class="formNote">ใส่คำอธิบายแบนเนอร์</span>
                                                     <textarea id="content" name="content" class="texteditor" style="overflow-x: hidden; overflow-y: hidden; height:500px; "></textarea>
                                                 </div>
                                                 <div id="myelfinder"></div>
@@ -247,6 +236,6 @@ $module_active = 'banners';
             </div>
         </div>
     </div>
-    <div class="modal" onclick="reloadPageNow()"></div>​
+    <div class="modal" onclick="reloadPageNow();"></div>​
 </body>
 </html>
