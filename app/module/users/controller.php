@@ -138,7 +138,7 @@ if(isset($_GET['task'])){
 		break;
 		case 'getAdminLoginUser':
 			if(isset($_SESSION['userLogin'])){
-				$user = $oModule->setInt($_SESSION['userLogin']);
+				$user = $_SESSION['userLogin'];
 				echo json_encode($oModule->getAdminLoginUser($user['id']));
 			}else{
 				$user = array('id'=>false);
