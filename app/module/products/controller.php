@@ -48,7 +48,7 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $oCategories->setString($_GET['sSearch']); 
+			$sSearch = $oCategories->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
 				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}

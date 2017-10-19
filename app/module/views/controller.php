@@ -28,17 +28,17 @@ if(isset($_GET['task'])){
 			$limit = '';
 			$orderby = '';
 			$search = '';
-			$iDisplayLength = $_GET['iDisplayLength'];
-			$iDisplayStart = $_GET['iDisplayStart'];
+			$iDisplayLength = $oCategories->setInt($_GET['iDisplayLength']);
+			$iDisplayStart = $oCategories->setInt($_GET['iDisplayStart']);
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
-			$iSortCol_0 = $_GET['iSortCol_0'];
-			$sSortDir_0 = $_GET['sSortDir_0'];
+			$iSortCol_0 = $oCategories->setInt($_GET['iSortCol_0']);
+			$sSortDir_0 = $oCategories->setString($_GET['sSortDir_0']);
 			if(!empty($columns[$iSortCol_0])){
 				$orderby = " order by ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $oModule->setString($_GET['sSearch']); 
+			$sSearch = $oModule->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
 				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
@@ -53,9 +53,9 @@ if(isset($_GET['task'])){
 			);
 			$cnt = 1;
 			if(!empty($categories)){
-				foreach($categories as $key =>$value){
+				foreach($categories as $key => $value){
 					if($value['level']>0){
-						if($value['status']){	
+						if($value['status']){
 							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" title="เปิด" /></a>';
 						}else{
 							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png"  title="ปิด" /></a>';
@@ -178,11 +178,11 @@ if(isset($_GET['task'])){
 			$limit = '';
 			$orderby = '';
 			$search = '';
-			$iDisplayLength = $_GET['iDisplayLength'];
-			$iDisplayStart= $_GET['iDisplayStart'];
+			$iDisplayLength = $oModule->setInt($_GET['iDisplayLength']);
+			$iDisplayStart = $oModule->setInt($_GET['iDisplayStart']);
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
-			$iSortCol_0 = $_GET['iSortCol_0'];
-			$sSortDir_0 = $_GET['sSortDir_0'];
+			$iSortCol_0 = $oModule->setInt($_GET['iSortCol_0']);
+			$sSortDir_0 = $oModule->setString($_GET['sSortDir_0']);
 			if(!empty($columns[$iSortCol_0])){
 				$orderby = " order by $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
@@ -190,7 +190,7 @@ if(isset($_GET['task'])){
 			}
 			$sSearch = $oModule->setString($_GET['sSearch']); 
 			if(!empty($sSearch)){
-				$search = " WHERE ($oModule->table.name like '%$sSearch%' or  $oModule->table.slug like '%$sSearch%') ";
+				$search = " WHERE ($oModule->table.name like '%$sSearch%' or $oModule->table.slug like '%$sSearch%') ";
 			}
 			$data = $oModule->getAll($search,$orderby,$limit);
 			$iTotal = $oModule->getSize();

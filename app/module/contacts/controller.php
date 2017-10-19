@@ -15,17 +15,17 @@ if(isset($_GET['task'])){
 			$limit = '';
 			$orderby = '';
 			$search = '';
-			$iDisplayLength = $_GET['iDisplayLength'];
-			$iDisplayStart = $_GET['iDisplayStart'];
+			$iDisplayLength = $oCategories->setInt($_GET['iDisplayLength']);
+			$iDisplayStart = $oCategories->setInt($_GET['iDisplayStart']);
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
-			$iSortCol_0 = $_GET['iSortCol_0'];
-			$sSortDir_0 = $_GET['sSortDir_0'];
+			$iSortCol_0 = $oCategories->setInt($_GET['iSortCol_0']);
+			$sSortDir_0 = $oCategories->setString($_GET['sSortDir_0']);
 			if(!empty($columns[$iSortCol_0])){
 				$orderby = " order by ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $oCategories->setString($_GET['sSearch']); 
+			$sSearch = $oCategories->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
 				$search = " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
@@ -143,13 +143,13 @@ if(isset($_GET['task'])){
 		case 'getContactsData':
 			$columns = array('id','name','category_id','mdate','sequence');
 			$limit = '';
-			$orderby = '';
+			$orderby ='' ;
 			$search = '';
-			$iDisplayLength = $_GET['iDisplayLength'];
-			$iDisplayStart= $_GET['iDisplayStart'];
+			$iDisplayLength = $oModule->setInt($_GET['iDisplayLength']);
+			$iDisplayStart = $oModule->setInt($_GET['iDisplayStart']);
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
-			$iSortCol_0 = $_GET['iSortCol_0'];
-			$sSortDir_0 = $_GET['sSortDir_0'];
+			$iSortCol_0 = $oModule->setInt($_GET['iSortCol_0']);
+			$sSortDir_0 = $oModule->setString($_GET['sSortDir_0']);
 			if(!empty($columns[$iSortCol_0])){
 				$orderby = " order by $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
@@ -176,7 +176,7 @@ if(isset($_GET['task'])){
 					// if empty category
 					$value['category'] = (empty($value['category']))?' - ':$value['category'];
 					$output["aaData"][] = array(0=>$row_chk,1=>$value['subject'].'<br><div class="show_contact_msg">'.$value['content'].'</div>',2=>$value['category'],3=>$value['cdate'],4=>$iconbar,5=>$value['id'],"DT_RowClass"=>'row-'.$cnt,"DT_RowId"=>$value['id']);
-					$cnt++ ;
+					$cnt++;
 				}
 			}
 			echo json_encode($output);
@@ -186,11 +186,10 @@ if(isset($_GET['task'])){
 			$id = $oModule->setInt($_POST['contacts_id']);
 			$category_id = $oModule->setInt($_POST['categories']);
 			$from_name = $oModule->setString($_POST['contacts_from_name']);
-			$from_email = $oModule->setString($_POST['contacts_from_email']);	
+			$from_email = $oModule->setString($_POST['contacts_from_email']);
 			$to_email = $oModule->setString($_POST['contacts_to_email']);	
 			$subject = $oModule->setString($_POST['contacts_subject']);	
 			$content = $oModule->setString($_POST['contacts_content']);
-			// $embed= addslashes(htmlentities($_POST['contacts_embed']));
 			$status = $oModule->setInt($_POST['contacts_status']);
 			if(empty($id)){		
 				$oModule->insertContacts($category_id,$from_name,$from_email,$to_email,$content,$user['id'],$status);
@@ -214,7 +213,7 @@ if(isset($_GET['task'])){
 				}
 				echo json_encode($messages);
 			}
-		break;	
+		break;
 		// for frontend
 		case 'front_getContactList':
 			$data['contacts']['contact_list'] = $oCategories->front_getContactList();
@@ -251,17 +250,17 @@ if(isset($_GET['task'])){
 			$limit = '';
 			$orderby = '';
 			$search = '';
-			$iDisplayLength = $_GET['iDisplayLength'];
-			$iDisplayStart = $_GET['iDisplayStart'];
+			$iDisplayLength = $oCategories->setInt($_GET['iDisplayLength']);
+			$iDisplayStart = $oCategories->setInt($_GET['iDisplayStart']);
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
-			$iSortCol_0 = $_GET['iSortCol_0'];
-			$sSortDir_0 = $_GET['sSortDir_0'];
+			$iSortCol_0 = $oCategories->setInt($_GET['iSortCol_0']);
+			$sSortDir_0 = $oCategories->setString($_GET['sSortDir_0']);
 			if(!empty($columns[$iSortCol_0])){
 				$orderby = " order by ".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $oCategories->setString($_GET['sSearch']); 
+			$sSearch = $oCategories->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
 				$search = " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
@@ -301,17 +300,17 @@ if(isset($_GET['task'])){
 			$limit = '';
 			$orderby = '';
 			$search = '';
-			$iDisplayLength = $_GET['iDisplayLength'];
-			$iDisplayStart = $_GET['iDisplayStart'];
+			$iDisplayLength = $oModule->setInt($_GET['iDisplayLength']);
+			$iDisplayStart = $oModule->setInt($_GET['iDisplayStart']);
 			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
-			$iSortCol_0 = $_GET['iSortCol_0'];
-			$sSortDir_0 = $_GET['sSortDir_0'];
+			$iSortCol_0 = $oModule->setInt($_GET['iSortCol_0']);
+			$sSortDir_0 = $oModule->setString($_GET['sSortDir_0']);
 			if(!empty($columns[$iSortCol_0])){
 				$orderby = " order by $oModule->table.".$columns[$iSortCol_0].' '.$sSortDir_0;
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $oModule->setString($_GET['sSearch']); 
+			$sSearch = $oModule->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
 				$search = " WHERE ($oModule->table.name like '%$sSearch%' or $oModule->table.slug like '%$sSearch%') ";
 			}
