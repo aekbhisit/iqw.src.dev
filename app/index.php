@@ -1,9 +1,9 @@
 <?php
-error_reporting(E_ERROR); 
-ini_set('display_errors', 1);
+// error_reporting(E_ERROR); 
 // ini_set('display_errors', 1);
-// ini_set('display_startup_errors', 1);
-// error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 //load configulation
 require_once("config.inc.php");
 //----------------load class------------------------
@@ -23,6 +23,13 @@ if(!defined('ROOT')){
 if(!defined('DOMAIN')){
 	define('DOMAIN',$DOMAIN);
 }
+// define themes root
+$theme_name = 'bornleaders_'.$_SESSION["site_language"];
+if(!is_dir('themes/'.$theme_name.'/')) {
+	$theme_name = 'bornleaders_'.SITE_LANGUAGE;
+}
+define("THEME_ROOT",'themes/'.$theme_name.'/');
+define("THEME_ROOT_URL",$ROOT.'themes/'.$theme_name.'/');
 if(isset($_GET['module'])){
 	$module = $_GET["module"];
 	if($module!='users'){

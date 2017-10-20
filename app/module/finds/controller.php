@@ -511,8 +511,8 @@ if(isset($_GET['task'])){
 						$switch .= "\n".'switch (urldecode('.$param.')){  ';
 						$switch .= createSwtich($l['children'], '',$oModule);
 						$switch .= "\n".'default :';
-						$switch .= "\n".' '.$oModule->createRequestRoute($l['id']).' ;';
-						$switch .= "\n".' '.$oModule->createLoopQuery($l['layout']).' ;';
+						$switch .= "\n".' '.$oModule->createRequestRoute($l['id']).' ';
+						$switch .= "\n".' '.$oModule->createLoopQuery($l['layout']).' ';
 						$switch .="\n".'break; ';
 						$switch .= "\n".'}';
 						$switch .= "\n".' break; ';
@@ -525,8 +525,8 @@ if(isset($_GET['task'])){
 						}else{
 							$switch .= "\n".'case "'.$exp_route_slug[0].'" : ';
 						}
-						$switch .= "\n".' '.$oModule->createRequestRoute($l['id']).';';
-						$switch .= "\n".' '.$oModule->createLoopQuery($l['layout']).' ;';
+						$switch .= "\n".' '.$oModule->createRequestRoute($l['id']).' ';
+						$switch .= "\n".' '.$oModule->createLoopQuery($l['layout']).' ';
 						$switch .= "\n".' break;';
 					}
 				} 
@@ -541,23 +541,23 @@ if(isset($_GET['task'])){
 			$tree = createTree($new, array($route[0]));
 			$switch = "<?PHP".
 			// load theme split rule
-			$switch .= "\n".'$Q =(isset($_GET["q"]))?$_GET["q"]:""; ';
-			$switch .= "\n".'$split_url = explode("/",$Q ) ;';
+			$switch .= "\n".'$Q = (isset($_GET["q"]))?$_GET["q"]:""; ';
+			$switch .= "\n".'$split_url = explode("/",$Q);';
 			$switch .= "\n".'switch(count($split_url)){' ;
 			$switch .= "\n".'	case 2:';
-			$switch .= "\n".'		$_SESSION["site_language"] = $split_url[0] ; ';
+			$switch .= "\n".'		$_SESSION["site_language"] = $split_url[0]; ';
 			$switch .= "\n".'		$Q =(isset($_GET["q"]))?$split_url[1]:""; ';
-			$switch .= "\n".'		define("LANG", $_SESSION["site_language"] );';
+			$switch .= "\n".'		define("LANG", $_SESSION["site_language"]);';
 			$switch .= "\n".'	break;';
 			$switch .= "\n".'	case 3:';
-			$switch .= "\n".'		$_SESSION["site_language"] = $split_url[1] ;';
-			$switch .= "\n".'		$_SESSION["_country"] = $split_url[0] ;';
-			$switch .= "\n".'		$Q =(isset($_GET["q"]))?$split_url[2]:""; ';
-			$switch .= "\n".'		define("LANG", $_SESSION["site_language"] );';
+			$switch .= "\n".'		$_SESSION["site_language"] = $split_url[1];';
+			$switch .= "\n".'		$_SESSION["_country"] = $split_url[0];';
+			$switch .= "\n".'		$Q = (isset($_GET["q"]))?$split_url[2]:""; ';
+			$switch .= "\n".'		define("LANG", $_SESSION["site_language"]);';
 			$switch .= "\n".'	break;';
 			$switch .= "\n".'	default:';
-			$switch .= "\n".'		$Q =(isset($_GET["q"]))?$_GET["q"]:"";';
-			$switch .= "\n".'		define("LANG", "th" ); $_SESSION["site_language"] = "th";';
+			$switch .= "\n".'		$Q = (isset($_GET["q"]))?$_GET["q"]:"";';
+			$switch .= "\n".'		define("LANG","th"); $_SESSION["site_language"] = "th";';
 			$switch .= "\n".'	break;';
 			$switch .= "\n".'}';
 			$switch .= "\n".'$_PARAM = explode("-",$Q);';
@@ -577,8 +577,8 @@ if(isset($_GET['task'])){
 			$switch .= "\n".'switch(urldecode($_PARAM[0])){ ';
 			$switch .= createSwtich($tree[0]['children'],'',$oModule);
 			$switch .= "\n".'default: ';
-			$switch .= "\n".' '.$oModule->createRequestHomeRoute().'; ';
-			$switch .= "\n".' '.$oModule->createLoopQuery('index.php').' ;';
+			$switch .= "\n".' '.$oModule->createRequestHomeRoute().' ';
+			$switch .= "\n".' '.$oModule->createLoopQuery('index.php').' ';
 			$switch .= "\n".'break; ';
 			$switch .="\n".'} ';
 			$switch .="\n".' ?> ';

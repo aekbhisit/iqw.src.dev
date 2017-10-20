@@ -224,7 +224,7 @@ class Finds extends Database {
 						$find_page_str = (int)$find_page;
 					}
 					$ROUTE .= '$request_route['.$start_index.'] = array(';
-					$ROUTE .= '"module" =>"'.$find['find_module'].'",';
+					$ROUTE .= '"module"=>"'.$find['find_module'].'",';
 					$ROUTE .= '"task"=>"'.$find['find_task'].'",';
 					$ROUTE .= '"type"=>"'.$find['find_type'].'",';
 					$ROUTE .= '"key"=>'.$find_key_str.','; 
@@ -258,11 +258,10 @@ class Finds extends Database {
 		}
 	}
 	public function createLoopQuery($path){
-		$loop ='
-			foreach($request_route as $key=>$route){
+		$loop ='foreach($request_route as $key=>$route){
 			ob_start();
-			$_GET["module"] =$route["module"];
-			$_GET["task"] =  $route["task"];
+			$_GET["module"] = $route["module"];
+			$_GET["task"] = $route["task"];
 			if(!empty($route["type"])){ $_GET["type"]=$route["type"]; }else{ $_GET["type"]=""; }
 			if(!empty($route["key"])){ $_GET["key"]=$route["key"]; }else{ $_GET["key"]=""; }
 			if(!empty($route["slug"])){ $_GET["slug"]=$route["slug"]; }else{ $_GET["slug"] = 0 ;} 
@@ -279,8 +278,7 @@ class Finds extends Database {
 			include("app/index.php");
 			ob_end_flush(); 
 			}
-			include(THEME_ROOT."'.$path.'");
-		';
+			include(THEME_ROOT."'.$path.'");';
 		return $loop;
 	}
 	public function find($type='one',$key=NULL,$slug=false,$status=1,$language='th',$search=NULL,$filter='',$order=NULL,$sort=NULL,$separate=false,$pagenate=false,$page=NULL,$length=10,$oParent=NULL){
