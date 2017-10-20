@@ -55,9 +55,6 @@ $module_active = 'htmlzone';
 <script type="text/javascript" src="../js/core/dandelion.customizer.js"></script>
 <script type="text/javascript" src="../plugins/jgrowl/jquery.jgrowl.js"></script>
 <link rel="stylesheet" type="text/css" href="../plugins/jgrowl/jquery.jgrowl.css" media="screen" />
-<!--Text editor -->
-<script type="text/javascript" src="../plugins/elrte/js/elrte.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../plugins/elrte/css/elrte.css" />
 <!-- elFinder Plugin -->
 <script type="text/javascript" src="../plugins/elfinder/js/elfinder.min.js"></script>
 <link rel="stylesheet" href="../plugins/elfinder/css/elfinder.css" media="screen" />
@@ -81,32 +78,31 @@ $module_active = 'htmlzone';
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
 </head>
 <body class="loading">
-	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
-	<div id="da-wrapper" class="fluid">
+    <!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
+    <div id="da-wrapper" class="fluid">
         <!-- Header -->
         <div id="da-header">
-               <!--header top-->
+            <!--header top-->
             <?php include('../inc/header_top.php');?>
             <!--end header top-->
-             <!--noti end--> 
+            <!--noti end--> 
             <div id="da-header-bottom">
                 <!-- Container -->
                 <div class="da-container clearfix">
-                   <!--search box-->
-           			<?php 
-					include('../inc/search_top.php');
-					?>
-                	<!--end search box-->
-                	<!-- Breadcrumbs -->
+                    <!--search box-->
                     <?php 
-						$breadcrumbs = array(
-						0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>false),
-						1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>false),
-						2=>array('name'=>$modules_name,'alt'=>$modules_name,'link'=>'index.php','class'=>false),
-						3=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
-					);
-					include('../inc/breadcrumbs.php');
-					?>
+                    include('../inc/search_top.php');
+                    ?>
+                    <!--end search box-->
+                    <!-- Breadcrumbs -->
+                    <?php 
+                    $breadcrumbs = array(
+                        0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>false),
+                        1=>array('name'=>'Input','alt'=>'Input','link'=>'index.php','class'=>false),
+                        2=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
+                    );
+                    include('../inc/breadcrumbs.php');
+                    ?>
                     <!-- end Breadcrumbs -->
                 </div>
             </div>
@@ -115,16 +111,16 @@ $module_active = 'htmlzone';
         <div id="da-content">
             <!-- Container -->
             <div class="da-container clearfix">
-	            <!-- Sidebar Separator do not remove -->
+                <!-- Sidebar Separator do not remove -->
                 <div id="da-sidebar-separator"></div>
                 <!-- Sidebar -->
                 <?php
-                	include('../inc/side_bar.php');
-				?>
+                include('../inc/side_bar.php');
+                ?>
                 <!-- Main Content Wrapper -->
                 <div id="da-content-wrap" class="clearfix">
-                	<!-- Content Area -->
-                	<div id="da-content-area">
+                    <!-- Content Area -->
+                    <div id="da-content-area">
                         <div style="display:block; clear:both; margin-left:10px; margin-right:10px; display:none;">
                             <!--start flash messaages-->
                             <div class="da-message error">
@@ -147,8 +143,7 @@ $module_active = 'htmlzone';
                                 	<div class="da-panel-header">
                                     	<span class="da-panel-title" style="margin-right:0px;">
                                             <img src="../images/icons/black/16/pencil.png" alt="" />
-                                            Create input 
-                                            <!-- <input onclick="setAddList();" type="button" value="+ Add Input" class="da-button blue" style="float:right;" /> -->
+                                            Create input
                                         </span>
                                     </div>
                                     <div class="da-panel-content da-form-container">
@@ -196,9 +191,9 @@ $module_active = 'htmlzone';
                                             </div>
                                         </div>
                                         <div class="da-form-inline">
-                                       		<div class="da-button-row">
-                                            	<input type="reset" value="ยกเลิก" class="da-button gray left">
-                                            	<input type="submit" value="บันทึก" class="da-button green">
+                                            <div class="da-button-row">
+                                                <input type="reset" value="ยกเลิก" class="da-button gray left" />
+                                                <input type="submit" value="บันทึก" class="da-button green" />
                                             </div>
                                         </div>
                                         <!--old form end-->
@@ -207,7 +202,7 @@ $module_active = 'htmlzone';
                             </div> 
                             <!--grid 4-->
                         </form>
-                        <!--enf form-->        
+                        <!--enf form-->
                     </div>
                 </div>
             </div> 
@@ -219,6 +214,6 @@ $module_active = 'htmlzone';
             </div>
         </div>
     </div>
-    <div class="modal" onclick="reloadPageNow()"></div>​
+    <div class="modal" onclick="reloadPageNow();"></div>​
 </body>
 </html>

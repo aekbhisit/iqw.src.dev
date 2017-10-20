@@ -65,31 +65,30 @@ $module_active = 'htmlzone';
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
 </head>
 <body>
-	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
-	<div id="da-wrapper" class="fluid">
+  <!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
+  <div id="da-wrapper" class="fluid">
     <!-- Header -->
     <div id="da-header">
-    <!--header top-->
-    <?php include('../inc/header_top.php');?>
-    <!--end header top-->
-    <!--noti end--> 
+      <!--header top-->
+      <?php include('../inc/header_top.php');?>
+      <!--end header top-->
+      <!--noti end--> 
       <div id="da-header-bottom">
         <!-- Container -->
         <div class="da-container clearfix">
           <!--search box-->
           <?php 
-					include('../inc/search_top.php');
-					?>
+          include('../inc/search_top.php');
+          ?>
           <!--end search box-->
           <!-- Breadcrumbs -->
           <?php 
-					$breadcrumbs = array(
-						0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>''),
-						1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>''),
-						2=>array('name'=>$modules_name,'alt'=>$modules_name,'link'=>'javascript:void(0)','class'=>'active')
-					);
-					include('../inc/breadcrumbs.php');
-					?>
+          $breadcrumbs = array(
+            0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>''),
+            1=>array('name'=>'Input','alt'=>'Input','link'=>'javascript:void(0)','class'=>'active')
+          );
+          include('../inc/breadcrumbs.php');
+          ?>
         </div>
       </div>
     </div>
@@ -97,62 +96,73 @@ $module_active = 'htmlzone';
     <div id="da-content">
       <!-- Container -->
       <div class="da-container clearfix">
-	      <!-- Sidebar Separator do not remove -->
+        <!-- Sidebar Separator do not remove -->
         <div id="da-sidebar-separator"></div>
-          <!-- Sidebar -->
-          <?php
-          include('../inc/side_bar.php');
-				  ?>
-          <!-- Main Content Wrapper -->
-          <div id="da-content-wrap" class="clearfix">
-            <!-- Content Area -->
-            <div id="da-content-area">
-              <div style="display:block; width:100%; min-height:35px; height:auto; clear:both; padding-left:10px; padding-right:10px;">
-                <a href="htmlzone-form.php?mode=add"><button class="da-button green medium">เพิ่มรายการใหม่</button></a>
-              </div>
-              <div class="grid_4">
-                <div class="da-panel collapsible">
-                  <div class="da-panel-header">
-                    <span class="da-panel-title">
-                      <img src="../images/icons/black/16/list.png" alt="" />จัดการ HTML
-                    </span>
-                  </div>
-                  <div class="da-panel-content">
-                    <table id="da-ex-datatable-numberpaging" class="da-table sortcontainer">
-                      <thead>
-                        <tr>
-                          <th width="40">ลำดับ</th>
-                          <th>ชื่อ</th>
-                          <th width="75">ประเภค</th>
-                          <th width="75">บล็อก</th>
-                          <th width="70">วันที่</th>
-                          <th width="50">ลำดับ</th>
-                          <th width="75">แก้ไข</th> 
-                          <th width="25">#ID</th> 
-                        </tr>
-                      </thead>
-                      <tbody id="sortable">
-                        <tr>
-                          <td></td>
-                          
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td class="da-icon-column">             
-                            <a href="#"><img src="../images/icons/color/magnifier.png" /></a>
-                            <a href="#"><img src="../images/icons/color/pencil.png" /></a>
-                            <a href="#"><img src="../images/icons/color/cross.png" /></a>
-                          </td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+        <!-- Sidebar -->
+        <?php
+        include('../inc/side_bar.php');
+        ?>
+        <!-- Main Content Wrapper -->
+        <div id="da-content-wrap" class="clearfix">
+          <!-- Content Area -->
+          <div id="da-content-area">
+            <div style="display:block; width:100%; min-height:35px; height:auto; clear:both; padding-left:10px; padding-right:10px;">
+              <a href="htmlzone-form.php?mode=add"><button class="da-button green medium">เพิ่มรายการใหม่</button></a>
+            </div>
+            <div class="grid_4">
+              <div class="da-panel collapsible">
+                <div class="da-panel-header">
+                  <span class="da-panel-title">
+                    <img src="../images/icons/black/16/list.png" alt="" />จัดการ HTML
+                  </span>
+                </div>
+                <div class="da-panel-content">
+                  <table id="da-ex-datatable-numberpaging" class="da-table sortcontainer">
+                    <thead>
+                      <tr>
+                        <th width="40">ลำดับ</th>
+                        <th>ชื่อ</th>
+                        <th width="75">ประเภค</th>
+                        <th width="75">บล็อก</th>
+                        <th width="70">วันที่</th>
+                        <th width="50">ลำดับ</th>
+                        <th width="75">แก้ไข</th> 
+                        <th width="25">#ID</th> 
+                      </tr>
+                    </thead>
+                    <tbody id="sortable">
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="da-icon-column">
+                          <a href="#"><img src="../images/icons/color/magnifier.png" /></a>
+                          <a href="#"><img src="../images/icons/color/pencil.png" /></a>
+                          <a href="#"><img src="../images/icons/color/cross.png" /></a>
+                        </td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
+            </div>
             <!--end grid-->
-            <div style="display:block; width:100%; min-height:35px; height:auto; clear:both; padding-left:10px; padding-right:10px;"><button class="da-button blue medium" onclick="setCheckAll();"><label for="checkboxAll"><input name="checkboxAll"  id="checkboxAll" type="checkbox" value="" />เลือกทั้งหมด</label></button> | <button class="da-button red medium" onclick="setDeleteSelectedData();">ลบรายการที่เลือก</button>  |  <button class="da-button orange medium" id="da-dialog-change-cat">ย้ายหมวดหมู่รายการที่เลือก</button> <button class="da-button pink medium" onclick="setReorderAll();" style="float:right; margin-right:20px;">เรียงลำดับข้อมูลใหม่ </button></div>                       
+            <div style="display:block; width:100%; min-height:35px; height:auto; clear:both; padding-left:10px; padding-right:10px;">
+              <button class="da-button blue medium" onclick="setCheckAll();">
+                <label for="checkboxAll">
+                <input name="checkboxAll"  id="checkboxAll" type="checkbox" value="" />เลือกทั้งหมด</label>
+              </button>
+               | 
+              <button class="da-button red medium" onclick="setDeleteSelectedData();">ลบรายการที่เลือก</button>
+               | 
+              <button class="da-button orange medium" id="da-dialog-change-cat">ย้ายหมวดหมู่รายการที่เลือก</button> 
+              <button class="da-button pink medium" onclick="setReorderAll();" style="float:right; margin-right:20px;">
+                เรียงลำดับข้อมูลใหม่ 
+              </button>
+            </div>
             <!--change category dialog-->
             <div id="da-dialog-div-category" style="display:none;">
               <div class="da-panel-content" id="da-ex-datatable-category-container">

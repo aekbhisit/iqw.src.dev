@@ -1,7 +1,7 @@
 <?php @include ("../inc/auth.inc.php"); ?>
 <?php
 $modules = 'news';
-$modules_name = 'ข่าวสาร';
+$modules_name = 'news';
 $module_active = 'news';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -94,81 +94,94 @@ $module_active = 'news';
       </div>
     </div>
     <!-- Content -->
-    <div id="da-content">            <!-- Container -->
+    <div id="da-content">
+      <!-- Container -->
       <div class="da-container clearfix">
         <!-- Sidebar Separator do not remove -->
         <div id="da-sidebar-separator"></div>
-          <!-- Sidebar -->
-          <?php
-          include('../inc/side_bar.php');
-          ?>
-          <!-- Main Content Wrapper -->
-          <div id="da-content-wrap" class="clearfix">
-            <!-- Content Area -->
-            <div id="da-content-area">
-              <div style="display:block; width:100%; min-height:35px; height:auto; clear:both; padding-left:10px; padding-right:10px;"><a href="form.php?mode=add"><button class="da-button green medium">เพิ่มรายการใหม่</button></a></div>
-                <div class="grid_4">
-                  <div class="da-panel collapsible">
-                    <div class="da-panel-header">
-                      <span class="da-panel-title">
-                        <img src="../images/icons/black/16/list.png" alt="" />
-                        จัดการเว็บเพจ
-                      </span>
-                    </div>
-                    <div class="da-panel-content">
-                      <table id="da-ex-datatable-numberpaging" class="da-table sortcontainer">
-                                        <thead>
-                                            <tr>
-                                                <th width="40">ลำดับ</th>
-                                                <th>เว็บเพจ</th>
-                                                <th width="75">หมวดหมุ่</th>
-                                                <th width="70">วันที่</th>
-                                                <th width="38">ลำดับ</th>
-                                                <th width="75">แก้ไข</th> 
-                                                <th width="38">#ID</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="sortable">
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td class="da-icon-column">             
-                                               		 <a href="#"><img src="../images/icons/color/magnifier.png" /></a>
-                                                	<a href="#"><img src="../images/icons/color/pencil.png" /></a>
-                                                	<a href="#"><img src="../images/icons/color/cross.png" /></a>
-                                                </td>
-                                                 <td></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div><!--end grid-->
-                        
-                           <div style="display:block; width:100%; min-height:35px; height:auto; clear:both; padding-left:10px; padding-right:10px;"><button class="da-button blue medium" onclick="setCheckAll();"><label for="checkboxAll"><input name="checkboxAll"  id="checkboxAll" type="checkbox" value="" />เลือกทั้งหมด</label></button> | <button class="da-button red medium" onclick="setDeleteSelectedData();">ลบรายการที่เลือก</button>  |  <button class="da-button orange medium" id="da-dialog-change-cat">ย้ายหมวดหมู่รายการที่เลือก</button> <button class="da-button pink medium" onclick="setReorderAll();" style="float:right; margin-right:20px;">เรียงลำดับข้อมูลใหม่ </button></div>                       
-                    	<!--change category dialog-->
-                         <div id="da-dialog-div-category" style="display:none;">
-                         		 <div class="da-panel-content" id="da-ex-datatable-category-container">
-                                           <table id="change-category-dialog-container" class="da-table">
-                                                 <thead>
-                                                     <tr>
-                                                       <th width="40">ลำดับ</th>
-                                                       <th>ชื่อ</th>
-                                                       <th>ระดับ</th>
-                                                       <th>สถานะ</th>
-                                                        <th width="38">#ID</th> 
-                                                       </tr>
-                                                      </thead>
-                                                      <tbody>
-                                                      </tbody>
-                                                   </table>
-                                            </div>
-                                     </div>
-                        <!--end change category dialog-->                
-                 
+        <!-- Sidebar -->
+        <?php
+        include('../inc/side_bar.php');
+        ?>
+        <!-- Main Content Wrapper -->
+        <div id="da-content-wrap" class="clearfix">
+          <!-- Content Area -->
+          <div id="da-content-area">
+            <div style="display:block; width:100%; min-height:35px; height:auto; clear:both; padding-left:10px; padding-right:10px;"><a href="form.php?mode=add"><button class="da-button green medium">เพิ่มรายการใหม่</button></a></div>
+            <div class="grid_4">
+              <div class="da-panel collapsible">
+                <div class="da-panel-header">
+                  <span class="da-panel-title">
+                    <img src="../images/icons/black/16/list.png" alt="" />
+                    จัดการเว็บเพจ
+                  </span>
+                </div>
+                <div class="da-panel-content">
+                  <table id="da-ex-datatable-numberpaging" class="da-table sortcontainer">
+                    <thead>
+                      <tr>
+                        <th width="40">ลำดับ</th>
+                        <th>ข่าวสาร</th>
+                        <th width="75">หมวดหมุ่</th>
+                        <th width="70">วันที่</th>
+                        <th width="38">ลำดับ</th>
+                        <th width="75">แก้ไข</th> 
+                        <th width="38">#ID</th>
+                      </tr>
+                    </thead>
+                    <tbody id="sortable">
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="da-icon-column">             
+                          <a href="#"><img src="../images/icons/color/magnifier.png" /></a>
+                          <a href="#"><img src="../images/icons/color/pencil.png" /></a>
+                          <a href="#"><img src="../images/icons/color/cross.png" /></a>
+                        </td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!--end grid-->
+            <div style="display:block; width:100%; min-height:35px; height:auto; clear:both; padding-left:10px; padding-right:10px;">
+              <button class="da-button blue medium" onclick="setCheckAll();">
+                <label for="checkboxAll">
+                  <input name="checkboxAll" id="checkboxAll" type="checkbox" value="" />เลือกทั้งหมด
+                </label>
+              </button>
+              | 
+              <button class="da-button red medium" onclick="setDeleteSelectedData();">ลบรายการที่เลือก</button>
+              | 
+              <button class="da-button orange medium" id="da-dialog-change-cat">ย้ายหมวดหมู่รายการที่เลือก</button> 
+              <button class="da-button pink medium" onclick="setReorderAll();" style="float:right; margin-right:20px;">
+                เรียงลำดับข้อมูลใหม่ 
+              </button>
+            </div>
+            <!--change category dialog-->
+            <div id="da-dialog-div-category" style="display:none;">
+              <div class="da-panel-content" id="da-ex-datatable-category-container">
+                <table id="change-category-dialog-container" class="da-table">
+                  <thead>
+                    <tr>
+                      <th width="40">ลำดับ</th>
+                      <th>ชื่อ</th>
+                      <th>ระดับ</th>
+                      <th>สถานะ</th>
+                      <th width="38">#ID</th> 
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!--end change category dialog-->
           </div>
         </div>
       </div> 

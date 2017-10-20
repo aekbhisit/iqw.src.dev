@@ -1,15 +1,13 @@
 // JavaScript Document
+"use strict";
 var modules = "news";
-(function($) {
-	$(document).ready(function(e) {
-		formInit();
-		//selectImages();
-		$(document).find(".datetimepicker").each(function(){
-			$(this).datetimepicker();
-		});
-		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
-	});// document_ready
-}) (jQuery);
+$(document).ready(function(e) {
+	formInit();
+	$(document).find(".datetimepicker").each(function(){
+		$(this).datetimepicker();
+	});
+	$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
+});// document_ready
 function gotoManagePage(){
 	var url = 'index.php'; 
 	window.location.replace(url);
@@ -28,7 +26,7 @@ function formInit(){
 			$('#meta_key').val(data.meta_key);
 			$('#meta_description').val(data.meta_description);
 			$('#params').val(data.params);
-			$('#content').val(data.content);
+			$('#content').html(data.content);
 			if(data.image!=''){
 				$('#image').val(data.image);
 				$('#show_image').attr('src',getPreImageURL()+data.image);
@@ -37,8 +35,10 @@ function formInit(){
 			$('#start').val(data.start);
 			$('#end').val(data.end);
 			$('#status').find('option:[value="'+data.status+'"]').attr('selected','selected');
+			initFormTextEditor();
 		}else{
 			loadNowCategories(0);
+			initFormTextEditor();
 		}
 	});
 }
@@ -67,9 +67,6 @@ function loadNowCategories(selected){
 function setSaveData(){
 	var d = new Date();	
 	var url = "../../app/index.php?module="+modules+"&task=saveData&d"+d.getTime();
-	$('#form').find('.elrte').each(function(){
-		$(this).elrte('updateSource');
-	});
 	tinyMCE.triggerSave();
 	$.ajax({
 		  type: 'POST', 
@@ -98,7 +95,7 @@ function setSaveData(){
 			return $('#form').valid();
 		},
 		success: function(data){
-			gotoManagePage()
+			gotoManagePage();
 		}
 	});
 }

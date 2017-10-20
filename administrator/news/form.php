@@ -55,9 +55,6 @@ $module_active = 'news';
 <script type="text/javascript" src="../js/core/dandelion.customizer.js"></script>
 <script type="text/javascript" src="../plugins/jgrowl/jquery.jgrowl.js"></script>
 <link rel="stylesheet" type="text/css" href="../plugins/jgrowl/jquery.jgrowl.css" media="screen" />
-<!--Text editor -->
-<script type="text/javascript" src="../plugins/elrte/js/elrte.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../plugins/elrte/css/elrte.css" />
 <!-- elFinder Plugin -->
 <script type="text/javascript" src="../plugins/elfinder/js/elfinder.min.js"></script>
 <link rel="stylesheet" href="../plugins/elfinder/css/elfinder.css" media="screen" />
@@ -83,17 +80,15 @@ $module_active = 'news';
 <body class="loading">
 	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
 	<div id="da-wrapper" class="fluid">
-    
         <!-- Header -->
         <div id="da-header">
-               <!--header top-->
+            <!--header top-->
             <?php include('../inc/header_top.php');?>
             <!--end header top-->
-             <!--noti end--> 
+            <!--noti end--> 
             <div id="da-header-bottom">
                 <!-- Container -->
                 <div class="da-container clearfix">
-                
                    <!--search box-->
            			<?php 
 					include('../inc/search_top.php');
@@ -110,41 +105,34 @@ $module_active = 'news';
 					include('../inc/breadcrumbs.php');
 					?>
                     <!-- end Breadcrumbs -->
-                    
                 </div>
             </div>
         </div>
-    
         <!-- Content -->
         <div id="da-content">
-            
             <!-- Container -->
             <div class="da-container clearfix">
-                
 	            <!-- Sidebar Separator do not remove -->
                 <div id="da-sidebar-separator"></div>
                 <!-- Sidebar -->
                 <?php
                 	include('../inc/side_bar.php');
 				?>
-                
-                     
                 <!-- Main Content Wrapper -->
                 <div id="da-content-wrap" class="clearfix">
-                
                 	<!-- Content Area -->
                 	<div id="da-content-area">
                     <div style="display:block; clear:both; margin-left:10px; margin-right:10px; display:none;">
-                    <!--start flash messaages-->
-                    <div class="da-message error">
-                                        This is an error message
-                     </div>
-                     <div class="da-message success">
-                                        This is a success message
-                     </div>
-                    <div class="da-message info">
-                                        This is an info message
-                    </div>
+                        <!--start flash messaages-->
+                        <div class="da-message error">
+                            This is an error message
+                        </div>
+                        <div class="da-message success">
+                            This is a success message
+                        </div>
+                        <div class="da-message info">
+                            This is an info message
+                        </div>
                     </div>
                     <!--end flash messaages-->
                     <!--start form-->

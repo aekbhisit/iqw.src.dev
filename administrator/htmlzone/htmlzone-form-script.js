@@ -11,22 +11,6 @@ function gotoManagePage(){
 	var url = 'htmlzone.php'; 
 	window.location.replace(url);
 }
-function loadBlock(selected){
-	var d = new Date();
-	var url = "../../app/index.php?module="+modules+"&task=loadBlock&d"+d.getTime();
-	$.getJSON(url,function(data){
-		var options_list = "";
-		$.each(data,function(index,value){
-			if(value.zone_id==selected){
-				options_list += '<option value="'+value.zone_id+'" selected="selected">'+value.name+'</option>';
-			}else{
-				options_list += '<option value="'+value.zone_id+'">'+value.name+'</option>';
-			}
-		});
-		$('#zone_id').html(options_list);
-		$('#zone_id').removeAttr('disabled');
-	});
-}
 function formInit(){
 	var d = new Date();
 	var request = window.location.search.replace('?','');
@@ -44,16 +28,32 @@ function formInit(){
 		}
 	});
 }
+function loadBlock(selected){
+	var d = new Date();
+	var url = "../../app/index.php?module="+modules+"&task=loadBlock&d"+d.getTime();
+	$.getJSON(url,function(data){
+		var options_list = "";
+		$.each(data,function(index,value){
+			if(value.zone_id==selected){
+				options_list += '<option value="'+value.zone_id+'" selected="selected">'+value.name+'</option>';
+			}else{
+				options_list += '<option value="'+value.zone_id+'">'+value.name+'</option>';
+			}
+		});
+		$('#zone_id').html(options_list);
+		$('#zone_id').removeAttr('disabled');
+	});
+}
 function setSaveData(){
 	var d = new Date();	
 	var url = "../../app/index.php?module="+modules+"&task=saveDataInput&d"+d.getTime();
 	$.ajax({
-		type: 'POST', 
-		url: url, 
-		enctype: 'multipart/form-data', 
+		type: 'POST',
+		url: url,
+		enctype: 'multipart/form-data',
 		data: $('#form').serialize(),
 		beforeSend: function() {
-			$('#form').validate({ 
+			$('#form').validate({
 				rules: {
 					name: {
 						required: true
@@ -86,22 +86,16 @@ function setSaveData(){
 }
 function selectImages(){
 	var input = $('#image');
-    $(input).bind('click',function () {
+	$(input).bind('click',function () {
 		if($(document).has('#finder').length<=0){
 			$('#image').after('<div id="finder"></div>');
 		}
 		$('#finder').elfinder({
-         	url : '../../files/php/connector.php',
-        	closeOnEditorCallback: false,
-        	getFileCallback: function(url) {
+			url : '../../files/php/connector.php',
+			closeOnEditorCallback: false,
+			getFileCallback: function(url) {
 				$(input).val(url);
-     	   	}
+			}
 		});
-    });	
-}
-function block_list(){
-
-}
-function setAddList(){
-
+	});
 }

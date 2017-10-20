@@ -55,9 +55,6 @@ $module_active = 'htmlzone';
 <script type="text/javascript" src="../js/core/dandelion.customizer.js"></script>
 <script type="text/javascript" src="../plugins/jgrowl/jquery.jgrowl.js"></script>
 <link rel="stylesheet" type="text/css" href="../plugins/jgrowl/jquery.jgrowl.css" media="screen" />
-<!--Text editor -->
-<script type="text/javascript" src="../plugins/elrte/js/elrte.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../plugins/elrte/css/elrte.css" />
 <!-- elFinder Plugin -->
 <script type="text/javascript" src="../plugins/elfinder/js/elfinder.min.js"></script>
 <link rel="stylesheet" href="../plugins/elfinder/css/elfinder.css" media="screen" />
@@ -81,8 +78,8 @@ $module_active = 'htmlzone';
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
 </head>
 <body class="loading">
-	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
-	<div id="da-wrapper" class="fluid">
+    <!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
+    <div id="da-wrapper" class="fluid">
         <!-- Header -->
         <div id="da-header">
                <!--header top-->
@@ -92,21 +89,20 @@ $module_active = 'htmlzone';
             <div id="da-header-bottom">
                 <!-- Container -->
                 <div class="da-container clearfix">
-                   <!--search box-->
-           			<?php 
-					include('../inc/search_top.php');
-					?>
-                	<!--end search box-->
-                	<!-- Breadcrumbs -->
+                    <!--search box-->
                     <?php 
-						$breadcrumbs = array(
-						0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>false),
-						1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>false),
-						2=>array('name'=>$modules_name,'alt'=>$modules_name,'link'=>'index.php','class'=>false),
-						3=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
-					);
-					include('../inc/breadcrumbs.php');
-					?>
+                    include('../inc/search_top.php');
+                    ?>
+                    <!--end search box-->
+                    <!-- Breadcrumbs -->
+                    <?php 
+                    $breadcrumbs = array(
+                        0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>false),
+                        1=>array('name'=>'Block','alt'=>'Block','link'=>'index.php','class'=>false),
+                        2=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
+                    );
+                    include('../inc/breadcrumbs.php');
+                    ?>
                     <!-- end Breadcrumbs -->
                 </div>
             </div>
@@ -115,16 +111,16 @@ $module_active = 'htmlzone';
         <div id="da-content">
             <!-- Container -->
             <div class="da-container clearfix">
-	            <!-- Sidebar Separator do not remove -->
+                <!-- Sidebar Separator do not remove -->
                 <div id="da-sidebar-separator"></div>
                 <!-- Sidebar -->
                 <?php
-                	include('../inc/side_bar.php');
-				?>
+                include('../inc/side_bar.php');
+                ?>
                 <!-- Main Content Wrapper -->
                 <div id="da-content-wrap" class="clearfix">
-                	<!-- Content Area -->
-                	<div id="da-content-area">
+                    <!-- Content Area -->
+                    <div id="da-content-area">
                         <div style="display:block; clear:both; margin-left:10px; margin-right:10px; display:none;">
                             <!--start flash messaages-->
                             <div class="da-message error">
@@ -142,10 +138,10 @@ $module_active = 'htmlzone';
                         <form class="da-form" name="form" id="form" enctype="multipart/form-data" onsubmit="setSaveData(); return false;">
                             <input name="id" id="id" type="hidden" value="" />
                             <!--start main content form-->
-                          	<div class="grid_4">
-                            	<div class="da-panel">
-                                	<div class="da-panel-header">
-                                    	<span class="da-panel-title">
+                            <div class="grid_4">
+                                <div class="da-panel">
+                                    <div class="da-panel-header">
+                                        <span class="da-panel-title">
                                             <img src="../images/icons/black/16/pencil.png" alt="" />
                                             Create zone
                                         </span>
@@ -160,13 +156,6 @@ $module_active = 'htmlzone';
                                                     <input type="text" name="name" id="name" value="" />
                                                 </div>
                                             </div>
-                                            <!-- <div class="da-form-row">
-                                                <label>Zone <span class="required">*</span></label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote">Zone number</span>
-                                                    <input type="text" name="zonenumber" id="zonenumber" value="" />
-                                                </div>
-                                            </div> -->
                                             <div class="da-form-row">
                                                 <label>รายละเอียด <span class="required">*</span></label>
                                                 <div class="da-form-item large">
@@ -195,19 +184,18 @@ $module_active = 'htmlzone';
                             </div> 
                             <!--grid 4-->
                         </form>
-                        <!--enf form-->        
+                        <!--enf form-->
                     </div>
                 </div>
             </div> 
         </div>
         <!-- Footer -->
         <div id="da-footer">
-        	<div class="da-container clearfix">
-            	<p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
+            <div class="da-container clearfix">
+                <p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
             </div>
         </div>
-        
     </div>
-    <div class="modal" onclick="reloadPageNow()"></div>​
+    <div class="modal" onclick="reloadPageNow();"></div>​
 </body>
 </html>

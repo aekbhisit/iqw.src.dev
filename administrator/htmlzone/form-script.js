@@ -19,7 +19,6 @@ function formInit(){
 		if(typeof data=='object' && data!=null){
 			$('#id').val(data.zone_id);
 			$('#name').val(data.name);
-			$('#zonenumber').val(data.zone);
 			$('#description').val(data.description);
 			$('#status').find('option:[value="'+data.status+'"]').attr('selected','selected');
 		}
@@ -60,23 +59,23 @@ function setSaveData(){
 			});
 			return $('#form').valid();
 		},
-		success: function(data){  
+		success: function(data){
 			gotoManagePage();
 		}
 	});
 }
 function selectImages(){
 	var input = $('#image');
-    $(input).bind('click',function () {
+	$(input).bind('click',function () {
 		if($(document).has('#finder').length<=0){
 			$('#image').after('<div id="finder"></div>');
 		}
 		$('#finder').elfinder({
-         	url : '../../files/php/connector.php',
-        	closeOnEditorCallback: false,
-        	getFileCallback: function(url) {
+			url : '../../files/php/connector.php',
+			closeOnEditorCallback: false,
+			getFileCallback: function(url) {
 				$(input).val(url);
-     	   	}
+			}
 		});
-    });	
+	});
 }
