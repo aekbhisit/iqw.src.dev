@@ -150,14 +150,14 @@ $module_active = 'news';
                                         <div class="da-form-row">
                                             <label>Meta Keywords</label>
                                             <div class="da-form-item large">
-                                                <span class="formNote"  >ใส่ Meta Keywords (ถ้าต้องการ)</span>
+                                                <span class="formNote">ใส่ Meta Keywords (ถ้าต้องการ)</span>
                                                 <input type="text" name="meta_key" id="meta_key" value="" />
                                             </div>
                                         </div>
                                         <div class="da-form-row">
                                             <label>Meta Descriptions</label>
                                             <div class="da-form-item large">
-                                                <span class="formNote"  >ใส่ Meta Descriptions (ถ้าต้องการ)</span>
+                                                <span class="formNote">ใส่ Meta Descriptions (ถ้าต้องการ)</span>
                                                 <input type="text" name="meta_description" id="meta_description" value="" />
                                             </div>
                                        </div>
@@ -193,7 +193,7 @@ $module_active = 'news';
                                             <div class="da-form-row">
                                                 <label>ชื่อข่าว <span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                    <span class="formNote" >ใส่ชื่อข่าว</span>
+                                                    <span class="formNote">ใส่ชื่อข่าว</span>
                                                     <input type="text" name="name" id="name" value="" />
                                                 </div>
                                             </div>
@@ -207,7 +207,7 @@ $module_active = 'news';
                                                 <div class="da-form-row">
                                                     <label>เนื้อหาข่าว<span class="required">*</span></label>
                                                     <div class="da-form-item large">
-                                                    	<span class="formNote"  >ใส่เนื้อหาข่าว</span>
+                                                    	<span class="formNote">ใส่เนื้อหาข่าว</span>
                                                         <textarea id="content" name="content" class="texteditor" style="overflow-x: hidden; overflow-y: hidden; height:500px; "></textarea>
                                                     </div>
                                                 </div>

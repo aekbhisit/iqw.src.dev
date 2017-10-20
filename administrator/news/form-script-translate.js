@@ -3,6 +3,7 @@
 var modules = "news";
 (function($) {
 	$(document).ready(function(e) {
+		initFormTextEditor();
 		$('#translate_language').bind('change',function(){
 			var lang = $('#translate_language').val();
 			formInit();
@@ -98,7 +99,9 @@ function setSaveTranslate(){
 			return $('#form').valid();
 		},
 		success: function(data){
-			gotoManagePage();
+			if(data=='1') {
+				gotoManagePage();
+			}
 		}
 	});
 }

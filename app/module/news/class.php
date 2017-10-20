@@ -206,7 +206,7 @@ class News extends Database {
 		$data = $this->rows;
 		if(!empty($data)){
 			foreach($data as $d){ 
-				$this->saveTranslate( $d['lang'],$new_id,$d['name'],$d['description'],$d['content'],$d['image'],$d['params'],$d['meta_key'],$d['meta_description']);
+				$this->saveTranslate($d['lang'],$new_id,$d['name'],$d['description'],$d['content'],$d['image'],$d['params'],$d['meta_key'],$d['meta_description']);
 			}
 		}
 	}
@@ -227,7 +227,7 @@ class News extends Database {
 		$this->select();
 		return $this->rows[0];
 	}
-  	public function saveTranslate( $lang,$id,$name,$description,$content,$image,$params,$meta_key,$meta_description){
+  	public function saveTranslate($lang,$id,$name,$description,$content,$image,$params,$meta_key,$meta_description){
 		$this->sql ="select id from $this->translate_table where lang='$lang' and id=$id ";
 		$this->select(); 
 		$chk = (empty($this->rows[0]['id']))?true:false;
@@ -235,7 +235,7 @@ class News extends Database {
 			$this->sql ="insert into $this->translate_table (lang,id,name,description,content,image,params,meta_key,meta_description) values ('$lang',$id,'$name','$description','$content','$image','$params','$meta_key','$meta_description') ";
 			$this->insert();
 		}else{
-			$this->sql = "update $this->translate_table set lang='$lang',name='$name',description='$description',content='$content',image='$image',params ='$params',meta_key='$meta_key',meta_description='$meta_description' where id=$id ";
+			$this->sql = "update $this->translate_table set lang='$lang',name='$name',description='$description',content='$content',image='$image',params='$params',meta_key='$meta_key',meta_description='$meta_description' where id=$id ";
 			$this->update();
 		}
 	}

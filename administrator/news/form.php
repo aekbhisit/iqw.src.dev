@@ -185,30 +185,30 @@ $module_active = 'news';
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
-                                                <label>ชื่อข่าว <span class="required">*</span></label>
+                                                <label>ชื่อ<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                    <span class="formNote">ใส่ชื่อข่าว</span>
+                                                    <span class="formNote">ใส่ชื่อข่าวสาร</span>
                                                     <input type="text" name="name" id="name" value="" />
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
-                                                <label>Slug </label>
+                                                <label>Slug</label>
                                                 <div class="da-form-item large">
                                                     <span class="formNote">ชื่อที่จะแสดงใน URL ต้องไม่ซ้ำกัน</span>
                                                     <input type="text" name="slug" id="slug" value="" />
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
-                                                <label>รายละเอียด <span class="required">*</span></label>
+                                                <label>รายละเอียด<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                    <span class="formNote">ใส่รายละเอียด</span>
+                                                    <span class="formNote">ใส่รายละเอียดข่าวสาร</span>
                                                     <input type="text" name="description" id="description" value="" />
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
-                                                <label>เนื้อหาข่าว<span class="required">*</span></label>
+                                                <label>เนื้อหา<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                    <span class="formNote">ใส่เนื้อหาข่าว</span>
+                                                    <span class="formNote">ใส่เนื้อหาข่าวสาร</span>
                                                     <textarea id="content" name="content" class="texteditor" style="overflow-x: hidden; overflow-y: hidden; height:500px; "></textarea>
                                                 </div>
                                                 <div id="myelfinder"></div>
@@ -216,16 +216,22 @@ $module_active = 'news';
                                             <div class="da-form-row">
                                                 <label>ภาพหลัก</label>
                                                 <div class="da-form-item large">
-                                                    <span class="formNote" >ใส่ภาพของข่าว (ถ้ามี)</span>
+                                                    <span class="formNote" >ใส่ภาพของข่าวสาร (ถ้ามี)</span>
                                                     <div id="finder"></div>
                                                     <input type="text" name="image" id="image" value="" class="elfinder-browse" />
                                                     <img src="" id="show_image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
                                                 </div>
                                             </div>
+                                            <div class="da-form-row ">
+                                                <label>ตั้งเวลาเปิด-ปิดข่าว</label>
+                                                <div class="da-form-item small"> <span class="formNote">เลือกเวลาเริ่มต้น - สิ้นสุด</span>
+                                                    <input id="start" name="start" type="text" class="datetimepicker" />  -  <input id="end" name="end" type="text" class="datetimepicker" />
+                                                </div>
+                                            </div>
                                             <div class="da-form-row">
                                                 <label>เปิดใช้งาน<span class="required">*</span></label>
                                                 <div class="da-form-item small">
-                                                    <span class="formNote">เลือกสถานการเปิดปิดเว็บเพจ</span>
+                                                    <span class="formNote">เลือกสถานการเปิดปิดข่าวสาร</span>
                                                     <select id="status" name="status" >
                                                         <option value="1">เปิดใช้งาน</option>
                                                         <option value="2">ตั้งเวลาอัตโนมัติ</option>
