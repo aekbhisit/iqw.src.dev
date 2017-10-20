@@ -90,20 +90,20 @@ $module_active = 'news';
                 <!-- Container -->
                 <div class="da-container clearfix">
                    <!--search box-->
-           			<?php 
-					include('../inc/search_top.php');
-					?>
-                	<!--end search box-->
-                	<!-- Breadcrumbs -->
                     <?php 
-						$breadcrumbs = array(
-						0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>false),
-						1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>false),
-						2=>array('name'=>$modules_name,'alt'=>$modules_name,'link'=>'index.php','class'=>false),
-						3=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
-					);
-					include('../inc/breadcrumbs.php');
-					?>
+                    include('../inc/search_top.php');
+                    ?>
+                    <!--end search box-->
+                    <!-- Breadcrumbs -->
+                    <?php 
+                    $breadcrumbs = array(
+                        0=>array('name'=>'หน้าหลัก','alt'=>'Home','link'=>'../dashboard/dashboard.php','class'=>false),
+                        1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>false),
+                        2=>array('name'=>'ข่าวสาร','alt'=>'News','link'=>'index.php','class'=>false),
+                        3=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
+                    );
+                    include('../inc/breadcrumbs.php');
+                    ?>
                     <!-- end Breadcrumbs -->
                 </div>
             </div>
@@ -112,90 +112,89 @@ $module_active = 'news';
         <div id="da-content">
             <!-- Container -->
             <div class="da-container clearfix">
-	            <!-- Sidebar Separator do not remove -->
+                <!-- Sidebar Separator do not remove -->
                 <div id="da-sidebar-separator"></div>
                 <!-- Sidebar -->
                 <?php
-                	include('../inc/side_bar.php');
-				?>
+                include('../inc/side_bar.php');
+                ?>
                 <!-- Main Content Wrapper -->
                 <div id="da-content-wrap" class="clearfix">
-                	<!-- Content Area -->
-                	<div id="da-content-area">
-                    <div style="display:block; clear:both; margin-left:10px; margin-right:10px; display:none;">
-                        <!--start flash messaages-->
-                        <div class="da-message error">
-                            This is an error message
-                        </div>
-                        <div class="da-message success">
-                            This is a success message
-                        </div>
-                        <div class="da-message info">
-                            This is an info message
-                        </div>
-                    </div>
-                    <!--end flash messaages-->
-                    <!--start form-->
-                    <form class="da-form" name="form" id="form" enctype="multipart/form-data" onsubmit="setSaveData();return false;">
-                    <input name="id"  id="id" type="hidden" value="" />
-                      <!--start main seo form-->
-                          <div class="grid_4">
-                            <div class="da-panel collapsible collapsed">
-                                <div class="da-panel-header">
-                                    <span class="da-panel-title">
-                                        <img src="../images/icons/black/16/documents_small.png" />
-                                        เพิ่ม SEO Meta Data
-                                    </span>
-                                </div>
-                                <div class="da-panel-content">
-                                 		<div class="da-form-row">
-                                                <label>Meta Keywords</label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote"  >ใส่ Meta Keywords (ถ้าต้องการ)</span>
-                                                    <input type="text" name="meta_key" id="meta_key" value="" />
-                                                </div>
-                                      </div>
-                                      <div class="da-form-row">
-                                                <label>Meta Descriptions</label>
-                                                <div class="da-form-item large">
-                                                	<span class="formNote"  >ใส่ Meta Descriptions (ถ้าต้องการ)</span>
-                                                    <input type="text" name="meta_description" id="meta_description" value="" />
-                                                </div>
-                                      </div>
-                                </div>
+                    <!-- Content Area -->
+                    <div id="da-content-area">
+                        <div style="display:block; clear:both; margin-left:10px; margin-right:10px; display:none;">
+                            <!--start flash messaages-->
+                            <div class="da-message error">
+                                This is an error message
+                            </div>
+                            <div class="da-message success">
+                                This is a success message
+                            </div>
+                            <div class="da-message info">
+                                This is an info message
                             </div>
                         </div>
-                      <!--start main content form-->
-                      	<div class="grid_4">
-                        	<div class="da-panel">
-                            	<div class="da-panel-header">
-                                	<span class="da-panel-title">
-                                        <img src="../images/icons/black/16/pencil.png" alt="" />
-                                        เพิ่มข่าว
-                                    </span>
-                                    
+                        <!--end flash messaages-->
+                        <!--start form-->
+                        <form class="da-form" name="form" id="form" enctype="multipart/form-data" onsubmit="setSaveData();return false;">
+                            <input name="id" id="id" type="hidden" value="" />
+                            <!--start main seo form-->
+                            <div class="grid_4">
+                                <div class="da-panel collapsible collapsed">
+                                    <div class="da-panel-header">
+                                        <span class="da-panel-title">
+                                            <img src="../images/icons/black/16/documents_small.png" />
+                                            เพิ่ม SEO Meta Data
+                                        </span>
+                                    </div>
+                                    <div class="da-panel-content">
+                                        <div class="da-form-row">
+                                            <label>Meta Keywords</label>
+                                            <div class="da-form-item large">
+                                                <span class="formNote">ใส่ Meta Keywords (ถ้าต้องการ)</span>
+                                                <input type="text" name="meta_key" id="meta_key" value="" />
+                                            </div>
+                                        </div>
+                                       <div class="da-form-row">
+                                            <label>Meta Descriptions</label>
+                                            <div class="da-form-item large">
+                                                <span class="formNote">ใส่ Meta Descriptions (ถ้าต้องการ)</span>
+                                                <input type="text" name="meta_description" id="meta_description" value="" />
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="da-panel-content">
-                                <div id="form-error" class="da-message error" style="display:none;"></div>
-                                    	<div class="da-form-inline">
-                                         	 <div class="da-form-row">
+                            </div>
+                            <!--start main content form-->
+                            <div class="grid_4">
+                                <div class="da-panel">
+                                    <div class="da-panel-header">
+                                        <span class="da-panel-title">
+                                            <img src="../images/icons/black/16/pencil.png" alt="" />
+                                            เพิ่ม / แก้ไขข่าวสาร
+                                        </span>
+                                    </div>
+                                    <div class="da-panel-content">
+                                        <div id="form-error" class="da-message error" style="display:none;"></div>
+                                        <div class="da-form-inline">
+                                            <div class="da-form-row">
                                                 <label>หมวดหมู่หลัก<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote">เลือกหมวดหมู่หลัก (ถ้ามี)</span>
+                                                    <span class="formNote">เลือกหมวดหมู่หลัก (ถ้ามี)</span>
                                                     <select id="categories" name="categories" disabled="disabled" ></select>
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
                                                 <label>ชื่อข่าว <span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote">ใส่ชื่อข่าว</span>
+                                                    <span class="formNote">ใส่ชื่อข่าว</span>
                                                     <input type="text" name="name" id="name" value="" />
                                                 </div>
                                             </div>
                                             <div class="da-form-row">
                                                 <label>Slug </label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote" >ชื่อที่จะแสดงใน URL ต้องไม่ซ้ำกัน</span>
+                                                    <span class="formNote">ชื่อที่จะแสดงใน URL ต้องไม่ซ้ำกัน</span>
                                                     <input type="text" name="slug" id="slug" value="" />
                                                 </div>
                                             </div>
@@ -209,70 +208,53 @@ $module_active = 'news';
                                             <div class="da-form-row">
                                                 <label>เนื้อหาข่าว<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote"  >ใส่เนื้อหาข่าว</span>
-                                                   <textarea id="content" name="content" class="texteditor" style="overflow-x: hidden; overflow-y: hidden; height:500px; "></textarea>
+                                                    <span class="formNote">ใส่เนื้อหาข่าว</span>
+                                                    <textarea id="content" name="content" class="texteditor" style="overflow-x: hidden; overflow-y: hidden; height:500px; "></textarea>
                                                 </div>
                                                 <div id="myelfinder"></div>
                                             </div>
-                                            <!-- <div class="da-form-row">
-                                                <label>Highlight </label>
-                                                <div class="da-form-item large">
-                                                    <span class="formNote" >highlight</span>
-                                                    <input type="text" name="params" id="params" value="" />
-                                                </div>
-                                            </div> -->
-                                             <div class="da-form-row">
+                                            <div class="da-form-row">
                                                 <label>ภาพหลัก</label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote" >ใส่ภาพของข่าว (ถ้ามี)</span>
+                                                    <span class="formNote" >ใส่ภาพของข่าว (ถ้ามี)</span>
                                                     <div id="finder"></div>
-                                                     <input type="text" name="image" id="image" value="" class="elfinder-browse" />
-                                                     <img src="" id="show_image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
+                                                    <input type="text" name="image" id="image" value="" class="elfinder-browse" />
+                                                    <img src="" id="show_image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
                                                 </div>
                                             </div>
-                                      	    <!-- <div class="da-form-row ">
-                                        	<label>ตั้งเวลาเปิด-ปิดข่าว</label>
-                                            <div class="da-form-item small">  <span class="formNote">เลือกเวลาเริ่มต้น - สิ้นสุด</span>    
-                                            	<input id="start" name="start" type="text" class="datetimepicker" />  -  <input id="end" name="end" type="text" class="datetimepicker" />
-                                            </div>
-                                        </div> -->
-                                        	<div class="da-form-row">
+                                            <div class="da-form-row">
                                                 <label>เปิดใช้งาน<span class="required">*</span></label>
                                                 <div class="da-form-item small">
-                                                	<span class="formNote">เลือกสถานการเปิดปิดเว็บเพจ</span>
+                                                    <span class="formNote">เลือกสถานการเปิดปิดเว็บเพจ</span>
                                                     <select id="status" name="status" >
-                                                    <option value="1">เปิดใช้งาน</option>
-                                                     <option value="2">ตั้งเวลาอัตโนมัติ</option>
-                                                    <option value="0">ปิดใช้งาน</option>
+                                                        <option value="1">เปิดใช้งาน</option>
+                                                        <option value="2">ตั้งเวลาอัตโนมัติ</option>
+                                                        <option value="0">ปิดใช้งาน</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                   			<div class="da-button-row">
-                                        	<input type="reset" value="ยกเลิก" class="da-button gray left">
-                                        	<input type="submit" value="บันทึก" class="da-button green">
+                                            <div class="da-button-row">
+                                                <input type="reset" value="ยกเลิก" class="da-button gray left" />
+                                                <input type="submit" value="บันทึก" class="da-button green" />
+                                            </div>
                                         </div>
-                                        </div>
-                                    <!--old form end-->
+                                        <!--old form end-->
+                                    </div>
                                 </div>
                             </div>
-                        </div> <!--grid 4-->
-                    
+                            <!--grid 4-->
                         </form>
-                <!--enf form-->        
-                
+                        <!--enf form-->
                     </div>
                 </div>
-            </div> 
-      
-        </div>
-        
-        <!-- Footer -->
-        <div id="da-footer">
-        	<div class="da-container clearfix">
-            	<p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
             </div>
         </div>
-        
+        <!-- Footer -->
+        <div id="da-footer">
+            <div class="da-container clearfix">
+                <p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
+            </div>
+        </div>
     </div>
     <div class="modal" onclick="reloadPageNow()"></div>​
 </body>

@@ -17,7 +17,7 @@ var chkSortableMsg = true;
 			"fnStateSaveParams": function (oSettings, oData) {  
 				oTableData = oData;
 				if(oData.oSearch.sSearch=='undefined' ){ oData.oSearch.sSearch = ""; }
-				var sort_rule =oTableData.aaSorting+'';
+				var sort_rule = oTableData.aaSorting+'';
 				var sort_split = sort_rule.split(',');
 				var column = sort_split[0];
 				var direction = sort_split[1];
@@ -276,7 +276,7 @@ function loadChangeCategoryTableData(){
 			"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",
 			"sZeroRecords": "ขออภัยไม่พบข้อมูล",
 			"sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
-			"sInfoEmpty": "แสดง 0 ถึิง 0 จาก 0 รายการ",
+			"sInfoEmpty": "แสดง 0 ถึง 0 จาก 0 รายการ",
 			"sInfoFiltered": "(กรองข้อมูลจาก _MAX_ รายการทั้งหมด)",
 			"oPaginate": {
 				"sFirst": "หน้าแรก",

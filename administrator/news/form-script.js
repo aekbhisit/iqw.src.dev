@@ -47,19 +47,21 @@ function loadNowCategories(selected){
 	var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime();
 	$.getJSON(url,function(data){
 		var options_list = "";
-		$.each(data,function(index,value){
-			var indent = '';
-			for(var i=0;i<value.level-1;i++){
-				indent += '-';
-			}
-			if(value.level>0||value.id==0){
-				if(value.id==selected){
-					options_list += '<option value="'+value.id+'" selected="selected">'+indent+' '+value.name+'</option>';
-				}else{
-					options_list += '<option value="'+value.id+'" >'+indent+' '+value.name+'</option>';
+		if(typeof data === 'object' && data !== null && data !== 'null') {
+			$.each(data,function(index,value){
+				var indent = '';
+				for(var i=0;i<value.level-1;i++){
+					indent += '-';
 				}
-			}
-		});
+				if(value.level>0||value.id==0){
+					if(value.id==selected){
+						options_list += '<option value="'+value.id+'" selected="selected">'+indent+' '+value.name+'</option>';
+					}else{
+						options_list += '<option value="'+value.id+'" >'+indent+' '+value.name+'</option>';
+					}
+				}
+			});
+		}
 		$('#categories').html(options_list);
 		$('#categories').removeAttr('disabled');
 	});
@@ -69,11 +71,11 @@ function setSaveData(){
 	var url = "../../app/index.php?module="+modules+"&task=saveData&d"+d.getTime();
 	tinyMCE.triggerSave();
 	$.ajax({
-		  type: 'POST', 
-		  url: url, 
-		  enctype: 'multipart/form-data', 
-		  data: $('#form').serialize(),
-		  beforeSend: function() {
+		type: 'POST',
+		url: url,
+		enctype: 'multipart/form-data', 
+		data: $('#form').serialize(),
+		beforeSend: function() {
 			$('#form').validate({ 
 				rules: {
 					name: {
@@ -101,16 +103,16 @@ function setSaveData(){
 }
 function selectImages(){
 	var input = $('#image');
-    $(input).bind('click',function () {
+	$(input).bind('click',function () {
 		if($(document).has('#finder').length<=0){
 			$('#image').after('<div id="finder"></div>');
 		}
 		$('#finder').elfinder({
-         	url : '../../files/php/connector.php',
-        	closeOnEditorCallback: false,
-        	getFileCallback: function(url) {
+			url : '../../files/php/connector.php',
+			closeOnEditorCallback: false,
+			getFileCallback: function(url) {
 				$(input).val(url);
-     	   }
+			}
 		});
-    });	
+	});
 }

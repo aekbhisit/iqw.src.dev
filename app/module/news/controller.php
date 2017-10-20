@@ -97,6 +97,9 @@ if(isset($_GET['task'])){
 			$cnt =1 ;
 			if(!empty($categories)){
 				foreach($categories as $c){
+					if(!isset($c['parent'])) {
+						$c['parent'] = 0;
+					}
 					$data[$cnt] = array('level'=>$c['level'],'id'=>$c['id'],'parent'=>$c['parent'],'name'=>$c['name']);
 					$cnt++;
 				}
@@ -131,6 +134,7 @@ if(isset($_GET['task'])){
 			}else{
 				$oCategories->insert_categories($categories_parent,$categories_name,$categories_slug,$categories_description,$categories_images,'',$user['id'],$categories_status);
 			}
+			echo '1';
 		break;
 		case 'duplicateCategory':
 			$user = $oUsers->getAdminLoginUser();

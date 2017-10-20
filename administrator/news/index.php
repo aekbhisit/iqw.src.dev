@@ -86,7 +86,7 @@ $module_active = 'news';
 					$breadcrumbs = array(
 						0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>''),
 						1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>''),
-						2=>array('name'=>$modules_name,'alt'=>$modules_name,'link'=>'javascript:void(0)','class'=>'active')
+						2=>array('name'=>'ข่าวสาร','alt'=>'News','link'=>'javascript:void(0)','class'=>'active')
 					);
 					include('../inc/breadcrumbs.php');
 					?>
@@ -113,7 +113,7 @@ $module_active = 'news';
                 <div class="da-panel-header">
                   <span class="da-panel-title">
                     <img src="../images/icons/black/16/list.png" alt="" />
-                    จัดการเว็บเพจ
+                    จัดการข่าวสาร
                   </span>
                 </div>
                 <div class="da-panel-content">
@@ -136,7 +136,7 @@ $module_active = 'news';
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td class="da-icon-column">             
+                        <td class="da-icon-column">
                           <a href="#"><img src="../images/icons/color/magnifier.png" /></a>
                           <a href="#"><img src="../images/icons/color/pencil.png" /></a>
                           <a href="#"><img src="../images/icons/color/cross.png" /></a>
