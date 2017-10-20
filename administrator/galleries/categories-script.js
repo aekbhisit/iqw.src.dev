@@ -1,45 +1,43 @@
 // JavaScript Document
 "use strict";
-var oTable ;
+var oTable;
 var modules = "galleries";
 (function($) {
 	$(document).ready(function(e) {
 		var d = new Date();
 		oTable = $("table#da-ex-datatable-numberpaging").dataTable({
 			"sPaginationType": "full_numbers",
-       		 "bProcessing": true,
-        	"bServerSide": true,
+			"bProcessing": true,
+			"bServerSide": true,
 			"bStateSave": true,
-        	"sAjaxSource": "../../app/index.php?module="+modules+"&task=getCategoriesData",
+			"sAjaxSource": "../../app/index.php?module="+modules+"&task=getCategoriesData",
 			"oLanguage": {
-           		 	"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",
-           		 	"sZeroRecords": "ขออภัยไม่พบข้อมูล",
-            		"sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
-            		"sInfoEmpty": "แสดง 0 ถึิง 0 จาก 0 รายการ",
-            		"sInfoFiltered": "(กรองข้อมูลจาก _MAX_ รายการทั้งหมด)",
-					"oPaginate": {
-       					 "sFirst": "หน้าแรก",
-						  "sLast": "หน้าสุดท้าย",
-						  "sNext": "ถัดไป",
-						  "sPrevious": "ก่อนหน้า"
-    				  },
-					  "sSearch": "ค้นหา :",
-					  "sLoadingRecords": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>",
-					  "sProcessing": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>"
+				"sLengthMenu": "แสดง _MENU_ รายการต่อหน้า",
+				"sZeroRecords": "ขออภัยไม่พบข้อมูล",
+				"sInfo": "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+				"sInfoEmpty": "แสดง 0 ถึิง 0 จาก 0 รายการ",
+				"sInfoFiltered": "(กรองข้อมูลจาก _MAX_ รายการทั้งหมด)",
+				"oPaginate": {
+					"sFirst": "หน้าแรก",
+					"sLast": "หน้าสุดท้าย",
+					"sNext": "ถัดไป",
+					"sPrevious": "ก่อนหน้า"
+				},
+				"sSearch": "ค้นหา :",
+				"sLoadingRecords": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>",
+				"sProcessing": "กรุณารอสักครู่ กำลังโหลดข้อมูล<div class='modal_show' onclick='reloadPageNow()'></div>"
         	}
 		});
 	});// document_ready
-	
 }) (jQuery);
-
 function setDeleteSelectedData(){
-	var selected = getTableCheckboxChecked() ;
+	var selected = getTableCheckboxChecked();
 	if(selected.length<=0){
 			$.jGrowl("แจ้งเตือน ! <br> ท่านต้องเลือกรายการที่ต้องการลบอย่างน้อย 1 รายการ", {position: "bottom-right"});
 		}else{
 			if(confirm('ยืนยันลบข้อมูลที่เลือก !')){
 				 $.each(selected,function(index,value){
-					setDeleteData(value,true,selected.length,index) ;
+					setDeleteData(value,true,selected.length,index);
 				})	;
 				reloadTableData(oTable);
 				$.jGrowl("แจ้งเตือน ! <br> ลบรายการหมวดหมู่เสร็จ", {position: "bottom-right"});

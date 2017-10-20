@@ -1,6 +1,7 @@
 // JavaScript Document
 "use strict";
 var modules = "galleries";
+var dialog = '';
 (function($) {
 	$(document).ready(function(e) {
 		formInit();
@@ -16,7 +17,7 @@ function formInit(){
 	var request = window.location.search.replace('?','');
 	var url = "../../app/index.php?module="+modules+"&task=formInit&"+request+"&d"+d.getTime();
 	$.getJSON(url,function(data){ 
-		if(typeof data=='object' && data!=null ){
+		if(typeof data==='object' && data!==null && data!=='null' ){
 			$('#id').val(data.id);
 			$('#meta_key').val(data.meta_key);
 			$('#meta_description').val(data.meta_description);
@@ -33,8 +34,10 @@ function formInit(){
 				showImageInit(data.images_list);
 			}
 			$('#galleries_status').find('option:[value="'+data.status+'"]').attr('selected','selected');
+			initFormTextEditor();
 		}else{
-			loadNowCategories(0);	
+			loadNowCategories(0);
+			initFormTextEditor();
 		}
 	});
 }
@@ -43,25 +46,27 @@ function loadNowCategories(selected){
 	var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime();
 	$.getJSON(url,function(data){
 		var options_list = "";
-		$.each(data,function(index,value){
-			var indent = '';
-			for(var i=0;i<value.level-1;i++){
-				indent += '-';
-			}
-			if(value.level>0||value.id==0){
-				if(value.id==selected){
-					options_list += '<option value="'+value.id+'" selected="selected">'+indent+' '+value.name+'</option>';
-				}else{
-					options_list += '<option value="'+value.id+'" >'+indent+' '+value.name+'</option>';
+		if(typeof data === 'object' && data !== null && data !== 'null') {
+			$.each(data,function(index,value){
+				var indent = '';
+				for(var i=0;i<value.level-1;i++){
+					indent += '-';
 				}
-			}
-		});
+				if(value.level>0||value.id==0){
+					if(value.id==selected){
+						options_list += '<option value="'+value.id+'" selected="selected">'+indent+' '+value.name+'</option>';
+					}else{
+						options_list += '<option value="'+value.id+'" >'+indent+' '+value.name+'</option>';
+					}
+				}
+			});
+		}
 		$('#categories').html(options_list);
 		$('#categories').removeAttr('disabled');
 	});
 }
 function showImageInit(img_json){
-	if(typeof img_json === 'object' && img_json !== null) {
+	if(typeof img_json === 'object' && img_json !== null && img_json !== 'null') {
 		var img_length = img_json.length;
 		$.each(img_json,function(i,img){
 			var img_length = $('#countImageIndex').val();
@@ -119,8 +124,9 @@ function setSaveData(){
 			return $('#form').valid();
 		},
 		success: function(data){
-			// alert(data);
-			gotoManagePage()
+			if(data=='1') {
+				gotoManagePage();
+			}
 		}
 	});
 }
@@ -188,6 +194,6 @@ function sortAble(){
 		});
 	});
 }
-function showSelectImageDialog(){	
+function showSelectImageDialog(){
 	selectImages();
 }

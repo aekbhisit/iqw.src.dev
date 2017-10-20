@@ -24,9 +24,13 @@ if(!defined('DOMAIN')){
 	define('DOMAIN',$DOMAIN);
 }
 // define themes root
-$theme_name = 'bornleaders_'.$_SESSION["site_language"];
+$theme_name = 'bornleaders';
 if(!is_dir('themes/'.$theme_name.'/')) {
-	$theme_name = 'bornleaders_'.SITE_LANGUAGE;
+	if(isset($_SESSION["site_language"])) {
+		$theme_name = 'bornleaders_'.$_SESSION["site_language"];
+	} else {
+		$theme_name = 'bornleaders_'.SITE_LANGUAGE;
+	}
 }
 define("THEME_ROOT",'themes/'.$theme_name.'/');
 define("THEME_ROOT_URL",$ROOT.'themes/'.$theme_name.'/');

@@ -60,9 +60,9 @@ if(isset($_GET['task'])){
 			);
 			$cnt = 1;
 			if(!empty($categories)){
-				foreach($categories as $key =>$value){
+				foreach($categories as $key => $value){
 					if($value['level']>0){
-						if($value['status']){	
+						if($value['status']){
 							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',0)"><img src="../images/icons/color/target.png" title="เปิด" /></a>';
 						}else{
 							$iconbar = '<a href="javascript:void(0)" onclick="setCategoryStatus('.$value['id'].',1)"><img src="../images/icons/color/stop.png" title="ปิด" /></a>';
@@ -71,9 +71,9 @@ if(isset($_GET['task'])){
 						if(SITE_TRANSLATE){
 							$iconbar .= '<a href="javascript:void(0)" onclick="setCategoryTranslate('.$value['id'].')"><img src="../images/icons/color/style.png" title=แปลภาษา /></a>';
 						}
-			            $iconbar .= '<a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>';
+						$iconbar .= '<a href="javascript:void(0)" onclick="setCategoryDelete('.$value['id'].')"><img src="../images/icons/color/cross.png" title="ลบ" /></a>';
 						$order = '<a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'left\')"><img src="../images/icons/black/16/arrow_up_small.png" title="ขึ้น" /></a><a href="javascript:void(0)" onclick="setCategoryMove('.$value['id'].',\'right\')" ><img src="../images/icons/black/16/arrow_down_small.png" title="ลง" /></a>';
-						$indent = '';	
+						$indent = '';
 						for($i=1;$i<$value['level'];$i++){
 							$indent .= '-';
 						}
@@ -204,7 +204,7 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $oModule->setString($_GET['sSearch']); 
+			$sSearch = $oModule->setString($_GET['sSearch']);
 			if($sSearch=='undefined'){
 				$sSearch = '';
 			}
@@ -232,7 +232,7 @@ if(isset($_GET['task'])){
 			$cnt = 1;
 			if(!empty($galleries)){
 				foreach($galleries as $key =>$value){
-					if($value['status']==1){	
+					if($value['status']==1){
 						$iconbar = '<a href="javascript:void(0)" onclick="setGalleriesStatus('.$value['id'].',0)" ><img src="../images/icons/color/target.png" /></a>';
 					}else{
 						$iconbar = '<a href="javascript:void(0)" onclick="setGalleriesStatus('.$value['id'].',1)" ><img src="../images/icons/color/stop.png" /></a>';
@@ -291,6 +291,7 @@ if(isset($_GET['task'])){
 					}
 				}
 			}
+			echo '1';
 		break;
 		case "saveTranslate":
 			$user = $oUsers->getAdminLoginUser();
@@ -393,9 +394,9 @@ if(isset($_GET['task'])){
 			}else{
 				$orderby = " order by ".$columns[4].' '.$sSortDir_0;
 			}
-			$sSearch = $oCategories->setString($_GET['sSearch']); 
+			$sSearch = $oCategories->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
-				$search =  " and (name like '%$sSearch%' or description like '%$sSearch%') ";
+				$search = " and (name like '%$sSearch%' or description like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
 			$iTotal = $oCategories->getCategoriesSize();
@@ -415,7 +416,7 @@ if(isset($_GET['task'])){
 						}else{
 							$iconbar = '<a href="javascript:void(0)"><img src="../images/icons/color/stop.png" title="ปิด" /></a>';
 						}
-						$indent = '';	
+						$indent = '';
 						for($i=1;$i<$value['level'];$i++){
 							$indent .= '-';
 						}

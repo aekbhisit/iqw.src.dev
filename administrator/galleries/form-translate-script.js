@@ -3,6 +3,7 @@
 var modules = 'galleries';
 (function($) {
 	$(document).ready(function(e) {
+		initFormTextEditor();
 		$('#translate_language').bind('change',function(){
 			var lang = $('#translate_language').val();
 			formInit();
@@ -27,7 +28,7 @@ function formInit(){
 			$('#meta_description').val(data.meta_description);
 			$('#name').val(data.name);
 			$('#now_translate').val(data.translate_from);
-			$('#content').html(data.content);
+			$('#content').val(data.content);
 			tinyMCE.activeEditor.setContent(data.content);
 			if(data.cover!=''){
 				$('#cover').val(data.cover);
@@ -35,7 +36,6 @@ function formInit(){
 				$('#show-cover').fadeIn('fast');
 			}
 			showImageInit(data.images_list);
-			//	$('#galleries_status').find('option:[value="'+data.status+'"]').attr('selected','selected');
 		}
 	});
 }
@@ -45,16 +45,18 @@ function loadLanguage(){
 	$.getJSON(url,function(data){
 		var ul_list = '<br><ul style="list-style:none;">';
 		var options_list = "<option value='0'>--เลือกภาษา--</option>";
-		$.each(data,function(index,value){
-			options_list += '<option value="'+value.code+'" >'+value.language+'</option>';
-		});
+		if(typeof data === 'object' && data !== null && data !== 'null') {
+			$.each(data,function(index,value){
+				options_list += '<option value="'+value.code+'" >'+value.language+'</option>';
+			});
+		}
 		$('#translate_language').html(options_list);
 		$('#translate_language').removeAttr('disabled');
 	});
 }
 // new script
 function showImageInit(img_json){
-	if(typeof img_json === 'object' && img_json !== null) {
+	if(typeof img_json === 'object' && img_json !== null && img_json !== 'null') {
 		var img_length = img_json.length;
 		img_length = img_json.length;
 		$.each(img_json,function(i,img){
@@ -64,13 +66,9 @@ function showImageInit(img_json){
 			img_item += ' <td width="120" height="120" align="center" valign="middle"><a href="'+img.image+'" rel="prettyPhoto"><img src="'+img.image+'"  style="width:100px; height:100px; margin-top:5px; border:#ccc 1px solid; border-radius:10px;"/></a></td>';
 			img_item += '<td>';
 			img_item += "<input name=\"images["+img_length+"][id]\"  id=\"images["+img_length+"][id]\" type=\"hidden\"  value=\""+img.id+"\" />";
-			img_item +="<input name=\"images["+img_length+"][src]\"  id=\"images["+img_length+"][src]\" type=\"hidden\" value=\""+img.image+"\" />";
+			img_item += "<input name=\"images["+img_length+"][src]\"  id=\"images["+img_length+"][src]\" type=\"hidden\" value=\""+img.image+"\" />";
 			img_item += "<label  style=\"height:20px; font-size:90%; padding:0px;\">ชื่อภาพ</label><input name=\"images["+img_length+"][title]\"  id=\"images["+img_length+"][title]\" type=\"text\" style=\"margin-bottom:5px;\" value=\""+img.title+"\" />";
 			img_item += "<label  style=\"height:20px; font-size:90%; padding:0px\">คำอธิบายภาพ</label><input name=\"images["+img_length+"][description]\"  id=\"images["+img_length+"][description]\" type=\"text\" value=\""+img.description+"\"  />";
-			img_item += '</td>';
-			img_item += '<td style="width:50px; padding-left:20px; padding-top:20px;" align="center" valign="middle">';
-			img_item += '<a href="javascript:void(0)" onclick="deleteGalleryImage('+img_length+');"><input type="button" value="ลบ" class="da-button red left"></a>';
-			img_item += "<br/><input name=\"images["+img_length+"][order]\"  id=\"images["+img_length+"][order]\" type=\"text\" class=\"showImageOrder\" value=\""+img.sequence+"\" style=\"width:40px;\" />";
 			img_item += '</td>';
 			img_item += '</tr>';
 			img_item += '</table>';
@@ -83,21 +81,21 @@ function showImageInit(img_json){
 	}
 }
 function setSaveData(){
-	var d = new Date();	
+	var d = new Date();
 	var url = "../../app/index.php?module="+modules+"&task=saveTranslate&d"+d.getTime();
 	tinyMCE.triggerSave();
 	$.ajax({
-		  type: 'POST', 
-		  url: url, 
-		  enctype: 'multipart/form-data', 
-		  data: $('#form').serialize(),
-		  beforeSend: function() {
+		type: 'POST',
+		url: url,
+		enctype: 'multipart/form-data', 
+		data: $('#form').serialize(),
+		beforeSend: function() {
 			$('#form').validate({ 
 				rules: {
 					name: {
 						required: true
 					}
-				}, 
+				},
 				invalidHandler: function(form, validator) {
 					var errors = validator.numberOfInvalids();
 					if (errors) {
@@ -113,7 +111,7 @@ function setSaveData(){
 			return $('#form').valid();
 		},
 		success: function(data){
-			gotoManagePage()
+			gotoManagePage();
 		}
 	});
 }
@@ -181,6 +179,6 @@ function sortAble(){
 		});
 	});
 }
-function showSelectImageDialog(){	
+function showSelectImageDialog(){
 	selectImages();
 }
