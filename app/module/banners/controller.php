@@ -171,9 +171,7 @@ if(isset($_GET['task'])){
 				$data = $oCategories->getTranslateCategory($id,$lang);
 				$data['name'] = $oCategories->getString($data['name']);
 				$data['image'] = $oCategories->getString($data['image']);
-				$data['content'] = $oCategories->getString($data['content']);
-				$data['meta_key'] = $oCategories->getString($data['meta_key']);
-				$data['meta_description'] = $oCategories->getString($data['meta_description']);
+				$data['description'] = $oCategories->getString($data['description']);
 				echo json_encode($data);
 			}
 		break;
@@ -320,7 +318,7 @@ if(isset($_GET['task'])){
 			echo json_encode($data);
 		break;
 		case 'saveTranslate':
-			$id = $oModule->setInt($_GET['id']);
+			$id = $oModule->setInt($_POST['id']);
 			$lang = $oModule->setString($_POST['translate_language']);
 			$name = $oModule->setString($_POST['name']);
 			$content = $oModule->setString($_POST['content']);
