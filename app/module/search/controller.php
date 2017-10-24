@@ -12,10 +12,11 @@ if(isset($_GET['task'])){
 			$limit = '';
 			$orderby = '';
 			$search = '';
-			$iDisplayLength = $_GET['iDisplayLength'];
-			$iDisplayStart = $_GET['iDisplayStart'];
-			$iSortCol_0 = $_GET['iSortCol_0'];
-			$sSortDir_0 = $_GET['sSortDir_0'];
+			$iDisplayLength = $oSearchs->setInt($_GET['iDisplayLength']);
+			$iDisplayStart = $oSearchs->setInt($_GET['iDisplayStart']);
+			$limit = ' limit '.$iDisplayStart.','.$iDisplayLength;
+			$iSortCol_0 = $oSearchs->setInt($_GET['iSortCol_0']);
+			$sSortDir_0 = $oSearchs->setString($_GET['sSortDir_0']);
 			$sSearch = (empty($_GET['sSearch']))?$_GET['find']:$_GET['sSearch'];
 			$sSearch = $oSearchs->setSring($sSearch);
 			$results = $oSearchs->getSearchAll($search_modules,$sSearch);
