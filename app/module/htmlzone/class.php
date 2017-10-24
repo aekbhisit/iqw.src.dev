@@ -159,6 +159,11 @@ class Zonehtml extends Database {
 		$this->select();
 		return $this->rows;
 	}
+	public function getInitDefaultData($zone_id) {
+		$this->sql = "select $this->table.*,html_zone_data.zone_data_id,html_zone_data.params from $this->table left join html_zone_data on $this->table.zone_input_id=html_zone_data.zone_input_id where $this->table.$this->parent_primary_key=$zone_id ";
+		$this->select();
+		return $this->rows;
+	}
 	public function setManagementData($data) {
 		$this->sql = "select * from $this->table where zone_input_id=".$data['zone_input_id']." ";
 		$this->select();

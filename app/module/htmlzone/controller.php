@@ -375,6 +375,16 @@ if(isset($_GET['task'])){
 			}
 			echo json_encode($data);
 		break;
+		case 'formInitDefaultData':
+			$zone_id = $oModuleHtmlZone->setInt($_GET['id']);
+			$data = $oModuleHtmlZone->getInitDefaultData($zone_id);
+			if(!empty($data)) {
+				foreach ($data as $key => $value) {
+					$data[$key]['params'] = $oModuleHtmlZone->getString($value['params']);
+				}
+			}
+			echo json_encode($data);
+		break;
 		case 'saveDataHTML':
 			$zone_id = $oModuleDATAHtml->setInt($_POST['id']);
 			foreach ($_POST['block'] as $key_zone_input_id => $value) {

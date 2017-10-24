@@ -139,7 +139,7 @@ $module_active = 'content';
                         </div>
                         <!--end flash messaages-->
                         <!--start form-->
-                        <form class="da-form" name="form" id="form" enctype="multipart/form-data" onsubmit="setSaveTranslate();return false;">
+                        <form class="da-form" name="form" id="form" enctype="multipart/form-data" onsubmit="setSaveTranslate(); return false;">
                             <input name="id" id="id" type="hidden" value="<?=$_GET['id']?>" />
                           	<div class="grid_4">
                             	<div class="da-panel">
@@ -157,6 +157,7 @@ $module_active = 'content';
                                                 <div class="da-form-item large">
                                                 	<span class="formNote">เลือกภาษาที่ต้องการแปล</span>
                                                     <select id="translate_language" name="translate_language" disabled="disabled" ></select>
+                                                    <button type="button" onclick="InitDefaultData(); return false;">ดึงข้อมูลภาษาหลัก</button>
                                                 </div>
                                             </div>
                                         </div>
