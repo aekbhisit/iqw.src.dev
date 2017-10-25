@@ -109,7 +109,7 @@ h1, h2{
                     include('../inc/search_top.php');
                     ?>
                     <!--end search box-->
-                     <?php 
+                    <?php 
                     $breadcrumbs = array(
                         0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>'active'),
                     );
@@ -140,7 +140,7 @@ h1, h2{
                                 <li class="da-circular-stat {fillColor: '#61a5e4', value: 90, maxValue: 100, label: 'Total'}"></li>
                             </ul>
                             <div class="da-panel-widget">
-                                <h1  style=" padding-left:10px; padding-top:10px;"><?=T_("จำนวนผู้เข้าชมย้อยหลัง")?></h1>
+                                <h1 style=" padding-left:10px; padding-top:10px;"><?=T_("จำนวนผู้เข้าชมย้อยหลัง")?></h1>
                                 <div id="da-ex-gchart-line" style="height:225px;"></div>
                             </div>
                         </div>
