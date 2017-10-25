@@ -1,4 +1,7 @@
 <?php @include ("../inc/auth.inc.php"); ?>
+<?php
+$module_active = 'configs';
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -62,123 +65,114 @@
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
 </head>
 <body>
-	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
-	<div id="da-wrapper" class="fluid">
-    
+    <!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
+    <div id="da-wrapper" class="fluid">
         <!-- Header -->
         <div id="da-header">
-                <?php include('../inc/header_top.php');?>
-             <!--noti end--> 
+            <?php include('../inc/header_top.php');?>
+            <!--noti end--> 
             <div id="da-header-bottom">
                 <!-- Container -->
                 <div class="da-container clearfix">
-                	 <!--search box-->
-           			<?php 
-					include('../inc/search_top.php');
-					?>
-                	<!--end search box-->
+                    <!--search box-->
+                    <?php 
+                    include('../inc/search_top.php');
+                    ?>
+                    <!--end search box-->
                     <!-- Breadcrumbs -->
-                     <?php 
-					$breadcrumbs = array(
-						0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>''),
-						1=>array('name'=>'ตั่งค่าเว็บไซต์','alt'=>'Configs','link'=>'javascript:void(0)','class'=>'active')
-					);
-					include('../inc/breadcrumbs.php');
-					?>
-                    
+                    <?php 
+                    $breadcrumbs = array(
+                        0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>''),
+                        1=>array('name'=>'ตั่งค่าเว็บไซต์','alt'=>'Configs','link'=>'javascript:void(0)','class'=>'active')
+                    );
+                    include('../inc/breadcrumbs.php');
+                    ?>
                 </div>
             </div>
         </div>
-    
         <!-- Content -->
         <div id="da-content">
-            
             <!-- Container -->
             <div class="da-container clearfix">
-                
-	            <!-- Sidebar Separator do not remove -->
+                <!-- Sidebar Separator do not remove -->
                 <div id="da-sidebar-separator"></div>
-                
-                 <!-- Sidebar -->
-                  <?php
-				  	$module_active = 'configs' ;
-                	include('../inc/side_bar.php');
-				?>
+                <!-- Sidebar -->
+                <?php
+                    include('../inc/side_bar.php');
+                ?>
                 <!-- Main Content Wrapper -->
                 <div id="da-content-wrap" class="clearfix">
-                
-                	<!-- Content Area -->
-                	<div id="da-content-area">
-                        <div class='modal' onclick='reloadPageNow()'></div>
-                        <form class="da-form" name="configs_form" id="configs_form" enctype="multipart/form-data" onsubmit="setSaveConfigsSite();return false;">
-                        <input name="configs_id"  id="configs_id" type="hidden" />
-                    	<div class="grid_4">
-                        	<div class="da-panel collapsible">
-                            	<div class="da-panel-header">
-                                	<span class="da-panel-title">
-                                        <img src="../images/icons/color/blog.png" alt="" />
-                                        ตั้งค่าอีเมล
-                                    </span>
-                                    
-                                </div>
-                                <div class="da-panel-toolbar top">
-                                    <ul style="float:right;">
-                                        <li><a href="javascript:void(0);" onclick="setConfigsEdit()" id="configs_show_edit"><img src="../images/icons/color/pencil.png" alt="" />แก้ไข</a></li>
-                                        <li><a  href="javascript:void(0);" onclick="setSaveConfigs()" id="configs_show_save" style="display:none;"><img src="../images/icons/color/disk.png" alt="" />บันทึก</a></li>
-                                    </ul>
-                                </div>      
-                                <div class="da-panel-content">
-                                    <table class="da-table da-detail-view">
-                                        <tbody>
-                                        	<tr>
-                                            	<th>เปิด / ปิด SMTP</th>
-                                                <td>
-                                                    <label style="float:left ; margin-left:10px; margin-right:10px; ">
-                                                      <input type="radio" name="configs_smtp" value="1" id="configs_smtp_0" disabled="disabled" />
-                                                      เปิด</label>
-                                                    <label style="float:left ; margin-left:10px; margin-right:10px; ">
-                                                      <input type="radio" name="configs_smtp" value="0" id="configs_smtp_1"   disabled="disabled" />
-                                                      ปิด</label></td>
-                                            </tr>
-                                             <tr>
-                                            	<th>SMTP Secure</th>
-                                                <td><input name="configs_smtp_secure"  id="configs_smtp_secure" placeholder="ใส่ SMTP Server secure protocal  (ssl,tls)" type="text"  disabled="disabled"  /></td>
-                                            </tr>
-                                            <tr>
-                                            	<th>SMTP Server</th>
-                                                <td><input name="configs_smtp_server"  id="configs_smtp_server" placeholder="ใส่ SMTP Server" type="text"  disabled="disabled"  /></td>
-                                            </tr>
-	                                    	<tr>
-                                            <th>SMTP Port</th>
-                                                <td><input name="configs_smtp_port"  id="configs_smtp_port" placeholder="ใส่ SMTP Port" type="text"   disabled="disabled" /></td>
-                                            </tr>    
-                                             <tr>
-                                            <th>SMTP User</th>
-                                                <td><input name="configs_smtp_user"  id="configs_smtp_user" placeholder="ใส่ SMTP Username" type="text"  disabled="disabled"  /></td>
-                                            </tr>
-                                            <tr>
-                                            <th>SMTP Password</th>
-                                                 <td><input name="configs_smtp_password"  id="configs_smtp_password" placeholder="ใส่ SMTP Password" type="text"  disabled="disabled"  /></td>
-                                            </tr> 
-                                           </tbody>
-                                    </table>
+                    <!-- Content Area -->
+                    <div id="da-content-area">
+                        <div class='modal' onclick='reloadPageNow();'></div>
+                        <form class="da-form" name="configs_form" id="configs_form" enctype="multipart/form-data" onsubmit="setSaveConfigsSite(); return false;">
+                            <input name="configs_id" id="configs_id" type="hidden" />
+                            <div class="grid_4">
+                                <div class="da-panel collapsible">
+                                    <div class="da-panel-header">
+                                            <span class="da-panel-title">
+                                            <img src="../images/icons/color/blog.png" alt="" />
+                                            ตั้งค่าอีเมล
+                                        </span>
+                                    </div>
+                                    <div class="da-panel-toolbar top">
+                                        <ul style="float:right;">
+                                            <li><a href="javascript:void(0);" onclick="setConfigsEdit();" id="configs_show_edit"><img src="../images/icons/color/pencil.png" alt="" />แก้ไข</a></li>
+                                            <li><a  href="javascript:void(0);" onclick="setSaveConfigs();" id="configs_show_save" style="display:none;"><img src="../images/icons/color/disk.png" alt="" />บันทึก</a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="da-panel-content">
+                                        <table class="da-table da-detail-view">
+                                            <tbody>
+                                                <tr>
+                                                    <th>เปิด / ปิด SMTP</th>
+                                                    <td>
+                                                        <label style="float:left ; margin-left:10px; margin-right:10px; ">
+                                                            <input type="radio" name="configs_smtp" value="1" id="configs_smtp_0" disabled="disabled" />
+                                                            เปิด
+                                                        </label>
+                                                        <label style="float:left ; margin-left:10px; margin-right:10px; ">
+                                                            <input type="radio" name="configs_smtp" value="0" id="configs_smtp_1" disabled="disabled" />
+                                                            ปิด
+                                                        </label>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>SMTP Secure</th>
+                                                    <td><input name="configs_smtp_secure" id="configs_smtp_secure" placeholder="ใส่ SMTP Server secure protocal (ssl,tls)" type="text" disabled="disabled" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>SMTP Server</th>
+                                                    <td><input name="configs_smtp_server" id="configs_smtp_server" placeholder="ใส่ SMTP Server" type="text" disabled="disabled" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>SMTP Port</th>
+                                                    <td><input name="configs_smtp_port" id="configs_smtp_port" placeholder="ใส่ SMTP Port" type="text" disabled="disabled" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>SMTP User</th>
+                                                    <td><input name="configs_smtp_user" id="configs_smtp_user" placeholder="ใส่ SMTP Username" type="text" disabled="disabled" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <th>SMTP Password</th>
+                                                    <td><input name="configs_smtp_password" id="configs_smtp_password" placeholder="ใส่ SMTP Password" type="text" disabled="disabled" /></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        </form>               
+                        </form>
                     </div>
                 </div>
             </div> 
         </div>
-        
         <!-- Footer -->
         <div id="da-footer">
-        	<div class="da-container clearfix">
-            	<p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
+            <div class="da-container clearfix">
+                <p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
             </div>
         </div>
-        
     </div>
-   
 </body>
 </html>
