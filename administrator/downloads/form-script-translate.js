@@ -1,7 +1,9 @@
 // JavaScript Document
+"use strict";
 var modules = "downloads";
 (function($) {
 	$(document).ready(function(e) {
+		initFormTextEditor();
 		$('#translate_language').bind('change',function(){
 			var lang = $('#translate_language').val();
 			formInit() ;
@@ -9,7 +11,7 @@ var modules = "downloads";
 		$(document).find(".datetimepicker").each(function(){
 			$(this).datetimepicker();
 		});
-		selectImages();
+		//selectImages();
 		loadLanguage();
 		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
 	});// document_ready
@@ -43,7 +45,7 @@ function loadNowCategories(selected){
 		var options_list = "";
 		$.each(data,function(index,value){
 			var indent = '';
-			for(i=0;i<value.level-1;i++){
+			for(var i=0;i<value.level-1;i++){
 				indent += '-';
 			}
 			if(value.level>0||value.id==0){
@@ -54,26 +56,22 @@ function loadNowCategories(selected){
 				}
 			}
 		});
-		$('#categories').html(options_list) ;
-		$('#categories').removeAttr('disabled') ;
+		$('#categories').html(options_list);
+		$('#categories').removeAttr('disabled');
 	});
 }
-
 function setSaveTranslate(){
 	var d = new Date();	
 	var url = "../../app/index.php?module="+modules+"&task=saveTranslate&d"+d.getTime();
-	$('#form').find('.elrte').each(function(){
-		$(this).elrte('updateSource');
-	});
 	tinyMCE.triggerSave();
 	$.ajax({
-		  type: 'POST', 
-		  url: url, 
-		  enctype: 'multipart/form-data', 
-		  data: $('#form').serialize(),
-		  beforeSend: function() {
-				$('#form').validate({ 
-					rules: {
+		type: 'POST', 
+		url: url, 
+		enctype: 'multipart/form-data', 
+		data: $('#form').serialize(),
+		beforeSend: function() {
+			$('#form').validate({ 
+				rules: {
 					name: {
 						required: true
 					}
@@ -89,30 +87,29 @@ function setSaveTranslate(){
 						$("#form-error").hide();
 					}
 				}
-				 });
-				return $('#form').valid();
-			  },
-		success: function(data){
-			  //alert(data);  
-			gotoManagePage()
+			});
+			return $('#form').valid();
+		},
+		success: function(data){ 
+			gotoManagePage();
 		}
 	});
 }
-function selectImages(){
-		 var input = $('#image'),
-  		  opts = { 
-       		 url : '../../files/connectors/php/connector.php',
-       		 editorCallback : function(url) { input.val(url) },
-        	closeOnEditorCallback : true,
-        	dialog : { title : 'Files Management'}
-   		 };
-    $(input).bind('click',function () {
-		if($(document).has('#finder').length<=0){
-			$('#image').after('<div id="finder"></div>');
-		}
-        $('#finder').elfinder(opts);
-    });	
-}
+// function selectImages(){
+// 	var input = $('#image'),
+// 	opts = { 
+// 		url : '../../files/connectors/php/connector.php',
+// 		editorCallback : function(url) { input.val(url) },
+// 		closeOnEditorCallback : true,
+// 		dialog : { title : 'Files Management'}
+// 	};
+// 	$(input).bind('click',function () {
+// 		if($(document).has('#finder').length<=0){
+// 			$('#image').after('<div id="finder"></div>');
+// 		}
+// 		$('#finder').elfinder(opts);
+// 	});
+// }
 function loadLanguage(){
 	var d = new Date();
 	var url = "../../app/index.php?module="+modules+"&task=loadLanguages&d"+d.getTime();

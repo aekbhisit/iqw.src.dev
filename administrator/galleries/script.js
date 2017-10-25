@@ -17,7 +17,7 @@ var chkSortableMsg = true;
 			"fnStateSaveParams": function (oSettings, oData) {
 				oTableData = oData;
 				if(oData.oSearch.sSearch=='undefined' ){ oData.oSearch.sSearch = "";}
-				var sort_rule =oTableData.aaSorting+'';
+				var sort_rule = oTableData.aaSorting+'';
 				var sort_split = sort_rule.split(',');
 				var column = sort_split[0];
 				var direction = sort_split[1];

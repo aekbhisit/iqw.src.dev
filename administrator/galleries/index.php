@@ -130,7 +130,7 @@ $module_active = 'galleries';
                         <th width="38">#ID</th> 
                       </tr>
                     </thead>
-                    <tbody  id="sortable" >
+                    <tbody id="sortable">
                       <tr>
                         <td></td>
                         <td></td>

@@ -1,12 +1,13 @@
 // JavaScript Document
+"use strict";
 var modules = "downloads";
 (function($) {
 	$(document).ready(function(e) {
-		formInit() ;
+		formInit();
 		//selectImages();
 		$(document).find(".datetimepicker").each(function(){
 			$(this).datetimepicker();
-			});
+		});
 		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
 	});// document_ready
 }) (jQuery);
@@ -26,22 +27,18 @@ function formInit(){
 			$('#meta_description').val(data.meta_description);
 			$('#name').val(data.name);
 			$('#slug').val(data.slug);
-			//	$('#page_content').html(data.content);
-			$('#content').val(data.content);
+			$('#content').html(data.content);
 			if(data.file!=''){
 				$('#file').val(data.file);
-				// $('#show_image').attr('src',data.image);
-				// $('#show_image').fadeIn('fast');
 			}
-			//$('#start').val(data.start);
-			//$('#end').val(data.end);
 			$('#status').find('option:[value="'+data.status+'"]').attr('selected','selected');
+			initFormTextEditor();
 		}else{
 			loadNowCategories(0);
+			initFormTextEditor();
 		}
 	});
 }
-
 function loadNowCategories(selected){
 	var d = new Date();
 	var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime();
@@ -49,7 +46,7 @@ function loadNowCategories(selected){
 		var options_list = "";
 		$.each(data,function(index,value){
 			var indent = '';
-			for(i=0;i<value.level-1;i++){
+			for(var i=0;i<value.level-1;i++){
 				indent += '-';
 			}
 			if(value.level>0||value.id==0){
@@ -64,22 +61,18 @@ function loadNowCategories(selected){
 		$('#categories').removeAttr('disabled');
 	});
 }
-
 function setSaveData(){
-	var d = new Date();	
-	var url = "../../app/index.php?module="+modules+"&task=saveData&d"+d.getTime() ;
-	$('#form').find('.elrte').each(function(){
-		$(this).elrte('updateSource');
-	});
+	var d = new Date();
+	var url = "../../app/index.php?module="+modules+"&task=saveData&d"+d.getTime();
 	tinyMCE.triggerSave();
 	$.ajax({
-		  type: 'POST', 
-		  url: url, 
-		  enctype: 'multipart/form-data', 
-		  data: $('#form').serialize(),
-		  beforeSend: function() {
-				$('#form').validate({ 
-					rules: {
+		type: 'POST',
+		url: url,
+		enctype: 'multipart/form-data',
+		data: $('#form').serialize(),
+		beforeSend: function() {
+			$('#form').validate({
+				rules: {
 					name: {
 						required: true
 					},
@@ -98,28 +91,26 @@ function setSaveData(){
 						$("#form-error").hide();
 					}
 				}
-				 });
-				return $('#form').valid();
-			  },
-		  success: function(data){
-			 //alert(data);  
-			 gotoManagePage()
-		 }
+			});
+			return $('#form').valid();
+		},
+		success: function(data){ 
+			gotoManagePage();
+		}
 	});
 }
-
-function selectImages(){
-		 var input = $('#file'),
-  		  opts = { 
-       		 url : '../../files/connectors/php/connector.php',
-       		 editorCallback : function(url) { input.val(url) },
-        	closeOnEditorCallback : true,
-        	dialog : { title : 'Files Management'}
-   		 };
-    $(input).bind('click',function () {
-		if($(document).has('#finder').length<=0){
-			$('#file').after('<div id="finder"></div>');
-		}
-        $('#finder').elfinder(opts);
-    });	
-}
+// function selectImages(){
+// 	var input = $('#file'),
+// 	opts = { 
+// 		url : '../../files/connectors/php/connector.php',
+// 		editorCallback : function(url) { input.val(url) },
+// 		closeOnEditorCallback : true,
+// 		dialog : { title : 'Files Management'}
+// 	};
+// 	$(input).bind('click',function () {
+// 		if($(document).has('#finder').length<=0){
+// 			$('#file').after('<div id="finder"></div>');
+// 		}
+// 		$('#finder').elfinder(opts);
+// 	});
+// }
