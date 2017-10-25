@@ -4,7 +4,7 @@ var modules = "contacts";
 (function($) {
 	$(document).ready(function(e) {
 		categoryFormInit();
-		//selectImages() ;
+		//selectImages();
 		$.jGrowl("แจ้งเตือน ! <br> โหลดข้อมูลเสร็จแล้วพร้อมแก้ไข", {position: "bottom-right"});
 	});// document_ready
 }) (jQuery);
@@ -30,17 +30,17 @@ function categoryFormInit(){
 				$('#show_categories_image').fadeIn('fast');
 			}
 			$('#categories_status').find('option:[value="'+data.status+'"]').attr('selected','selected');
+			initFormTextEditor();
 		}else{
 			loadNowCategories(0);
+			initFormTextEditor();
 		}
 	});
 }
-
 function loadNowCategories(selected){
 	var d = new Date();
 	var url = "../../app/index.php?module="+modules+"&task=loadCategories&d"+d.getTime();
 	$.getJSON(url,function(data){
-		//alert(data);
 		var ul_list = '<br><ul style="list-style:none;">';
 		var options_list = "";
 		$.each(data,function(index,value){
@@ -65,22 +65,18 @@ function loadNowCategories(selected){
 		$('#categories_parent').removeAttr('disabled');
 	});
 }
-
 function setSaveCategories(){
-	var d = new Date();	
+	var d = new Date();
 	var url = "../../app/index.php?module="+modules+"&task=saveCategory&d"+d.getTime();
-	$('#categories_form').find('.elrte').each(function(){
-		$(this).elrte('updateSource');
-	});
 	tinyMCE.triggerSave();
 	$.ajax({
-		  type: 'POST', 
-		  url: url, 
-		  enctype: 'multipart/form-data', 
-		  data: $('#categories_form').serialize(),
-		  beforeSend: function() {
-				$('#categories_form').validate({ 
-					rules: {
+		type: 'POST',
+		url: url,
+		enctype: 'multipart/form-data',
+		data: $('#categories_form').serialize(),
+		beforeSend: function() {
+			$('#categories_form').validate({
+				rules: {
 					categories_name: {
 						required: true
 					},
@@ -100,28 +96,26 @@ function setSaveCategories(){
 						$("#form-error").hide();
 					}
 				}
-				 });
-				return $('#categories_form').valid();
-			  },
-		  success: function(data){
-			//  alert(data);
-			 gotoManagePage()
-		 }
+			});
+			return $('#categories_form').valid();
+		},
+		success: function(data){
+			gotoManagePage();
+		}
 	});
 }
-
 function selectImages(){
 	var input = $('#categories_server_images'),
-	opts = { 
+	opts = {
 		url : '../../files/connectors/php/connector.php',
 		editorCallback : function(url) { input.val(url) },
 		closeOnEditorCallback : true,
 		dialog : { title : 'Files Management'}
 	};
-    $(input).bind('click',function () {
+	$(input).bind('click',function () {
 		if($(document).has('#finder').length<=0){
 			$('#categories_server_images').after('<div id="finder"></div>');
 		}
-        $('#finder').elfinder(opts);
-    });	
+		$('#finder').elfinder(opts);
+	});
 }

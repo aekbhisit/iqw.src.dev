@@ -157,7 +157,7 @@ if(isset($_GET['task'])){
 			}
 			$sSearch = $oModule->setString($_GET['sSearch']); 
 			if(!empty($sSearch)){
-				$search = " WHERE ($oModule->table.name like '%$sSearch%' or $oModule->table.slug like '%$sSearch%') ";
+				$search = " WHERE ($oModule->table.from_name like '%$sSearch%' or $oModule->table.from_email like '%$sSearch%') ";
 			}
 			$contacts = $oModule->getContactsAll($search,$orderby,$limit);
 			$iTotal = $oModule->getContactsSize();
@@ -262,7 +262,7 @@ if(isset($_GET['task'])){
 			}
 			$sSearch = $oCategories->setString($_GET['sSearch']);
 			if(!empty($sSearch)){
-				$search = " and (name like '%$sSearch%' or description like '%$sSearch%') ";
+				$search = " and (from_name like '%$sSearch%' or from_email like '%$sSearch%') ";
 			}
 			$categories = $oCategories->getCategoriesAll($search,$orderby,$limit);
 			$iTotal = $oCategories->getCategoriesSize();

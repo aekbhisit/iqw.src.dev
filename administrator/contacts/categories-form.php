@@ -58,9 +58,6 @@ $module_active = 'contacts';
 <!--form validate-->
 <script type="text/javascript" src="../plugins/validate/jquery.validate.min.js"></script>
 <!--file manage -->
-<!--Text editor -->
-<script type="text/javascript" src="../plugins/elrte/js/elrte.min.js"></script>
-<link rel="stylesheet" type="text/css" href="../plugins/elrte/css/elrte.css" />
 <!-- elFinder Plugin -->
 <script type="text/javascript" src="../plugins/elfinder/js/elfinder.min.js"></script>
 <link rel="stylesheet" href="../plugins/elfinder/css/elfinder.css" media="screen" />
@@ -82,9 +79,8 @@ $module_active = 'contacts';
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
 </head>
 <body class="loading">
-	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
-	<div id="da-wrapper" class="fluid">
-    
+    <!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
+    <div id="da-wrapper" class="fluid">
         <!-- Header -->
         <div id="da-header">
             <?php include('../inc/header_top.php');?>
@@ -92,44 +88,37 @@ $module_active = 'contacts';
             <div id="da-header-bottom">
                 <!-- Container -->
                 <div class="da-container clearfix">
-                <!--search box-->
-           			<?php 
-					include('../inc/search_top.php');
-					?>
-                	<!--end search box-->
+                    <!--search box-->
+                    <?php 
+                    include('../inc/search_top.php');
+                    ?>
+                    <!--end search box-->
                    	<!-- Breadcrumbs -->
                     <?php 
-					$breadcrumbs = array(
-						0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>''),
-						1=>array('name'=>'หมวดหมู่ที่ติดต่อ','alt'=>'Categories','link'=>'categories.php','class'=>''),
-						2=>array('name'=>'เพิ่มแก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
-					);
-					include('../inc/breadcrumbs.php');
-					?>
-                    
-                    
+                    $breadcrumbs = array(
+                        0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>''),
+                        1=>array('name'=>'หมวดหมู่ที่ติดต่อ','alt'=>'Categories','link'=>'categories.php','class'=>''),
+                        2=>array('name'=>'เพิ่ม / แก้ไข','alt'=>'Add / Edit','link'=>'javascript:void(0)','class'=>'active')
+                    );
+                    include('../inc/breadcrumbs.php');
+                    ?>
                 </div>
             </div>
         </div>
-    
         <!-- Content -->
         <div id="da-content">
-            
             <!-- Container -->
             <div class="da-container clearfix">
-                
-	            <!-- Sidebar Separator do not remove -->
+                <!-- Sidebar Separator do not remove -->
                 <div id="da-sidebar-separator"></div>
-                
                 <!-- Sidebar -->
-                  <?php
-				  	$module_active = 'contacts' ;
-                	include('../inc/side_bar.php');
-				?>
+                <?php
+                    include('../inc/side_bar.php');
+                ?>
                 <!-- Main Content Wrapper -->
                 <div id="da-content-wrap" class="clearfix">
-                	<!-- Content Area -->
-                	<div id="da-content-area">
+                    <!-- Content Area -->
+                    <div id="da-content-area">
                         <div style="display:block; clear:both; margin-left:10px; margin-right:10px; display:none;">
                         <!--start flash messaages-->
                             <div class="da-message error">
@@ -144,24 +133,23 @@ $module_active = 'contacts';
                         </div>
                         <!--end flash messaages-->
                         <!--start form-->
-                      	<div class="grid_3">
-                        	<div class="da-panel">
-                            	<div class="da-panel-header">
-                                	<span class="da-panel-title">
+                        <div class="grid_3">
+                            <div class="da-panel">
+                                <div class="da-panel-header">
+                                    <span class="da-panel-title">
                                         <img src="../images/icons/black/16/pencil.png" alt="" />
-                                        เพิ่มหมวดหมู่
+                                        เพิ่ม / แก้ไขหมวดหมู่
                                     </span>
-                                    
                                 </div>
                                 <div class="da-panel-content">
-                                 <div id="form-error" class="da-message error" style="display:none;"></div>
-                                	<form class="da-form" name="categories_form" id="categories_form" enctype="multipart/form-data" onsubmit="setSaveCategories();return false;">
-                                 		<input name="categories_id"  id="categories_id" type="hidden" value="" />
-                                    	<div class="da-form-inline">
-                                         	 <div class="da-form-row">
+                                    <div id="form-error" class="da-message error" style="display:none;"></div>
+                                    <form class="da-form" name="categories_form" id="categories_form" enctype="multipart/form-data" onsubmit="setSaveCategories(); return false;">
+                                        <input name="categories_id"  id="categories_id" type="hidden" value="" />
+                                        <div class="da-form-inline">
+                                            <div class="da-form-row">
                                                 <label>หมวดหมู่<span class="required">*</span></label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote">เลือกหมวดหมู่ (ถ้ามี)</span>
+                                                    <span class="formNote">เลือกหมวดหมู่ (ถ้ามี)</span>
                                                     <select id="categories_parent" name="categories_parent" disabled="disabled" ></select>
                                                 </div>
                                             </div>
@@ -189,11 +177,11 @@ $module_active = 'contacts';
                                             <div class="da-form-row">
                                                 <label>รายละเอียดการติดต่อ</label>
                                                 <div class="da-form-item large">
-                                                	<span class="formNote">ใส่รายละเอียดการติดต่อ</span>
-                                                   <textarea id="categories_description" name="categories_description" class="texteditor"></textarea>
+                                                    <span class="formNote">ใส่รายละเอียดการติดต่อ</span>
+                                                    <textarea id="categories_description" name="categories_description" class="texteditor"></textarea>
                                                 </div>
                                             </div>
-                                             <div class="da-form-row">
+                                            <div class="da-form-row">
                                                 <label>Google Maps Iframe</label>
                                                 <div class="da-form-item large">
                                                     <span class="formNote">Google Maps Iframe</span>
@@ -205,34 +193,34 @@ $module_active = 'contacts';
                                                 <div class="da-form-item large">
                                                 	<span class="formNote" >ใส่ภาพระบบถ้ามี</span>
                                                     <div id="finder"></div>
-                                                     <input type="text" name="categories_server_images" id="categories_server_images" value="" class="elfinder-browse" />
-                                                     <img src="" id="show-categories-image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
+                                                    <input type="text" name="categories_server_images" id="categories_server_images" value="" class="elfinder-browse" />
+                                                    <img src="" id="show-categories-image" style="display:none; max-width:150px; max-height:150px; padding:10px; margin-top:20px; border:#CCC 1px solid; border-radius: 5px;" />
                                                 </div>
                                             </div>
-                                      		<div class="da-form-row">
+                                            <div class="da-form-row">
                                                 <label>เปิดใช้งาน<span class="required">*</span></label>
                                                 <div class="da-form-item small">
-                                                	<span class="formNote">เลือกสถานการใช้งานระบบ</span>
+                                                    <span class="formNote">เลือกสถานการใช้งานระบบ</span>
                                                     <select id="categories_status" name="categories_status" >
-                                                    <option value="1">เปิดใช้งาน</option>
-                                                    <option value="0">ปิดใช้งาน</option>
+                                                        <option value="1">เปิดใช้งาน</option>
+                                                        <option value="0">ปิดใช้งาน</option>
                                                     </select>
                                                 </div>
                                             </div>
-                                   			<div class="da-button-row">
-                                        	<input type="reset" value="ยกเลิก" class="da-button gray left">
-                                        	<input type="submit" value="บันทึก" class="da-button green">
-                                        </div>
+                                            <div class="da-button-row">
+                                                <input type="reset" value="ยกเลิก" class="da-button gray left">
+                                                <input type="submit" value="บันทึก" class="da-button green">
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                         </div>
-                        <!--enf form-->        
+                        <!--enf form-->
                         <div class="grid_1">
-                        	<div class="da-panel">
-                            	<div class="da-panel-header">
-                                	<span class="da-panel-title">
+                            <div class="da-panel">
+                                <div class="da-panel-header">
+                                    <span class="da-panel-title">
                                         <img src="../images/icons/black/16/list.png" alt="" />
                                         ที่ติดต่อปัจจุบัน
                                     </span>
@@ -248,8 +236,8 @@ $module_active = 'contacts';
         </div>
         <!-- Footer -->
         <div id="da-footer">
-        	<div class="da-container clearfix">
-            	<p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?>All Rights Reserved.
+            <div class="da-container clearfix">
+                <p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?>All Rights Reserved.
             </div>
         </div>
         
