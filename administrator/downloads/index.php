@@ -86,7 +86,7 @@ $module_active = 'downloads';
                     $breadcrumbs = array(
                         0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>''),
                         1=>array('name'=>'หมวดหมู่','alt'=>'Categories','link'=>'categories.php','class'=>''),
-                        2=>array('name'=>'name'=>'ดาวน์โหลด','alt'=>'Downloads','link'=>'javascript:void(0)','class'=>'active')
+                        2=>array('name'=>'ดาวน์โหลด','alt'=>'Downloads','link'=>'javascript:void(0)','class'=>'active')
                     );
                     include('../inc/breadcrumbs.php');
                     ?>
