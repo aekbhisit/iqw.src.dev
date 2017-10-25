@@ -167,8 +167,8 @@ if(isset($_GET['task'])){
 				$id = $oCategories->setInt($_GET['id']);
 				$lang = $oCategories->setString($_GET["language"]);
 				$data = $oCategories->getTranslateCategory($id,$lang);
-				$data['name'] = $oCategories->getString($_POST["name"]);
-				$data['description'] = $oCategories->getString($_POST["description"]);
+				$data['name'] = $oCategories->getString($data["name"]);
+				$data['description'] = $oCategories->getString($data["description"]);
 				echo json_encode($data);
 			}
 		break;
