@@ -1,4 +1,7 @@
 <?php @include ("../inc/auth.inc.php"); ?>
+<?php
+$module_active = 'files';
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -68,53 +71,52 @@
 <script type="text/javascript" src="../all-pages-script.js"  charset="utf-8"></script>
 <script type="text/javascript" >
 (function($) {
-	$(document).ready(function(e) {
-		$("#da-ex-elfinder").elfinder({
-			 url : '../../files/php/connector.php',
-			lang : 'en', 
-			docked : true, 
-			height: 500
-		});
-		
-		$("#da-ex-plupload").pluploadQueue({
-			// General settings
-			runtimes : 'flash,html5,html4', 
-			url : null, 
-			max_file_size : '100mb',
-			max_file_count: 20, // user can add no more then 20 files at a time
-			chunk_size : '1mb',
-			url : '../../files/upload.php',
-    		flash_swf_url : '../plugins/plupload/plupload.flash.swf',
-			unique_names : false,
-			multiple_queues : true
-		});
-	});
+    $(document).ready(function(e) {
+        $("#da-ex-elfinder").elfinder({
+            url : '../../files/php/connector.php',
+            lang : 'en',
+            docked : true,
+            height: 500
+        });
+        $("#da-ex-plupload").pluploadQueue({
+            // General settings
+            runtimes : 'flash,html5,html4',
+            url : null,
+            max_file_size : '100mb',
+            max_file_count: 20, // user can add no more then 20 files at a time
+            chunk_size : '1mb',
+            url : '../../files/upload.php',
+            flash_swf_url : '../plugins/plupload/plupload.flash.swf',
+            unique_names : false,
+            multiple_queues : true
+        });
+    });
 }) (jQuery);
 </script>
 <title><?=ucfirst($_SERVER['SERVER_NAME'])?> Admin - Dashboard</title>
 </head>
 <body>
-	<!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
-	<div id="da-wrapper" class="fluid">
+    <!-- Main Wrapper. Set this to 'fixed' for fixed layout and 'fluid' for fluid layout' -->
+    <div id="da-wrapper" class="fluid">
         <!-- Header -->
         <div id="da-header">
-        <?php include('../inc/header_top.php');?>
+            <?php include('../inc/header_top.php');?>
              <!--noti end--> 
             <div id="da-header-bottom">
                 <!-- Container -->
                 <div class="da-container clearfix">
-                	 <!--search box-->
-           			<?php 
-					include('../inc/search_top.php');
-					?>
-                	<!--end search box-->
-                	    <?php 
-					$breadcrumbs = array(
-						0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>''),
-						1=>array('name'=>'จัดการไฟล์','alt'=>'Blogs','link'=>'javascript:void(0)','class'=>'active')
-					);
-					include('../inc/breadcrumbs.php');
-					?>
+                    <!--search box-->
+                    <?php 
+                    include('../inc/search_top.php');
+                    ?>
+                    <!--end search box-->
+                    <?php 
+                    $breadcrumbs = array(
+                        0=>array('name'=>'หน้าหลัก','alt'=>'Homt','link'=>'../dashboard/dashboard.php','class'=>''),
+                        1=>array('name'=>'จัดการไฟล์','alt'=>'Blogs','link'=>'javascript:void(0)','class'=>'active')
+                    );
+                    include('../inc/breadcrumbs.php');
+                    ?>
                 </div>
             </div>
         </div>
@@ -122,27 +124,26 @@
         <div id="da-content">
             <!-- Container -->
             <div class="da-container clearfix">
-	            <!-- Sidebar Separator do not remove -->
+                <!-- Sidebar Separator do not remove -->
                 <div id="da-sidebar-separator"></div>
                 <!-- Sidebar -->
                 <?php
-				  	$module_active = 'files';
-                	include('../inc/side_bar.php');
-				?>
+                include('../inc/side_bar.php');
+                ?>
                 <!-- Main Content Wrapper -->
                 <div id="da-content-wrap" class="clearfix">
-                	<!-- Content Area -->
-                	<div id="da-content-area">
-                    	<div class="grid_4">
-                        	<div class="da-panel">
-                            	<div class="da-panel-header">
-                                	<span class="da-panel-title">
+                    <!-- Content Area -->
+                    <div id="da-content-area">
+                        <div class="grid_4">
+                            <div class="da-panel">
+                                <div class="da-panel-header">
+                                    <span class="da-panel-title">
                                         <img src="../images/icons/black/16/file_cabinet.png" alt="" />
                                         ระบบจัดการไฟล์
                                     </span>
                                 </div>
                                 <div class="da-panel-content">
-                                	<div id="da-ex-elfinder"></div>
+                                    <div id="da-ex-elfinder"></div>
                                 </div>
                             </div>
                             <!--upload file-->
@@ -156,7 +157,7 @@
                                         </span>
                                     </div>
                                     <div class="da-panel-content">
-                                 		<div class="da-form-row">
+                                        <div class="da-form-row">
                                             <div id="da-ex-plupload"></div>
                                         </div>
                                     </div>
@@ -171,8 +172,8 @@
         </div>
         <!-- Footer -->
         <div id="da-footer">
-        	<div class="da-container clearfix">
-            	<p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
+            <div class="da-container clearfix">
+                <p>Copyright <?=date('Y')?>. <?=ucfirst($_SERVER['SERVER_NAME'])?> All Rights Reserved.
             </div>
         </div>
     </div>
