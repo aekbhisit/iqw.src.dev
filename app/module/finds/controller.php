@@ -236,7 +236,7 @@ if(isset($_GET['task'])){
 		case 'saveData':
 			$user = $oUsers->getAdminLoginUser();
 			$id = $oModule->setInt($_POST['id']);
-			$moduleList = $oModule->setInt($_POST['moduleList_id']);
+			$moduleList = $oModule->setString($_POST['moduleList_id']);
 			$name = $_POST['name'];
 			$findTaskType = $_POST['findTaskType'];
 			$task = $_POST['task'];

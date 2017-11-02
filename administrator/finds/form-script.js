@@ -14,7 +14,7 @@ function showFindOndDialog(){
 	configFindOneDialog();
 	$("#da-dialog-find-one").bind("click", function(event) {
 		var findModule =$('#moduleList_id').find(":selected").val() ;
-		loadFindOneTableData(findModule)	;
+		loadFindOneTableData(findModule);
 		$("#da-dialog-div-one").dialog("option", {modal: true}).dialog("open");
 		event.preventDefault();
 	});	

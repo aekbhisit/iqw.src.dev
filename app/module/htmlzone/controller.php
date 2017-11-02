@@ -349,7 +349,7 @@ if(isset($_GET['task'])){
 			$oModuleHtmlZone->switchOrder($id,$sort);
 		break;
 		case 'setReorderAllHtmlZone':
-			$columns = array('zone_id','name','mdate','sequence','zone_id','zone_id');
+			$columns = array('zone_input_id','zone_input_id','name','zone_id','mdate','sequence','zone_input_id','zone_input_id');
 			$column = $columns[$oModuleHtmlZone->setInt($_GET['column'])];
 			$direction = strtoupper($oModuleHtmlZone->setString($_GET['direction']));
 			$oModuleHtmlZone->setReorderAll($column,$direction);
@@ -474,7 +474,7 @@ if(isset($_GET['task'])){
 			$cnt = 1;
 			if(!empty($block)){
 				foreach($block as $c){
-					$options .= '<option value="'.$c['id'].'" >'.$c['name'].'</option>';
+					$options .= '<option value="'.$c['zone_id'].'" >'.$c['name'].'</option>';
 				}
 			}
 			echo $options;
